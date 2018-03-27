@@ -1,6 +1,7 @@
 var express = require('express'),
   router = express.Router(),
   productCtrl = require('../controllers/ProductController');
+  userController = require('../controllers/UserController');
 
 //-------------------------------Product Routes-----------------------------------
 router.get('/product/getProducts', productCtrl.getProducts);
@@ -12,5 +13,7 @@ router.get(
 router.post('/product/createProduct', productCtrl.createProduct);
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
+//-----------------------------Authentication Routes-------------------------
+router.post('/user/register',userController.register);
 
 module.exports = router;

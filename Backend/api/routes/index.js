@@ -15,5 +15,6 @@ router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
+router.post('/user/login',userController.login);
 
 module.exports = router;

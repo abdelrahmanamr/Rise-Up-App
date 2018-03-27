@@ -10,6 +10,9 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+import { ContentsComponent } from './contents/contents.component';
+
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +22,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
+    HttpModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent],

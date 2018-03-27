@@ -7,7 +7,8 @@ router.get('/product/getProducts', productCtrl.getProducts);
 router.get('/product/getProduct/:productId', productCtrl.getProduct);
 router.get('/product/getProductsBelowPrice/:price', productCtrl.getProductsBelowPrice);
 
-router.get('/content/viewcontent:contentId', contentCtrl.viewContent);
+router.get('/content/viewContent:contentId', contentCtrl.viewContent);
+router.get('/content/viewContents', contentCtrl.viewContents);
 
 router.post('/product/createProduct', productCtrl.createProduct);
 

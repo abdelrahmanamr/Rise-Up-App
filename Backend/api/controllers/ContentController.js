@@ -5,6 +5,20 @@ var mongoose = require('mongoose'),
 
   
 
+  module.exports.viewContents = function(req, res, next) {
+    Content.find({}).exec(function(err, contents) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'contents retrieved successfully.',
+        data: contents
+      });
+    });
+  };
+
+
   module.exports.viewContent = function(req, res, next) {
     if (!Validations.isObjectId(req.params.contentId)) {
       return res.status(422).json({

@@ -6,6 +6,13 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
+
+  {
+    path: 'contents',
+    loadChildren: './contents/contents.module#ContentsModule'
+  },
+
+
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard' }
 ];

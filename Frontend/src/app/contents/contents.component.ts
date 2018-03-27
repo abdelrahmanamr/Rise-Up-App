@@ -18,7 +18,7 @@ ngOnInit() {
   }
 
   ViewContents(){
-    this.httpClient.get(environment.apiUrl +'/content/viewContents').subscribe(
+    this.httpClient.get(environment.apiUrl +'content/viewContents').subscribe(
       res=>{  
         this.contents = res['data'];       
       }

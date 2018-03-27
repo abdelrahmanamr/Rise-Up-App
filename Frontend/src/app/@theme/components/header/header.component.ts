@@ -21,10 +21,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.userMenu = [{ title: 'Logout' }];
     this.onMenuItemClick();
+    this.sidebarService.toggle(false, 'menu-sidebar');
+
   }
 
   toggleSidebar(): boolean {
-    this.sidebarService.toggle(true, 'menu-sidebar');
+    this.sidebarService.toggle(false, 'menu-sidebar');
     return false;
   }
 

@@ -1,17 +1,16 @@
 <div class="header-container left">
   <div class="logo-containter">
-    <a (click)="toggleSidebar()" class="navigation">
+    <!-- <a (click)="toggleSidebar()" class="navigation">
       <i class="nb-menu"></i>
-    </a>
-    <div class="logo" (click)="goToHome()">Angular-
-      <span>Seed-Project</span>
-    </div>
+    </a> -->
+    <a href="/"><img src="/assets/riseuplogo.svg" height="40.36px" width="120px"></a>
   </div>
-  <ngx-theme-switcher></ngx-theme-switcher>
 </div>
 
 <nb-actions size="medium" class="header-container right">
   <nb-action>
+    <span>HOME</span>
+    <span>KIT</span>
     <nb-user [nbContextMenu]="userMenu" [name]="user?.username"></nb-user>
   </nb-action>
 </nb-actions>

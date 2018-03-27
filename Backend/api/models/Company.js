@@ -38,3 +38,5 @@ type:{
  },
  updatedAt:Date
 });
+
+mongoose.model('Company',companySchema);

@@ -2,6 +2,11 @@
 @import '~bootstrap/scss/mixins/breakpoints';
 @import '~@nebular/theme/styles/global/bootstrap/breakpoints';
 
+span{
+  padding: 13px 15px;
+  text-transform: uppercase;
+}
+
 @include nb-install-component() {
   display: flex;
   justify-content: space-between;
@@ -46,7 +51,7 @@
       padding: 0 nb-theme(padding);
       font-size: 1.75rem;
       font-weight: nb-theme(font-weight-bolder);
-      border-left: 1px solid nb-theme(separator);
+      // border-left: 1px solid nb-theme(separator);
       white-space: nowrap;
 
       span {
@@ -54,6 +59,7 @@
       }
     }
   }
+
 
   .toggle-layout /deep/ a {
     display: block;

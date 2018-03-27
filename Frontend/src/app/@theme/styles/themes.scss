@@ -15,17 +15,22 @@ $nb-themes: nb-register-theme(
     sidebar-header-gap: 2rem,
     sidebar-header-height: initial,
     layout-content-width: 1400px,
-    font-main: Proxima Nova Reg,
+    font-main: unquote('"Proxima Nova Reg", Helvetica, Arial, sans-serif'),
     font-secondary: Helvetica,
     header-height: 37px,
     header-bg: #000,
     header-fg: #fff,
-
+    header-font-size: 0.92857em,
+    footer-bg: #000,
+    footer-fg: #fff,
+    layout-bg: linear-gradient(top, #FCE307, #FCE307 30%, transparent 30%, transparent 100%)
 
   ),
   default,
   default
 );
+
+
 
 $nb-themes: nb-register-theme(
 

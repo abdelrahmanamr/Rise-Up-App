@@ -133,9 +133,8 @@ module.exports.login = function(req,res,next){
                 }
                 else{
                     console.log("Comparing passwords");
-                    console.log(req.body.password.trim().toLowerCase());
-                    console.log(req.body.password.trim().toLowerCase().length);
-                    console.log(userfound.password);
+                    // console.log(req.body.password.trim().toLowerCase());
+                    // console.log(userfound.password);
                     // Encryption.hashPassword(req.body.password.trim().toLowerCase(), function(err, password) {
                     //     console.log(password);
                     // })
@@ -155,7 +154,7 @@ module.exports.login = function(req,res,next){
                             else{
                                 var token = jwt.sign(
                                     {
-                                    user:user.toObject()
+                                    user:userfound.toObject()
                                   },
                                   req.app.get('secret'),
                                   {

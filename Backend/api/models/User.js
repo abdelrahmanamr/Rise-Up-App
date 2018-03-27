@@ -29,7 +29,6 @@ var userSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        lowercase: true
     },
     tags:{
         type: String,

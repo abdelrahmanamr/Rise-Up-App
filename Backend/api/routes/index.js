@@ -1,6 +1,6 @@
 var express = require('express'),
   router = express.Router(),
-  productCtrl = require('../controllers/ProductController');
+  productCtrl = require('../controllers/ProductController'),
   searchCtrl = require('../controllers/SearchController');
 
 //-------------------------------Product Routes-----------------------------------

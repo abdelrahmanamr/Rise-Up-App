@@ -2,11 +2,11 @@
 @import '~@nebular/theme/styles/global/bootstrap/breakpoints';
 @import '~bootstrap/scss/mixins/breakpoints';
 
+
 @include nb-install-component() {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
 
   .socials {
     font-size: 2rem;

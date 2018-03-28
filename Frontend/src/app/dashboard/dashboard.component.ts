@@ -8,8 +8,9 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
   selector: 'app-dashboard',
   template: `
     <ngx-main-layout>
-      <nb-menu [items]="menu"></nb-menu>
-      <router-outlet></router-outlet>
+      <nb-menu [items]="menu">
+      </nb-menu>
+        <router-outlet></router-outlet>
     </ngx-main-layout>
   `
 })

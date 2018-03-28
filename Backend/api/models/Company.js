@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-
 var companySchema = mongoose.Schema({
 userid:{
     type:mongoose.Schema.Types.ObjectId,

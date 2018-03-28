@@ -28,7 +28,7 @@ var config = {
     }
 }
 
-this.http.post('http://localhost:3000/api/user/login', data, config)
+this.http.post('http://localhost:3000/api/user/register', data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
   let token = res["data"];
@@ -38,7 +38,7 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
         // set token property
         this.token = token;
         // store username and jwt token in local storage to keep user logged in between page refreshes
-       
+
         this.error = "Login successful";
         console.log(token);
         localStorage.setItem("UserDoc",token);
@@ -55,8 +55,8 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
     console.log(err.error["msg"]);
   }
 );
-  
-  
+
+
 }
 
 

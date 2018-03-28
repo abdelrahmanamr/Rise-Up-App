@@ -31,10 +31,14 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
           <input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
                  formControlName="secAField" ngModel></div>
+    <div>
+    <label for="bdate" style="margin-top:10px;font-family: Georgia;"> Birthdate: </label>
 
+ <input placeholder="Birthdate" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px; ">
+ </div>
       <div>
 
-          <input  class="btn btn-danger"type = "submit" value = "Register"style=" margin-top:200px;margin-left:150px;background-color:#DC0C18 ;">
+          <input  class="btn btn-danger"type = "submit" value = "Register"style=" margin-top:100px;margin-left:150px;background-color:#DC0C18 ;">
 
       </div>
       </div>

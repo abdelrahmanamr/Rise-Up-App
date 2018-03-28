@@ -29,7 +29,7 @@ var config = {
     }
 }
 
-this.http.post('http://localhost:3000/api/user/register', data, config)
+this.http.post('http://localhost:3000/api/user/login', data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
   let token = res["data"];

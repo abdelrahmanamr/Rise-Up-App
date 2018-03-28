@@ -28,7 +28,7 @@ var config = {
     }
 }
 
-this.http.post('http://localhost:3000/api/user/register', data, config)
+this.http.post('http://localhost:3000/api/user/login', data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
   let token = res["data"];
@@ -46,9 +46,9 @@ this.http.post('http://localhost:3000/api/user/register', data, config)
         payload = token.split('.')[1];
         payload = window.atob(payload);
         temp = JSON.parse(payload);
-        localStorage.setItem('user', JSON.stringify(temp["user"]));
-        console.log(JSON.parse(localStorage.getItem("user"))["username"]);
-
+        localStorage.setItem("isAdmin",temp["user"].admin);
+        localStorage.setItem("isBlocked",temp["user"].blocked);
+        localStorage.setItem("Name",temp["user"].username);
         this.router.navigate(["/dashboard"]);
     }
   },err=>{

@@ -60,7 +60,7 @@ export class CreateComponent implements OnInit{
   ngOnInit(){
     this.user = JSON.parse(localStorage.getItem("userProps"));
     console.log(this.user);
-    if(this.user==null){
+    if(this.user==null || !this.user['admin']){
       this.router.navigate(["/dashboard"]);
     }
   }

@@ -16,7 +16,7 @@ router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 //------------------------------Search Routes-------------------------------------
 router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
-
+router.get('/company/getCompanyByType/:companyType', searchCtrl.getCompanyByType);
 
 //-----------------------------Company Routes--------------------------------------
 router.get('/company/getCompanies',companyCtrl.getCopmanies);

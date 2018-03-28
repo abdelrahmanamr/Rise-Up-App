@@ -26,4 +26,25 @@ module.exports.getCompanyByName = function ( req, res, next) {
     });
 };
 
+module.exports.getCompanyByType = function ( req, res, next) {
+    if(!Validations.isString(req.params.type)){
+        return res.status(422).json({
+            err:null,
+            msg: 'type parameter must be a valid string.',
+            data:null
 
+        });
+    }
+    Company.find({
+        type:/.*req.params.type.*/
+    }).exec(function (err,companies) {
+        if(err){
+            return next(err);
+        }
+        res.status(200).json({
+            err:null,
+            msg:'All companies containg this type'+req.params.type+'retrieved successfully',
+            data:companies
+        });
+    });
+};

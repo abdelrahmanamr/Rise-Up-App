@@ -3,7 +3,7 @@ var express = require('express'),
   AdminController = require('../controllers/AdminController');
 
 //-------------------------------Admin Routes-----------------------------------
-router.get('/admin/removeCompany', AdminController.removeCompany);
+
 
 
 

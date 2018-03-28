@@ -75,6 +75,7 @@ var userSchema = mongoose.Schema({
   }
   userSchema.options.toObject.transform = (document, transformedDocument) => {
     delete transformedDocument.password;
+    delete transformedDocument.securityA;
     return transformedDocument;
   };
 

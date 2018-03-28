@@ -13,6 +13,10 @@ var userSchema = mongoose.Schema({
       trim: true,
     lowercase: true
     },
+    dateOfBirth:{
+        type:String,
+        required: true,
+    },
     firstname:{
         type: String,
         required: true,

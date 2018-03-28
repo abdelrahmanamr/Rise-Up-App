@@ -48,7 +48,7 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
         payload = window.atob(payload);
         temp = JSON.parse(payload);
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
-        console.log(JSON.parse(localStorage.getItem("user"))["username"]);
+     //  console.log(JSON.parse(localStorage.getItem("user"))["username"]);
 
         this.router.navigate(["/dashboard"]);
     }

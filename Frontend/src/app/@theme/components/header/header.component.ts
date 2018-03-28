@@ -42,10 +42,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToHome() {
-    console.log("HERasdE")
-    localStorage.clear();
-    window.location.reload();
-   // this.router.navigateByUrl("/");
+    this.router.navigateByUrl("/");
   }
 
   onMenuItemClick() {

@@ -144,7 +144,7 @@ var config = {
             console.log(message);
             if (message == "Registered successfully"){
             this.errorhandle = "Register successful";
-            this.router.navigate(["/user/login"]);}
+            this.router.navigate(["/login"]);}
 
 
 });

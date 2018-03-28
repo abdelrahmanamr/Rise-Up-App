@@ -11,10 +11,14 @@ const routes: Routes = [
     path: 'contents',
     loadChildren: './contents/contents.module#ContentsModule'
   },
+  {
+    path: 'content',
+    loadChildren: './content/content.module#ContentModule'
+  },
 
 
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard' }
+ { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+ //{ path: '**', redirectTo: 'dashboard' }
 ];
 
 const config: ExtraOptions = {

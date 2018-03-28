@@ -13,6 +13,7 @@
 
    <tr *ngFor="let content of contents">
      <td>{{content.title}}</td>
+   <td><Button (click)="ViewContent(content._id)"> ShowContent </Button></td>  
    </tr>          
 
  </tbody>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-contents',
@@ -10,8 +11,8 @@ import { environment } from '../../environments/environment';
 export class ContentsComponent implements OnInit {
 
   public contents:any[]=[];
-  
-  constructor(private httpClient: HttpClient) { }
+  Content : any
+  constructor(private httpClient: HttpClient,private router: Router) { }
 
 ngOnInit() {
   this.ViewContents();
@@ -23,10 +24,28 @@ ngOnInit() {
         this.contents = res['data'];       
       }
     );
-    console.log(this.contents);
-    console.log("fady")
   }
  
+
+  ViewContent(ID: string){
+
+    localStorage.setItem("contentID",ID);
+    this.router.navigate(['/content']);
+
+
+  //   var config ={
+  //     headers : 
+  //   {
+  // 'Content-Type':'application/json'
+  //   }
+  // }
+  //   this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
+  //     res=>{  
+  //       this.Content = res['data'];       
+  //     }
+  //   );
+
+  }
  
 
 }

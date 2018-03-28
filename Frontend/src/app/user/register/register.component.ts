@@ -32,9 +32,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
           <input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
                  formControlName="secAField" ngModel></div>
     <div>
-    <label for="bdate" style="margin-top:10px;font-family: Georgia;"> Birthdate: </label>
+    <label for="bdate"    style="margin-top:10px;font-family: Georgia;"> Birthdate: </label>
 
- <input placeholder="Birthdate" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px; ">
+ <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px; ">
  </div>
       <div>
 
@@ -71,7 +71,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
           <div>
 
               <input placeholder= "Repeat Password" type="password" id="pass2"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
-                     formControlName="passwordField" ngModel>
+                     formControlName="passwordField2" ngModel>
 <label for="pass2" style="margin-top:10px;"> You must enter at least one number,one captial letter and the length is at least 8 characters </label>
           </div>
           <div>
@@ -103,9 +103,11 @@ ngOnInit(){
             Validators.required,
             Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
         ]),
-        passwordField: new FormControl(null, Validators.required),
+          passwordField: new FormControl(null, Validators.required),
+          passwordField2: new FormControl(null, Validators.required),
           secAField: new FormControl(null, Validators.required),
-          secQField: new FormControl(null, Validators.required)
+          secQField: new FormControl(null, Validators.required),
+          bDateField: new FormControl(null, Validators.required)
 
 
 
@@ -119,12 +121,15 @@ onSubmit = function(user){
 
     var data = JSON.stringify({
         username: user.userNameField,
-          secQues: user.secQField,
-          secAns : user.secAField,
-        password: user.passwordField,
-        firstname: user.firstNameField,
-        lastname: user.lastNameField,
-        email: user.emailField});
+          securityQ: user.secQField,
+          securityA : user.secAField,
+          password: user.passwordField,
+            confirmPassword: user.passwordField2,
+          firstname: user.firstNameField,
+          lastname: user.lastNameField,
+        email: user.emailField,
+        dateOfBirth:(user.bDateField+"")
+      });
 
 
 var config = {
@@ -132,7 +137,7 @@ var config = {
         'Content-Type': 'application/json'
     }
 };
-    this.http.post(environment.apiUrl+'register', data, config)
+    this.http.post('http://localhost:3000/api/user/register', data, config)
         .subscribe(res=>{
             console.log(res);
             let message = res["msg"];

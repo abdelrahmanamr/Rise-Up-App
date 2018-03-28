@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
     if(localStorage.getItem("UserDoc")!=null){
       console.log("HERE");
       this.loggedin = true;
-       this.user = localStorage.getItem("Name");
+       this.user = JSON.parse(localStorage.getItem("user"))["username"];
        console.log(this.user);
     }
     else{

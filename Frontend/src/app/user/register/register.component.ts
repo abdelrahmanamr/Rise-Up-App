@@ -32,7 +32,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
           <input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
                  formControlName="secAField" ngModel></div>
     <div>
-    <label for="bdate"    style="margin-top:10px;font-family: Georgia;"> Birthdate: </label>
+    <label for="bdate"  style="margin-top:10px;font-family: Georgia;"> Birthdate: </label>
 
  <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px; ">
  </div>
@@ -128,7 +128,7 @@ onSubmit = function(user){
           firstname: user.firstNameField,
           lastname: user.lastNameField,
         email: user.emailField,
-        dateOfBirth:(user.bDateField+"")
+        dateOfBirth:(user.bDateField)
       });
 
 

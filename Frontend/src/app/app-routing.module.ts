@@ -6,8 +6,21 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
+
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+  {
+      path: 'admin',
+      loadChildren: './admin/admin.module#AdminModule'
+  },
+
+  {    path: '', redirectTo: 'admin', pathMatch: 'full' },
+
+
   { path: '**', redirectTo: 'dashboard' }
+
+
+
 ];
 
 const config: ExtraOptions = {

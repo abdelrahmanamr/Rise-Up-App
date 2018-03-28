@@ -11,10 +11,11 @@ import {Router} from "@angular/router";
   <br>
   <input class="btn btn-success" type = "submit" value = "submit">
   </form>
-  <br /> `
+  <br /> 
+  {{errorView}}`
 })
 export class LoginComponent{
-
+errorView = "";
   constructor(private http: HttpClient,private router: Router){
 
   }
@@ -46,12 +47,13 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
         payload = token.split('.')[1];
         payload = window.atob(payload);
         temp = JSON.parse(payload);
-        localStorage.setItem('user', JSON.stringify(temp["user"]));
+        localStorage.setItem('userProps', JSON.stringify(temp["user"]));
         console.log(JSON.parse(localStorage.getItem("user"))["username"]);
 
         this.router.navigate(["/dashboard"]);
     }
   },err=>{
+    this.errorView = err.error["msg"];
     console.log(err.error["msg"]);
   }
 );

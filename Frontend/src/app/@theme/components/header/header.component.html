@@ -11,7 +11,7 @@
   <nb-action>
     <span >Home</span>
     <span >Kit</span>
-    <nb-user [nbContextMenu]="userMenu" [name]="user?.username"></nb-user>
-    <a href="#/user/login" style="padding-right:5px">Login</a>
+    <nb-user *ngIf="loggedin==true" [nbContextMenu]="userMenu" [name]="user" (menuClick)="onMenuClick($event)"></nb-user>
+    <a *ngIf="loggedin==false" href="#/user/login" style="padding-right:5px">Login</a>
   </nb-action>
 </nb-actions>

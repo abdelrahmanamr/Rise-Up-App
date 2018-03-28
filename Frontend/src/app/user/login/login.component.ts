@@ -32,15 +32,23 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
   let token = res["data"];
+  var payload = null
+  var temp = null
     if (token) {
         // set token property
         this.token = token;
         // store username and jwt token in local storage to keep user logged in between page refreshes
        
         this.error = "Login successful";
-        
-
-
+        console.log(token);
+        localStorage.setItem("UserDoc",token);
+        console.log(localStorage.getItem("UserDoc"));
+        payload = token.split('.')[1];
+        payload = window.atob(payload);
+        temp = JSON.parse(payload);
+        localStorage.setItem("isAdmin",temp["user"].admin);
+        localStorage.setItem("isBlocked",temp["user"].blocked);
+        localStorage.setItem("Name",temp["user"].username);
         this.router.navigate(["/dashboard"]);
     }
   },err=>{

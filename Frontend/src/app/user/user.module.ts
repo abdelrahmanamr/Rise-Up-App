@@ -11,4 +11,5 @@ import { UserComponent } from './user.component';
   entryComponents: [],
   providers: []
 })
+
 export class UserModule {}

@@ -13,10 +13,6 @@ const routes: Routes = [
         loadChildren: './items/items.module#ItemsModule'
       },
       {
-        path: 'user',
-        loadChildren: '../user/user.module#UserModule'
-      },
-      {
         path: '',
         redirectTo: 'items',
         pathMatch: 'full'

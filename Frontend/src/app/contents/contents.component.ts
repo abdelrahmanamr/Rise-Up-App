@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 export class ContentsComponent implements OnInit {
 
   public contents:any[]=[];
-  Content : any
+  
   constructor(private httpClient: HttpClient,private router: Router) { }
 
 ngOnInit() {
@@ -32,18 +32,6 @@ ngOnInit() {
     localStorage.setItem("contentID",ID);
     this.router.navigate(['/content']);
 
-
-  //   var config ={
-  //     headers : 
-  //   {
-  // 'Content-Type':'application/json'
-  //   }
-  // }
-  //   this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
-  //     res=>{  
-  //       this.Content = res['data'];       
-  //     }
-  //   );
 
   }
  

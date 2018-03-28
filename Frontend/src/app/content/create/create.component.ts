@@ -42,6 +42,7 @@ export class CreateComponent implements OnInit{
   modules = {};
   types: string[] = ["Post", "Link"];
   typeToSet: string = "Post";
+  user = null;
 
   constructor(private http: HttpClient,private router:Router,fb: FormBuilder) {
 
@@ -57,10 +58,11 @@ export class CreateComponent implements OnInit{
   }
 
   ngOnInit(){
-    // var user = localStorage.getItem("user");
-    // if(user){
-    //   this.router.navigate(["/dashboard"]);
-    // }
+    this.user = JSON.parse(localStorage.getItem("userProps"));
+    console.log(this.user);
+    if(this.user==null){
+      this.router.navigate(["/dashboard"]);
+    }
   }
 
 
@@ -70,8 +72,10 @@ export class CreateComponent implements OnInit{
   }
 
   onSubmit = function(content){
+    console.log(this.user);
+    console.log(this.user['_id']);
 
-    var data = JSON.stringify({title:content.title,type:content.type,body:content.editor,tags:content.tags})
+    var data = JSON.stringify({title:content.title,type:content.type,body:content.editor,tags:content.tags,userid:this.user['_id']})
 
     var config = {
         headers : {

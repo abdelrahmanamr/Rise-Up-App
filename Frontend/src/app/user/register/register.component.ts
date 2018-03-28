@@ -84,14 +84,16 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
  </div>
 </div>
            </div>
+           {{errorhandle}}
   </form>
+
+  
   `
 })
 export class RegisterComponent implements OnInit{
 
 
     myForm: FormGroup;
-    errorhandle = "";
 
 ngOnInit(){
 
@@ -142,12 +144,12 @@ var config = {
             console.log(res);
             let message = res["msg"];
             console.log(message);
-            if (message == "Registered successfully"){
             this.errorhandle = "Register successful";
-            this.router.navigate(["/login"]);}
-
-
-});
+            this.router.navigateByUrl("/user/login");
+        },err=>{
+            console.log(err);
+            this.errorhandle = err['error']['msg'];
+        });
 
 
 }}

@@ -1,8 +1,8 @@
-var mangoose = require('mangoose');
+var mongoose = require('mongoose');
 
-var companySchema = mangoose.schema({
+var companySchema = mongoose.Schema({
 userid:{
-    type:mangoose.schema.type.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     ref:'User'
 },
 name:{

@@ -23,6 +23,14 @@ var userSchema = mongoose.Schema({
         trim: true,
         lowercase: true
     },
+    securityQ:{
+      type:String,
+
+    },
+    securityA:{
+        type:String,
+
+      },
     lastname:{
         type: String,
         required: true,
@@ -59,9 +67,9 @@ var userSchema = mongoose.Schema({
       default: Date.now
     },
     updatedAt: Date
-    
+
   });
-  
+
   if (!userSchema.options.toObject) {
     userSchema.options.toObject = {};
   }

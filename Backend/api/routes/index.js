@@ -15,8 +15,6 @@ router.post('/admin/addCompany',AdminController.addCompany);
 router.get('/admin/getCompanies',AdminController.getCompanies);
 router.get('/admin/getUsers',AdminController.getUsers);
 router.get('/admin/getUserById/:userId',AdminController.getUserById);
-router.get('/admin/getContents',AdminController.getContents);
-router.delete('/admin/removeContent',AdminController.removeContent);
 module.exports = router;
 
 

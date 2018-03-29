@@ -1,10 +1,310 @@
 var mongoose = require('mongoose'),
   moment = require('moment'),
   Validations = require('../utils/Validations'),
-  Company = mongoose.model('Company');
+  User = mongoose.model('User'),
+ Company = mongoose.model('Company'),
+Content = mongoose.model('Content'),
+Comment = mongoose.model('Comment');
 
 
-  module.exports.AddCompany = function(req, res, next) {
+
+module.exports.AddExpert=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.expert=true;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+
+
+module.exports.BlockUser=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.blocked=true;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+
+
+module.exports.AddAdmin=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+   
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.admin=true;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+
+
+module.exports.RemoveExpert=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+    
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.expert=false;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+
+module.exports.UnblockUser=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+    
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.blocked=false;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+
+module.exports.RemoveAdmin=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+   
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.admin=false;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+//--------------------------------------------------------------------------------------------------------------
+module.exports.removeCompany = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.companyId)) {
+        return res.status(422).json({
+            err: null,
+            msg: 'CompanyId parameter must be a valid ObjectId.',
+            data: null
+        });
+    }
+    Company.findByIdAndRemove(req.params.companyId).exec(function(
+        err,
+        deletedCompany
+    ) {
+        if (err) {
+            return next(err);
+        }
+        if (!deletedCompany) {
+            return res
+                .status(404)
+                .json({ err: null, msg: 'Company not found.', data: null });
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Company was deleted successfully.',
+            data: deletedCompany
+        });
+    });
+};
+
+module.exports.addCompany = function(req, res, next) {
     var valid =
         req.body.userid &&
         Validations.isObjectId(req.body.userid) &&
@@ -42,101 +342,94 @@ var mongoose = require('mongoose'),
     });
 };
 
-module.exports.viewCompanies = function(req, res, next) {
-    Product.find({}).exec(function(err, company) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg: 'Companies retrieved successfully.',
-        data: company
-      });
+module.exports.getCompanies = function(req, res, next) {
+    Company.find({}).exec(function(err, companies) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Companies retrieved successfully.',
+            data: companies
+        });
     });
-  };
-  
+};
 
-  
-  module.exports.BlockUser=function(req, res, next){
-
-    if(!Validations.isObjectId(req.params.userId)){
+module.exports.getUsers = function(req, res, next) {
+    User.find({}).exec(function(err, users) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Users retrieved successfully.',
+            data: users
+        });
+    });
+};
+module.exports.getUserById = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.userId)) {
         return res.status(422).json({
             err: null,
-            msg: 'userId parameter must be a valid ObjectId',
+            msg: 'userId parameter must be a valid ObjectId.',
             data: null
         });
     }
-
-    var valid=req.body.blocked &&
-    Validations.isBoolean(req.body.block);
-
-    if(valid){
-        return res.status(422).json({
-            err:null,
-            msg:'blocked (Boolean) is required field. ',
-            data:null
-        });
-    }
-
-    delete req.body.createdAt;
-    req.body.updatedAt = moment().toDate();
-
-    req.body.blocked=true;
-
-    User.findByIdAndUpdate(
-        req.params.userId,
-        {
-            $set:req.body
-        },
-        {
-            new:true
-        }
-    ).exec(function(err, updatedUser){
-        if(err){
+    User.findById(req.params.userId).exec(function(err, user) {
+        if (err) {
             return next(err);
         }
-        if(!updatedUser){
-            return res.status(404).json({
-                err:null,
-                msg:'User not found',
-                data:null
-            });
+        if (!user) {
+            return res
+                .status(404)
+                .json({ err: null, msg: 'User not found.', data: null });
         }
-
         res.status(200).json({
-            err:null,
-            msg:'User retrieved correctly',
-            data:updatedUser
+            err: null,
+            msg: 'User retrieved successfully.',
+            data: user
+        });
+    });
+};
+module.exports.getContents = function(req, res, next) {
+    Content.find({}).exec(function(err, users) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Contents retrieved successfully.',
+            data: users
+        });
+    });
+};
+
+module.exports.removeContent = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.contentId)) {
+        return res.status(422).json({
+            err: null,
+            msg: 'contentId parameter must be a valid ObjectId.',
+            data: null
+        });
+    }
+    Content.findByIdAndRemove(req.params.contentId).exec(function(
+        err,
+        deletedContent
+    ) {
+        if (err) {
+            return next(err);
+        }
+        if (!deletedContent) {
+            return res
+                .status(404)
+                .json({ err: null, msg: 'Content not found.', data: null });
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Content was deleted successfully.',
+            data: deletedContent
         });
     });
 };
 
 
-module.exports.RemoveCompany = function(req, res, next) {
-  if (!Validations.isObjectId(req.params.companyId)) {
-      return res.status(422).json({
-          err: null,
-          msg: 'CompanyId parameter must be a valid ObjectId.',
-          data: null
-      });
-  }
-  Company.findByIdAndRemove(req.params.companyId).exec(function(
-      err,
-      deletedCompany
-  ) {
-      if (err) {
-          return next(err);
-      }
-      if (!deletedCompany) {
-          return res
-              .status(404)
-              .json({ err: null, msg: 'Company not found.', data: null });
-      }
-      res.status(200).json({
-          err: null,
-          msg: 'Company was deleted successfully.',
-          data: deletedCompany
-      });
-  });
-};
- 

@@ -4,8 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { ItemsComponent } from './items.component';
 
 const routes: Routes = [
- 
-
   { path: '', component: ItemsComponent, pathMatch: 'full' }
 ];
 

@@ -18,8 +18,9 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'addcompany',
-        loadChildren:  './addcompany/addcompany.module#AddcompanyModule'
+        path: 'profile',
+        loadChildren:'./profile/profile.module#ProfileModule'
+
       }
     ]
   }

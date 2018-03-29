@@ -38,7 +38,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
  </div>
       <div>
 
-          <input  class="btn btn-danger"type = "submit" value = "Register"style=" margin-top:100px;margin-left:150px;background-color:#DC0C18 ;">
+          <input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register"style=" margin-top:100px;margin-left:150px;background-color:#DC0C18 ;">
 
       </div>
       </div>
@@ -87,7 +87,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
            {{errorhandle}}
   </form>
 
-  
+
   `
 })
 export class RegisterComponent implements OnInit{

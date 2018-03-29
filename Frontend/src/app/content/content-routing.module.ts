@@ -17,10 +17,14 @@ const routes: Routes = [
         loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
       },
       {
+        path: 'create',
+        loadChildren: './create/create.module#CreateModule'
+      },
+      {
         path: '',
-        redirectTo: 'viewallcontents',
-        pathMatch: 'full'
+        redirectTo: 'viewallcontents'
       }
+      
     ]
   }
 ];

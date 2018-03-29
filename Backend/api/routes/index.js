@@ -1,5 +1,6 @@
 var express = require('express'),
   router = express.Router(),
+  contentCtrl = require('../controllers/ContentController');
   productCtrl = require('../controllers/ProductController');
   contentCtrl = require('../controllers/ContentController');
   userController = require('../controllers/UserController');
@@ -15,6 +16,7 @@ router.get('/Content/viewContents', contentCtrl.viewContents);
 router.post('/content/addContent', contentCtrl.createContent);
 
 router.post('/product/createProduct', productCtrl.createProduct);
+
 
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 

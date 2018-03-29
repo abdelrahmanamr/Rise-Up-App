@@ -25,7 +25,8 @@ import {Router} from "@angular/router";
               </label>
 
               <a href="#/user/register" style="padding-right:5px ;color: #DC0C18">Create your account</a>
-              
+              <br> <br />
+              <a href="#/user/login" style="padding-right:5px ;color: #DC0C18">Forgot your password?</a>
               
               
           </div>

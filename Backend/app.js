@@ -35,7 +35,7 @@ app.use(function(err, req, res, next) {
   res.status(500).json({
     // Never leak the stack trace of the err if running in production mode
     err: process.env.NODE_ENV === 'production' ? null : err,
-    msg: '500 Internals Server Error',
+    msg: '500 Internal Server Error',
     data: null
   });
 });

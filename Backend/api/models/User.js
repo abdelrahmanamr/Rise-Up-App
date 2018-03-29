@@ -13,24 +13,12 @@ var userSchema = mongoose.Schema({
       trim: true,
     lowercase: true
     },
-    dateOfBirth:{
-        type:String,
-        required: false,
-    },
     firstname:{
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    securityQ:{
-      type:String,
-
-    },
-    securityA:{
-        type:String,
-
-      },
     lastname:{
         type: String,
         required: true,
@@ -41,6 +29,7 @@ var userSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        lowercase: true
     },
     tags:{
         type: String,
@@ -70,13 +59,11 @@ var userSchema = mongoose.Schema({
     
   });
   
-
   if (!userSchema.options.toObject) {
     userSchema.options.toObject = {};
   }
   userSchema.options.toObject.transform = (document, transformedDocument) => {
     delete transformedDocument.password;
-    delete transformedDocument.securityA;
     return transformedDocument;
   };
 

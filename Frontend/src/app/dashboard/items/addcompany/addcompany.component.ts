@@ -6,7 +6,17 @@ import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard-items-addcompany',
-  template: `\
+  template: this.newMethod()
+})
+export class AddcompanyComponent implements OnInit{
+
+
+    myForm: FormGroup;
+
+    constructor(private http: HttpClient,private router: Router){}
+
+    private newMethod(): string {
+        return `\
 
   <div class="col-md col-md-offset-2">
   <form [formGroup]="myForm" class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
@@ -23,10 +33,14 @@ import { environment } from '../../../../environments/environment';
                          min="0" formControlName="EmailField" ngModel></div>
 
               <div>
-                  <label for="lname">Website:</label>
+                  <label for="website">Website:</label>
                   <input type="text" id="website" class="form-control"
                          formControlName="WebsiteField" ngModel>
               </div>
+              <div>
+              <label for="type">Type:</label>
+              <input type="number" id="type" class="form-control"
+                     min="0" formControlName="TypeField" ngModel></div>
               <div>
                   <label for="tags">Tags:</label>
                   <input type="text" id="tags" class="form-control"
@@ -41,20 +55,15 @@ import { environment } from '../../../../environments/environment';
           <button class="btn btn-primary" [disabled]="!myForm.valid" type="submit">Add Company</button>
       </form>
   </div>
-  `
-})
-export class AddcompanyComponent implements OnInit{
-
-
-    myForm: FormGroup;
-
-    constructor(private http: HttpClient,private router: Router){}
+  `;
+    }
 
     onSubmit(user){
 var my = JSON.stringify
 ({name:user.NameField,
     email:user.EmailField,
     website:user.WebsiteField,
+    type:user.TypeField,
     tags:user.TagsField,
     views:user.ViewsField,
 

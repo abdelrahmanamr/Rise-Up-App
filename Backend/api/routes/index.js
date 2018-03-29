@@ -4,6 +4,8 @@ var express = require('express'),
 
 //-------------------------------Admin Routes-----------------------------------
 
+router.get('/companies/viewCompanies', AdminController.viewCompanies);
+router.post('/companies/addCompany', AdminController.addCompany);
 
 
 

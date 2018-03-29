@@ -10,10 +10,8 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { ContentsComponent } from './contents/contents.component';
 
 import { HttpModule } from '@angular/http';
-import { ContentComponent } from './content/content.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({

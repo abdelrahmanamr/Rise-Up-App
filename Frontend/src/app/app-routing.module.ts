@@ -8,10 +8,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'contents',
-    loadChildren: './contents/contents.module#ContentsModule'
-  },
-  {
     path: 'content',
     loadChildren: './content/content.module#ContentModule'
   },

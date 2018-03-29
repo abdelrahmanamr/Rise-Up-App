@@ -1,16 +1,33 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { ContentComponent } from './content.component';
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     component: ContentComponent,
-     pathMatch: 'full' },
+    children: [
+      {
+        path: 'viewallcontents',
+        loadChildren: './viewallcontents/viewallcontents.module#ViewAllContentsModule'
+      },
+      {
+        path: 'viewcontent',
+        loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
+      },
+      {
+        path: '',
+        redirectTo: 'viewallcontents',
+        pathMatch: 'full'
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: []
 })
 export class ContentRoutingModule {}

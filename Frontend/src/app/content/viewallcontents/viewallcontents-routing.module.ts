@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ContentsComponent } from './contents.component';
+import { ViewAllContentsComponent } from './viewallcontents.component';
 
 const routes: Routes = [
- 
-  { path: '', component: ContentsComponent, pathMatch: 'full' },
- 
+  { path: '', component: ViewAllContentsComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ContentsRoutingModule {}
+export class ViewAllContentsRoutingModule {}

@@ -6,7 +6,7 @@ var express = require('express'),
 
 
 router.patch('/admin/blockUser/:userId', AdminController.BlockUser);
-
+router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
 
 module.exports = router;
 

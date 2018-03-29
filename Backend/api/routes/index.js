@@ -11,5 +11,5 @@ router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
 
 //------------------------------Content Routes-----------------------------------
 router.get('/content/getContents',ContentCrtl.getContents);
-router.delete('/content/removeContent',ContentCrtl.DeleteContent);
+router.delete('/content/deleteContent',ContentCrtl.DeleteContent);
 module.exports = router;

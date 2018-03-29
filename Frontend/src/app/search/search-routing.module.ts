@@ -9,7 +9,7 @@ const routes: Routes = [
         component: SearchComponent,
         children: [
             {
-                path: 'items',
+                path: 'searchResult',
                 loadChildren: './searchResult/searchResult.module#SearchResultModule'
             },
             {

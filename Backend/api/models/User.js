@@ -1,64 +1,71 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-    Username: {
+    username: {
       type: String,
       required: true,
       trim: true,
       lowercase: true
     },
-    Firstname:{
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+    lowercase: true
+    },
+    firstname:{
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    Lastname:{
+    lastname:{
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    Password:{
+    password:{
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    Tags:{
+    tags:{
         type: String,
         required: false,
     },
-    Admin:{
+    admin:{
         type: Boolean,
-        required: true,
         default:false
     },
-    Expert:{
+    expert:{
         type: Boolean,
-        required: true,
         default:false
     },
-    Blocked:{
+    blocked:{
         type: Boolean,
-        required: true,
         default:false
     },
     ImageURL:{
         type:String,
         required:false
     },
-    Email: {
-      type: String,
-      required: true,
-      trim: true,
-    lowercase: true
-    },
-    CreatedAt: {
+    createdAt: {
       type: Date,
       default: Date.now
     },
+    updatedAt: Date
     
   });
   
+  if (!userSchema.options.toObject) {
+    userSchema.options.toObject = {};
+  }
+  userSchema.options.toObject.transform = (document, transformedDocument) => {
+    delete transformedDocument.password;
+    return transformedDocument;
+  };
+
+
   mongoose.model('User', userSchema);

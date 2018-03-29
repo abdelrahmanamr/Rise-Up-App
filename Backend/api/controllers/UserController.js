@@ -91,6 +91,42 @@ module.exports.register = function(req,res,next){
     };
 };
 
+module.exports.checkUsername = function(req, res, next){
+    var valid = req.body.username &&
+        Validations.isString(req.body.username);
+    if (!valid){
+        return res.status(422).json({
+            err:null,
+            msg:"Please enter a valid username",
+            data:null
+        });
+    }
+    else {
+        toCheck = req.body.username.trim().toLowerCase();
+         User.findOne({username:toCheck}).exec(function(err,userfound){
+            if(err){
+                console.log("found an error");
+                return next(err);
+            }
+            else {
+                if(userfound){
+                    return res.status(422).json({
+                        err: null,
+                        msg: "user already exists",
+                        data: null
+                    });
+                }
+                else {
+                     return res.status(200).json({
+                        err: null,
+                        msg: "user unique",
+                        data: null
+                    });
+                }
+            }
+    });
+}
+}
 
 module.exports.login = function(req,res,next){
     var valid =

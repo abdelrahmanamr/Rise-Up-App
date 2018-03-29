@@ -12,9 +12,12 @@ const routes: Routes = [
     loadChildren: './content/content.module#ContentModule'
   },
 
-
- { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
- //{ path: '**', redirectTo: 'dashboard' }
+  {
+    path: 'user',
+    loadChildren: './user/user.module#UserModule'
+  },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: 'dashboard' }
 ];
 
 const config: ExtraOptions = {

@@ -15,8 +15,7 @@ ID:string=localStorage.getItem("contentID");
 Content : any;
 Title:any
 Title1:any
-
-private base64Image: string;
+base64Image: string;
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
@@ -83,7 +82,22 @@ private base64Image: string;
       );
      }
 
-     ViewImage(inputValue: any): void {
+     ViewImage(ID:string){
+      var config ={
+        headers : 
+      {
+    'Content-Type':'application/json'
+      }
+    }
+      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
+        res=>{  
+         this.ReadImage(res['data'].body);  
+            
+        }
+      );
+     }
+
+     ReadImage(inputValue: any): void {
       var file: File = inputValue.files[0];
       var myReader: FileReader = new FileReader();
   

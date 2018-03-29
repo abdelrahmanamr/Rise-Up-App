@@ -13,6 +13,10 @@ const routes: Routes = [
         loadChildren: './items/items.module#ItemsModule'
       },
       {
+        path: 'experts',
+        loadChildren: './experts/experts.module#ExpertsModule'
+      },
+      {
         path: '',
         redirectTo: '',
         pathMatch: 'full'

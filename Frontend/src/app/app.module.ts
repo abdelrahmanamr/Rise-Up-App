@@ -14,6 +14,7 @@ import { ContentsComponent } from './contents/contents.component';
 
 import { HttpModule } from '@angular/http';
 import { ContentComponent } from './content/content.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [AppComponent],

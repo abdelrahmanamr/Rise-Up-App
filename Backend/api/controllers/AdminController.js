@@ -110,4 +110,33 @@ module.exports.viewCompanies = function(req, res, next) {
         });
     });
 };
+
+
+module.exports.RemoveCompany = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.companyId)) {
+      return res.status(422).json({
+          err: null,
+          msg: 'CompanyId parameter must be a valid ObjectId.',
+          data: null
+      });
+  }
+  Company.findByIdAndRemove(req.params.companyId).exec(function(
+      err,
+      deletedCompany
+  ) {
+      if (err) {
+          return next(err);
+      }
+      if (!deletedCompany) {
+          return res
+              .status(404)
+              .json({ err: null, msg: 'Company not found.', data: null });
+      }
+      res.status(200).json({
+          err: null,
+          msg: 'Company was deleted successfully.',
+          data: deletedCompany
+      });
+  });
+};
  

@@ -10,6 +10,8 @@ router.get('/product/getProductsBelowPrice/:price', productCtrl.getProductsBelow
 router.get('/Content/viewContent/:contentId', contentCtrl.viewContent);
 router.get('/Content/viewContents', contentCtrl.viewContents);
 
+router.post('/content/addContent', contentCtrl.createContent);
+
 router.post('/product/createProduct', productCtrl.createProduct);
 
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);

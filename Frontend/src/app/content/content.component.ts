@@ -2,7 +2,7 @@ import { Component, OnInit , ViewChild } from '@angular/core';
 import {Router} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-
+import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-content',
@@ -12,11 +12,11 @@ import { environment } from '../../environments/environment';
 export class ContentComponent implements OnInit {
 
 ID:string=localStorage.getItem("contentID");
-Content : any
+Content : any;
+Title:any
+Title1:any
 
-
-
-  constructor(private httpClient: HttpClient,private router: Router) { }
+  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
 
   ngOnInit() { 
@@ -33,14 +33,14 @@ Content : any
   }
     this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
       res=>{  
-      if(res['data'].type== "post"){
+      if(res['data'].type== "Post"){
         this.ViewText(this.ID)
       }   
       
-      if(res['data'].type== "image"){
+      if(res['data'].type== "Image"){
         this.ViewImage(this.ID)
       }  
-      if(res['data'].type== "link"){
+      if(res['data'].type== "Link"){
         this.ViewLink(this.ID)
       }  
           
@@ -57,7 +57,7 @@ Content : any
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
-          this.Content = res['data'];  
+          this.Content = res['data'].body;  
             
         }
       );
@@ -65,6 +65,20 @@ Content : any
 
      ViewImage(ID:string){}
 
-     ViewLink(ID:string){}
+     ViewLink(ID:string){
+      var config ={
+        headers : 
+      {
+    'Content-Type':'application/json'
+      }
+    }
+      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
+        res=>{  
+          this.Title1=res['data'].title
+          this.Title = res['data'].body;  
+            
+        }
+      );
+     }
 
 }

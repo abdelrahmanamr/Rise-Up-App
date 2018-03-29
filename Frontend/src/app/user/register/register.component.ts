@@ -48,7 +48,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
           <div>
 
               <input placeholder= "Username" type="text" id="uname" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1; margin-top:10px;" class="form-control"
-                     formControlName="userNameField" ngModel></div>
+                     formControlName="userNameField" (blur) = "checkUsername(userForm.value.userNameField)" ngModel></div>
 
 
           <div>
@@ -152,4 +152,24 @@ var config = {
         });
 
 
-}}
+}
+checkUsername = function(username){
+  var data = JSON.stringify({
+  username: username
+  });
+  var config = {
+  headers: {
+  'Content-Type' : 'application/json'
+  }
+  };
+  this.http.post('http://localhost:3000/api/user/checkUsername', data, config).subscribe( res =>{
+  console.log(res);
+
+  },
+err=>{
+  console.log(err);
+  this.errorhandle = "username already exists";
+}
+  )
+}
+}

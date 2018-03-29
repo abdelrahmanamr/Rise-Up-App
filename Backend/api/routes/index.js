@@ -16,5 +16,6 @@ router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);
+router.post('/user/checkUsername',userController.checkUsername);
 
 module.exports = router;

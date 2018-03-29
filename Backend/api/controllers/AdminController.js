@@ -4,6 +4,57 @@ var mongoose = require('mongoose'),
   Company = mongoose.model('Company');
 
 
+  module.exports.AddCompany = function(req, res, next) {
+    var valid =
+        req.body.userid &&
+        Validations.isObjectId(req.body.userid) &&
+        req.body.name &&
+        Validations.isString(req.body.name) &&
+        req.body.email &&
+        Validations.isString(req.body.email) &&
+        req.body.website &&
+        Validations.isString(req.body.website)&&
+        req.body.tags &&
+        Validations.isString(req.body.tags)&&
+        req.body.type &&
+        Validations.isString(req.body.type)
+    ;
+    if (!valid) {
+        return res.status(422).json({
+            err: null,
+            msg: 'name(String) , email(String) , website(String) , tags(String) and type(String) are required fields.',
+            data: null
+        });
+    }
+    // Security Check
+    delete req.body.createdAt;
+    delete req.body.updatedAt;
+
+    Company.create(req.body, function(err, company) {
+        if (err) {
+            return next(err);
+        }
+        res.status(201).json({
+            err: null,
+            msg: 'Company was created successfully.',
+            data: company
+        });
+    });
+};
+
+module.exports.viewCompanies = function(req, res, next) {
+    Product.find({}).exec(function(err, company) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'Companies retrieved successfully.',
+        data: company
+      });
+    });
+  };
+  
 
   
   module.exports.BlockUser=function(req, res, next){

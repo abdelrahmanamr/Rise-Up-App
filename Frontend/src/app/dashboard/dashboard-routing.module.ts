@@ -16,6 +16,10 @@ const routes: Routes = [
         path: '',
         redirectTo: 'items',
         pathMatch: 'full'
+      },
+      {
+        path: 'addcompany',
+        loadChildren:  './addcompany/addcompany.module#AddcompanyModule'
       }
     ]
   }

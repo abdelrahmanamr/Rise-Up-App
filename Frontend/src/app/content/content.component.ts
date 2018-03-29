@@ -16,6 +16,8 @@ Content : any;
 Title:any
 Title1:any
 
+private base64Image: string;
+
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
 
@@ -63,7 +65,7 @@ Title1:any
       );
      }
 
-     ViewImage(ID:string){}
+     
 
      ViewLink(ID:string){
       var config ={
@@ -80,5 +82,18 @@ Title1:any
         }
       );
      }
+
+     ViewImage(inputValue: any): void {
+      var file: File = inputValue.files[0];
+      var myReader: FileReader = new FileReader();
+  
+      myReader.onloadend = (e) => {
+        this.base64Image = myReader.result;
+        console.log(this.base64Image);
+      }
+      myReader.readAsDataURL(file);
+    }
+  
+
 
 }

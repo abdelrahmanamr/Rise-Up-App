@@ -8,3 +8,5 @@
  <span> <p> {{ Content }} </p> </span>
 
 <span><a href="{{ Title }}">{{ Title1 }}</a></span>
+
+<img *ngIf="base64Image" [src]="domSanitizer.bypassSecurityTrustUrl(base64Image)" />

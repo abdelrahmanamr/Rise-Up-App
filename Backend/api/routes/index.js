@@ -19,7 +19,7 @@ router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
 router.get('/company/getCompanyByType/:companyType', searchCtrl.getCompanyByType);
 
 //-----------------------------Company Routes--------------------------------------
-router.get('/company/getCompanies',companyCtrl.getCopmanies);
+router.get('/company/getCompanies',companyCtrl.getCpmpanies);
 router.get('/company/getCompany/:companyId',companyCtrl.getCompanyById);
 router.post('/company/createCompany', companyCtrl.createCompany);
 router.delete('/company/deleteCompany/:companyId', companyCtrl.deleteCompany);

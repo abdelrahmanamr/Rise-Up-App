@@ -11,9 +11,11 @@ module.exports.getCompanyByName = function ( req, res, next) {
             data:null
 
         });
+
     }
+    var comparedString =  req.params.name.toLowerCase();
     Company.find({
-        name:/.*req.params.name.*/
+        name:/.*comparedString.*/
     }).exec(function (err,companies) {
         if(err){
             return next(err);
@@ -35,8 +37,9 @@ module.exports.getCompanyByType = function ( req, res, next) {
 
         });
     }
+    var comparedString =  req.params.name.toLowerCase();
     Company.find({
-        type:/.*req.params.type.*/
+        type:/.*comparedString.*/
     }).exec(function (err,companies) {
         if(err){
             return next(err);

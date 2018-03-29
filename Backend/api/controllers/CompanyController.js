@@ -29,7 +29,7 @@ module.exports.getCompanyById = function(req, res, next) {
 };
 
 
-module.exports.getCpmpanies = function(req, res, next) {
+module.exports.getCompanies = function(req, res, next) {
     Company.find({}).exec(function(err, companies) {
         if (err) {
             return next(err);

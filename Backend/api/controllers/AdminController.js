@@ -5,30 +5,58 @@ var mongoose = require('mongoose'),
 
 
 
-  module.exports.viewCompanies = function(req, res, next) {
-    Company.find({}).exec(function(err, companies) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg: 'Companies retrieved successfully.',
-        data: companies
-      });
-    });
-  };
   
-//missing
-  module.exports.addCompany = function(req, res, next) {
-    
-    Company.addCompany(req.body, function(err, companies) {
-      if (err) {
-        return next(err);
-      }
-      res.status(201).json({
-        err: null,
-        msg: 'Company was created successfully.',
-        data: companies
-      });
+  module.exports.BlockUser=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+    var valid=req.body.blocked &&
+    Validations.isBoolean(req.body.block);
+
+    if(valid){
+        return res.status(422).json({
+            err:null,
+            msg:'blocked (Boolean) is required field. ',
+            data:null
+        });
+    }
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    req.body.blocked=true;
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
     });
-  };
+};
+ 

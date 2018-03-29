@@ -1,12 +1,7 @@
-import { Component,OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from "@angular/common";
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-items',
   template: ``
 })
-export class ItemsComponent{
-
-}
+export class ItemsComponent {}

@@ -16,11 +16,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'items',
         pathMatch: 'full'
-      },
-      {
-        path: 'content',
-        loadChildren: './content/content.module#ContentModule'
-      },
+      }
     ]
   }
 ];

@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span> <div [innerHTML]="Content"></div></span>
   <span><a href="{{ Body }}">{{ Title }}</a></span> 
   <span><img src="{{ImagePath}}">  </span>  
-  <Button *ngIf="adminStatus" (click)="DeleteContent(ID)"> Delete </Button>
+  <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
     
   </div>
   

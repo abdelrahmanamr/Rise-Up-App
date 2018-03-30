@@ -16,6 +16,10 @@ const routes: Routes = [
         path: 'viewexpert',
         loadChildren: './viewexpert/viewexpert.module#ViewExpertModule'
       },
+<<<<<<< HEAD
+=======
+     
+>>>>>>> ReadingContent
       {
         path: '',
         redirectTo: 'viewallexperts'

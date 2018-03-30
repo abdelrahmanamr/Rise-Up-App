@@ -77,9 +77,11 @@ ViewCompany(ID:String){
                  }
              }
    this.httpClient.delete('http://localhost:3000/api/admin/removeCompany/'+ident,config).
-   subscribe();
-   this.router.navigate(['/company/viewallcompanies']);
-   window.location.reload();
+   subscribe(res=>{
+    this.router.navigateByUrl('/company/viewallcompanies');
+   });
+
+
  }
 
 }

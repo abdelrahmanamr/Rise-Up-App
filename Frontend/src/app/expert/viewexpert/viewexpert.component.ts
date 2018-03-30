@@ -7,12 +7,20 @@ import { DomSanitizer } from '@angular/platform-browser'
   selector: 'app-expert-viewexpert',
   template: `
   <div class="container">
-  <span> <div [innerHTML]="Expert"></div></span>
+
+  <div class="profile" style="float: left; width: 40%;overflow: hidden;">
+  <div class="card">
+      <img src="/assets/profile.png" alt="{{expert.username}}" style="width:100%">
+      <h1 class="uppercase">{{expert.username}}</h1>
+      <h1 class="cap">{{expert.firstname}} {{expert.lastname}}</h1>
+      <b *ngIf="expert.expert" style="color: #343ab9">Expert</b>
+      <p class="title">{{expert.email}}</p></div>
+</div>
   </div>`
 })
 export class ViewExpertComponent {
   ID:string=localStorage.getItem("expertID");
-Expert:any
+expert = "";
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
   ngOnInit() { 
@@ -28,7 +36,7 @@ ViewExpert(ID:String){
 }
   this.httpClient.get(environment.apiUrl +'/User/viewUser/'+ID,config).subscribe(
     res=>{  
-      this.Expert = res['data'].firstname;  
+      this.expert = res['data'];
         
     }
   );

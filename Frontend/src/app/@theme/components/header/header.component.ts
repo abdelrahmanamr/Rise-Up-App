@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
     this.menuService.onItemClick().subscribe((bag: NbMenuBag) => {
       if (bag.item.title === 'Logout') {
         localStorage.clear();
+        localStorage.removeItem('userProps');
         this.loggedin = false;
         this.user = null;
         this.adminStatus = false;

@@ -164,7 +164,7 @@ checkUsername = function(username){
   };
   this.http.post('http://localhost:3000/api/user/checkUsername', data, config).subscribe( res =>{
   console.log(res);
-
+  this.errorhandle = "";
   },
 err=>{
   console.log(err);

@@ -126,9 +126,10 @@ adminStatus :boolean = false;
                  }
              }
    this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident,config).
-   subscribe();
-   window.location.reload();
-   this.router.navigate(['/content/viewcontents']);
+   subscribe(res=>{
+    this.router.navigateByUrl('/content/viewallcontents');
+   });
+
   
  }
 

@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
     <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
     <div style="float:left;">
     <h4>{{expert.firstname}} {{expert.lastname}}</h4>
-    Tags: {{expert.tags}}</div>
+    Email: {{expert.email}}</div>
     <div style="float:right;"><Button (click)="ViewExpert(expert._id)" class="btn btn-danger btn-sm"> View Expert </Button><br />
 
     </div>

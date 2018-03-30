@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {environment} from "../../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -53,11 +54,11 @@ import { FormsModule } from '@angular/forms';
             
             <div class="container-fluid" *ngFor="let item of this.Items">
 
-                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28);">
+                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
                     <h4 class="text-uppercase">{{item.name}}</h4>
                     <p class="title" style="float:right;"> {{item.type}}
                         <button class="btn btn-danger"
-                                style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18">
+                                style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewCompany(item._id)">
                             View Company
                         </button>
                     </p>
@@ -73,7 +74,7 @@ import { FormsModule } from '@angular/forms';
 export class SearchResultComponent implements OnInit{
     Items = [];
     searchStatus : boolean;
-    constructor(private http:HttpClient){
+    constructor(private http:HttpClient,private router:Router){
 
     }
     ngOnInit(){
@@ -140,6 +141,11 @@ export class SearchResultComponent implements OnInit{
      }
     }
 
+
 }
+    viewCompany(id:string){
+        localStorage.setItem("companyID",id);
+        this.router.navigate(['/company/viewcompany']);
+    }
 }
 

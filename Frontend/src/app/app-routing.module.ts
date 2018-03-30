@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 
+
 const routes: Routes = [
+ 
   {
     path: 'dashboard',
     loadChildren: './dashboard/dashboard.module#DashboardModule'
   },
 
   {
-    path: 'content',
-    loadChildren: './content/content.module#ContentModule'
+    path: 'Company',
+    loadChildren: './Company/Company.module#CompanyModule'
   },
   {
     path: 'expert',

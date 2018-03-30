@@ -9,6 +9,8 @@ import { DomSanitizer } from '@angular/platform-browser'
   template: ` 
   <div class="container">
   <span> <div [innerHTML]="Content"></div></span>
+  <span><a href="{{ Body }}">{{ Title }}</a></span> 
+  <span><img src="{{ImagePath}}">  </span>  
   </div>
   `
 })
@@ -16,7 +18,9 @@ export class ViewContentComponent {
   
 ID:string=localStorage.getItem("contentID");
 Content : any;
-
+Title:any
+Body:any
+ImagePath:string
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
@@ -64,10 +68,22 @@ Content : any;
         }
       );
      }
-
      
-
-     ViewLink(ID:string){}
+     ViewLink(ID:string){
+      var config ={
+        headers : 
+      {
+    'Content-Type':'application/json'
+      }
+    }
+      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
+        res=>{  
+          this.Title=res['data'].title
+          this.Body = res['data'].body;  
+            
+        }
+      );
+     }
 
      ViewImage(ID:string){}
 

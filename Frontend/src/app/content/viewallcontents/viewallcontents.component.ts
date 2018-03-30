@@ -7,21 +7,18 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-dashboard-items',
   template: `<div class="container">
-  <table class="table table-responsive">
-  <thead>
-   <tr>
-     <th>Contents Table</th>
-   </tr>
- </thead>
- <tbody>
+  <div *ngFor="let content of contents">
+    <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+    <div style="float:left;">
+    <h4>{{content.title}}</h4>
+    Tags: {{content.tags}}</div>
+    <div style="float:right;"><Button (click)="ViewContent(content._id)" class="btn btn-danger btn-sm"> Read </Button><br />
+    Views: {{content.views}}</div>
 
- <tr>
- <td>Title</td>
- <td>Rating</td>
- 
- </tr>
+    </div>
+  </div>
 
-   <tr *ngFor="let content of contents">
+  <!-- <tr *ngFor="let content of contents">
      <td>{{content.title}}</td>
      <td>{{content.rating}}</td>
     
@@ -29,7 +26,7 @@ import {Router} from "@angular/router";
    </tr>          
 
  </tbody>
-  </table>
+  </table> -->
   </div>
 
   <br>

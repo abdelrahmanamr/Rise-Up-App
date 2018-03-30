@@ -35,16 +35,6 @@ import {Router} from "@angular/router";
 
 </div>
       
-      
-   <table id="products" style="width:100%;">
-   <tr>
-    <th>Username</th>
-    </tr>
-
-  <tr *ngFor="let item of data">
-    <td><button type="button" class="btn btn-primary" (click)="goToUser(item._id)">{{item.username}}</button></td>
-    </tr>
-  </table>
 
    `
  

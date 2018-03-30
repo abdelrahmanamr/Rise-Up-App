@@ -1,13 +1,38 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 
+
 const routes: Routes = [
+ 
   {
-    path: 'dashboard',
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
+
+    path: 'content',
+    loadChildren: './content/content.module#ContentModule'
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard' }
+
+  {
+    path: 'company',
+    loadChildren: './company/company.module#CompanyModule'
+  },
+  {
+    path: 'expert',
+    loadChildren: './expert/expert.module#ExpertModule'
+  },
+  {
+    path: 'user',
+    loadChildren: './user/user.module#UserModule'
+  },
+  {
+    path: 'search',
+    loadChildren: './search/search.module#SearchModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: './admin/admin.module#AdminModule'
+  },
+  { path: '', redirectTo: 'search', pathMatch: 'full' },
+  { path: '**', redirectTo: 'search' }
+
 ];
 
 const config: ExtraOptions = {

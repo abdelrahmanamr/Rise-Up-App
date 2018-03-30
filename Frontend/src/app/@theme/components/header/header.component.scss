@@ -3,14 +3,24 @@
 @import '~@nebular/theme/styles/global/bootstrap/breakpoints';
 
 span{
-  padding: 13px 15px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-right: 15px;
   text-transform: uppercase;
+  font-size:0.7rem;
+  font-weight: bold;
 }
 
 @include nb-install-component() {
   display: flex;
   justify-content: space-between;
   width: 100%;
+
+
+  .btn-sm{
+    font-size:0.85rem;
+    padding: 4px 8px;
+  }
 
   .left {
     display: flex;

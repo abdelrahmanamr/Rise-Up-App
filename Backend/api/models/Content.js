@@ -7,7 +7,7 @@ var contentSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["Post","Link"],
+        enum: ["Post","Link","Image"],
         default: "Post"
     },
     body: {
@@ -27,10 +27,6 @@ var contentSchema = mongoose.Schema({
         default:0
     },
     shares: {
-        type: Number,
-        default:0
-    },
-    rating: {
         type: Number,
         default:0
     },

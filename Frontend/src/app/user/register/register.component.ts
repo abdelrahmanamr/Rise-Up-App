@@ -72,7 +72,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
               <input placeholder= "Repeat Password" type="password" id="pass2"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
                      formControlName="passwordField2" ngModel>
-<label for="pass2" style="margin-top:10px;"> You must enter at least one number,one captial letter and the length is at least 8 characters </label>
+<label for="pass2" style="margin-top:10px;"> Password must atleast be 8 characters long </label>
           </div>
           <div>
 

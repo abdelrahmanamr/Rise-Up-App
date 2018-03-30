@@ -30,8 +30,8 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule'
   },
-  { path: '', redirectTo: 'content', pathMatch: 'full' },
-  { path: '**', redirectTo: 'content' }
+  { path: '', redirectTo: 'search', pathMatch: 'full' },
+  { path: '**', redirectTo: 'search' }
 
 ];
 

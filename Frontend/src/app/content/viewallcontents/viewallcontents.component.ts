@@ -17,16 +17,6 @@ import {Router} from "@angular/router";
 
     </div>
   </div>
-
-  <!-- <tr *ngFor="let content of contents">
-     <td>{{content.title}}</td>
-     <td>{{content.rating}}</td>
-    
-   <td><Button (click)="ViewContent(content._id)"> ShowContent </Button></td>  
-   </tr>          
-
- </tbody>
-  </table> -->
   </div>
 
   <br>

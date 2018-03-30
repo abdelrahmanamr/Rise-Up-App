@@ -14,7 +14,7 @@ const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: './search/search.module#SearchModule',
+                redirectTo: 'searchResult',
                 pathMatch: 'full'
             }
         ]

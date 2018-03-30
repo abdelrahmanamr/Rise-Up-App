@@ -39,6 +39,7 @@ router.post('/user/login',userController.login);
 router.post('/user/checkUsername',userController.checkUsername);
 
 //------------------------------Search Routes-------------------------------------
+router.get('/search/getCompanyByNameOrType/:name', searchCtrl.getCompanyByNameOrType);
 router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
 router.get('/search/getCompanyByType/:type', searchCtrl.getCompanyByType);
 

@@ -6,28 +6,20 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-expert-viewallexperts',
-  template: `<div class="container">
-  <table class="table table-responsive">
-  <thead>
-   <tr>
-     <th>Experts Table</th>
-   </tr>
- </thead>
- <tbody>
+  template: `
+  
+  <div class="container">
+  <div *ngFor="let expert of experts">
+    <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+    <div style="float:left;">
+    <h4>{{expert.firstname}} {{expert.lastname}}</h4>
+    Tags: {{expert.tags}}</div>
+    <div style="float:right;"><Button (click)="ViewExpert(expert._id)" class="btn btn-danger btn-sm"> View Expert </Button><br />
 
- <tr>
- <td>Name</td>
- 
- </tr>
-
-  <tr *ngFor="let expert of experts">
-      <td> <span *ngIf="expert.expert"> <a> {{expert.username}} </a>  </span> </td> 
-    <td><span *ngIf="expert.expert">  <a> <Button (click)="ViewExpert(expert._id)"> ShowExpert </Button> </a></span></td>  
-   </tr>          
-
- </tbody>
-  </table>
-  </div>`
+    </div>
+  </div>
+  </div>
+  `
 })
 export class ViewAllExpertsComponent {
 

@@ -7,7 +7,10 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-company-viewallcompanies',
   template: `<div class="container">
-  <h2> Startups </h2>
+  <h1 stylr="margin-bottom: -20px" > Startups </h1>
+  <Button style="float:right;" *ngIf="adminStatus" (click)="AddCompany()" class="btn btn-danger btn-sm"> Add Startup </Button>
+  <br>
+  <br>
   <br>
   <div *ngFor="let company of companies">
   <div class="card" style="padding:10px 15px; padding-bottom:80px; margin-bottom:20px;display: block; ">
@@ -20,19 +23,24 @@ import {Router} from "@angular/router";
 
   </div>
 </div>
+ 
+  
 
 
   </div>`
 })
 export class ViewAllCompaniesComponent {
 
- 
+ adminStatus :boolean = false;
 
 constructor(private httpClient: HttpClient, private router: Router) { }
 
 public companies:any[]=[];
 
 ngOnInit() {
+  if(localStorage.getItem("userProps")!=null){
+    this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
+  }
   this.ViewCompanies();
   }
 
@@ -53,5 +61,8 @@ ngOnInit() {
     this.router.navigate(['/company/viewcompany']);
 
 
+  }
+  AddCompany(){
+    this.router.navigate(["/admin/addcompany"]);
   }
 }

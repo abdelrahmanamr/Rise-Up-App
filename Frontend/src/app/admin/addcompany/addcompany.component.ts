@@ -34,15 +34,16 @@ import { environment } from '../../../environments/environment';
   <br>
 
   <input class="btn btn-success" type = "submit" value = "submit">
+  {{errorHandle}}
   </form>
   <br />
-  {{result}}
+
 
   </div>
 `
 })
 export class AddcompanyComponent implements OnInit{
-
+errorHandle = "";
 
     constructor(private http: HttpClient,private router: Router){}
 
@@ -68,10 +69,13 @@ console.log(my);
         }
 
         this.http.post(environment.apiUrl+'admin/addCompany',my, config)
-        .subscribe(res => {console.log(res)});
+        .subscribe(res => {console.log(res)
+                 this.router.navigate(['/admin']);
+        }
+    ,err=>{
+        this.errorHandle = err['error']['msg'];
+      });
         
-        window.location.replace("#/dashboard/items");
-        window.location.reload();
 
     }
 

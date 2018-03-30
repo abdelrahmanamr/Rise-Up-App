@@ -14,12 +14,17 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'items',
+        redirectTo: 'users',
         pathMatch: 'full'
       },
       {
         path: 'profile',
         loadChildren:'./profile/profile.module#ProfileModule'
+
+      },
+      {
+        path: 'users',
+        loadChildren:'./users/users.module#UsersModule'
 
       }
     ]

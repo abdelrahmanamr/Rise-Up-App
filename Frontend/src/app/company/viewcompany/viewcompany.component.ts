@@ -10,40 +10,30 @@ import { DatePipe } from '@angular/common';
   selector: 'app-company-viewcompany',
   template: `
   <div class="container">
-  <table class="table table-responsive">
-  <thead>
-   <tr>
-     <th>Companies Table</th>
-   </tr>
- </thead>
- <tbody>
+  
+  <h2>{{Company.name}}</h2>
+  <br> 
+  <div class="card" style="padding:25px 15px; padding-bottom:120px; margin-bottom:20px;display: block; ">
 
- <tr>
- <td>Name</td> 
- <td> Email </td> 
- <td> Website </td> 
- <td> Tags </td> 
- <td> Type </td> 
- <td> Views </td> 
- <td *ngIf = "adminStatus" > Created At </td> 
- <td *ngIf = "adminStatus" >  Delete </td> 
+  <div style="float:right;" *ngIf = "adminStatus"><Button (click)="DeleteCompany(ID)" class="btn btn-danger btn-sm"> Delete StartUP </Button>
+  </div>
 
- </tr>
+  <div style="float:left;">
+  
+  Field:  {{Company.type}}
+  <br>
+  email: {{Company.email}}
+  <br>
+  website: {{Company.website}}
+  <br>
+  tags: {{Company.tags}}
+  <br>
+  views: {{Company.views}}
+  <br>
+  
+  
 
-  <tr >
-      <td> {{Company.name}} </td> 
-      <td> {{Company.email}} </td> 
-      <td> {{Company.website}} </td> 
-      <td> {{Company.tags}} </td> 
-      <td> {{Company.type}} </td> 
-      <td> {{Company.views}} </td> 
-      <td *ngIf = "adminStatus"> {{Company.createdAt | date}} </td>  
-      <td *ngIf = "adminStatus" ><Button  (click)="DeleteCompany(Company._id)"> Delete </Button></td>  
-
-   </tr>          
-
- </tbody>
-  </table>
+  </div>
 
   </div>`
 })
@@ -88,8 +78,8 @@ ViewCompany(ID:String){
              }
    this.httpClient.delete('http://localhost:3000/api/admin/removeCompany/'+ident,config).
    subscribe();
-   this.router.navigate(['/company/viewcompanies']);
-   //window.location.reload();
+   this.router.navigate(['/company/viewallcompanies']);
+   window.location.reload();
  }
 
 }

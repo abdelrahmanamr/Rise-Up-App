@@ -10,14 +10,10 @@
 <nb-actions size="medium" class="header-container right">
   <nb-action>
 
-    <span><a href="/#/company">Company</a></span>
-    <span><a href="/#/content">Content</a></span>
-    <span><a href="/#/expert">Experts</a></span>
-    <span >Home</span>
     <a href="#/search/"><span >Search</span></a>
-    <a *ngIf="y==true" href="#/admin/"><span >Admin System</span></a>
-    <a href="#/content/create"><span >Add Content</span></a>
+    <a *ngIf="adminStatus==true" href="#/admin/"><span >Admin System</span></a>
+    <a *ngIf="adminStatus==true" href="#/content/create"><span ><button class="btn btn-warning btn-sm">Add Content</button></span></a>
     <nb-user *ngIf="loggedin==true" [nbContextMenu]="userMenu" [name]="user" (menuClick)="onMenuClick($event)"></nb-user>
-    <a *ngIf="loggedin==false" href="#/user/login" style="padding-right:5px">Login</a>  <a *ngIf="loggedin==false" href="#/user/register" style="padding-right:5px">Register</a>
+    <span><a *ngIf="loggedin==false" href="#/user/login" style="padding-right:5px">Login</a>  <a *ngIf="loggedin==false" href="#/user/register" style="padding-right:5px">Register</a></span>
   </nb-action>
 </nb-actions>

@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-company-viewallcompanies',
   template: `<div class="container">
+  <Button *ngIf="adminStatus" (click)="AddCompany()" class="btn btn-danger btn-sm"> Add Company </Button>
   <table class="table table-responsive">
   <thead>
    <tr>
@@ -31,13 +32,16 @@ import {Router} from "@angular/router";
 })
 export class ViewAllCompaniesComponent {
 
- 
+ adminStatus :boolean = false;
 
 constructor(private httpClient: HttpClient, private router: Router) { }
 
 public companies:any[]=[];
 
 ngOnInit() {
+  if(localStorage.getItem("userProps")!=null){
+    this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
+  }
   this.ViewCompanies();
   }
 
@@ -58,5 +62,8 @@ ngOnInit() {
     this.router.navigate(['/company/viewcompany']);
 
 
+  }
+  AddCompany(){
+    this.router.navigate(["/admin/addcompany"]);
   }
 }

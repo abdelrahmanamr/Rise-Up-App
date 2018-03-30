@@ -85,7 +85,19 @@ ImagePath:string
       );
      }
 
-     ViewImage(ID:string){}
+     ViewImage(ID:string){
+      var config ={
+        headers : 
+      {
+    'Content-Type':'application/json'
+      }
+    }
+      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
+        res=>{  
+         this.ImagePath=(res['data'].body);      
+        }
+      );
+ }
 
     
 

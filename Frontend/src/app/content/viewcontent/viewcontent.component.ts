@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span> <div [innerHTML]="Content"></div></span>
   <span><a href="{{ Body }}">{{ Title }}</a></span> 
   <span><img src="{{ImagePath}}">  </span>  
-  <Button (click)="DeleteContent(ID)"> Delete </Button>
+  <Button *ngIf="adminStatus" (click)="DeleteContent(ID)"> Delete </Button>
     
   </div>
   
@@ -25,11 +25,15 @@ Content : any;
 Title:any
 Body:any
 ImagePath:string
+adminStatus :boolean = false;
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
 
   ngOnInit() { 
+    if(localStorage.getItem("userProps")!=null){
+      this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
+    }
     this.GetContent(this.ID) ;
       }
 

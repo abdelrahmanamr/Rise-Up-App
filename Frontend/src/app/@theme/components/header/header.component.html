@@ -11,6 +11,7 @@
   <nb-action>
 
     <a href="#/search/"><span >Search</span></a>
+    <a href="#/content/"><span >Content</span></a>
     <a *ngIf="adminStatus==true" href="#/admin/"><span >Admin System</span></a>
     <a *ngIf="adminStatus==true" href="#/content/create"><span ><button class="btn btn-warning btn-sm">Add Content</button></span></a>
     <nb-user *ngIf="loggedin==true" [nbContextMenu]="userMenu" [name]="user" (menuClick)="onMenuClick($event)"></nb-user>

@@ -36,7 +36,7 @@ import {Router} from "@angular/router";
 
     <input type = "text" class="form-control" name = "tags" placeholder = "Tags to be properly implemented later" ngModel><br />
 
-    <input class="btn btn-danger" type = "submit" value = "submit">
+    <input class="btn btn-danger" type = "submit" value = "submit"> {{errorHandle}}
 
     <br />
     <img [src]="url" height="200"> <br/>
@@ -56,6 +56,7 @@ export class CreateComponent implements OnInit{
   user = null;
   post : Number;
   url = "";
+  errorHandle = "";
   
 
   constructor(private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef) {
@@ -121,12 +122,12 @@ export class CreateComponent implements OnInit{
     this.http.post(environment.apiUrl+'/content/addContent', data, config)
     .subscribe(res=>{
     console.log(res);
-
+      this.router.navigate(["/content/viewallcontents"])
     },err=>{
-      console.log(err);
+   
+      this.errorHandle = err['error']['msg'];
     });
 
-    console.log(content);
     }
   }
 

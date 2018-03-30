@@ -8,4 +8,4 @@ import {Router} from "@angular/router";
   selector: 'app-dashboard-items',
   template: ``
 })
-export class ViewCompanyComponent {}
+export class CompanyComponent {}

@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   user: any;
   userMenu: any[];
   loggedin:boolean;
-  adminStatus: any;
+  adminStatus:boolean = false;
   constructor(
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
@@ -25,11 +25,12 @@ export class HeaderComponent implements OnInit {
     if(localStorage.getItem("UserDoc")!=null){
       this.loggedin = true;
        this.user = JSON.parse(localStorage.getItem("userProps"))["username"];
+       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     else{
       this.loggedin = false;
     }
-     this.adminStatus =   JSON.parse(localStorage.getItem('userProps'))['admin'];
+    
     this.userMenu = [{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');

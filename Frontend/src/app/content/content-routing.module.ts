@@ -13,6 +13,10 @@ const routes: Routes = [
         loadChildren: './create/create.module#CreateModule'
       },
       {
+        path: 'postphoto',
+        loadChildren: './postphoto/postphoto.module#PostphotoModule'
+      },
+      {
         path: '',
         redirectTo: 'create',
         pathMatch: 'full'

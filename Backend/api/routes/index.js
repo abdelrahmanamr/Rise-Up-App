@@ -14,7 +14,6 @@ router.get(
 router.post('/product/createProduct', productCtrl.createProduct);
 
 //-------------------------------Content Routes-----------------------------------
-router.post('/content/postLink', contentCtrl.postLink);
 router.post('/content/addContent', contentCtrl.createContent);
 
 

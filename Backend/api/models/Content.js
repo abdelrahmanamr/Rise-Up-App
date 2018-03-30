@@ -7,7 +7,7 @@ var contentSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["Post","Link"],
+        enum: ["Post","Link","Image"],
         default: "Post"
     },
     body: {

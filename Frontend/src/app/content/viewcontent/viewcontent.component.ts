@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   template: ` 
   <div class="container">
   <span> <p> {{ Content }} </p> </span>
-  <span><a href="{{ Title }}">{{ Title1 }}</a></span> 
+  <span><a href="{{ Body }}">{{ Title }}</a></span> 
   <span><img src="{{ImagePath}}">  </span>  
   </div>
   `
@@ -19,7 +19,7 @@ export class ViewContentComponent {
 ID:string=localStorage.getItem("contentID");
 Content : any;
 Title:any
-Title1:any
+Body:any
 ImagePath:string
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
@@ -80,8 +80,8 @@ ImagePath:string
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
-          this.Title1=res['data'].title
-          this.Title = res['data'].body;  
+          this.Title=res['data'].title
+          this.Body = res['data'].body;  
             
         }
       );

@@ -4,12 +4,38 @@ import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
 @Component({
   selector: 'app-user-login',
-  template: `<form class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
-  <input type = "text" class="form-control" name = "username" placeholder = "Enter your Username/Email" ngModel>
+    styles:
+        ['#left {  float: left; width: 40%;overflow: hidden; }',
+            '#right {  float: right; width: 60%;overflow: hidden; }'
+        ],
+  template: `
+      
+      <form class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
+          <label  style="font-size: 55px;;font-weight: bold;">
+              Login!
+
+          </label>
+  <input type = "text" class="form-control" name = "username" placeholder = "Enter your Username/Email" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
   <br>
-  <input type = "password" class="form-control" name = "password" placeholder = "Enter your password" ngModel>
+  <input type = "password" class="form-control" name = "password" placeholder = "Enter your password" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  " ngModel>
   <br>
-  <input class="btn btn-success" type = "submit" value = "submit">
+          <div id="left">
+              <label  style="font-size: 15px;;font-weight: bold;">
+                 Not registered?
+              </label>
+
+              <a href="#/user/register" style="padding-right:5px ;color: #DC0C18">Create your account</a>
+              <br> <br />
+              <a href="#/user/login" style="padding-right:5px ;color: #DC0C18">Forgot your password?</a>
+              
+              
+          </div>
+          
+          
+          <div id="right">
+  <input class="btn btn-success" type = "submit" value = "Login" style="background-color:#DC0C18">
+      </div>
+      
   </form>
   <br /> 
   {{errorView}}`

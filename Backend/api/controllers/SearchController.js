@@ -15,7 +15,7 @@ module.exports.getCompanyByName = function ( req, res, next) {
     }
     var comparedString =  req.params.name.toLowerCase();
     Company.find({
-        name:/.*comparedString.*/
+        name:req.params.name
     }).exec(function (err,companies) {
         if(err){
             return next(err);
@@ -39,7 +39,7 @@ module.exports.getCompanyByType = function ( req, res, next) {
     }
     var comparedString =  req.params.name.toLowerCase();
     Company.find({
-        type:/.*comparedString.*/
+        type:req.params.type
     }).exec(function (err,companies) {
         if(err){
             return next(err);

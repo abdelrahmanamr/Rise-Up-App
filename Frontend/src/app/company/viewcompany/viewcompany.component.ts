@@ -8,7 +8,43 @@ import { DomSanitizer } from '@angular/platform-browser'
   selector: 'app-company-viewcompany',
   template: `
   <div class="container">
-  <span> <div [innerHTML]="Company"></div></span>
+  <table class="table table-responsive">
+  <thead>
+   <tr>
+     <th>Companies Table</th>
+   </tr>
+ </thead>
+ <tbody>
+
+ <tr>
+ <td>Name</td> 
+ <td> Email </td> 
+ <td> Website </td> 
+ <td> Tags </td> 
+ <td> Type </td> 
+ <td> Views </td> 
+ <td> Created At </td> 
+ <td> Updated At </td> 
+ <td> Delete </td> 
+
+ </tr>
+
+  <tr >
+      <td> {{Company.name}} </td> 
+      <td> {{Company.email}} </td> 
+      <td> {{Company.website}} </td> 
+      <td> {{Company.tags}} </td> 
+      <td> {{Company.type}} </td> 
+      <td> {{Company.views}} </td> 
+      <td> {{Company.createdAt}} </td> 
+      <td> {{Company.updatedAt}} </td> 
+      <td><Button (click)="DeleteCompany(Company._id)"> Delete </Button></td>  
+
+   </tr>          
+
+ </tbody>
+  </table>
+
   </div>`
 })
 export class ViewCompanyComponent {
@@ -30,8 +66,8 @@ ViewCompany(ID:String){
 }
   this.httpClient.get(environment.apiUrl +'/Company/viewCompany/'+ID,config).subscribe(
     res=>{  
-      this.Company = res['data'].email;  
-      console.log(res['data']);
+      this.Company = res['data'];  
+     // console.log(Company);
         
     }
   );
@@ -47,7 +83,8 @@ ViewCompany(ID:String){
              }
    this.httpClient.delete('http://localhost:3000/api/admin/removeCompany/'+ident,config).
    subscribe();
-   window.location.reload();
+   this.router.navigate(['/company/viewcompanies']);
+   //window.location.reload();
  }
 
 }

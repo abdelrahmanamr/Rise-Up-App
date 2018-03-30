@@ -26,6 +26,7 @@ router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 router.post('/content/addContent', contentCtrl.createContent);
 
 router.post('/product/createProduct', productCtrl.createProduct);
+router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 
 
 

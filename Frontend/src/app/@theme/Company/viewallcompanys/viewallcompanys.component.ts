@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+//import { environment } from '../../../environments/environment';
 import {Router} from "@angular/router";
 
 @Component({
@@ -48,11 +48,11 @@ ngOnInit() {
   }
 
   ViewCompanys(){
-    this.httpClient.get(environment.apiUrl +'Company/viewCompanys').subscribe(
+  //  this.httpClient.get(environment.apiUrl +'Company/viewCompanys').subscribe(
       res=>{  
         this.Companys = res['data'];       
       }
-    );
+    //);
   }
  
 

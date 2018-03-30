@@ -4,26 +4,34 @@ var express = require('express'),
   productCtrl = require('../controllers/ProductController');
   userController = require('../controllers/UserController');
   searchCtrl = require('../controllers/SearchController');
-  companyCtrl = require('../controllers/CompanyController');
   AdminController = require('../controllers/AdminController');
-
+  CompanyCtrl = require('../controllers/CompanyController');
 
 //-------------------------------Product Routes-----------------------------------
 router.get('/product/getProducts', productCtrl.getProducts);
 router.get('/product/getProduct/:productId', productCtrl.getProduct);
-router.get(
-  '/product/getProductsBelowPrice/:price',
-  productCtrl.getProductsBelowPrice
-);
-router.post('/product/createProduct', productCtrl.createProduct);
+router.get('/product/getProductsBelowPrice/:price', productCtrl.getProductsBelowPrice);
+
+router.get('/Content/viewContent/:contentId', contentCtrl.viewContent);
+router.get('/Content/viewContents', contentCtrl.viewContents);
+
+router.get('/User/viewUser/:userId', userController.viewUser);
+router.get('/User/viewUsers', userController.viewUsers);
 
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
-
+router.get('/Company/viewCompany/:companyId', CompanyCtrl.viewCompany);
+router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 //-------------------------------Content Routes-----------------------------------
 router.post('/content/addContent', contentCtrl.createContent);
 
+router.post('/product/createProduct', productCtrl.createProduct);
 
+
+
+router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
+
+router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);
@@ -34,10 +42,10 @@ router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
 router.get('/search/getCompanyByType/:type', searchCtrl.getCompanyByType);
 
 //-----------------------------Company Routes--------------------------------------
-router.get('/company/getCompanies',companyCtrl.getCompanies);
-router.get('/company/getCompany/:companyId',companyCtrl.getCompanyById);
-router.post('/company/createCompany', companyCtrl.createCompany);
-router.delete('/company/deleteCompany/:companyId', companyCtrl.deleteCompany);
+router.get('/company/getCompanies',CompanyCtrl.getCompanies);
+router.get('/company/getCompany/:companyId',CompanyCtrl.getCompanyById);
+router.post('/company/createCompany', CompanyCtrl.createCompany);
+router.delete('/company/deleteCompany/:companyId', CompanyCtrl.deleteCompany);
 
 //-------------------------------Admin Routes-----------------------------------
 

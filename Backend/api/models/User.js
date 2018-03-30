@@ -70,7 +70,6 @@ var userSchema = mongoose.Schema({
     
   });
   
-
   if (!userSchema.options.toObject) {
     userSchema.options.toObject = {};
   }

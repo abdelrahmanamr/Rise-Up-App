@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 
+import { HttpModule } from '@angular/http';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -19,6 +21,7 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
+    HttpModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent],

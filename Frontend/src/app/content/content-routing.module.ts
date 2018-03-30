@@ -9,6 +9,14 @@ const routes: Routes = [
     component: ContentComponent,
     children: [
       {
+        path: 'viewallcontents',
+        loadChildren: './viewallcontents/viewallcontents.module#ViewAllContentsModule'
+      },
+      {
+        path: 'viewcontent',
+        loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
+      },
+      {
         path: 'create',
         loadChildren: './create/create.module#CreateModule'
       },
@@ -18,9 +26,9 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'create',
-        pathMatch: 'full'
+        redirectTo: 'viewallcontents'
       }
+      
     ]
   }
 ];

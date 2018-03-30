@@ -11,8 +11,12 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span> <div [innerHTML]="Content"></div></span>
   <span><a href="{{ Body }}">{{ Title }}</a></span> 
   <span><img src="{{ImagePath}}">  </span>  
+  <Button (click)="DeleteContent(ID)"> Delete </Button>
+    
   </div>
+  
   `
+
 })
 export class ViewContentComponent {
   
@@ -97,6 +101,21 @@ ImagePath:string
          this.ImagePath=(res['data'].body);      
         }
       );
+ }
+
+ DeleteContent(ident:string)
+ {
+   var config = {
+                 headers : 
+                 {
+                     'Content-Type':'application/json'
+                 }
+             }
+   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident,config).
+   subscribe();
+   window.location.reload();
+   this.router.navigate(['/content/viewcontents']);
+  
  }
 
     

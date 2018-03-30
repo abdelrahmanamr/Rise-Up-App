@@ -7,26 +7,21 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-company-viewallcompanies',
   template: `<div class="container">
-  <table class="table table-responsive">
-  <thead>
-   <tr>
-     <th>Companies Table</th>
-   </tr>
- </thead>
- <tbody>
+  <h2> Startups </h2>
+  <br>
+  <div *ngFor="let company of companies">
+  <div class="card" style="padding:10px 15px; padding-bottom:80px; margin-bottom:20px;display: block; ">
+  <div style="float:left;">
+  <h4>{{company.name}}</h4>
+  Field: {{company.type}}
+  </div>
+  <div style="float:right;"> <br> <Button (click)="ViewCompany(company._id)" class="btn btn-danger btn-sm"> see more </Button>
+  </div>
 
- <tr>
- <td>Name</td>
- 
- </tr>
+  </div>
+</div>
 
-  <tr *ngFor="let company of companies">
-      <td> {{company.name}} </td> 
-    <td> <Button (click)="ViewCompany(company._id)"> ShowCompany </Button> </td>  
-   </tr>          
 
- </tbody>
-  </table>
   </div>`
 })
 export class ViewAllCompaniesComponent {

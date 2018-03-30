@@ -10,7 +10,33 @@ import { DatePipe } from '@angular/common';
   selector: 'app-company-viewcompany',
   template: `
   <div class="container">
-  <table class="table table-responsive">
+  
+  <h2>{{Company.name}}</h2>
+  <br> 
+  <div class="card" style="padding:25px 15px; padding-bottom:120px; margin-bottom:20px;display: block; ">
+
+  <div style="float:right;" *ngIf = "adminStatus"><Button (click)="DeleteCompany(ID)" class="btn btn-danger btn-sm"> DeleteCompany </Button>
+  </div>
+
+  <div style="float:left;">
+  
+  Field:  {{Company.type}}
+  <br>
+  email: {{Company.email}}
+  <br>
+  website: {{Company.website}}
+  <br>
+  tags: {{Company.tags}}
+  <br>
+  views: {{Company.views}}
+  <br>
+  
+  
+
+  </div>
+
+
+  <!--table class="table table-responsive">
   <thead>
    <tr>
      <th>Companies Table</th>
@@ -43,7 +69,7 @@ import { DatePipe } from '@angular/common';
    </tr>          
 
  </tbody>
-  </table>
+  </table-->
 
   </div>`
 })

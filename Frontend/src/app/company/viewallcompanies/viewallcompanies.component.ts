@@ -21,7 +21,7 @@ import {Router} from "@angular/router";
  </tr>
 
   <tr *ngFor="let company of companies">
-      <td> {{company.name}} /td> 
+      <td> {{company.name}} </td> 
     <td> <Button (click)="ViewCompany(company._id)"> ShowCompany </Button> </td>  
    </tr>          
 

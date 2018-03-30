@@ -6,16 +6,8 @@ import { ViewExpertRoutingModule } from './viewexpert-routing.module';
 import { ViewExpertComponent } from './viewexpert.component';
 
 @NgModule({
-<<<<<<< HEAD
   imports: [ThemeModule, ViewExpertRoutingModule],
   declarations: [ViewExpertComponent],
   providers: []
 })
 export class ViewExpertModule {}
-=======
-  imports: [ThemeModule,ViewExpertRoutingModule],
-  declarations: [ViewExpertComponent],
-  providers: []
-})
-export class ViewExpertModule {}
->>>>>>> ReadingContent

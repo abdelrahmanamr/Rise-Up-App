@@ -10,8 +10,4 @@ import { ViewAllExpertsComponent } from './viewallexperts.component';
   declarations: [ViewAllExpertsComponent],
   providers: []
 })
-<<<<<<< HEAD
 export class ViewAllExpertsModule {}
-=======
-export class ViewAllExpertsModule {}
->>>>>>> ReadingContent

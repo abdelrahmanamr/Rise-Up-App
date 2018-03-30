@@ -23,10 +23,10 @@ export class AdminComponent implements OnInit {
 
     ngOnInit() {
         this.menu = MENU_ITEMS;
-        var y =   JSON.parse(localStorage.getItem('userProps'));
-        console.log(y['admin']);
-      /*  if(y['admin']!=true){
+        var adminStatus =   JSON.parse(localStorage.getItem('userProps'));
+
+        if(adminStatus['admin']!=true){
             this.router.navigate(['/search']);
-        }*/
+        }
     }
 }

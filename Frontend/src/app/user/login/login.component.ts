@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
           </label>
   <input type = "text" class="form-control" name = "username" placeholder = "Enter your Username/Email" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
   <br>
-  <input type = "password" class="form-control" name = "password" placeholder = "Enter your password" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  " ngModel>
+  <input type = "password" class="form-control" name = "password" placeholder = "Enter your password" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top: 10px;" ngModel>
   <br>
           <div id="left">
               <label  style="font-size: 15px;;font-weight: bold;">

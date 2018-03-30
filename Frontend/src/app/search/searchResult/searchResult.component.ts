@@ -4,63 +4,29 @@ import {HttpClient} from "@angular/common/http";
 
 @Component({
     selector: 'app-search-searchResult',
-    template: `<div class="container">
+    template: `
+        <div class="container">
+            <h1>Results</h1>
+            <br>
+            
+            <div class="container-fluid" *ngFor="let item of this.Items">
+
+                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28);">
+                    <h1 class="text-uppercase">{{item.name}}</h1>
+                    <p class="title" style="float:right;"> {{item.type}}
+                        <button class="btn btn-danger"
+                                style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18">
+                            View Company
+                        </button>
+                    </p>
 
 
+                </div>
 
-        <table class="table-hover">
-              <thead>
-              <tr>
-                  <th>
-                      Name
-                  </th>
-                  &nbsp;  &nbsp;&nbsp; 
-                  <th>
-                      Email
-                  </th>
-                  &nbsp;&nbsp;&nbsp;
-                  <th>
-                      website
-                  </th>
-                  &nbsp;&nbsp;&nbsp;
-                  <th>
-                      tags
-                  </th>
-                  &nbsp; &nbsp; &nbsp;
-                  <th>
-                      type
-                  </th>
-                  &nbsp; &nbsp; &nbsp; 
-                  <th>
-                      views
-                  </th>
-                  &nbsp; &nbsp; &nbsp;
-                  <th>
-                      createdAt
-                  </th>
-                  &nbsp;  &nbsp; &nbsp;
-                  <th>
-                      updatedAt
-                  </th>
-              </tr>
-              </thead>
-              
-              <tbody>
-              <tr  *ngFor="let item of this.Items" id="{{counter}}">
-                  <td>{{item.name}}</td>
-                  <td>{{item.email}}</td>
-                  <td>{{item.website}}</td>
-                  <td>{{item.tags}}</td>
-                  <td>{{item.type}}</td>
-                  <td>{{item.views}}</td>
-                  <td>{{item.createdAt}}</td>
-                  <td>{{item.updatedAt}}</td>
-              </tr>
-             
-              </tbody>
-              
-          </table>
-    </div>`
+            </div>
+
+
+        </div>`
 })
 export class SearchResultComponent {
     Items = [];

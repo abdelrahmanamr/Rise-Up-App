@@ -84,7 +84,9 @@ import {environment} from '../../../environments/environment';
   <p>Admin System ya shabab ;D</p>
   <button type="button" style="width:100%" class="btn btn-primary" (click)="Block()">Block</button>
   <button type="button" style="width:100%" class="btn btn-primary" (click)="UnBlock()">UnBlock</button>
+    <button type="button" style="width:100%" class="btn btn-primary" (click)="AddAdmin()">Add admin</button>
    <button type="button" style="width:100%" class="btn btn-primary" (click)="RemoveAdmin()">Remove admin</button>
+     <button type="button" style="width:100%" class="btn btn-primary" (click)="AddExpert()">Add expert</button>
    <button type="button" style="width:100%" class="btn btn-primary" (click)="RemoveExpert()">Remove expert</button> 
 
   </body>
@@ -156,6 +158,35 @@ export class ProfileComponent {
         }
         var id= sessionStorage.getItem('userId');
         this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+id, config)
+            .subscribe((info:any) => {console.log(info);});
+    }
+
+
+      AddAdmin()
+    {
+        var config = {
+            headers : {
+                'Content-Type': 'application/json'
+            }
+        }
+        var id= sessionStorage.getItem('userId');
+        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+id, config)
+            .subscribe((info:any) => {console.log(info);});
+    }
+    
+    
+    
+    
+    
+    AddExpert()
+    {
+        var config = {
+            headers : {
+                'Content-Type': 'application/json'
+            }
+        }
+        var id= sessionStorage.getItem('userId');
+        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+id, config)
             .subscribe((info:any) => {console.log(info);});
     }
 

@@ -10,6 +10,7 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
     <ngx-main-layout>
       <nb-menu [items]="menu"></nb-menu>
       <router-outlet></router-outlet>
+
     </ngx-main-layout>
   `
 })

@@ -8,11 +8,16 @@ import { DomSanitizer } from '@angular/platform-browser'
   selector: 'app-content-viewcontent',
   template: ` 
   <div class="container">
+  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+  <span> <b> {{ PostTitle }} </b> </span>
+  <br>
+  <br>
   <span> <div [innerHTML]="Content"></div></span>
-  <span><a href="{{ Body }}">{{ Title }}</a></span> 
+  <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <span><img src="{{ImagePath}}">  </span>  
-  <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
-    
+  <br>
+  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
+  </div>
   </div>
   
   `
@@ -23,6 +28,7 @@ export class ViewContentComponent {
 ID:string=localStorage.getItem("contentID");
 Content : any;
 Title:any
+PostTitle :any
 Body:any
 ImagePath:string
 adminStatus :boolean = false;
@@ -72,6 +78,7 @@ adminStatus :boolean = false;
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
           this.Content = res['data'].body;  
+          this.PostTitle = res['data'].title;
             
         }
       );
@@ -88,7 +95,8 @@ adminStatus :boolean = false;
         res=>{  
           this.Title=res['data'].title
           this.Body = res['data'].body;  
-            
+          this.PostTitle = res['data'].title;
+
         }
       );
      }
@@ -102,7 +110,9 @@ adminStatus :boolean = false;
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
-         this.ImagePath=(res['data'].body);      
+         this.ImagePath=(res['data'].body);  
+         this.PostTitle = res['data'].title;
+    
         }
       );
  }

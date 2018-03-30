@@ -5,7 +5,10 @@ import {HttpClient} from "@angular/common/http";
 @Component({
     selector: 'app-search-searchResult',
     template: `<div class="container">
-         <table class="table-hover">
+
+
+
+        <table class="table-hover">
               <thead>
               <tr>
                   <th>

@@ -4,46 +4,38 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-items',
-  template: `<!DOCTYPE html>
-  <html ng-app>
-  <head>
-   <style>
-  #products {
-      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-  }
-   #products td, #products th {
-      border: 1px solid #ddd;
-      padding: 8px;
-  }
-   #products tr:nth-child(even){background-color: #f2f2f2;}
-   #products tr:hover {background-color:black;}
-   #products th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: center;
-      background-color: #337ab7;
-      color: #fce100;
-      font-size:25px;
-  }
-  .btn {
-      background-color: DodgerBlue;
-      border: none;
-      color: #fce100;
-      padding: 12px 16px;
-      width:100%;
-      font-size: 16px;
-      cursor: pointer;
-  }
-   /* Darker background on mouse-over */
-  .btn:hover {
-      background-color: #fce100;
-  }
-  </style>
-  </head>
-  <body>
+  template: `
+<div class="container">
+      <table  id ="table" class="table table-bordered">
+          <thead>
+          <tr>
+              <th scope="col">Username</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">   </th>
+          </tr>
+          </thead>
+      <tbody>
+          
+          <tr *ngFor="let item of data">
+          
+         
+  
+              <td>{{item.username}}</td>
+              <td>{{item.firstname}}</td>
+              <td>{{item.lastname}}</td>
+              <td>  <a  (click) = "goToUser(item._id)">View user</a></td>
 
+          </tr>
+         
+   
+          
+          </tbody>
+      </table>
+
+</div>
+      
+      
    <table id="products" style="width:100%;">
    <tr>
     <th>Username</th>
@@ -53,10 +45,8 @@ import {Router} from "@angular/router";
     <td><button type="button" class="btn btn-primary" (click)="goToUser(item._id)">{{item.username}}</button></td>
     </tr>
   </table>
-  
-  </body>
-  </html>`
- 
+
+   `
  
 })
 export class ViewUsersComponent {

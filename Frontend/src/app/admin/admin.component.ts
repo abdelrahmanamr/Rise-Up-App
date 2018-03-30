@@ -25,8 +25,8 @@ export class AdminComponent implements OnInit {
         this.menu = MENU_ITEMS;
         var y =   JSON.parse(localStorage.getItem('userProps'));
         console.log(y['admin']);
-        if(y['admin']!=true){
+      /*  if(y['admin']!=true){
             this.router.navigate(['/search']);
-        }
+        }*/
     }
 }

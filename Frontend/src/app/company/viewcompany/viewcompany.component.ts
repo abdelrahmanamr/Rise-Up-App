@@ -18,9 +18,9 @@ import { DomSanitizer } from '@angular/platform-browser'
 
  <tr>
  <td>Name</td> 
- <td> Email </td> 
- <td> Website </td> 
- <td> Tags </td> 
+ <td>Email</td> 
+ <td>Website</td> 
+ <td>Tags</td> 
  <td> Type </td> 
  <td> Views </td> 
  <td> Created At </td> 

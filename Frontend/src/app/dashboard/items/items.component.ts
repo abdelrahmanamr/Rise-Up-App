@@ -1,61 +1,27 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-items',
-  template: `\`\
-  <!DOCTYPE html>
-  
-<html ng-app>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Add icon library -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<style>
+  template: ``
+ 
+ 
+})
+export class ItemsComponent {
 
-#products {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+  ngOnInit() 
+  {
+      
+
+       
+  }
+
+
+
+
 }
-
-#products td, #products th {
-    border: 1px solid #ddd;
-    padding:12px;
-}
-
-#products tr:nth-child(even){background-color: 	#8B0000;}
-
-#products tr:hover {background-color: 	#8B0000;}
-
-#products th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #8B0000	;
-    color: white;
-}
-.btn {
-    background-color: #8B0000;
-    border: black;
-    color: white;
-    padding: 20px 20px;
-    font-size: 20px;
-    cursor: pointer;
-    
-}
-
-
-
-/* Darker background on mouse-over */
-.btn:hover {
-    background-color: black;
-}
+<<<<<<< HEAD
 
 </style>
 </head>
@@ -114,3 +80,5 @@ export class ItemsComponent {
     this.http.delete('http://localhost:3000/api/admin/removeCompany/'+id).subscribe(res=>{window.location.reload()});
   }
 }
+=======
+>>>>>>> 552d6ba99f494b26bc26481798c7829ef27ae95f

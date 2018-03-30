@@ -80,11 +80,14 @@ var mongoose = require('mongoose'),
       req.body.body &&
       Validations.isString(req.body.body) &&
       req.body.userid &&
-      Validations.isObjectId(req.body.userid);
+      Validations.isObjectId(req.body.userid)&&
+      req.body.tags &&
+      Validations.isString(req.body.tags)
+      ;
     if (!valid) {
       return res.status(422).json({
         err: null,
-        msg: 'title(String) and body(String) are required fields.',
+        msg: 'title(String) and body(String) and tags are required fields.',
         data: null
       });
     }else{

@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-company-viewcompany',
@@ -23,9 +25,8 @@ import { DomSanitizer } from '@angular/platform-browser'
  <td> Tags </td> 
  <td> Type </td> 
  <td> Views </td> 
- <td> Created At </td> 
- <td> Updated At </td> 
- <td> Delete </td> 
+ <td *ngIf = "adminStatus" > Created At </td> 
+ <td *ngIf = "adminStatus" >  Delete </td> 
 
  </tr>
 
@@ -36,9 +37,8 @@ import { DomSanitizer } from '@angular/platform-browser'
       <td> {{Company.tags}} </td> 
       <td> {{Company.type}} </td> 
       <td> {{Company.views}} </td> 
-      <td> {{Company.createdAt}} </td> 
-      <td> {{Company.updatedAt}} </td> 
-      <td><Button (click)="DeleteCompany(Company._id)"> Delete </Button></td>  
+      <td *ngIf = "adminStatus"> {{Company.createdAt | date}} </td>  
+      <td *ngIf = "adminStatus" ><Button  (click)="DeleteCompany(Company._id)"> Delete </Button></td>  
 
    </tr>          
 
@@ -50,10 +50,15 @@ import { DomSanitizer } from '@angular/platform-browser'
 export class ViewCompanyComponent {
   ID:string=localStorage.getItem("companyID");
   Company:any
+  adminStatus : boolean = false;
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
-  ngOnInit() { 
+  ngOnInit() {
+    
+    if(localStorage.getItem("userProps")!=null){
+      this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
+    }
     this.ViewCompany(this.ID) ;
       }
 

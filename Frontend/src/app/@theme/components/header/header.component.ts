@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
     this.menuService.onItemClick().subscribe((bag: NbMenuBag) => {
       if (bag.item.title === 'Logout') {
         localStorage.clear();
-    window.location.reload();
+        this.router.navigate(["/search"]);
       }
     });
   }

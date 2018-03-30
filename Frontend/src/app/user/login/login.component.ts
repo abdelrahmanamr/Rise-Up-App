@@ -76,7 +76,7 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
      //  console.log(JSON.parse(localStorage.getItem("user"))["username"]);
 
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/search"]);
     }
   },err=>{
     this.errorView = err.error["msg"];

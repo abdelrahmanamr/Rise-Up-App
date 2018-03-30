@@ -4,7 +4,7 @@ import {MENU_ITEMS} from "./admin-menu";
 
 import {NbMenuItem} from "@nebular/theme/components/menu/menu.service";
 
-
+import {Router} from "@angular/router";
 @Component({
     selector: 'app-admin',
     template: `
@@ -18,8 +18,15 @@ import {NbMenuItem} from "@nebular/theme/components/menu/menu.service";
 
 export class AdminComponent implements OnInit {
     menu: NbMenuItem[];
+    constructor(private router: Router){}
+
 
     ngOnInit() {
         this.menu = MENU_ITEMS;
+        var y =   JSON.parse(localStorage.getItem('userProps'));
+        console.log(y['admin']);
+        if(y['admin']!=true){
+            this.router.navigate(['/search']);
+        }
     }
 }

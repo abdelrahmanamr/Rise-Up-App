@@ -18,6 +18,54 @@
       padding-bottom:10px;
       border-radius: 25px;
     }
+
+/deep/ .profile .uppercase{
+  text-transform: uppercase;
+
+
+
+}
+    /deep/ .profile .cap{
+      text-transform: capitalize;
+
+
+
+    }
+    /deep/ .profile .card {
+      box-shadow: 0 4px 4px 0 rgba(192, 155, 84, 0.2);
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+    }
+
+    /deep/ .profile  .title {
+      color: grey;
+      font-size: 18px;
+    }
+
+    /deep/ .profile  button {
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+    }
+
+    /deep/ .profile  a {
+      text-decoration: none;
+      font-size: 22px;
+      color: black;
+    }
+
+    /deep/ .profile  button:hover, a:hover {
+      opacity: 0.7;
+    }
+
   }
   
 

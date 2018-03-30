@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   user: any;
   userMenu: any[];
   loggedin:boolean;
+  y: any;
   constructor(
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
@@ -22,14 +23,13 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.getItem("UserDoc")!=null){
-      console.log("HERE");
       this.loggedin = true;
        this.user = JSON.parse(localStorage.getItem("userProps"))["username"];
-       console.log(this.user);
     }
     else{
       this.loggedin = false;
     }
+     this.y =   JSON.parse(localStorage.getItem('userProps'));
     this.userMenu = [{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');

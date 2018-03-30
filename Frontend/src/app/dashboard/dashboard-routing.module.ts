@@ -26,7 +26,14 @@ const routes: Routes = [
         path: 'users',
         loadChildren:'./users/users.module#UsersModule'
 
+      },
+      {
+        path: 'addcompany',
+        loadChildren:'./addcompany/addcompany.module#AddcompanyModule'
+
       }
+      
+
     ]
   }
 ];

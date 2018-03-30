@@ -33,12 +33,12 @@ import {Router} from "@angular/router";
           
           
           <div id="right">
-  <input class="btn btn-success" type = "submit" value = "Login" style="background-color:#DC0C18">
+  <input class="btn btn-success" type = "submit" value = "Login" style="background-color:#DC0C18">   {{errorView}}  
       </div>
       
   </form>
   <br /> 
-  {{errorView}}`
+  `
 })
 export class LoginComponent{
 errorView = "";

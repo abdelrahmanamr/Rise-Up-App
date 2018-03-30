@@ -188,6 +188,14 @@ module.exports.login = function(req,res,next){
                                 });
                             }
                             else{
+                                if(userfound["blocked"]){
+                                    return res.status(422).json({
+                                        err:null,
+                                        msg:"You are blocked",
+                                        data:null
+                                    });
+                                }
+                                else{
                                 var token = jwt.sign(
                                     {
                                     user:userfound.toObject()
@@ -202,6 +210,7 @@ module.exports.login = function(req,res,next){
                                 msg:"Login sucessfull",
                                 data:token
                             })
+                        }
                             }
                         }
                     });

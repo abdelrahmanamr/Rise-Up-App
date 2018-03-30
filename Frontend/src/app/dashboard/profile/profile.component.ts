@@ -109,7 +109,7 @@ export class ProfileComponent {
 
     var id= sessionStorage.getItem('userId');
 
-    this.http.get('http://localhost:3000/api/admin/getUserById'+id,config).
+    this.http.get('http://localhost:3000/api/admin/getUserById/'+id,config).
     subscribe(res =>{this.data=res["data"]});
 
   }

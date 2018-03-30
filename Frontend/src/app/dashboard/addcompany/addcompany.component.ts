@@ -8,97 +8,80 @@ import { environment } from '../../../environments/environment';
   selector: 'app-dashboard-items-addcompany',
   template: `
 
-  <div class="col-md col-md-offset-2">
-  <form [formGroup]="myForm" class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
-          <div class="form-group">
-          
-          <div>
-                  <label for="name">Name</label>
-                  <input type="text" id="name" class="form-control"
-                         formControlName="Name" ngModel></div>
-                         <div>
-                         <label for="email">Email</label>
-                         <input type="email" id="email" class="form-control"
-                                min="0" formControlName="Email" ngModel></div>
-
-                                <div>
-                                <label for="website">Website</label>
-                                <input type="url" id="website" class="form-control"
-                                       min="0" formControlName="Website" ngModel></div>  
-                                       <div>
-                                       <label for="tags">Tags</label>
-                                       <input type="text" id="tags" class="form-control"
-                                              min="0" formControlName="Tags" ngModel></div>
-       
-                                              <div>
-                                              <label for="type">Type</label>
-                                              <input type="text" id="type" class="form-control"
-                                                     min="0" formControlName="Type" ngModel></div>
-                                                     <div>
-       
-       
-                                          <label for="views">Views</label>
-                                    <input type="number" id="views" class="form-control"
-                             min="0" formControlName="Views" ngModel></div>      
-                    
-       
-       
+  <div class="container" style="background-color: #FFF; color:black; padding-top:20px; padding-bottom:20px;">
+  <form class="container" #companyForm="ngForm" (ngSubmit) = "onSubmit(companyForm.value)">
 
 
+  <label for="companyname">Company Name</label><br />
+  <input type = "text" class="form-control" name = "companyname" ngModel>
+  <br>
 
 
+  <label for="companyprice">Company Email</label>
+  <input type = "text" class="form-control" name = "companyemail"  ngModel>
+  <br>
+
+  <label for="companywebsite">Company Website</label>
+  <input type = "text" class="form-control" name = "companywebsite"  ngModel>
+  <br>
+
+  <label for="companytags">Company Tags</label>
+  <input type = "text" class="form-control" name = "companytags"  ngModel>
+  <br>
+
+  <label for="companytype">Company Type</label>
+  <input type = "text" class="form-control" name = "companytype"  ngModel>
+  <br>
+
+  <label for="companyviews">Company Views</label>
+  <input type = "number" class="form-control" name = "companyviews"  ngModel>
+  <br>
 
 
+  <input class="btn btn-success" type = "submit" value = "submit">
+  </form>
+  <br />
+  {{result}}
 
-
-          </div>
-          
-          <button class="btn btn-primary" [disabled]="!myForm.valid" type="submit">Add Company</button>
-      </form>
   </div>
 `
 })
 export class AddcompanyComponent implements OnInit{
 
 
-    myForm: FormGroup;
-
     constructor(private http: HttpClient,private router: Router){}
 
-   
 
-    onSubmit(user){
+    onSubmit(companyForm){
+
+
 var my = JSON.stringify
-({name:user.Name,
-    email:user.Email,
-    website:user.Website,
-    type:user.Type,
-    tags:user.Tags,
-    views:user.Views,
+({  
+    // userid:localStorage.getItem("user"),
+    name:companyForm.companyname,
+    email:companyForm.companyemail,
+    website:companyForm.companywebsite,
+    tags:companyForm.companytags,
+    type:companyForm.companytype,
+    views:companyForm.companyviews
+});
 
-
-})
-
+console.log(my);
         var config = {
             headers : {
                 'Content-Type': 'application/json'
             }
         }
 
-        this.http.post(environment.apiUrl+'/admin/addCompany',my, config)
-        .subscribe((info:any) => {console.log(info);});
+        this.http.post(environment.apiUrl+'admin/addCompany',my, config)
+        .subscribe(res => {console.log(res)});
         
         window.location.replace("#/dashboard/items");
+        window.location.reload();
+
     }
 
     ngOnInit() {
-        this.myForm = new FormGroup({
-            Name: new FormControl(null, Validators.required),
-            Email: new FormControl(null, Validators.required),
-            Website: new FormControl(null, Validators.required),
-            Tags: new FormControl(null, Validators.required),
-            Views: new FormControl(null, Validators.required),
-
-
-        });
+        
+        
 }}

@@ -26,16 +26,16 @@ import {Router} from "@angular/router";
 
 #products td, #products th {
     border: 1px solid #ddd;
-    padding:12px;
+    padding:8px;
 }
 
-#products tr:nth-child(even){background-color: 	#8B0000;}
+#products tr:nth-child(even){background-color: 	white;}
 
 #products tr:hover {background-color: 	#8B0000;}
 
 #products th {
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     text-align: left;
     background-color: #8B0000	;
     color: white;
@@ -67,22 +67,23 @@ import {Router} from "@angular/router";
 <table id="products">
   <tr>
     <th>Name</th>
+    <th>Email</th>
     <th>Website</th>
-    <th>Seller Name</th>
+    <th>Tags</th>
+    <th>Type</th>
     <th>Created At</th>
-    <th>Updated At</th>
-    <th></th>
     <th></th>
   </tr>
   
 <tr *ngFor="let item of data">
   <td>{{item.name}}</td>
-  <td>{{item.price}}</td>
-  <td>{{item.sellerName}}</td>
+  <td>{{item.email}}</td>
+  <td>{{item.website}}</td>
+  <td>{{item.tags}}</td>
+  <td>{{item.type}}</td>
   <td>{{item.createdAt}}</td>
-  <td>{{item.updatedAt}}</td>
+
   <td><button type="button" class="btn btn-default" (click)="delete(item._id)">Delete</button></td>
-  <td><button type="button" class="btn btn-default" (click)="edit(item._id)">Update</button></td>
 
   </tr>
 </table>
@@ -98,7 +99,7 @@ export class ItemsComponent {
 
   ngOnInit() 
   {
-       this.http.get('http://localhost:3000/api/admin/viewCompanies').
+       this.http.get(environment.apiUrl+'admin/viewCompanies').
        subscribe(res =>{this.data=res["data"]});
   }
   
@@ -108,4 +109,5 @@ export class ItemsComponent {
     window.location.replace("#/dashboard/addcompany");
     
   }
+  
 }

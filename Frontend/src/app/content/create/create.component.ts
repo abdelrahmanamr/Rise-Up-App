@@ -121,7 +121,7 @@ export class CreateComponent implements OnInit{
     this.http.post(environment.apiUrl+'/content/addContent', data, config)
     .subscribe(res=>{
     console.log(res);
-
+      this.router.navigate(["/content/viewallcontents"])
     },err=>{
       console.log(err);
     });

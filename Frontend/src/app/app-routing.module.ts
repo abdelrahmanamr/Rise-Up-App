@@ -3,10 +3,6 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'dashboard',
-    loadChildren: './dashboard/dashboard.module#DashboardModule'
-  },
-  {
     path: 'content',
     loadChildren: './content/content.module#ContentModule'
   },
@@ -14,8 +10,8 @@ const routes: Routes = [
     path: 'user',
     loadChildren: './user/user.module#UserModule'
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '', redirectTo: 'content', pathMatch: 'full' },
+  { path: '**', redirectTo: 'content' }
 ];
 
 const config: ExtraOptions = {

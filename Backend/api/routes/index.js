@@ -13,7 +13,8 @@ router.get(
 );
 router.post('/product/createProduct', productCtrl.createProduct);
 
-
+//-------------------------------Content Routes-----------------------------------
+router.post('/content/postLink', contentCtrl.postLink);
 router.post('/content/addContent', contentCtrl.createContent);
 
 
@@ -23,5 +24,8 @@ router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);
 router.post('/user/checkUsername',userController.checkUsername);
+
+
+
 
 module.exports = router;

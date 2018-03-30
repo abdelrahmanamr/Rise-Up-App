@@ -14,20 +14,23 @@ import {Router} from "@angular/router";
   <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
   <div class="container">
-  <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)">
+  <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)"> 
   <input type = "text" class="form-control" name = "title" placeholder = "Title Here" ngModel><br />
+
+  <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>     <br />
+  <option [value]="'Post'">Choose type (Default: Post)</option>
+  <option *ngFor="let type of types" [value]="type">{{type}}
+  </option>
+  </select>
+  <br />
+
+  <input type = "text" class="form-control" name = "link" placeholder = "Enter your Link" *ngIf="post==false" ngModel>
+
         <quill-editor [style]="{height: '500px'}" 
-      (onEditorCreated)="setFocus($event)" name = "editor" ngModel><div quill-editor-toolbar></div>
+      (onEditorCreated)="setFocus($event)" *ngIf="post==true"  name = "editor" ngModel><div quill-editor-toolbar></div>
     </quill-editor><br />
 
 
-    <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" required>
-    <option [value]="'Post'">Choose type (Default: Post)</option>
-    <option *ngFor="let type of types" [value]="type">{{type}}
-    </option>
-    </select>
-
-    <br />
 
     <input type = "text" class="form-control" name = "tags" placeholder = "Tags to be properly implemented later" ngModel><br />
 
@@ -43,6 +46,7 @@ export class CreateComponent implements OnInit{
   types: string[] = ["Post", "Link"];
   typeToSet: string = "Post";
   user = null;
+  post : boolean;
 
   constructor(private http: HttpClient,private router:Router,fb: FormBuilder) {
 
@@ -57,11 +61,20 @@ export class CreateComponent implements OnInit{
     }
   }
 
+  changeType(select){
+    if(this.typeToSet=="Link"){
+      this.post = false;
+    }else{
+      this.post = true;
+    }
+  }
+
   ngOnInit(){
+    this.post = true;
     this.user = JSON.parse(localStorage.getItem("userProps"));
     console.log(this.user);
-    if(this.user==null || !this.user['admin']){
-      this.router.navigate(["/dashboard"]);
+    if(this.user==null || !this.user['admin'] ){
+      this.router.navigate(["/user"]);
     }
   }
 
@@ -74,9 +87,13 @@ export class CreateComponent implements OnInit{
   onSubmit = function(content){
     console.log(this.user);
     console.log(this.user['_id']);
+    var data:any;
 
-    var data = JSON.stringify({title:content.title,type:content.type,body:content.editor,tags:content.tags,userid:this.user['_id']})
-
+    if(this.post){
+      data = JSON.stringify({title:content.title,type:"Post",body:content.editor,tags:content.tags,userid:this.user['_id']})
+    }else{
+      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:content.tags,userid:this.user['_id']})
+    }
     var config = {
         headers : {
             'Content-Type': 'application/json'

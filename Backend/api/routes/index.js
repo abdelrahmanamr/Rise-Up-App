@@ -3,6 +3,8 @@ var express = require('express'),
   contentCtrl = require('../controllers/ContentController');
   productCtrl = require('../controllers/ProductController');
   userController = require('../controllers/UserController');
+  searchCtrl = require('../controllers/SearchController');
+  companyCtrl = require('../controllers/CompanyController');
 
 //-------------------------------Product Routes-----------------------------------
 router.get('/product/getProducts', productCtrl.getProducts);
@@ -24,7 +26,15 @@ router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);
 router.post('/user/checkUsername',userController.checkUsername);
 
+//------------------------------Search Routes-------------------------------------
+router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
+router.get('/search/getCompanyByType/:type', searchCtrl.getCompanyByType);
 
+//-----------------------------Company Routes--------------------------------------
+router.get('/company/getCompanies',companyCtrl.getCompanies);
+router.get('/company/getCompany/:companyId',companyCtrl.getCompanyById);
+router.post('/company/createCompany', companyCtrl.createCompany);
+router.delete('/company/deleteCompany/:companyId', companyCtrl.deleteCompany);
 
 
 module.exports = router;

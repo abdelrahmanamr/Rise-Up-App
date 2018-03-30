@@ -10,8 +10,13 @@ const routes: Routes = [
     path: 'user',
     loadChildren: './user/user.module#UserModule'
   },
+  {
+    path: 'search',
+    loadChildren: './search/search.module#SearchModule'
+  },
   { path: '', redirectTo: 'content', pathMatch: 'full' },
   { path: '**', redirectTo: 'content' }
+
 ];
 
 const config: ExtraOptions = {

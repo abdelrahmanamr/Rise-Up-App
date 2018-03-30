@@ -28,6 +28,7 @@ module.exports.getProduct = function(req, res, next) {
   });
 };
 
+
 module.exports.getProducts = function(req, res, next) {
   Product.find({}).exec(function(err, products) {
     if (err) {

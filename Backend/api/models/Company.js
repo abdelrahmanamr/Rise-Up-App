@@ -26,7 +26,8 @@ tags:{
 },
 type:{
    type:String,
-   required: true
+   required: true,
+    lowercase: true
 },
  views:{
     type:Number,

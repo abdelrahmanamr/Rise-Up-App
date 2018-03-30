@@ -37,4 +37,17 @@ ViewCompany(ID:String){
   );
  }
 
+ DeleteCompany(ident:string)
+ {
+   var config = {
+                 headers : 
+                 {
+                     'Content-Type':'application/json'
+                 }
+             }
+   this.httpClient.delete('http://localhost:3000/api/admin/removeCompany/'+ident,config).
+   subscribe();
+   window.location.reload();
+ }
+
 }

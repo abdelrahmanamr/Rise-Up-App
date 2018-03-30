@@ -62,15 +62,8 @@ mongoose.connect(dburl, function(err) {
 });
 
 require('../models/Product');
-<<<<<<< HEAD
 require('../models/Content');
 require('../models/Comment');
 require('../models/User');
 require('../models/Company');
 
-=======
-require('../models/Comment');
-require('../models/Company');
-require('../models/Content');
-require('../models/User');
->>>>>>> origin/managingcontent

@@ -2,7 +2,6 @@ var express = require('express'),
   router = express.Router(),
   contentCtrl = require('../controllers/ContentController');
   productCtrl = require('../controllers/ProductController');
-  contentCtrl = require('../controllers/ContentController');
   userController = require('../controllers/UserController');
 
 //-------------------------------Product Routes-----------------------------------
@@ -12,6 +11,10 @@ router.get('/product/getProductsBelowPrice/:price', productCtrl.getProductsBelow
 
 router.get('/Content/viewContent/:contentId', contentCtrl.viewContent);
 router.get('/Content/viewContents', contentCtrl.viewContents);
+
+router.get('/User/viewUser/:userId', userController.viewUser);
+router.get('/User/viewUsers', userController.viewUsers);
+
 
 router.post('/content/addContent', contentCtrl.createContent);
 

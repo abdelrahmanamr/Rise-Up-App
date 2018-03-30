@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ExpertComponent } from './expert.component';
+import { ViewAllExpertsComponent } from './viewallexperts.component';
 
 const routes: Routes = [
-  { path: '', component: ExpertComponent, pathMatch: 'full' }
+  { path: '', component: ViewAllExpertsComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ExpertRoutingModule {}
+export class ViewAllExpertsRoutingModule {}

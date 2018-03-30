@@ -8,9 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   selector: 'app-content-viewcontent',
   template: ` 
   <div class="container">
-  <span> <p> {{ Content }} </p> </span>
-  <span><a href="{{ Title }}">{{ Title1 }}</a></span> 
-  <span><img src="{{ImagePath}}">  </span>  
+  <span> <div [innerHTML]="Content"></div></span>
   </div>
   `
 })
@@ -18,9 +16,7 @@ export class ViewContentComponent {
   
 ID:string=localStorage.getItem("contentID");
 Content : any;
-Title:any
-Title1:any
-ImagePath:string
+
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
@@ -71,35 +67,9 @@ ImagePath:string
 
      
 
-     ViewLink(ID:string){
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
-    }
-      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
-        res=>{  
-          this.Title1=res['data'].title
-          this.Title = res['data'].body;  
-            
-        }
-      );
-     }
+     ViewLink(ID:string){}
 
-     ViewImage(ID:string){
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
-    }
-      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
-        res=>{  
-         this.ImagePath=(res['data'].body);      
-        }
-      );
-     }
+     ViewImage(ID:string){}
 
     
 

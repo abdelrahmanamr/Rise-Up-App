@@ -6,6 +6,47 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User');
 
 
+
+  module.exports.viewUsers = function(req, res, next) {
+    User.find({expert:true}).exec(function(err, users) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'users retrieved successfully.',
+        data: users
+      });
+    });
+  };
+
+
+  module.exports.viewUser = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.userId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'userId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+    User.findById(req.params.userId).exec(function(err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res
+          .status(404)
+          .json({ err: null, msg: 'user not found.', data: null });
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'user retrieved successfully.',
+        data: user
+      });
+    });
+  };
+
+
 module.exports.register = function(req,res,next){
     var valid =
     req.body.email &&

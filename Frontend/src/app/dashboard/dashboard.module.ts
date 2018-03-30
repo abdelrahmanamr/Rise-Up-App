@@ -4,8 +4,6 @@ import { ThemeModule } from '../@theme/theme.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
 import { DashboardComponent } from './dashboard.component';
-import { ExpertsComponent } from './experts/experts.component';
-import { ExpertComponent } from './experts/expert/expert.component';
 
 @NgModule({
   imports: [ThemeModule, DashboardRoutingModule],

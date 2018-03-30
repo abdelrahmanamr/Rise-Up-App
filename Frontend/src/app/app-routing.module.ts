@@ -11,10 +11,9 @@ const routes: Routes = [
     path: 'content',
     loadChildren: './content/content.module#ContentModule'
   },
-
   {
-    path: 'content',
-    loadChildren: './content/content.module#ContentModule'
+    path: 'expert',
+    loadChildren: './expert/expert.module#ExpertModule'
   },
   {
     path: 'user',

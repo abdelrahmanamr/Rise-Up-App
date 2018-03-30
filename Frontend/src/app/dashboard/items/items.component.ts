@@ -17,25 +17,20 @@ import {Router} from "@angular/router";
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-
 #products {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
-
 #products td, #products th {
     border: 1px solid #ddd;
-    padding:8px;
+    padding:12px;
 }
-
 #products tr:nth-child(even){background-color: 	white;}
-
 #products tr:hover {background-color: 	#8B0000;}
-
 #products th {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     text-align: left;
     background-color: #8B0000	;
     color: white;
@@ -49,21 +44,14 @@ import {Router} from "@angular/router";
     cursor: pointer;
     
 }
-
-
-
 /* Darker background on mouse-over */
 .btn:hover {
     background-color: black;
 }
-
 </style>
 </head>
-
 <body>
-
   
-
 <table id="products">
   <tr>
     <th>Name</th>
@@ -71,6 +59,7 @@ import {Router} from "@angular/router";
     <th>Website</th>
     <th>Tags</th>
     <th>Type</th>
+    <th>Views</th>
     <th>Created At</th>
     <th></th>
   </tr>
@@ -81,15 +70,11 @@ import {Router} from "@angular/router";
   <td>{{item.website}}</td>
   <td>{{item.tags}}</td>
   <td>{{item.type}}</td>
-  <td>{{item.createdAt}}</td>
-
+  <td>{{item.view}}</td>
   <td><button type="button" class="btn btn-default" (click)="delete(item._id)">Delete</button></td>
-
   </tr>
 </table>
 <button type="button" style="width:10" class="btn btn-default" (click)="add()">Add A Company</button>
-
-
 </body>
 </html>`
 })
@@ -109,5 +94,16 @@ export class ItemsComponent {
     window.location.replace("#/dashboard/addcompany");
     
   }
-  
+  delete(ident:string)
+  {
+    var config = {
+                  headers : 
+                  {
+                      'Content-Type':'application/json'
+                  }
+              }
+    this.http.delete('http://localhost:3000/api/admin/removeCompany/'+ident,config).
+    subscribe();
+    window.location.reload();
+  }
 }

@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
     
         }
         Company.find(
-            {$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.type)}}]}
+            {$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.name)}}]}
         ).exec(function (err,companies) {
             if(err){
                 return next(err);

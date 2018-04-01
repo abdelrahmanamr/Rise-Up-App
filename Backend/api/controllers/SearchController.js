@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
     moment = require('moment'),
     Validations = require('../utils/Validations'),
-    Company = mongoose.model('Company');
+    Company = mongoose.model('Company'),
+    regex = require("regex");
 
 
     module.exports.getCompanyByNameOrType = function ( req, res, next) {
@@ -15,7 +16,7 @@ var mongoose = require('mongoose'),
     
         }
         Company.find(
-            {$or:[{name:req.params.name},{type:req.params.name}]}
+            {$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.type)}}]}
         ).exec(function (err,companies) {
             if(err){
                 return next(err);
@@ -40,7 +41,7 @@ module.exports.getCompanyByName = function ( req, res, next) {
     }
     var comparedString =  req.params.name.toLowerCase();
     Company.find({
-        name:req.params.name
+        name:{$regex:new RegExp(comparedString)}
     }).exec(function (err,companies) {
         if(err){
             return next(err);
@@ -64,7 +65,7 @@ module.exports.getCompanyByType = function ( req, res, next) {
         });
     }
     Company.find({
-        type:req.params.type
+        type:{$regex:new RegExp(req.params.type)}
     }).exec(function (err,companies) {
         if(err){
             console.log(err);

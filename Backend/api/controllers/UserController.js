@@ -4,6 +4,10 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/Validations'),
   Encryption = require('../utils/Encryption')
   User = mongoose.model('User');
+  var nodemailer = require('nodemailer');
+  var randomToken = require('random-token');
+  var smtpTransport = require('nodemailer-smtp-transport');
+
 
 
 
@@ -19,6 +23,79 @@ var mongoose = require('mongoose'),
       });
     });
   };
+  module.exports.forgetPassword = function(req,res,next){
+
+            console.log("generated random token");
+            var token = randomToken(16);
+            if(token!=null){
+            User.findOne({ email: req.body.email }, function(err, user) {
+              if (!user) {
+                return res.status(422).json({
+                    err: null,
+                    msg: 'No user with this email',
+                    data: null
+                  });
+              }
+              else{
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                user.save(function(err,user,num) {
+                  if(err){
+                    return res.status(422).json({
+                        err: null,
+                        msg: "Error updating user's token",
+                        data: null
+                      });
+                  }
+                  else{
+                    var smtpTransport = nodemailer.createTransport({
+                        service: 'SendGrid', // sets automatically host, port and connection security settings
+                        auth: {
+                            user: 'saleh.elhadidy', 
+                            pass: '0601020021sS@'  
+                        }
+                    });
+                
+                
+                    // setup email data with unicode symbols
+                    var mailOptions = {
+                        to: user.email,
+                        from: 'passwordreset@demo.com',
+                        subject: 'Node.js Password Reset',
+                        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                          'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                    };
+                
+                    // send mail with defined transport object
+                    smtpTransport.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            console.log('Error while sending mail: ' + error);
+                            return res.status(422).json({
+                                err: null,
+                                msg: "Error updating user's token",
+                                data: null
+                              });
+                             
+                        } else {
+                            console.log('Message sent: %s', info.messageId);
+                         return   res.status(201).json({
+                                err: null,
+                                msg: 'users retrieved successfully.',
+                                data: users
+                              });
+                        }
+                        smtpTransport.close(); // shut down the connection pool, no more messages.
+                    });
+                  }
+                });
+
+            }
+            });
+        }
+      };
+  
 
 
   module.exports.viewUser = function(req, res, next) {

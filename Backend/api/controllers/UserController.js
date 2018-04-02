@@ -123,8 +123,8 @@ module.exports.forgetPassword = function(req,res,next){
                     var smtpTransport = nodemailer.createTransport({
                         service: 'SendGrid', // sets automatically host, port and connection security settings
                         auth: {
-                            user: 'thelo2ai',
-                            pass: 'lo2lo2208'
+                            user: 'startupkit_18',
+                            pass: 'T18mail123'
                         }
                     });
                 

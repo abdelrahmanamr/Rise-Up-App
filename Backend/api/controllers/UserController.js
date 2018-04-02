@@ -23,11 +23,27 @@ var mongoose = require('mongoose'),
       });
     });
   };
+
+module.exports.expire = function(req,res,next){
+
+
+
+    User.findOne({ resetPasswordToken: req.params.token}, function(err, user) {
+        if (!user) {
+            return res.status(422).json({
+                err: null,
+                msg: 'Expired',
+                data: null
+            });
+        }
+    });}
+
+
 module.exports.reset = function(req,res,next){
 
 
 
-        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+        User.findOne({ resetPasswordToken: req.params.token}, function(err, user) {
             if (!user) {
                 return res.status(422).json({
                     err: null,
@@ -37,8 +53,8 @@ module.exports.reset = function(req,res,next){
             }
             else{
                 user.password = req.body.password;
-                user.resetPasswordToken = null;
-                user.resetPasswordExpires = null; // 1 hour
+                // user.resetPasswordToken = null;
+                // user.resetPasswordExpires = null; // 1 hour
                 user.save(function(err,user,num) {
                     if(err){
                         return res.status(422).json({

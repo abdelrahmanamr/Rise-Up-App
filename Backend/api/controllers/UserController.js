@@ -23,7 +23,79 @@ var mongoose = require('mongoose'),
       });
     });
   };
-  module.exports.forgetPassword = function(req,res,next){
+module.exports.reset = function(req,res,next){
+
+
+
+        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+            if (!user) {
+                return res.status(422).json({
+                    err: null,
+                    msg: 'No user with this tokens',
+                    data: null
+                });
+            }
+            else{
+                user.password = req.body.password;
+                user.resetPasswordToken = null;
+                user.resetPasswordExpires = null; // 1 hour
+                user.save(function(err,user,num) {
+                    if(err){
+                        return res.status(422).json({
+                            err: null,
+                            msg: "Error updating user's token",
+                            data: null
+                        });
+                    }
+                    else{
+                        var smtpTransport = nodemailer.createTransport({
+                            service: 'SendGrid', // sets automatically host, port and connection security settings
+                            auth: {
+                                user: 'startup_18',
+                                pass: 'T18mail123'
+                            }
+                        });
+
+
+                        // setup email data with unicode symbols
+                        var mailOptions = {
+                            to: user.email,
+                            from: 'startupkit.18@gmail.com',
+                            subject: 'Node.js Password Reset',
+                            text: 'Your pass has changed'
+                        };
+
+
+                        smtpTransport.sendMail(mailOptions, (error, info) => {
+                            if (error) {
+                                console.log('Error while sending mail: ' + error);
+                                console.log("hllo");
+                                return res.status(422).json({
+                                    err: null,
+                                    msg: "Error updating user's token",
+                                    data: null
+                                });
+
+                            } else {
+                                console.log('Message sent: %s', info.messageId);
+                                return   res.status(201).json({
+                                    err: null,
+                                    msg: 'Success',
+                                    data: user
+                                });
+                            }
+                            smtpTransport.close(); // shut down the connection pool, no more messages.
+                        });
+                    }
+                });
+
+            }
+        });
+
+};
+
+
+module.exports.forgetPassword = function(req,res,next){
 
             console.log("generated random token");
             var token = randomToken(16);
@@ -51,8 +123,8 @@ var mongoose = require('mongoose'),
                     var smtpTransport = nodemailer.createTransport({
                         service: 'SendGrid', // sets automatically host, port and connection security settings
                         auth: {
-                            user: 'saleh.elhadidy', 
-                            pass: '0601020021sS@'  
+                            user: 'thelo2ai',
+                            pass: 'lo2lo2208'
                         }
                     });
                 
@@ -64,11 +136,11 @@ var mongoose = require('mongoose'),
                         subject: 'Node.js Password Reset',
                         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                          'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                          'http://' + 'localhost:4200/#/user' + '/reset/' + token + '\n\n' +
                           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                     };
-                
-                    // send mail with defined transport object
+
+
                     smtpTransport.sendMail(mailOptions, (error, info) => {
                         if (error) {
                             console.log('Error while sending mail: ' + error);
@@ -82,8 +154,8 @@ var mongoose = require('mongoose'),
                             console.log('Message sent: %s', info.messageId);
                          return   res.status(201).json({
                                 err: null,
-                                msg: 'users retrieved successfully.',
-                                data: users
+                                msg: 'Success',
+                                data: user
                               });
                         }
                         smtpTransport.close(); // shut down the connection pool, no more messages.

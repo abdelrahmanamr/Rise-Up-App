@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-user-login',
     styles:
@@ -26,7 +26,7 @@ import {Router} from "@angular/router";
 
               <a href="#/user/register" style="padding-right:5px ;color: #DC0C18">Create your account</a>
               <br> <br />
-              <a href="#/user/login" style="padding-right:5px ;color: #DC0C18">Forgot your password?</a>
+              <a href="#/user/forgot" style="padding-right:5px ;color: #DC0C18">Forgot your password?</a>
               
               
           </div>
@@ -42,8 +42,12 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent{
 errorView = "";
-  constructor(private http: HttpClient,private router: Router){
-
+    url="";
+    final="";
+  constructor(private http: HttpClient,private router: Router,  private activatedRoute: ActivatedRoute){
+      this.url = this.router.url;
+      this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
+      console.log(this.final);
   }
 
 onSubmit = function(user){

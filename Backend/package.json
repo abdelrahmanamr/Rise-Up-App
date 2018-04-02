@@ -18,10 +18,13 @@
     "moment": "^2.20.1",
     "mongoose": "^5.0.5",
     "morgan": "^1.9.0",
+    "node-emailer": "^1.0.1",
     "nodemailer": "^4.6.4",
     "nodemailer-smtp-transport": "^2.7.4",
+    "rand-token": "^0.4.0",
     "random-token": "0.0.8",
     "randombytes": "^2.0.6",
-    "regex": "^0.1.1"
+    "regex": "^0.1.1",
+    "sendgrid": "^5.2.3"
   }
 }

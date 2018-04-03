@@ -18,7 +18,7 @@ const routes: Routes = [
             path: 'forgot',
             loadChildren: './forgot/forgot.module#ForgotModule'
         },  {
-            path: 'reset',
+            path: 'reset/:id',
             loadChildren: './reset/reset.module#ResetModule'
         },
         {

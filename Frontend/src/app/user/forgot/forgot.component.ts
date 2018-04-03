@@ -15,14 +15,14 @@ import {Router} from "@angular/router";
               Forgot your password!
 
           </label>
-  <input type = "text" class="form-control" name = "email" placeholder = "Enter your Username/Email" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
+  <input type = "text" class="form-control" name = "email" placeholder = "Enter your Email" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
   <br>
   <br>
           
           
           
           <div id="right">
-  <input class="btn btn-success" type = "submit" value = "Login" style="background-color:#DC0C18">   {{errorView}}  
+  <input class="btn btn-success" type = "submit" value = "Submit my Email" style="background-color:#DC0C18">   {{errorView}}  
       </div>
       
   </form>

@@ -28,13 +28,22 @@ module.exports.expire = function(req,res,next){
 
 
 
-    User.findOne({ resetPasswordToken: req.params.token}, function(err, user) {
+    User.findOne({ resetPasswordToken: req.params.token,resetPasswordExpires: { $gt: Date.now() }  }, function(err, user) {
         if (!user) {
             return res.status(422).json({
                 err: null,
                 msg: 'Expired',
                 data: null
             });
+        }else{
+            return res.status(201).json({
+                err: null,
+                msg: 'Not Expired',
+                data: null
+            });
+
+
+
         }
     });}
 
@@ -43,7 +52,7 @@ module.exports.reset = function(req,res,next){
 
 
 
-        User.findOne({ resetPasswordToken: req.params.token}, function(err, user) {
+        User.findOne({ resetPasswordToken: req.params.token,resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
             if (!user) {
                 return res.status(422).json({
                     err: null,
@@ -51,70 +60,79 @@ module.exports.reset = function(req,res,next){
                     data: null
                 });
             }
-            else{
-                Encryption.hashPassword(req.body.password,function(err,hash){
-                    if(err){
-                       return next(err);
-                    }
-                    req.body.password = hash;
-                    user.password = hash;       
-                    user.resetPasswordToken = null;
-                    user.resetPasswordExpires = null;
-                   user.save(function(err,user,num) {
-                       if(err){
-                           console.log(err);
-                           return res.status(422).json({
-                               err: err,
-                               msg: "Error updating user's password",
-                               data: null
-                           });
-                       }
-                       else{
-                           var smtpTransport = nodemailer.createTransport({
-                               service: 'SendGrid', // sets automatically host, port and connection security settings
-                               auth: {
-                                   user: 'startupkit_18',
-                                   pass: 'T18mail123'
-                               }
-                           });
-   
-   
-                           // setup email data with unicode symbols
-                           var mailOptions = {
-                               to: user.email,
-                               from: 'startupkit.18@gmail.com',
-                               subject: 'Node.js Password Reset',
-                               text: 'Your pass has changed'
-                           };
-   
-   
-                           smtpTransport.sendMail(mailOptions, (error, info) => {
-                               if (error) {
-                                   console.log('Error while sending mail: ' + error);
-                                   console.log("hllo");
-                                   return res.status(422).json({
-                                       err: null,
-                                       msg: "Error updating user's token",
-                                       data: null
-                                   });
-   
-                               } else {
-                                   console.log('Message sent: %s', info.messageId);
-                                   return   res.status(201).json({
-                                       err: null,
-                                       msg: 'Success',
-                                       data: user
-                                   });
-                               }
-                               smtpTransport.close(); // shut down the connection pool, no more messages.
-                           });
-                       }
-                   });      
-                });
- 
+            else {
+                if (req.body.password.length < 6) {
 
-            }
-        });
+                    return res.status(422).json({
+                        err: null,
+                        msg: "Password doesn't meet length requirements",
+                        data: null
+                    });
+                }
+                else {
+                    Encryption.hashPassword(req.body.password, function (err, hash) {
+                        if (err) {
+                            return next(err);
+                        }
+                        req.body.password = hash;
+                        user.password = hash;
+                        user.resetPasswordToken = null;
+                        user.resetPasswordExpires = null;
+                        user.save(function (err, user, num) {
+                            if (err) {
+                                console.log(err);
+                                return res.status(422).json({
+                                    err: err,
+                                    msg: "Error updating user's password",
+                                    data: null
+                                });
+                            }
+                            else {
+                                var smtpTransport = nodemailer.createTransport({
+                                    service: 'SendGrid', // sets automatically host, port and connection security settings
+                                    auth: {
+                                        user: 'startupkit_18',
+                                        pass: 'T18mail123'
+                                    }
+                                });
+
+
+                                // setup email data with unicode symbols
+                                var mailOptions = {
+                                    to: user.email,
+                                    from: 'startupkit.18@gmail.com',
+                                    subject: 'Node.js Password Reset',
+                                    text: 'Your pass has changed'
+                                };
+
+
+                                smtpTransport.sendMail(mailOptions, (error, info) => {
+                                    if (error) {
+                                        console.log('Error while sending mail: ' + error);
+                                        console.log("hllo");
+                                        return res.status(422).json({
+                                            err: null,
+                                            msg: "Error updating user's token",
+                                            data: null
+                                        });
+
+                                    } else {
+                                        console.log('Message sent: %s', info.messageId);
+                                        return res.status(201).json({
+                                            err: null,
+                                            msg: 'Success',
+                                            data: user
+                                        });
+                                    }
+                                    smtpTransport.close(); // shut down the connection pool, no more messages.
+                                });
+                            }
+                        });
+                    });
+
+
+                }
+            } });
 
 };
 

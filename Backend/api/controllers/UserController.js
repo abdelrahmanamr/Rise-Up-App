@@ -73,8 +73,8 @@ module.exports.reset = function(req,res,next){
                            var smtpTransport = nodemailer.createTransport({
                                service: 'SendGrid', // sets automatically host, port and connection security settings
                                auth: {
-                                   user: 'saleh.elhadidy',
-                                   pass: 'saleh12345'
+                                   user: 'startupkit_18',
+                                   pass: 'T18mail123'
                                }
                            });
    
@@ -156,7 +156,7 @@ module.exports.forgetPassword = function(req,res,next){
                     // setup email data with unicode symbols
                     var mailOptions = {
                         to: user.email,
-                        from: 'passwordreset@demo.com',
+                        from: 'startupkit.18@gmail.com',
                         subject: 'Node.js Password Reset',
                         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +

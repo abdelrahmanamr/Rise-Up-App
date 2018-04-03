@@ -54,71 +54,64 @@ module.exports.reset = function(req,res,next){
             else{
                 Encryption.hashPassword(req.body.password,function(err,hash){
                     if(err){
-                        return res.status(422).json({
-                            err: null,
-                            msg: 'Failed to hash user password',
-                            data: null
-                        });
+                       return next(err);
                     }
-                    else{
-                        console.log(req.body.password);
-                        req.body.password = hash;
-                    }
-
+                    req.body.password = hash;
+                    user.password = hash;       
+                    user.resetPasswordToken = null;
+                    user.resetPasswordExpires = null;
+                   user.save(function(err,user,num) {
+                       if(err){
+                           console.log(err);
+                           return res.status(422).json({
+                               err: err,
+                               msg: "Error updating user's password",
+                               data: null
+                           });
+                       }
+                       else{
+                           var smtpTransport = nodemailer.createTransport({
+                               service: 'SendGrid', // sets automatically host, port and connection security settings
+                               auth: {
+                                   user: 'saleh.elhadidy',
+                                   pass: 'saleh12345'
+                               }
+                           });
+   
+   
+                           // setup email data with unicode symbols
+                           var mailOptions = {
+                               to: user.email,
+                               from: 'startupkit.18@gmail.com',
+                               subject: 'Node.js Password Reset',
+                               text: 'Your pass has changed'
+                           };
+   
+   
+                           smtpTransport.sendMail(mailOptions, (error, info) => {
+                               if (error) {
+                                   console.log('Error while sending mail: ' + error);
+                                   console.log("hllo");
+                                   return res.status(422).json({
+                                       err: null,
+                                       msg: "Error updating user's token",
+                                       data: null
+                                   });
+   
+                               } else {
+                                   console.log('Message sent: %s', info.messageId);
+                                   return   res.status(201).json({
+                                       err: null,
+                                       msg: 'Success',
+                                       data: user
+                                   });
+                               }
+                               smtpTransport.close(); // shut down the connection pool, no more messages.
+                           });
+                       }
+                   });      
                 });
-                user.password = req.body.password;
-                 user.resetPasswordToken = null;
-                 user.resetPasswordExpires = null;
-                user.save(function(err,user,num) {
-                    if(err){
-                        console.log(err);
-                        return res.status(422).json({
-                            err: err,
-                            msg: "Error updating user's password",
-                            data: null
-                        });
-                    }
-                    else{
-                        var smtpTransport = nodemailer.createTransport({
-                            service: 'SendGrid', // sets automatically host, port and connection security settings
-                            auth: {
-                                user: 'saleh.elhadidy',
-                                pass: 'saleh12345'
-                            }
-                        });
-
-
-                        // setup email data with unicode symbols
-                        var mailOptions = {
-                            to: user.email,
-                            from: 'startupkit.18@gmail.com',
-                            subject: 'Node.js Password Reset',
-                            text: 'Your pass has changed'
-                        };
-
-
-                        smtpTransport.sendMail(mailOptions, (error, info) => {
-                            if (error) {
-                                console.log('Error while sending mail: ' + error);
-                                console.log("hllo");
-                                return res.status(422).json({
-                                    err: null,
-                                    msg: "Error updating user's token",
-                                    data: null
-                                });
-
-                            } else {
-                                console.log('Message sent: %s', info.messageId);
-                                return   res.status(201).json({
-                                    err: null,
-                                    msg: 'Success',
-                                    data: user
-                                });
-                            }
-                            smtpTransport.close(); // shut down the connection pool, no more messages.
-                        });
-                    }
-                });
+ 
 
             }
         });
@@ -390,11 +383,11 @@ module.exports.login = function(req,res,next){
                 }
                 else{
                     console.log("Comparing passwords");
-                    // console.log(req.body.password.trim().toLowerCase());
-                    // console.log(userfound.password);
-                    // Encryption.hashPassword(req.body.password.trim().toLowerCase(), function(err, password) {
-                    //     console.log(password);
-                    // })
+                    console.log(req.body.password.trim().toLowerCase());
+                    console.log(userfound.password);
+                    Encryption.hashPassword(req.body.password.trim().toLowerCase(), function(err, password) {
+                        console.log(password);
+                    })
                     Encryption.comparePasswordToHash(req.body.password,userfound.password,function(err,passMatched){
                         if(err){
                             console.log("I found an error2");

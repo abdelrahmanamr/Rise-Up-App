@@ -52,14 +52,29 @@ module.exports.reset = function(req,res,next){
                 });
             }
             else{
-                user.password = req.body.password;
-                // user.resetPasswordToken = null;
-                // user.resetPasswordExpires = null; // 1 hour
-                user.save(function(err,user,num) {
+                Encryption.hashPassword(req.body.password,function(err,hash){
                     if(err){
                         return res.status(422).json({
                             err: null,
-                            msg: "Error updating user's token",
+                            msg: 'Failed to hash user password',
+                            data: null
+                        });
+                    }
+                    else{
+                        console.log(req.body.password);
+                        req.body.password = hash;
+                    }
+
+                });
+                user.password = req.body.password;
+                 user.resetPasswordToken = null;
+                 user.resetPasswordExpires = null;
+                user.save(function(err,user,num) {
+                    if(err){
+                        console.log(err);
+                        return res.status(422).json({
+                            err: err,
+                            msg: "Error updating user's password",
                             data: null
                         });
                     }
@@ -67,8 +82,8 @@ module.exports.reset = function(req,res,next){
                         var smtpTransport = nodemailer.createTransport({
                             service: 'SendGrid', // sets automatically host, port and connection security settings
                             auth: {
-                                user: 'startup_18',
-                                pass: 'T18mail123'
+                                user: 'saleh.elhadidy',
+                                pass: 'saleh12345'
                             }
                         });
 

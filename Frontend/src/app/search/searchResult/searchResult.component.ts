@@ -30,6 +30,7 @@ import {Router} from "@angular/router";
           <a href="#/content/viewallcontents"><button class="btn btn-danger"> View All Content </button></a>
           <a href="#/company/viewallcompanies"><button class="btn btn-danger"> View All Companies </button></a>
           <a href="#/expert/viewallexperts"><button class="btn btn-danger"> View All Experts </button></a>
+
           </div>
           <style>
               .check{

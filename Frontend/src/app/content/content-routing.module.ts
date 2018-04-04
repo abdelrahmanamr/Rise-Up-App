@@ -17,8 +17,16 @@ const routes: Routes = [
         loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
       },
       {
+        path: 'viewsuggestedcontent',
+        loadChildren: './viewsuggestedcontent/viewsuggestedcontent.module#ViewSuggestedContentModule'
+      },
+      {
         path: 'create',
         loadChildren: './create/create.module#CreateModule'
+      },
+      {
+        path: 'suggestedcontent',
+        loadChildren: './suggestedcontent/suggestedcontent.module#SuggestedContentModule'
       },
       {
         path: '',

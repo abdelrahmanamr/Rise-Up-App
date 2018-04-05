@@ -44,9 +44,8 @@ ngOnInit() {
  
 
   ViewContent(ID: string){
-
-    localStorage.setItem("contentID",ID);
-    this.router.navigate(['/content/viewcontent']);
+console.log(ID);
+    this.router.navigate(['/content/viewcontent/'+ID]);
 
 
   }

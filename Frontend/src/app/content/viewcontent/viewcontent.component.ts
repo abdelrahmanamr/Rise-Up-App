@@ -1,8 +1,12 @@
 import { Component, OnInit , ViewChild } from '@angular/core';
-import {Router} from "@angular/router";
+import {Router,ActivatedRoute} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
+// import { App, NavController } from 'ionic-angular';
+
+
+
 
 @Component({
   selector: 'app-content-viewcontent',
@@ -16,25 +20,40 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <span><img src="{{ImagePath}}">  </span>  
   <br>
-  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
+  <div   style="float:right; margin-top: -28px"> 
+   <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
+  <br>
+  
+  <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
+  
   </div>
+  </div>
+ 
+
   </div>
   
   `
 
 })
 export class ViewContentComponent {
-  
-ID:string=localStorage.getItem("contentID");
+
+ isCopied1: boolean = false;
+ID:string
 Content : any;
 Title:any
 PostTitle :any
 Body:any
 ImagePath:string
 adminStatus :boolean = false;
+Url:string;
 
-  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
+   this.Url=window.location.href
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
+    console.log(this.ID);
+  }
 
+  
 
   ngOnInit() { 
     if(localStorage.getItem("userProps")!=null){

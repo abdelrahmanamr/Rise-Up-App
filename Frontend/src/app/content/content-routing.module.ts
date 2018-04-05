@@ -13,7 +13,7 @@ const routes: Routes = [
         loadChildren: './viewallcontents/viewallcontents.module#ViewAllContentsModule'
       },
       {
-        path: 'viewcontent',
+        path: 'viewcontent/:id',
         loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
       },
       {

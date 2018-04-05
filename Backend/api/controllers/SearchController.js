@@ -78,3 +78,76 @@ module.exports.getCompanyByType = function ( req, res, next) {
         });
     });
 };
+module.exports.getCompanyTags= function ( req, res, next) {
+
+    if(!Validations.isString(req.params.tags)){
+        return res.status(422).json({
+            err:null,
+            msg: 'tag parameter must be a valid string.',
+            data:null
+
+        });
+    }
+    Company.find({
+        tag:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,companies) {
+        if(err){
+            console.log(err);
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All companies containg this tag '+req.params.tags+' retrieved successfully',
+            data:companies
+        });
+    });
+};
+module.exports.getExpertTags= function ( req, res, next) {
+
+    if(!Validations.isString(req.params.tags)){
+        return res.status(422).json({
+            err:null,
+            msg: 'tag parameter must be a valid string.',
+            data:null
+
+        });
+    }
+    User.find({
+        tag:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,users) {
+        if(err){
+            console.log(err);
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All experts containing this tag'+req.params.tags+'retrieved successfully',
+            data:users
+        });
+    });
+};
+
+module.exports.getContentTags= function ( req, res, next) {
+
+    if(!Validations.isString(req.params.tags)){
+        return res.status(422).json({
+            err:null,
+            msg: 'tag parameter must be a valid string.',
+            data:null
+
+        });
+    }
+    Content.find({
+        tag:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,contents) {
+        if(err){
+            console.log(err);
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All content containing this tag'+req.params.tags+'retrieved successfully',
+            data:contents
+        });
+    });
+};

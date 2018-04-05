@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "angular-tag": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
@@ -17,6 +18,7 @@
     "moment": "^2.20.1",
     "mongoose": "^5.0.5",
     "morgan": "^1.9.0",
+    "ng-tags-input": "^3.2.0",
     "regex": "^0.1.1"
   }
 }

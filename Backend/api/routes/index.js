@@ -42,6 +42,7 @@ router.post('/user/checkUsername',userController.checkUsername);
 router.get('/search/getCompanyByNameOrType/:name', searchCtrl.getCompanyByNameOrType);
 router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
 router.get('/search/getCompanyByType/:type', searchCtrl.getCompanyByType);
+router.get('/search/getAllTags', searchCtrl.getAllTags);
 
 //-----------------------------Company Routes--------------------------------------
 router.get('/company/getCompanies',CompanyCtrl.getCompanies);

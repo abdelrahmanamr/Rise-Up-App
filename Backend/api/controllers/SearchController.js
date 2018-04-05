@@ -2,8 +2,20 @@ var mongoose = require('mongoose'),
     moment = require('moment'),
     Validations = require('../utils/Validations'),
     Company = mongoose.model('Company'),
-    regex = require("regex");
+    regex = require("regex"),
+  elasticsearch = require('elasticsearch'),
+   Promise = require('bluebird');
 
+ var client = new elasticsearch.Client({
+    host: 'localhost:9200',
+    log: 'trace',
+     keepAlive: 'true'
+});
+
+client.ping({
+    requestTimeout: Infinity,
+    body: 'hello JavaSampleApproach!'
+});
 
     module.exports.getCompanyByNameOrType = function ( req, res, next) {
         if(!Validations.isString(req.params.name)){
@@ -78,3 +90,78 @@ module.exports.getCompanyByType = function ( req, res, next) {
         });
     });
 };
+// function createIndex() {           // to be run once for the database to create the index
+//     client.indices.create({
+//         index: 'elasticsearch'
+//     }, function (err, res, status) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log("create", res);
+//         }
+//     })
+// };
+// function createMapping() {        // to be run once for the database to create the mapping
+//     client.indices.putMapping({
+//         index: 'elasticsearch',
+//         type: 'tags',
+//         body: {
+//             properties: {
+//                 'name': {
+//                     'type': 'text', // type is a required attribute if index is specified
+//                     'analyzer': 'english'
+//                 },
+//                 'root': {
+//                     'type': 'text', // type is a required attribute if index is specified
+//                     'analyzer': 'english'
+//                 }
+//             }
+//         }
+//     }, function (err, resp, status) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log(resp);
+//         }
+//     })
+// };
+
+function addToIndex(){
+    client.index({
+    index:'elasticsearch',
+    type:'tags',
+    id:'1',
+    body:{
+     name:'abdo',
+     root:'omar'
+    }
+    });
+}
+
+module.exports.getAllTags =function(req, res, next) {
+    client.search({
+        index: 'elasticsearch',
+        type: 'tags',
+        body: {
+            'query': {
+                'match_all': {}
+            }
+        }
+    }).exec(function (err,tags) {
+        if(err){
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All companies containg this name'+'retrieved successfully',
+            data:tags
+        });
+    });
+};
+
+
+Promise.resolve()
+.then(addToIndex)
+//    .then(createMapping);

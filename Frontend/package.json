@@ -42,7 +42,8 @@
     "typeface-exo": "^0.0.44",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19",
-    "ngx-quill": "2.2.0"
+    "ngx-quill": "2.2.0",
+    "quill-blot-formatter": "^1.0.5"
   },
   "devDependencies": {
     "@angular/cli": "~1.7.1",

@@ -14,6 +14,9 @@ router.get('/product/getProductsBelowPrice/:price', productCtrl.getProductsBelow
 
 router.get('/Content/viewContent/:contentId', contentCtrl.viewContent);
 router.get('/Content/viewContents', contentCtrl.viewContents);
+router.patch('/Content/views/:contentId', contentCtrl.views);
+
+
 
 router.get('/User/viewUser/:userId', userController.viewUser);
 router.get('/User/viewUsers', userController.viewUsers);

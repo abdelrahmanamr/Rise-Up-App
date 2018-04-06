@@ -152,7 +152,7 @@ module.exports.getAllTags =function(req, res, next) {
             }
         }
     }).then(function (hit) {
-        if(!res) {
+        if(!hit) {
             console.log(err);
             return next(err);
         }

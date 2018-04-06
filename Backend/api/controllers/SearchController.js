@@ -164,8 +164,6 @@ module.exports.getAllTags =function(req, res, next) {
             msg:'All companies containg this type'+'greatness'+'retrieved successfully',
             data:hit.hits.hits
         });
-    }, function (err) {
-        console.trace(err.message);
     });
 };
 

@@ -112,7 +112,7 @@ var mongoose = require('mongoose'),
       }
       res.status(201).json({
         err: null,
-        msg: 'Content was created successfully.',
+        msg: 'Suggested Content was created successfully.',
         data: content
       });
     });

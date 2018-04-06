@@ -128,15 +128,20 @@ module.exports.getCompanyByType = function ( req, res, next) {
 //     })
 // };
 
-function addToIndex(){
+module.exports.addToIndex = function (req,res,next){
     client.index({
     index:'elasticsearch',
     type:'tags',
-    id:'4',
     body:{
-     name:'I love football',
-     contentId:'omar'
+     name:req.body.name,
+     type:req.body.type,
+     id:req.body.id
     }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Added to index',
+        data:null
     });
 }
 
@@ -146,9 +151,7 @@ module.exports.getAllTags =function(req, res, next) {
         type: 'tags',
         body: {
             'query': {
-                'match': {
-                    "name":'love hamada'
-                }
+                "wildcard" : { "name" : "*" }
             }
         }
     }).then(function (hit) {
@@ -171,5 +174,5 @@ module.exports.getAllTags =function(req, res, next) {
 
 
 Promise.resolve()
-.then(addToIndex)
+// .then(addToIndex)
 //    .then(createMapping);

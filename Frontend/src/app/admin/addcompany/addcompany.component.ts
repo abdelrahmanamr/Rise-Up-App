@@ -70,7 +70,18 @@ console.log(my);
 
         this.http.post(environment.apiUrl+'admin/addCompany',my, config)
         .subscribe(res => {console.log(res)
-                 this.router.navigate(['/admin']);
+         var tags =   res["data"]["tags"];
+         var JSONtoIndex = {
+             "name":tags,
+             "id":res["data"]["_id"],
+             "type":"Company"
+         }
+         this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
+         .subscribe(res =>{console.log(res)
+            this.router.navigate(['/admin']);
+
+        },
+        err=>console.log("error adding to index"));
         }
     ,err=>{
         this.errorHandle = err['error']['msg'];

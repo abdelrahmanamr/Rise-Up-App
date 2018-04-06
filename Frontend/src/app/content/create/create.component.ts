@@ -122,7 +122,18 @@ export class CreateComponent implements OnInit{
     this.http.post(environment.apiUrl+'/content/addContent', data, config)
     .subscribe(res=>{
     console.log(res);
-      this.router.navigate(["/content/viewallcontents"])
+    var tags =   res["data"]["tags"];
+         var JSONtoIndex = {
+             "name":tags,
+             "id":res["data"]["_id"],
+             "type":"Content"
+         }
+         console.log(JSONtoIndex);
+         this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
+         .subscribe(res =>{console.log(res)
+            this.router.navigate(["/content/viewallcontents"])
+        },
+        err=>console.log("error adding to index"));
     },err=>{
    
       this.errorHandle = err['error']['msg'];

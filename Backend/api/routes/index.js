@@ -43,6 +43,7 @@ router.get('/search/getCompanyByNameOrType/:name', searchCtrl.getCompanyByNameOr
 router.get('/search/getCompanyByName/:name',searchCtrl.getCompanyByName);
 router.get('/search/getCompanyByType/:type', searchCtrl.getCompanyByType);
 router.get('/search/getAllTags', searchCtrl.getAllTags);
+router.post('/search/addToIndex', searchCtrl.addToIndex);
 
 //-----------------------------Company Routes--------------------------------------
 router.get('/company/getCompanies',CompanyCtrl.getCompanies);

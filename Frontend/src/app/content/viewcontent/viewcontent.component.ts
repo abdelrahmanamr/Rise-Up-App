@@ -3,9 +3,19 @@ import {Router,ActivatedRoute} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser';
 // import { App, NavController } from 'ionic-angular';
 
 
+import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) { }
+  transform(Body) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(Body);
+  }
+}
 
 
 @Component({
@@ -28,6 +38,8 @@ import { DomSanitizer } from '@angular/platform-browser'
   
   </div>
   </div>
+
+  <span  *ngIf="Link"> <iframe width="1100" height="315" [src]="Body | safe" ></iframe> </span>
  
 
   </div>
@@ -35,7 +47,10 @@ import { DomSanitizer } from '@angular/platform-browser'
   `
 
 })
+
+
 export class ViewContentComponent {
+
 
  isCopied1: boolean = false;
 ID:string
@@ -46,20 +61,24 @@ Body:any
 ImagePath:string
 adminStatus :boolean = false;
 Url:string;
+Link:boolean=false;
+IframeBody:SafeResourceUrl;
 
-  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
-   this.Url=window.location.href
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,private domSanitizer: DomSanitizer) { 
+    this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);
   }
 
-  
+  @ViewChild('mass_timings') mass_timings: ElementRef;
+
 
   ngOnInit() { 
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
+    
       }
 
 
@@ -112,13 +131,19 @@ Url:string;
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
+
           this.Title=res['data'].title
-          this.Body = res['data'].body;  
           this.PostTitle = res['data'].title;
 
+          this.Body = res['data'].body;
+          console.log(this.Body);
+          this.Link=true;
+                    
         }
       );
-     }
+    }
+
+    
 
      ViewImage(ID:string){
       var config ={

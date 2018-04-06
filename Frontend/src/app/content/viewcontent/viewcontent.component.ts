@@ -3,6 +3,23 @@ import {Router} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
+<<<<<<< HEAD
+=======
+import { SafeResourceUrl } from '@angular/platform-browser';
+// import { App, NavController } from 'ionic-angular';
+
+
+import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({ name: 'safe' })
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) { }
+  transform(Body) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(Body);
+  }
+}
+
+>>>>>>> 5b80010f6123fcbe1fa4825bb4a75d5784faa077
 
 @Component({
   selector: 'app-content-viewcontent',
@@ -19,31 +36,68 @@ import { DomSanitizer } from '@angular/platform-browser'
   <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
   </div>
   </div>
+<<<<<<< HEAD
+=======
+
+  <span  *ngIf="Link"> <iframe width="1100" height="315" [src]="Body | safe" ></iframe> </span>
+ 
+
+  </div>
+>>>>>>> 5b80010f6123fcbe1fa4825bb4a75d5784faa077
   
   `
 
 })
+
+
 export class ViewContentComponent {
+<<<<<<< HEAD
   
 ID:string=localStorage.getItem("contentID");
+=======
+
+
+ isCopied1: boolean = false;
+ID:string
+>>>>>>> 5b80010f6123fcbe1fa4825bb4a75d5784faa077
 Content : any;
 Title:any
 PostTitle :any
 Body:any
 ImagePath:string
 adminStatus :boolean = false;
+<<<<<<< HEAD
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
   
    
+=======
+Url:string;
+Link:boolean=false;
+IframeBody:SafeResourceUrl;
+
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,private domSanitizer: DomSanitizer) { 
+    this.Url=window.location.href
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
+    console.log(this.ID);
+  }
+
+  @ViewChild('mass_timings') mass_timings: ElementRef;
+
+
+>>>>>>> 5b80010f6123fcbe1fa4825bb4a75d5784faa077
   ngOnInit() { 
  
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
+<<<<<<< HEAD
    
+=======
+    
+>>>>>>> 5b80010f6123fcbe1fa4825bb4a75d5784faa077
       }
 
 
@@ -98,13 +152,19 @@ adminStatus :boolean = false;
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
+
           this.Title=res['data'].title
-          this.Body = res['data'].body;  
           this.PostTitle = res['data'].title;
 
+          this.Body = res['data'].body;
+          console.log(this.Body);
+          this.Link=true;
+                    
         }
       );
-     }
+    }
+
+    
 
      ViewImage(ID:string){
       var config ={

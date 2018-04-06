@@ -37,6 +37,10 @@ router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);
 router.post('/user/checkUsername',userController.checkUsername);
+router.post('/user/forgetPassword',userController.forgetPassword);
+router.patch('/user/reset/:token',userController.reset);
+router.patch('/user/reset/changePassword',userController.ChangePassword);
+router.get('/user/expire/:token',userController.expire);
 
 //------------------------------Search Routes-------------------------------------
 router.get('/search/getCompanyByNameOrType/:name', searchCtrl.getCompanyByNameOrType);

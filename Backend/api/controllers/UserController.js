@@ -48,6 +48,99 @@ module.exports.expire = function(req,res,next){
     });}
 
 
+module.exports.ChangePassword = function(req,res,next){
+  var valid = req.body.newpassword && Validations.isString(req.body.newpassword) &&
+  req.body.confirmpassword && Validations.isString(req.body.confirmpassword);
+
+  if(!valid){
+      return res.status(422).json({
+          err:null,
+          msg:'Wrong input data',
+          data:null
+      });
+  }
+
+else{
+
+
+
+  User.findById(req.params.userId).exec(function(err, userfound) {
+    if (err) {
+      return next(err);
+    }
+    if (!userfound) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'Username was not found.', data: null });
+    }
+else{
+
+    var newpassword = req.body.newpassword.trim();
+    if(newpassword.length < 6){
+        return res.status(422).json({
+          err: null,
+          msg: 'Your new password does not meet the minimum length requirement',
+          data: null
+        });
+
+    }
+    else{
+      if(newpassword != (req.body.confirmpassword.trim())){
+        return res.status(422).json({
+          err:null,
+          msg:'New Password does not match Confirm Password'
+        })
+
+        else{
+
+
+          Encryption.hashPassword(req.body.newpassword,function(err,hash){
+                  if(err){
+                      return next(err);
+                  }
+                  newpassword = hash;
+                  req.body.newpassword = hash;
+              }
+                  else{
+                    user.save(function(err,user,num) {
+                         if(num==1){
+                            return res.status(422).json({
+                                err: null,
+                                msg: "Password Successfully changed",
+                                data: null
+                             });
+                  })
+                  else{
+                    return res.status(422).json({
+                        err: null,
+                        msg: "error occured",
+                        data: null
+                     });
+
+
+                  }
+
+                  }
+              }
+          });
+          }
+          });
+
+
+          }
+
+
+
+        }
+
+
+
+
+}
+}
+
+
+
 module.exports.reset = function(req,res,next){
 
 
@@ -169,8 +262,8 @@ module.exports.forgetPassword = function(req,res,next){
                             pass: 'T18mail123'
                         }
                     });
-                
-                
+
+
                     // setup email data with unicode symbols
                     var mailOptions = {
                         to: user.email,
@@ -191,7 +284,7 @@ module.exports.forgetPassword = function(req,res,next){
                                 msg: "Error updating user's token",
                                 data: null
                               });
-                             
+
                         } else {
                             console.log('Message sent: %s', info.messageId);
                          return   res.status(201).json({
@@ -209,7 +302,7 @@ module.exports.forgetPassword = function(req,res,next){
             });
         }
       };
-  
+
 
 
   module.exports.viewUser = function(req, res, next) {
@@ -313,7 +406,7 @@ module.exports.register = function(req,res,next){
 
                         });
 
-                        
+
                     })
                     ;
                 };

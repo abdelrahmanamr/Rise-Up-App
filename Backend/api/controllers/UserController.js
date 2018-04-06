@@ -45,7 +45,8 @@ module.exports.expire = function(req,res,next){
 
 
         }
-    });}
+    });
+}
 
 
 module.exports.ChangePassword = function(req,res,next){
@@ -58,12 +59,9 @@ module.exports.ChangePassword = function(req,res,next){
           msg:'Wrong input data',
           data:null
       });
-  }
-
+}
 else{
-
-
-
+    console.log("Ana 3adeet el validations");
   User.findById(req.params.userId).exec(function(err, userfound) {
     if (err) {
       return next(err);
@@ -74,7 +72,7 @@ else{
         .json({ err: null, msg: 'Username was not found.', data: null });
     }
 else{
-
+    console.log("we la2eet el user aho");
     var newpassword = req.body.newpassword.trim();
     if(newpassword.length < 6){
         return res.status(422).json({
@@ -82,60 +80,42 @@ else{
           msg: 'Your new password does not meet the minimum length requirement',
           data: null
         });
-
     }
     else{
       if(newpassword != (req.body.confirmpassword.trim())){
         return res.status(422).json({
           err:null,
-          msg:'New Password does not match Confirm Password'
-        })
+          msg:'New Password does not match Confirm Password',
+          data:null
+        });
 
-        else{
-
-
-          Encryption.hashPassword(req.body.newpassword,function(err,hash){
-                  if(err){
-                      return next(err);
-                  }
-                  newpassword = hash;
-                  req.body.newpassword = hash;
-              }
-                  else{
-                    user.save(function(err,user,num) {
-                         if(num==1){
-                            return res.status(422).json({
-                                err: null,
-                                msg: "Password Successfully changed",
-                                data: null
-                             });
-                  })
-                  else{
-                    return res.status(422).json({
-                        err: null,
-                        msg: "error occured",
-                        data: null
-                     });
-
-
-                  }
-
-                  }
-              }
-          });
-          }
-          });
-
-
-          }
-
-
-
-        }
-
-
-
-
+    }else{
+        Encryption.hashPassword(req.body.newpassword,function(err,hash){
+            if(err){
+                return next(err);
+            }else{
+                userfound.password = hash;
+                userfound.save(function(err,userfound,num){
+                    if(err){
+                        return res.status(422).json({
+                            err: null,
+                            msg: 'Error saving new data',
+                            data: null
+                          });
+                    }else{
+                        return res.status(201).json({
+                            err: null,
+                            msg: 'Success',
+                            data: userfound
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+}
+  });
 }
 }
 

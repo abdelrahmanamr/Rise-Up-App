@@ -2,6 +2,8 @@ var mongoose = require('mongoose'),
     moment = require('moment'),
     Validations = require('../utils/Validations'),
     Company = mongoose.model('Company'),
+    Content = mongoose.model('Content'),
+    User = mongoose.model('User'),
     regex = require("regex");
 
 
@@ -89,7 +91,7 @@ module.exports.getCompanyTags= function ( req, res, next) {
         });
     }
     Company.find({
-        tag:{$regex:new RegExp(req.params.tags)}
+        tags:{$regex:new RegExp(req.params.tags)}
     }).exec(function (err,companies) {
         if(err){
             console.log(err);
@@ -97,7 +99,7 @@ module.exports.getCompanyTags= function ( req, res, next) {
         }
         return res.status(200).json({
             err:null,
-            msg:'All companies containg this tag '+req.params.tags+' retrieved successfully',
+            msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
             data:companies
         });
     });
@@ -113,7 +115,8 @@ module.exports.getExpertTags= function ( req, res, next) {
         });
     }
     User.find({
-        tag:{$regex:new RegExp(req.params.tags)}
+        expert:true,
+        tags:{$regex:new RegExp(req.params.tags)}
     }).exec(function (err,users) {
         if(err){
             console.log(err);
@@ -138,16 +141,95 @@ module.exports.getContentTags= function ( req, res, next) {
         });
     }
     Content.find({
-        tag:{$regex:new RegExp(req.params.tags)}
-    }).exec(function (err,contents) {
+        tags:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,content) {
         if(err){
             console.log(err);
             return next(err);
         }
         return res.status(200).json({
             err:null,
-            msg:'All content containing this tag'+req.params.tags+'retrieved successfully',
-            data:contents
+            msg:'All Content containg this tag  '+req.params.tags+' retrieved successfully',
+            data:content
+        });
+    });
+};
+
+module.exports.getCompanyTagsOrName= function ( req, res, next) {
+
+    if(!Validations.isString(req.params.tags)){
+        return res.status(422).json({
+            err:null,
+            msg: 'tag parameter must be a valid string.',
+            data:null
+
+        });
+    }
+    Company.find({
+        tags:{$regex:new RegExp(req.params.tags)},
+        name:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,companies) {
+        if(err){
+            console.log(err);
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
+            data:companies
+        });
+    });
+};
+
+module.exports.getCompanyTagsOrType= function ( req, res, next) {
+
+    if(!Validations.isString(req.params.tags)){
+        return res.status(422).json({
+            err:null,
+            msg: 'tag parameter must be a valid string.',
+            data:null
+
+        });
+    }
+    Company.find({
+        tags:{$regex:new RegExp(req.params.tags)},
+        type:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,companies) {
+        if(err){
+            console.log(err);
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
+            data:companies
+        });
+    });
+};
+
+module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) {
+
+    if(!Validations.isString(req.params.tags)){
+        return res.status(422).json({
+            err:null,
+            msg: 'tag parameter must be a valid string.',
+            data:null
+
+        });
+    }
+    Company.find({
+        tags:{$regex:new RegExp(req.params.tags)},
+        name:{$regex:new RegExp(req.params.tags)},
+        type:{$regex:new RegExp(req.params.tags)}
+    }).exec(function (err,companies) {
+        if(err){
+            console.log(err);
+            return next(err);
+        }
+        return res.status(200).json({
+            err:null,
+            msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
+            data:companies
         });
     });
 };

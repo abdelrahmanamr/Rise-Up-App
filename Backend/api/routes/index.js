@@ -45,6 +45,10 @@ router.get('/search/getCompanyByType/:type', searchCtrl.getCompanyByType);
 router.get('/search/getCompanyTags/:tags', searchCtrl.getCompanyTags);
 router.get('/search/getExpertTags/:tags', searchCtrl.getExpertTags);
 router.get('/search/getContentTags/:tags', searchCtrl.getContentTags);
+router.get('/search/getCompanyTagsOrNameOrType/:tags', searchCtrl.getCompanyTagsOrNameOrType);
+router.get('/search/getCompanyTagsOrType/:tags', searchCtrl.getCompanyTagsOrType);
+router.get('/search/getCompanyTagsOrName/:tags', searchCtrl.getCompanyTagsOrName);
+
 
 
 //-----------------------------Company Routes--------------------------------------

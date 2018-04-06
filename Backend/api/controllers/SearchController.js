@@ -132,10 +132,10 @@ function addToIndex(){
     client.index({
     index:'elasticsearch',
     type:'tags',
-    id:'1',
+    id:'4',
     body:{
-     name:'abdo',
-     root:'omar'
+     name:'I love football',
+     contentId:'omar'
     }
     });
 }
@@ -146,20 +146,30 @@ module.exports.getAllTags =function(req, res, next) {
         type: 'tags',
         body: {
             'query': {
-                'match_all': {}
+                'match': {
+                    "name":'love hamada'
+                }
             }
         }
-    }).exec(function (err,tags) {
-        if(err){
+    }).then(function (hit) {
+        if(!res) {
+            console.log(err);
             return next(err);
         }
+        var hits = hit.hits.hits;
+        console.log('hits: ',hits)
+
         return res.status(200).json({
             err:null,
-            msg:'All companies containg this name'+'retrieved successfully',
-            data:tags
+            msg:'All companies containg this type'+'greatness'+'retrieved successfully',
+            data:hit.hits.hits
         });
+    }, function (err) {
+        console.trace(err.message);
     });
 };
+
+
 
 
 Promise.resolve()

@@ -5,6 +5,42 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User');
 
 
+  module.exports.views = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.contentId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'contentId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+  
+   
+  
+    content.findByIdAndUpdate(
+      req.params.contentId,
+      {
+        $inc: { views: 1 } 
+      },
+      { new: true }
+    ).exec(function(err, updatedcontent) {
+      if (err) {
+        return next(err);
+      }
+      if (!updatedcontent) {
+        return res
+          .status(404)
+          .json({ err: null, msg: 'content not found.', data: null });
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'content was updated successfully.',
+        data: updatedcontent
+      });
+    });
+  };
+
+
+
   module.exports.viewContents = function(req, res, next) {
     Content.find({}).exec(function(err, contents) {
       if (err) {

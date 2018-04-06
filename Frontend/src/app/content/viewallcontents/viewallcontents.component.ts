@@ -43,10 +43,24 @@ ngOnInit() {
   }
  
 
+
+  views(ID: string){
+    localStorage.setItem("contentID",ID);
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json'
+      }
+  }
+this.httpClient.patch(environment.apiUrl +'/Content/views',ID,config)
+  
+ }
+
+
   ViewContent(ID: string){
 console.log(ID);
     this.router.navigate(['/content/viewcontent/'+ID]);
-
+this.views(ID);
 
   }
 

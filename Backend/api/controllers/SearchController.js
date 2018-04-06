@@ -166,8 +166,7 @@ module.exports.getCompanyTagsOrName= function ( req, res, next) {
         });
     }
     Company.find({
-        tags:{$regex:new RegExp(req.params.tags)},
-        name:{$regex:new RegExp(req.params.tags)}
+        $or:[{tags:{$regex:new RegExp(req.params.tags)}},{name:{$regex:new RegExp(req.params.tags)}}]
     }).exec(function (err,companies) {
         if(err){
             console.log(err);
@@ -192,8 +191,7 @@ module.exports.getCompanyTagsOrType= function ( req, res, next) {
         });
     }
     Company.find({
-        tags:{$regex:new RegExp(req.params.tags)},
-        type:{$regex:new RegExp(req.params.tags)}
+        $or:[{tags:{$regex:new RegExp(req.params.tags)}},{type:{$regex:new RegExp(req.params.tags)}}]
     }).exec(function (err,companies) {
         if(err){
             console.log(err);
@@ -218,9 +216,7 @@ module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) {
         });
     }
     Company.find({
-        tags:{$regex:new RegExp(req.params.tags)},
-        name:{$regex:new RegExp(req.params.tags)},
-        type:{$regex:new RegExp(req.params.tags)}
+        $or:[{tags:{$regex:new RegExp(req.params.tags)}},{type:{$regex:new RegExp(req.params.tags)}},{name:{$regex:new RegExp(req.params.tags)}}]
     }).exec(function (err,companies) {
         if(err){
             console.log(err);

@@ -1,6 +1,7 @@
 var express = require('express'),
   router = express.Router(),
   contentCtrl = require('../controllers/ContentController');
+  suggestedContentCtrl = require('../controllers/SuggestedContentController');
   productCtrl = require('../controllers/ProductController');
   userController = require('../controllers/UserController');
   searchCtrl = require('../controllers/SearchController');
@@ -33,6 +34,12 @@ router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
+//-------------------------------SuggestedContent Routes-----------------------------------
+router.post('/suggestedcontent/addSuggestedContent', suggestedContentCtrl.createSuggestedContent);
+router.delete('/suggestedcontent/deleteSuggestedContent/:contentId', suggestedContentCtrl.removeSuggestedContent);
+router.get('/suggestedcontent/viewSuggestedContents', suggestedContentCtrl.viewSuggestedContents);
+router.get('/suggestedcontent/viewSuggestedContent/:contentId', suggestedContentCtrl.viewSuggestedContent);
+
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);

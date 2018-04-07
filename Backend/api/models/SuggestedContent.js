@@ -29,6 +29,10 @@ var suggestedContentSchema = mongoose.Schema({
     shares: {
         type: Number,
         default:0
+    }, 
+    status: {
+        type: Number,
+        default:0
     },
     boost: {
         type: Boolean,

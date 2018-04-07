@@ -57,7 +57,7 @@ export class SafePipe implements PipeTransform {
   </div>
   </div>
 
-  <span  *ngIf="Link"> <iframe width="1100" height="315" [src]="Body | safe" ></iframe> </span>
+  <span  *ngIf="Link"> <iframe width="1100" height="600" [src]="Body | safe" ></iframe> </span>
  
 
   </div>
@@ -84,7 +84,7 @@ IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
 
-  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,private domSanitizer: DomSanitizer) { 
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);

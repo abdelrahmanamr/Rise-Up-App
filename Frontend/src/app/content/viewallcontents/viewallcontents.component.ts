@@ -26,7 +26,7 @@ import {Router} from "@angular/router";
 })
 export class ViewAllContentsComponent {
   public contents:any[]=[];
-  
+  View:number;
   
   constructor(private httpClient: HttpClient,private router: Router) { }
 
@@ -44,23 +44,28 @@ ngOnInit() {
  
 
 
-  views(ID: string){
-    localStorage.setItem("contentID",ID);
+views(ID: string){
+   
     var config = {
       headers : 
       {
           'Content-Type':'application/json'
       }
   }
-this.httpClient.patch(environment.apiUrl +'/Content/views',ID,config)
+  
+this.httpClient.patch(environment.apiUrl +'/Content/views/'+ID,config).subscribe(
+  res=>{
+    console.log(res['data']);
+  }
+)
   
  }
 
 
-  ViewContent(ID: string){
-console.log(ID);
-    this.router.navigate(['/content/viewcontent/'+ID]);
-this.views(ID);
+ViewContent(ID: string){
+  this.views(ID);
+  this.router.navigate(['/content/viewcontent/'+ID]);
+
 
   }
 

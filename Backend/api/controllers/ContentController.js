@@ -14,15 +14,15 @@ var mongoose = require('mongoose'),
       });
     }
   
-   
-  
-    content.findByIdAndUpdate(
+    Content.findByIdAndUpdate(
       req.params.contentId,
       {
-        $inc: { views: 1 } 
+        $inc: {views : 1}
       },
       { new: true }
+   
     ).exec(function(err, updatedcontent) {
+      console.log("req.params.views")
       if (err) {
         return next(err);
       }

@@ -125,7 +125,7 @@ export class CreateComponent implements OnInit{
     var tags =   res["data"]["tags"];
          var JSONtoIndex = {
              "name":tags,
-             "id":res["data"]["_id"],
+             "object":res["data"],
              "type":"Content"
          }
          console.log(JSONtoIndex);

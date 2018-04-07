@@ -2,6 +2,8 @@ var mongoose = require('mongoose'),
     moment = require('moment'),
     Validations = require('../utils/Validations'),
     Company = mongoose.model('Company'),
+    Content = mongoose.model('Content'),
+    User = mongoose.model('User'),
     regex = require("regex"),
   elasticsearch = require('elasticsearch'),
    Promise = require('bluebird');
@@ -23,9 +25,9 @@ client.ping({
                 err:null,
                 msg: 'name parameter must be a valid string.',
                 data:null
-    
+
             });
-    
+
         }
         Company.find(
             {$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.name)}}]}
@@ -135,7 +137,7 @@ module.exports.addToIndex = function (req,res,next){
     body:{
      name:req.body.name,
      type:req.body.type,
-     id:req.body.id
+     object:req.body.object
     }
     });
     return res.status(200).json({
@@ -164,15 +166,48 @@ module.exports.getAllTags =function(req, res, next) {
 
         return res.status(200).json({
             err:null,
-            msg:'All companies containg this type'+'greatness'+'retrieved successfully',
+            msg:'All Tags retrieved successfully',
             data:hit.hits.hits
         });
     });
 };
 
+module.exports.getTagbyKeyword =function(req, res, next) {
+    client.search({
+        index: 'elasticsearch',
+        type: 'tags',
+        body: {
+            'query': {
+                'match' :{ "name":req.params.tag}
+            }
+        }
+    }).then(function (hit) {
+        if(!hit) {
+            console.log(err);
+            return next(err);
+        }
+        var hits = hit.hits.hits;
+        return res.status(200).json({
+            err:null,
+            msg:'All Tags retrieved successfully',
+            data:hit.hits.hits
+        });
 
+    });
+};
+ // function deleteecord()
+ // {
+ //     client.deleteByQuery({
+ //         index: 'elasticsearch',
+ //         type: 'tags',
+ //         body: {
+ //             query:{match: {
+ //                 name: "i hamada"
+ //             }}
+ //         }
+ //     });
+ // }
 
-
-Promise.resolve()
-// .then(addToIndex)
+ //Promise.resolve()
+ //.then(deleteecord);
 //    .then(createMapping);

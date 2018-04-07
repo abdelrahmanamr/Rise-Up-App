@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   selector: 'app-content-viewsuggestedcontent',
   template: ` 
   <div class="container">
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+  <div class="card" style="padding:10px 15px; padding-bottom:120px; margin-bottom:20px;display: block; ">
   <span> <b> {{ PostTitle }} </b> </span>
   <br>
   <br>
@@ -16,7 +16,8 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <span><img src="{{ImagePath}}">  </span>  
   <br>
-  <div style="float:left;"> <Button *ngIf="adminStatus" (click)="AddContent(ID)" class="btn btn-danger btn-sm"> Approve </Button></div>
+  <div style="float:left;"> <Button *ngIf="adminStatus" (click)="EditContent(ID)" class="btn btn-danger btn-sm"> Edit </Button><br /><br />
+  <Button *ngIf="adminStatus" (click)="AddContent(ID)" class="btn btn-danger btn-sm"> Approve </Button></div>
   <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DisapproveContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
   </div>
   </div>
@@ -48,6 +49,16 @@ user = null;
     this.GetContent(this.ID) ;
       }
 
+
+    EditContent(ID:string){
+      var editContent = {
+        "id":ID,
+        "type":"suggestion"
+      }
+      localStorage.setItem("editContent",JSON.stringify(editContent));
+      this.router.navigateByUrl('/content/edit');
+
+    }
 
   GetContent(ID:string){
         var config ={

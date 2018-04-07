@@ -24,4 +24,4 @@ var commentSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-mongoose.model('Comment',commentSchema);
+module.exports = mongoose.model('Comment',commentSchema);

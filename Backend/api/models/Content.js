@@ -49,4 +49,4 @@ var contentSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-mongoose.model('Content', contentSchema);
+module.exports = mongoose.model('Content', contentSchema);

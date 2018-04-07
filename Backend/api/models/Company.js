@@ -40,4 +40,4 @@ type:{
  updatedAt:Date
 });
 
-mongoose.model('Company',companySchema);
+module.exports = mongoose.model('Company',companySchema);

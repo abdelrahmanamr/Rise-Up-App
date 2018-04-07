@@ -92,7 +92,7 @@ module.exports.getCompanyByType = function ( req, res, next) {
         });
     });
 };
-// function createIndex() {           // to be run once for the database to create the index
+// function createElasticSearchIndex() {           // to be run once for the database to create the index
 //     client.indices.create({
 //         index: 'elasticsearch'
 //     }, function (err, res, status) {
@@ -104,17 +104,13 @@ module.exports.getCompanyByType = function ( req, res, next) {
 //         }
 //     })
 // };
-// function createMapping() {        // to be run once for the database to create the mapping
+// function createMappingtags() {        // to be run once for the database to create the mapping
 //     client.indices.putMapping({
 //         index: 'elasticsearch',
 //         type: 'tags',
 //         body: {
 //             properties: {
 //                 'name': {
-//                     'type': 'text', // type is a required attribute if index is specified
-//                     'analyzer': 'english'
-//                 },
-//                 'root': {
 //                     'type': 'text', // type is a required attribute if index is specified
 //                     'analyzer': 'english'
 //                 }
@@ -129,6 +125,42 @@ module.exports.getCompanyByType = function ( req, res, next) {
 //         }
 //     })
 // };
+
+// function createContentsearchIndex() {           // to be run once for the database to create the index
+//     client.indices.create({
+//         index: 'contentelasticsearch'
+//     }, function (err, res, status) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log("create", res);
+//         }
+//     })
+// };
+
+// function createMappingtitle() {        // to be run once for the database to create the mapping
+//     client.indices.putMapping({
+//         index: 'contentelasticsearch',
+//         type: 'title',
+//         body: {
+//             properties: {
+//                 'name': {
+//                     'type': 'text', // type is a required attribute if index is specified
+//                     'analyzer': 'english'
+//                 },
+//             }
+//         }
+//     }, function (err, resp, status) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             console.log(resp);
+//         }
+//     })
+// };
+
 
 module.exports.addToIndex = function (req,res,next){
     client.index({
@@ -146,6 +178,24 @@ module.exports.addToIndex = function (req,res,next){
         data:null
     });
 }
+
+module.exports.addToContentIndex = function (req,res,next){
+    client.index({
+        index:'contentelasticsearch',
+        type:'title',
+        body:{
+            name:req.body.name,
+            type:req.body.type,
+            object:req.body.object
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Added to index',
+        data:null
+    });
+}
+
 
 module.exports.getAllTags =function(req, res, next) {
     client.search({
@@ -195,19 +245,45 @@ module.exports.getTagbyKeyword =function(req, res, next) {
 
     });
 };
- // function deleteecord()
+
+module.exports.getContentbyTitle =function(req, res, next) {
+    client.search({
+        index: 'contentelasticsearch',
+        type: 'title',
+        body: {
+            'query': {
+                'match' :{ "name":req.params.title}
+            }
+        }
+    }).then(function (hit) {
+        if(!hit) {
+            console.log(err);
+            return next(err);
+        }
+        var hits = hit.hits.hits;
+        return res.status(200).json({
+            err:null,
+            msg:'All Tags retrieved successfully',
+            data:hit.hits.hits
+        });
+
+    });
+};
+ // function deleteecord()  // to delete all documents in the an index
  // {
  //     client.deleteByQuery({
- //         index: 'elasticsearch',
- //         type: 'tags',
+ //         index: 'contentelasticsearch',  //index name
+ //         type: 'tags',  // type name
  //         body: {
- //             query:{match: {
- //                 name: "i hamada"
- //             }}
+ //             'query': {
+ //                 "match_all" : {}
+ //             }
  //         }
  //     });
  // }
 
- //Promise.resolve()
- //.then(deleteecord);
-//    .then(createMapping);
+
+  // Promise.resolve()
+  //     .then(createMappingtitle);
+ // .then(deleteecord);
+

@@ -123,6 +123,7 @@ export class CreateComponent implements OnInit{
     .subscribe(res=>{
     console.log(res);
     var tags =   res["data"]["tags"];
+         var object = res["data"];
          var JSONtoIndex = {
              "name":tags,
              "object":res["data"],
@@ -130,8 +131,18 @@ export class CreateComponent implements OnInit{
          }
          console.log(JSONtoIndex);
          this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
-         .subscribe(res =>{console.log(res)
-            this.router.navigate(["/content/viewallcontents"])
+         .subscribe(res =>{console.log(res);
+                 var JSONtoContentIndex = {
+                     "name": content.title,
+                     "object":object,
+                     "type": "Content"
+                 }
+                 this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoContentIndex,config).subscribe(
+                     res => {
+                         console.log(res);
+                         this.router.navigate(["/content/viewallcontents"])
+                     }
+            )
         },
         err=>console.log("error adding to index"));
     },err=>{

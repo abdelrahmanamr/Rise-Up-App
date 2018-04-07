@@ -46,7 +46,7 @@ router.get('/search/getAllTags', searchCtrl.getAllTags);
 router.post('/search/addToIndex', searchCtrl.addToIndex);
 router.post('/search/addToContentIndex', searchCtrl.addToContentIndex);
 router.get('/search/getTagbyKeyword/:tag', searchCtrl.getTagbyKeyword);
-router.get('/search/getTagbyKeyword/:title', searchCtrl.getContentbyTitle);
+router.get('/search/getContentbyTitle/:title', searchCtrl.getContentbyTitle);
 
 //-----------------------------Company Routes--------------------------------------
 router.get('/company/getCompanies',CompanyCtrl.getCompanies);

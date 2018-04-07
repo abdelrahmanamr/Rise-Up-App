@@ -269,6 +269,14 @@ module.exports.getContentbyTitle =function(req, res, next) {
 
     });
 };
+
+// function dropIndex() {                  // method to delete an index in elastic search
+//     return client.indices.delete({
+//         index: 'contentelasticsearch',
+//     });
+// }
+
+
  // function deleteecord()  // to delete all documents in the an index
  // {
  //     client.deleteByQuery({
@@ -283,7 +291,8 @@ module.exports.getContentbyTitle =function(req, res, next) {
  // }
 
 
-  // Promise.resolve()
-  //     .then(createMappingtitle);
+ //   Promise.resolve()
+ //       .then(createMappingtitle);
+      // .then(createMappingtitle);
  // .then(deleteecord);
 

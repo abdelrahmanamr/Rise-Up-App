@@ -20,7 +20,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
       <div class="form-group" id="wrapper">
       <div id = "right">
+<div>
 
+
+    <label for="usertags">Please write your tag and press "Enter" to add it,or press "Backspace" to edit it.</label>
+    <tags-input class="form-control input-lg" formControlName="usertags" style=" color:#000000; width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" type="text" placeholder="Tags"
+                (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+    
+    
+</div>
       <div>
 
           <input placeholder= "Security Question" type="text" id="SQ" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1; margin-top:15px;" class="form-control"
@@ -94,8 +102,17 @@ export class RegisterComponent implements OnInit{
 
 
     myForm: FormGroup;
+    tags:any=[];
 
-ngOnInit(){
+    onTagsChanged($event){
+
+        console.log(this.tags);
+        console.log( (JSON.stringify(this.tags)));
+
+    }
+
+
+    ngOnInit(){
 
     this.myForm = new FormGroup({
         userNameField: new FormControl(null, Validators.required),
@@ -109,7 +126,8 @@ ngOnInit(){
           passwordField2: new FormControl(null, Validators.required),
           secAField: new FormControl(null, Validators.required),
           secQField: new FormControl(null, Validators.required),
-          bDateField: new FormControl(null, Validators.required)
+          bDateField: new FormControl(null, Validators.required),
+          usertags : new FormControl(null, Validators.required)
 
 
 
@@ -120,6 +138,9 @@ ngOnInit(){
   }
 
 onSubmit = function(user){
+    var result = this.tags.map(function(val) {
+        return val.displayValue;
+    }).join(',');
 
     var data = JSON.stringify({
         username: user.userNameField,
@@ -129,6 +150,7 @@ onSubmit = function(user){
             confirmPassword: user.passwordField2,
           firstname: user.firstNameField,
           lastname: user.lastNameField,
+        tags:result,
         email: user.emailField,
         dateOfBirth:(user.bDateField)
       });

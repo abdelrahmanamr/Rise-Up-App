@@ -26,6 +26,10 @@ var contentSchema = mongoose.Schema({
         type: Number,
         default:0
     },
+    numberOfRatings: {
+        type: Number,
+        default:0
+    },
     shares: {
         type: Number,
         default:0

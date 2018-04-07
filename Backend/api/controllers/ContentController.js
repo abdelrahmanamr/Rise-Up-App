@@ -84,6 +84,7 @@ var mongoose = require('mongoose'),
       req.body.tags &&
       Validations.isString(req.body.tags)
       ;
+
     if (!valid) {
       return res.status(422).json({
         err: null,

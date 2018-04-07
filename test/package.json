@@ -1,0 +1,14 @@
+{
+    "name": "testing",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "test": "./node_modules/mocha/bin/mocha"
+    },
+    "dependencies": {
+        "mocha": "^5.0.5",
+        "chai": "^4.1.2",
+        "chai-http": "^4.0.0",
+        "mongoose": "^5.0.13"
+    }
+}

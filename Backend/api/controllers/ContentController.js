@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/Validations'),
   Content = mongoose.model('Content');
   User = mongoose.model('User');
+  Rating = mongoose.model('Rating');
 
 
   module.exports.views = function(req, res, next) {
@@ -79,6 +80,126 @@ var mongoose = require('mongoose'),
       });
     });
   };
+
+  module.exports.rate = function (req, res, next) {
+    Rating.findOne({
+      userid: req.body.userid,
+      contentid: req.body.contentid
+    }).exec(function(err, rating) {
+      if (err) {
+        return next(err);
+      }
+      if(rating){
+        Rating.findByIdAndUpdate(
+          rating._id,
+          {
+            rating: req.body.rating,
+            updatedAt: Date.now()
+          },
+          { new: true }
+        ).exec(function(err, updatedRating) {
+          if (err) {
+            return next(err);
+          }
+          if (!updatedRating) {
+            return res
+              .status(404)
+              .json({ err: null, msg: 'Rating not found.', data: null });
+          }
+
+          Rating.find({
+            contentid: req.body.contentid
+          }, { rating: 1 }).exec(function(err, ratings) {
+            if (err) {
+              return next(err);
+            }
+            var totalRatings = 0;
+            ratings.forEach(rating => {
+              totalRatings += rating.rating
+            });
+            avgRating = totalRatings/ratings.length;
+
+            Content.findByIdAndUpdate(
+              req.body.contentid,
+              {
+                rating: avgRating,
+                updatedAt: Date.now()
+              },
+              { new: true }
+            ).exec(function(err, updatedContent) {
+              if (err) {
+                return next(err);
+              }
+              if (!updatedContent) {
+                return res
+                  .status(404)
+                  .json({ err: null, msg: 'Content not found.', data: null });
+              }
+              res.status(200).json({
+                err: null,
+                msg: 'Content was updated successfully.',
+                data: updatedContent
+              });
+            });
+
+          });
+          
+        });
+      }else{
+        Rating.create({
+          contentid: req.body.contentid,
+          userid: req.body.userid,
+          rating: req.body.rating,
+          createdAt: Date.now(),
+          updatedAt: Date.now()
+        }, function(err, rating) {
+          if (err) {
+            console.log(req.body);
+            return next(err);
+          }
+
+          Rating.find({
+            contentid: req.body.contentid
+          }, { rating: 1 }).exec(function(err, ratings) {
+            if (err) {
+              return next(err);
+            }
+            var totalRatings = 0;
+            ratings.forEach(rating => {
+              totalRatings += rating.rating
+            });
+            avgRating = totalRatings/ratings.length;
+
+            Content.findByIdAndUpdate(
+              req.body.contentid,
+              {
+                rating: req.body.rating,
+                updatedAt: Date.now()
+              },
+              { new: true }
+            ).exec(function(err, updatedContent) {
+              if (err) {
+                return next(err);
+              }
+              if (!updatedContent) {
+                return res
+                  .status(404)
+                  .json({ err: null, msg: 'Content not found.', data: null });
+              }
+              res.status(200).json({
+                err: null,
+                msg: 'Content was updated successfully.',
+                data: updatedContent
+              });
+            });
+
+          });
+          
+        });
+      }
+      
+    });
+  }
   
   module.exports.removeContent = function(req, res, next) {
     if (!Validations.isObjectId(req.params.contentId)) {

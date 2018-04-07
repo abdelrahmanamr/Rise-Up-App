@@ -30,6 +30,24 @@ export class SafePipe implements PipeTransform {
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <span><img src="{{ImagePath}}">  </span>  
   <br>
+
+  <style>
+  .checked {
+      color: yellow;
+      
+  }
+  span:hover { 
+    color: yellow;
+  }
+  </style>
+
+  <h2>Rating</h2>
+  <a (click)="rate(1)"><span class="fa fa-star" [class.checked]="rating >= 1"></span></a>
+  <a (click)="rate(2)"><span class="fa fa-star" [class.checked]="rating >= 2"></span></a>
+  <a (click)="rate(3)"><span class="fa fa-star" [class.checked]="rating >= 3"></span></a>
+  <a (click)="rate(4)"><span class="fa fa-star" [class.checked]="rating >= 4"></span></a>
+  <a (click)="rate(5)"><span class="fa fa-star" [class.checked]="rating >= 5"></span></a>
+
   <div   style="float:right; margin-top: -28px"> 
    <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
   <br>
@@ -63,6 +81,8 @@ adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
 IframeBody:SafeResourceUrl;
+rating: number;
+contentid: string;
 
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,private domSanitizer: DomSanitizer) { 
     this.Url=window.location.href
@@ -81,6 +101,23 @@ IframeBody:SafeResourceUrl;
     
       }
 
+      rate(rating){
+        var userProps = JSON.parse(localStorage.getItem("userProps"));
+        let body = {
+          userid: userProps._id,
+          contentid: this.contentid,
+          rating: this.rating
+        }
+        this.httpClient.put(environment.apiUrl +'/Content/updateContent',body).subscribe(
+          res=>{  
+  
+            this.rating = res['data'].rating;
+                      
+          }, err=>{
+            console.log(err);
+          });
+      }
+
 
   GetContent(ID:string){
         var config ={
@@ -91,6 +128,10 @@ IframeBody:SafeResourceUrl;
   }
     this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
       res=>{  
+        if(res['data']){
+          this.contentid = res['data']._id;
+          this.rating = res['data'].rating;
+        }
       if(res['data'].type== "Post"){
         this.ViewText(this.ID)
       }   

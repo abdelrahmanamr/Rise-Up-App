@@ -27,16 +27,22 @@ import {Router} from "@angular/router";
 })
 export class SuggestedContentComponent {
   public contents:any[]=[];
-
+  
   constructor(private httpClient: HttpClient,private router: Router) { }
 
 ngOnInit() {
   this.ViewContents();
   }
   ViewContents(){
+    
     this.httpClient.get(environment.apiUrl +'suggestedcontent/viewSuggestedContents').subscribe(
-      res=>{  
-        this.contents = res['data'];       
+      res=>{ 
+        for(var i = 0 ; i <res['data'].length;i++){
+          if(res['data'][i].status == 0){
+            this.contents.push(res['data'][i]);
+          }
+        }
+        
       }
     );
   }

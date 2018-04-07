@@ -149,7 +149,7 @@ export class CreateComponent implements OnInit{
     });
     this.user = JSON.parse(localStorage.getItem("userProps"));
     console.log(this.user);
-    if(this.user==null || !this.user['admin'] ){
+    if(this.user==null ){
       this.router.navigate(["/user"]);
     }
 
@@ -183,6 +183,7 @@ export class CreateComponent implements OnInit{
         }
     }
 
+    if(this.user['admin']){
     this.http.post(environment.apiUrl+'/content/addContent', data, config)
     .subscribe(res=>{
     console.log(res);
@@ -191,6 +192,16 @@ export class CreateComponent implements OnInit{
    
       this.errorHandle = err['error']['msg'];
     });
+  }
+  else{
+    this.http.post(environment.apiUrl+'/suggestedcontent/addSuggestedContent',data,config)
+    .subscribe(res=>{
+      console.log(res);
+      this.router.navigate(["/suggestedcontent/viewSuggestedContents/"])
+    },err=>{
+      this.errorHandle = err['error']['msg'];
+    });
+  }
 
     }
   }

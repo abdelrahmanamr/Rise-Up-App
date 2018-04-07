@@ -17,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span><img src="{{ImagePath}}">  </span>  
   <br>
   <div style="float:left;"> <Button *ngIf="adminStatus" (click)="AddContent(ID)" class="btn btn-danger btn-sm"> Approve </Button></div>
-  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
+  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DisapproveContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
   </div>
   </div>
   
@@ -58,6 +58,7 @@ user = null;
   }
     this.httpClient.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
       res=>{  
+        
       if(res['data'].type== "Post"){
         this.ViewText(this.ID)
       }   
@@ -68,7 +69,7 @@ user = null;
       if(res['data'].type== "Link"){
         this.ViewLink(this.ID)
       }  
-          
+    
       }
     );
  }
@@ -151,9 +152,34 @@ user = null;
     this.user = JSON.parse(localStorage.getItem("userProps"));
     this.contents['userid'] = this.user['_id'];
     this.httpClient.post(environment.apiUrl+'content/addContent',this.contents,config).subscribe(res=>{
-      this.DeleteContent(ident);
+  
+    });
+    this.contents['status'] = 1;
+    this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
+      this.router.navigateByUrl('/content/viewallcontents');
     });
    });
+
+  
+ }
+ DisapproveContent(ident:string)
+ {
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+this.httpClient.get(environment.apiUrl+'/suggestedcontent/viewSuggestedContent/'+ident,config).
+subscribe(res=>{
+this.contents = res['data'];
+this.user = JSON.parse(localStorage.getItem("userProps"));
+this.contents['userid'] = this.user['_id'];
+this.contents['status'] = -1;
+this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
+  this.router.navigateByUrl('/content/viewallcontents');
+});
+});
 
   
  }

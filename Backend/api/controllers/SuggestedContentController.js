@@ -43,7 +43,38 @@ var mongoose = require('mongoose'),
       });
     });
   };
+  module.exports.updateSuggestedContent = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.contentId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'contentId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+
   
+    SuggestedContent.findByIdAndUpdate(
+      req.params.contentId,
+      {
+        $set: req.body
+      },
+      { new: true }
+    ).exec(function(err, updatedContent) {
+      if (err) {
+        return next(err);
+      }
+      if (!updatedContent) {
+        return res
+          .status(404)
+          .json({ err: null, msg: 'Content not found.', data: null });
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'Content was updated successfully.',
+        data: updatedContent
+      });
+    });
+  };
   module.exports.removeSuggestedContent = function(req, res, next) {
     if (!Validations.isObjectId(req.params.contentId)) {
         return res.status(422).json({
@@ -112,9 +143,10 @@ var mongoose = require('mongoose'),
       }
       res.status(201).json({
         err: null,
-        msg: 'Content was created successfully.',
+        msg: 'Suggested Content was created successfully.',
         data: content
       });
     });
   }}});
 }}
+

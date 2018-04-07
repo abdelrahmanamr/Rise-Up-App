@@ -39,7 +39,7 @@ router.post('/suggestedcontent/addSuggestedContent', suggestedContentCtrl.create
 router.delete('/suggestedcontent/deleteSuggestedContent/:contentId', suggestedContentCtrl.removeSuggestedContent);
 router.get('/suggestedcontent/viewSuggestedContents', suggestedContentCtrl.viewSuggestedContents);
 router.get('/suggestedcontent/viewSuggestedContent/:contentId', suggestedContentCtrl.viewSuggestedContent);
-
+router.patch('/suggestedcontent/updateSuggestedContent/:contentId', suggestedContentCtrl.updateSuggestedContent);
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);

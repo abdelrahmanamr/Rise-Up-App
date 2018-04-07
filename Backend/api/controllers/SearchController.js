@@ -126,40 +126,40 @@ module.exports.getCompanyByType = function ( req, res, next) {
 //     })
 // };
 
-// function createContentsearchIndex() {           // to be run once for the database to create the index
-//     client.indices.create({
-//         index: 'contentelasticsearch'
-//     }, function (err, res, status) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("create", res);
-//         }
-//     })
-// };
+function createContentsearchIndex() {           // to be run once for the database to create the index
+    client.indices.create({
+        index: 'contentelasticsearch'
+    }, function (err, res, status) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("create", res);
+        }
+    })
+};
 
-// function createMappingtitle() {        // to be run once for the database to create the mapping
-//     client.indices.putMapping({
-//         index: 'contentelasticsearch',
-//         type: 'title',
-//         body: {
-//             properties: {
-//                 'name': {
-//                     'type': 'text', // type is a required attribute if index is specified
-//                     'analyzer': 'english'
-//                 },
-//             }
-//         }
-//     }, function (err, resp, status) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log(resp);
-//         }
-//     })
-// };
+function createMappingtitle() {        // to be run once for the database to create the mapping
+    client.indices.putMapping({
+        index: 'contentelasticsearch',
+        type: 'title',
+        body: {
+            properties: {
+                'name': {
+                    'type': 'text', // type is a required attribute if index is specified
+                    'analyzer': 'english'
+                },
+            }
+        }
+    }, function (err, resp, status) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(resp);
+        }
+    })
+};
 
 
 module.exports.addToIndex = function (req,res,next){
@@ -263,7 +263,7 @@ module.exports.getContentbyTitle =function(req, res, next) {
         var hits = hit.hits.hits;
         return res.status(200).json({
             err:null,
-            msg:'All Tags retrieved successfully',
+            msg:'All contents containing this title '+req.params.title + ' retrieved successfully',
             data:hit.hits.hits
         });
 
@@ -291,8 +291,10 @@ module.exports.getContentbyTitle =function(req, res, next) {
  // }
 
 
- //   Promise.resolve()
- //       .then(createMappingtitle);
-      // .then(createMappingtitle);
- // .then(deleteecord);
+   Promise.resolve()
+ //       .then(createMappingtitle)
+ //      .then(createMappingtitle),
+ // .then(deleteecord),
+// .then(createContentsearchIndex),
+   .then(createMappingtitle);
 

@@ -173,6 +173,22 @@ export class SearchResultComponent implements OnInit{
                 }
                 this.searchByTags=true;
                 console.log(res['data']);
+
+                this.http.get(environment.apiUrl+'/search/getContentbyTitle/'+this.nameortype).subscribe(
+                    res=>{
+                        if(this.Items=[])
+                        {
+                            this.Items= res['data'];
+                        }
+                        else{
+                            this.Items.concat(res['data']);
+
+                        }
+                        console.log(this.Items);
+
+                    }
+                )
+
             });
         }
         else

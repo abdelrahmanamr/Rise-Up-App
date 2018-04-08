@@ -8,6 +8,7 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 
 
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
+import { ValueTransformer } from '@angular/compiler/src/util';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -29,6 +30,26 @@ export class SafePipe implements PipeTransform {
   <span> <div [innerHTML]="Content"></div></span>
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <span><img src="{{ImagePath}}">  </span>  
+  <br />
+<br />
+
+
+
+
+<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
+<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+
+
+
+
+<br />
+<br />
+<div><b> comments: </b> 
+<br />
+<span> <p> {{ array.toString() }} </p> </span>
+</div>
   <br>
   <div   style="float:right; margin-top: -28px"> 
    <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
@@ -57,13 +78,15 @@ ID:string
 Content : any;
 Title:any
 PostTitle :any
+array = [];
+userID :any
 Body:any
 ImagePath:string
 adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
 IframeBody:SafeResourceUrl;
-
+comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
@@ -117,8 +140,10 @@ IframeBody:SafeResourceUrl;
         res=>{  
           this.Content = res['data'].body;  
           this.PostTitle = res['data'].title;
-            
-        }
+            this.array.push("comment1");
+            this.array.push("comment2");
+
+          }
       );
      }
      
@@ -177,7 +202,37 @@ IframeBody:SafeResourceUrl;
   
  }
 
-    
+createComment(ID:String, comment:String)
+ {
+
+  this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
+  var data = JSON.stringify({contentid:ID ,body:comment , userid:this.userID});
+
+
+  console.log(data);
+
+
+
+
+//  const com = this.comment.get('comment').value();
+   var config = {
+                 headers : 
+                 {
+                     'Content-Type':'application/json'
+                 }
+             }
+
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+ID , data/*hena*/ ,config).subscribe(
+    res=>{
+    this.comment=(res['data'].body);  
+     // this.array.push( comment);
+      //this.array.push( "kaka");
+    }
+  );
+
+ }
+
+
 
 
 

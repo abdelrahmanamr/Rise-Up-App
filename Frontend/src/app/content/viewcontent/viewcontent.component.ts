@@ -206,7 +206,7 @@ createComment(ID:String, comment:string)
  {
 
   this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
-  var data = {"body":comment ,
+  var data = {"body":comment["comment"] ,
              "userid":this.userID};
 
 console.log(comment)
@@ -226,6 +226,7 @@ console.log(comment)
   this.httpClient.post(environment.apiUrl +'Content/createComment/'+ID , data/*hena*/ ,config).subscribe(
     res=>{
     this.comment=(res['data'].body);  
+    console.log(res["data"]);
      // this.array.push( comment);
       //this.array.push( "kaka");
     }

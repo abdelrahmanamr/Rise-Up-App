@@ -170,18 +170,17 @@ var mongoose = require('mongoose'),
 
 module.exports.createComment = function(req, res, next) {
   
-  var valid =
-    req.params.contentid &&
-    Validations.isObjectId(req.params.contentId) &&
-     req.body.body &&
-     Validations.isString(req.body.body)&&
-      req.body.userid &&
-      Validations.isObjectId(req.body.userid);
-    console.log( Validations.isObjectId(req.params.contentId))
-    console.log(Validations.isString(req.body.body))
-    console.log(Validations.isObjectId(req.body.userid))
-    // console.log(typeof(req.body.body))
-     console.log(req.body.body["comment"])
+  var valid = req.params.contentId && 
+  Validations.isObjectId(req.params.contentId) && 
+  req.body.body &&  
+  Validations.isString(req.body.body) && 
+  req.body.userid && 
+  Validations.isObjectId(req.body.userid);
+
+
+
+
+  
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -193,7 +192,8 @@ module.exports.createComment = function(req, res, next) {
     if(err){
       return next(err);
     }
-    else {if(!content){ 
+    else {
+      if(!content){ 
       return res
       .status(404)
       .json({ err: null, msg: 'Content not found.', data: null });

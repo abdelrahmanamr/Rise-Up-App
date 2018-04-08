@@ -25,10 +25,16 @@ const routes: Routes = [
                 loadChildren: './addcompany/addcompany.module#AddCompanyModule'
             },
             {
+                path: 'edittags',
+                loadChildren: './edittags/edittags.module#EdittagsModule'
+            },
+            {
                 path: '',
                 redirectTo: 'viewusers',
                 pathMatch: 'full'
             }
+            
+
         ]
     }
 ];

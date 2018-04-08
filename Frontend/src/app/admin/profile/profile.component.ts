@@ -50,6 +50,13 @@ import {environment} from '../../../environments/environment';
                       <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
                               class="btn btn-primary" (click)="RemoveExpert()">Remove expert
                       </button>
+                      <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                      class="btn btn-primary" (click)="editExpert()">Edit Expert Tags
+              </button>
+                      
+
+                    
+        
                   </div>
               </div>
           </div>
@@ -100,6 +107,9 @@ export class ProfileComponent {
     this.http.patch(environment.apiUrl+'/admin/blockUser/'+id, config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
+  }
+  editExpert(){
+    this.router.navigateByUrl('/admin/editExpertTags')
   }
 
   UnBlock()

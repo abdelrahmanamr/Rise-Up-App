@@ -176,7 +176,7 @@ export class SearchResultComponent implements OnInit{
 
                 this.http.get(environment.apiUrl+'/search/getContentbyTitle/'+this.nameortype).subscribe(
                     res=>{
-                        if(this.Items=[])
+                        if(this.Items.length==0)
                         {
                             this.Items= res['data'];
                         }

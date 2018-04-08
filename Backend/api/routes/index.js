@@ -26,14 +26,16 @@ router.get('/Company/viewCompany/:companyId', CompanyCtrl.viewCompany);
 router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 //-------------------------------Content Routes-----------------------------------
 router.post('/content/addContent', contentCtrl.createContent);
-router.put('/Content/updateContent', bodyParser, contentCtrl.rate);
+router.put('/content/updateContent', bodyParser, contentCtrl.rate);
 
 router.post('/product/createProduct', productCtrl.createProduct);
 router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 
-router.patch('/Content/updateContent/:contentId', contentCtrl.updaterate);
 
 
+router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
+
+router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);

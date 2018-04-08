@@ -22,7 +22,6 @@ export class SafePipe implements PipeTransform {
   selector: 'app-content-viewcontent',
   template: ` 
   <div class="container">
-  
   <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
   <span> <b> {{ PostTitle }} </b> </span>
   <br>
@@ -54,7 +53,7 @@ export class SafePipe implements PipeTransform {
   <br>
   
   <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
-
+  
   </div>
   </div>
 
@@ -82,7 +81,7 @@ adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
 IframeBody:SafeResourceUrl;
-rating: number=2;
+rating: number;
 contentid: string;
 
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
@@ -99,27 +98,23 @@ contentid: string;
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
-   
+    
       }
 
-      rate(rate:number){
-        // let body = {
-        //   userid: JSON.parse(localStorage.getItem("userProps"))["_id"],
-        //   _id: this.ID,
-        //   rating: rate
-        // }
-        var config ={
-          headers : 
-        {
-      'Content-Type':'application/json'
+      rate(rating){
+        var userProps = JSON.parse(localStorage.getItem("userProps"));
+        let body = {
+          userid: userProps._id,
+          contentid: this.contentid,
+          rating: this.rating
         }
-      }
-  
-        var data = JSON.stringify({rating: rate})
-
-        this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
+        this.httpClient.put(environment.apiUrl +'/Content/updateContent',body).subscribe(
           res=>{  
-                  
+  
+            this.rating = res['data'].rating;
+                      
+          }, err=>{
+            console.log(err);
           });
       }
 

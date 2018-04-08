@@ -2,7 +2,7 @@ var mongoose = require('mongoose'),
   moment = require('moment'),
   Validations = require('../utils/Validations'),
   Content = mongoose.model('Content');
-  comment = mongoose.model('Comment');
+  Comment = mongoose.model('Comment');
   User = mongoose.model('User');
 
 
@@ -169,14 +169,19 @@ var mongoose = require('mongoose'),
 
 
 module.exports.createComment = function(req, res, next) {
+  
   var valid =
     req.params.contentid &&
     Validations.isObjectId(req.params.contentId) &&
-    req.body.body &&
-    Validations.isString(req.body.body)&&
-    req.body.userid &&
-    Validations.isObjectId(req.body.userid)
-    ;
+     req.body.body &&
+     Validations.isString(req.body.body)&&
+      req.body.userid &&
+      Validations.isObjectId(req.body.userid);
+    console.log( Validations.isObjectId(req.params.contentId))
+    console.log(Validations.isString(req.body.body))
+    console.log(Validations.isObjectId(req.body.userid))
+    // console.log(typeof(req.body.body))
+     console.log(req.body.body["comment"])
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -184,7 +189,7 @@ module.exports.createComment = function(req, res, next) {
       data: null
     });
   }else{
-  Content.findById(req.body.contentid).exec(function(err,content) {
+  Content.findById(req.params.contentId).exec(function(err,content) {
     if(err){
       return next(err);
     }
@@ -198,10 +203,10 @@ module.exports.createComment = function(req, res, next) {
   
 
   // Security Check
-  delete req.body.createdAt;
-  delete req.body.updatedAt;
+ // delete req.body.createdAt;
+  //delete req.body.updatedAt;
 
-  comment.create(req.body, function(err, comments) {
+  Comment.create(req.body, function(err, comments) {
     if (err) {
       return next(err);
     }

@@ -202,13 +202,14 @@ comment:any;
   
  }
 
-createComment(ID:String, comment:String)
+createComment(ID:String, comment:string)
  {
 
   this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
-  var data = JSON.stringify({contentid:ID ,body:comment , userid:this.userID});
+  var data = {"body":comment ,
+             "userid":this.userID};
 
-
+console.log(comment)
   console.log(data);
 
 

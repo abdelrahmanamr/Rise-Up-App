@@ -119,11 +119,7 @@ contentid: string;
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
-  
-           // this.rating = res['data'].rating;
                   
-          }, err=>{
-            console.log(err);
           });
       }
 

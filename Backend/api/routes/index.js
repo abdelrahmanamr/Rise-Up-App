@@ -6,6 +6,7 @@ var express = require('express'),
   searchCtrl = require('../controllers/SearchController');
   AdminController = require('../controllers/AdminController');
   CompanyCtrl = require('../controllers/CompanyController');
+  bodyParser = require('body-parser').json();
 
 //-------------------------------Product Routes-----------------------------------
 router.get('/product/getProducts', productCtrl.getProducts);
@@ -25,6 +26,7 @@ router.get('/Company/viewCompany/:companyId', CompanyCtrl.viewCompany);
 router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 //-------------------------------Content Routes-----------------------------------
 router.post('/content/addContent', contentCtrl.createContent);
+router.put('/content/updateContent', bodyParser, contentCtrl.rate);
 
 router.post('/product/createProduct', productCtrl.createProduct);
 router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);

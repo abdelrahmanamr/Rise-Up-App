@@ -314,6 +314,7 @@ Content.findById(req.params.contentId).exec(function(err, ratedContents){
    });
    req.body.rating=allratings/length;
    ratedContents.rating = req.body.rating;
+   
    ratedContents.save(function(err,ratedContents,num){
      if(err){
        return next(err);

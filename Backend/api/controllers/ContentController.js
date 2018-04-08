@@ -312,30 +312,28 @@ Content.findById(req.params.contentId).exec(function(err, ratedContents){
      allratings = ratedContent+allratings;
     length++;
    });
-
    req.body.rating=allratings/length;
-   console.log(ratedContents.ratingarray.length)
+   ratedContents.rating = req.body.rating;
+   ratedContents.save(function(err,ratedContents,num){
+     if(err){
+       return next(err);
+     }else{
+       if(num==0){
+        return   res.status(422).json({
+          err: null,
+          msg: 'Failure in update',
+          data: null
+        });
+       }else{
+        return   res.status(201).json({
+          err: null,
+          msg: 'updated',
+          data: ratedContents
+        });
+       }
+     }
+   });
 
  });
-  Content.findByIdAndUpdate(
-    req.params.contentId,
-    {
-      $set: req.body
-    },
-    { new: true }
-  ).exec(function(err, updatedContent) {
-    if (err) {
-      return next(err);
-    }
-    if (!updatedContent) {
-      return res
-        .status(404)
-        .json({ err: null, msg: 'content not found.', data: null });
-    }
-    res.status(200).json({
-      err: null,
-      msg: 'content was updated successfully.',
-      data: updatedContent
-    });
-  });
+ 
 };

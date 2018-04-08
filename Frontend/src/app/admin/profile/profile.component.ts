@@ -50,6 +50,7 @@ import {environment} from '../../../environments/environment';
                       <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
                               class="btn btn-primary" (click)="RemoveExpert()">Remove expert
                       </button>
+
                       <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
                       class="btn btn-primary" (click)="editExpert()">Edit Expert Tags
               </button>
@@ -109,7 +110,8 @@ export class ProfileComponent {
       window.location.reload();
   }
   editExpert(){
-    this.router.navigateByUrl('/admin/editExpertTags')
+    //window.location.replace("#/admin/editExpertTags");
+    window.location.replace("#/admin/edittags");
   }
 
   UnBlock()

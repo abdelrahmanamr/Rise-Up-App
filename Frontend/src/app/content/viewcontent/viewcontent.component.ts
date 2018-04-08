@@ -27,7 +27,7 @@ export class SafePipe implements PipeTransform {
   <br>
   <br>
   <span> <div [innerHTML]="Content"></div></span>
-  <span><a href="{{ Body }}"> {{ Title }} </a></span> 
+  <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br>
   <div   style="float:right; margin-top: -28px"> 
@@ -39,7 +39,7 @@ export class SafePipe implements PipeTransform {
   </div>
   </div>
 
-  <span  *ngIf="Link"> <iframe width="1100" height="600" [src]="Body | safe" ></iframe> </span>
+  <span  *ngIf="Link"> <iframe width="1450" height="600" [src]="Body | safe" ></iframe> </span>
  
 
   </div>
@@ -62,6 +62,7 @@ ImagePath:string
 adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
+link:boolean=false;
 IframeBody:SafeResourceUrl;
 
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
@@ -137,7 +138,7 @@ IframeBody:SafeResourceUrl;
 
           this.Body = res['data'].body;
           console.log(this.Body);
-          this.Link=true;
+          this.link=true;
                     
         }
       );

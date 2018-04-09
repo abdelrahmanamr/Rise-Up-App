@@ -22,6 +22,10 @@ var contentSchema = mongoose.Schema({
         type: Number,
         default:0
     },
+    ratingarray: {
+        type: Array,
+        default:[]
+    },
     rating: {
         type: Number,
         default:0

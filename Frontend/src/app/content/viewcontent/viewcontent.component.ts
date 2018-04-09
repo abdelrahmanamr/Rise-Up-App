@@ -27,6 +27,7 @@ export class SafePipe implements PipeTransform {
   <br>
   <br>
   <span> <div [innerHTML]="Content"></div></span>
+  span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br>
@@ -102,18 +103,26 @@ contentid: string;
     
       }
 
-      rate(rating){
-        var userProps = JSON.parse(localStorage.getItem("userProps"));
-        let body = {
-          userid: userProps._id,
-          contentid: this.contentid,
-          rating: this.rating
+      rate(rate:number){
+        // let body = {
+        //   userid: JSON.parse(localStorage.getItem("userProps"))["_id"],
+        //   _id: this.ID,
+        //   rating: rate
+        // }
+        var config ={
+          headers : 
+        {
+      'Content-Type':'application/json'
         }
-        this.httpClient.put(environment.apiUrl +'/Content/updateContent',body).subscribe(
+      }
+  
+        var data = JSON.stringify({rating: rate})
+
+        this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
   
-            this.rating = res['data'].rating;
-                      
+           // this.rating = res['data'].rating;
+                  
           }, err=>{
             console.log(err);
           });

@@ -282,3 +282,58 @@ var mongoose = require('mongoose'),
     });
   }}}});
 }}
+
+
+module.exports.updaterate = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.contentId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'productId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  var valid =
+    req.body.rating &&
+    Validations.isNumber(req.body.rating);
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'name(String) and price(Number) are required fields.',
+      data: null
+    });
+  }
+  
+Content.findById(req.params.contentId).exec(function(err, ratedContents){
+
+  ratedContents.ratingarray.push(req.body.rating);
+   var allratings=0;
+  length=0
+   ratedContents.ratingarray.forEach(ratedContent => {
+     allratings = ratedContent+allratings;
+    length++;
+   });
+   req.body.rating=allratings/length;
+   ratedContents.rating = req.body.rating;
+   ratedContents.save(function(err,ratedContents,num){
+     if(err){
+       return next(err);
+     }else{
+       if(num==0){
+        return   res.status(422).json({
+          err: null,
+          msg: 'Failure in update',
+          data: null
+        });
+       }else{
+        return   res.status(201).json({
+          err: null,
+          msg: 'updated',
+          data: ratedContents
+        });
+       }
+     }
+   });
+
+ });
+ 
+};

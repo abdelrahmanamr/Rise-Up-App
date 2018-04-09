@@ -12,10 +12,7 @@ const routes: Routes = [
                 path: 'viewusers',
                 loadChildren: './viewusers/viewusers.module#ViewUsersModule'
             },
-            {
-                path: 'editExpertTags',
-                loadChildren: './editExpertTags/editExpertTags.module#editExpertTagsModule'
-            },
+            
             {
                 path: 'profile',
                 loadChildren: './profile/profile.module#ProfileModule'

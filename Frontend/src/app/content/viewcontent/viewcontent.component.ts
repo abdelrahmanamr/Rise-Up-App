@@ -9,6 +9,7 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
 import { ValueTransformer } from '@angular/compiler/src/util';
+import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -22,6 +23,9 @@ export class SafePipe implements PipeTransform {
 @Component({
   selector: 'app-content-viewcontent',
   template: ` 
+  
+
+  
   <div class="container">
   <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
   <span> <b> {{ PostTitle }} </b> </span>
@@ -48,8 +52,26 @@ export class SafePipe implements PipeTransform {
 <br />
 <div><b> comments: </b> 
 <br />
-<span> <p> {{ array.toString() }} </p> </span>
 </div>
+
+
+
+<div class="container">
+<div *ngFor="let comment of comments">
+  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+  <div style="float:left;">
+  <h4>{{comment.body}}</h4>
+
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
   <br>
   <div   style="float:right; margin-top: -28px"> 
    <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
@@ -64,6 +86,8 @@ export class SafePipe implements PipeTransform {
  
 
   </div>
+
+
   
   `
 
@@ -82,6 +106,7 @@ array = [];
 userID :any
 Body:any
 ImagePath:string
+public comments:any[]=[];
 adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
@@ -101,7 +126,7 @@ comment:any;
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
-    
+    this.ViewComments();
       }
 
 
@@ -227,13 +252,43 @@ console.log(comment)
     res=>{
     this.comment=(res['data'].body);  
     console.log(res["data"]);
-     // this.array.push( comment);
+      this.array.push( comment["comment"] );
       //this.array.push( "kaka");
+      this.router.navigateByUrl('/content/viewallcontents');
+
     }
   );
 
+
+this.ViewComments();
+
+
+   
+  
+
+
+
+
  }
 
+
+
+
+
+
+ ViewComments(){
+
+  
+
+  this.httpClient.get(environment.apiUrl +'Content/getComments').subscribe(
+    res=>{  
+      this.comments=(res['data']);  
+
+      
+    }
+  );
+
+}
 
 
 

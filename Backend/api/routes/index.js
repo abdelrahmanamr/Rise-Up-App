@@ -64,4 +64,5 @@ router.get('/admin/getUsers',AdminController.getUsers);
 router.get('/admin/getUserById/:userId',AdminController.getUserById);
 router.get('/admin/viewCompanies',AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
+router.patch('/admin/UpdateExpertTag',AdminController.updateExpertTags)
 module.exports = router;

@@ -52,6 +52,48 @@ module.exports.AddExpert=function(req, res, next){
 };
 
 
+
+module.exports.updateExpertTags=function(req, res, next){
+
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    User.findByIdAndUpdate(
+        req.params.userId,
+        {
+            $set:req.body
+        },
+        {
+            new:true
+        }
+    ).exec(function(err, updatedUser){
+        if(err){
+            return next(err);
+        }
+        if(!updatedUser){
+            return res.status(404).json({
+                err:null,
+                msg:'User not found',
+                data:null
+            });
+        }
+
+        res.status(200).json({
+            err:null,
+            msg:'User retrieved correctly',
+            data:updatedUser
+        });
+    });
+};
+
 module.exports.BlockUser=function(req, res, next){
 
     if(!Validations.isObjectId(req.params.userId)){

@@ -356,7 +356,7 @@ if (!valid) {
   });
 }else{
   Rating.findOne({userid: req.body.uID,
-    contentid: req.body.contentid
+    contentid: req.params.contentId
   }).exec(function(err, ratingFound) {
     if (err) {
       return next(err);

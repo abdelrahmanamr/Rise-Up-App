@@ -30,8 +30,8 @@ router.put('/content/updateContent', bodyParser, contentCtrl.rate);
 
 router.post('/product/createProduct', productCtrl.createProduct);
 router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
+router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
-router.patch('/Content/updateContent/:contentId', contentCtrl.updaterate);
 
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);

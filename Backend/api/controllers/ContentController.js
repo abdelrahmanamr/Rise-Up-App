@@ -337,3 +337,129 @@ Content.findById(req.params.contentId).exec(function(err, ratedContents){
  });
  
 };
+module.exports.rateNew = function(req,res,next){
+  if (!Validations.isObjectId(req.params.contentId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'productId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  var valid =
+  req.body.rating &&
+  Validations.isNumber(req.body.rating) && req.body.uID && Validations.isObjectId(req.body.uID);
+if (!valid) {
+  return res.status(422).json({
+    err: null,
+    msg: 'name(String) and price(Number) are required fields.',
+    data: null
+  });
+}else{
+  Rating.findOne({userid: req.body.uID,
+    contentid: req.body.contentid
+  }).exec(function(err, ratingFound) {
+    if (err) {
+      return next(err);
+    }
+    else{
+      if(ratingFound){
+        ratingFound.rating = req.body.rating;
+        ratingFound.updatedAt = Date.now;
+        ratingFound.save(function(err,ratingFound,num){
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: 'Error updating existing entry in database',
+                data: null
+              });
+            }
+            else{
+              if(num==0){
+                return res.status(422).json({
+                  err: null,
+                  msg: 'No change in database',
+                  data: null
+                });
+              }
+              else if(num==1){
+                Rating.find({
+                  contentid: req.params.contentId
+                }).exec(function(err, AllRatings) {
+                  if (err) {
+                    return next(err);
+                  }
+                  else{
+                    var totalRatings = 0;
+            AllRatings.forEach(EachRating => {
+              totalRatings += EachRating.rating
+            });
+            avgRating = totalRatings/AllRatings.length;
+            Content.findByIdAndUpdate(req.params.contentId,{ $set: { rating: avgRating }}).exec(function(err,content){
+              if(err){
+                return res.status(422).json({
+                  err: null,
+                  msg: 'Error updating content rating',
+                  data: null
+                });
+              }else if(content){
+                return res.status(201).json({
+                  err: null,
+                  msg: 'Content rating updated and all done',
+                  data: content
+                });
+              }
+            });
+                  }
+                });
+                
+              }
+            }
+        });
+      }else{
+        Rating.create({
+          contentid: req.params.contentId,
+          userid: req.body.userid,
+          rating: req.body.rating,
+          createdAt: Date.now(),
+        }, function(err, rating) {
+          if (err) {
+            console.log(req.body);
+            return next(err);
+          }else{
+            Rating.find({
+              contentid: req.params.contentId
+            }).exec(function(err, AllRatings) {
+              if (err) {
+                return next(err);
+              }
+              else{
+                var totalRatings = 0;
+        AllRatings.forEach(EachRating => {
+          totalRatings += EachRating.rating
+        });
+        avgRating = totalRatings/AllRatings.length;
+        Content.findByIdAndUpdate(req.params.contentId,{ $set: { rating: avgRating }}).exec(function(err,content){
+          if(err){
+            return res.status(422).json({
+              err: null,
+              msg: 'Error updating content rating',
+              data: null
+            });
+          }else if(content){
+            return res.status(201).json({
+              err: null,
+              msg: 'Content rating updated and all done',
+              data: content
+            });
+          }
+        });
+              }
+            });
+          }
+      });
+      
+    }
+  };
+});
+}
+}

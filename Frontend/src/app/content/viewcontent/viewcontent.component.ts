@@ -5,10 +5,8 @@ import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { SafeResourceUrl } from '@angular/platform-browser';
 // import { App, NavController } from 'ionic-angular';
-
-
+import { ToastrService} from 'ngx-toastr';
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
-
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
@@ -49,12 +47,12 @@ export class SafePipe implements PipeTransform {
   <a (click)="rate(4)"><span class="fa fa-star" [class.checked]="rating >= 4"></span></a>
   <a (click)="rate(5)"><span class="fa fa-star" [class.checked]="rating >= 5"></span></a>
 
-  <div   style="float:right; margin-top: -28px"> 
-   <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
+  <div  class="popup" style="float:right; margin-top: -28px"> 
+   <button class="btn btn-danger btn-sm" (click)="showSuccess()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
   <br>
-  
   <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
-  
+  <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="showSuccess()" class="btn btn-danger btn-sm"> testing </Button>
+
   </div>
   </div>
 
@@ -86,7 +84,7 @@ IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
 
-  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
+constructor(private toastr: ToastrService,private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);
@@ -94,8 +92,14 @@ contentid: string;
 
   @ViewChild('mass_timings') mass_timings: ElementRef;
 
-
+  showSuccess() {
+    console.log("here");
+    setTimeout(() => this.toastr.success('',"Link copied to clipboard"));
+    }
   ngOnInit() { 
+    
+
+    
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
@@ -130,6 +134,9 @@ contentid: string;
 
 
   GetContent(ID:string){
+
+
+
         var config ={
       headers : 
     {

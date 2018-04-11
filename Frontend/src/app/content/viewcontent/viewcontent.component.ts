@@ -25,14 +25,11 @@ export class SafePipe implements PipeTransform {
 
   
   <div class="container">
-  <div class="card" style="padding:10px 15px; padding-bottom:10px; margin-bottom:20px;display: block; ">
-  <span>  <div style="float:left;     margin-left: 37%;">
+  <div class="card" style="padding:10px 15px; padding-left:40px;padding-bottom:10px; margin-bottom:20px;display: block; ">
+  <span>  
    <h4 ><font size="7">{{PostTitle}}</font></h4>
-  </div> </span>
-  <br />
-  <br />
-  <br>
-  <br>
+  </span>
+
   <span> <div [innerHTML]="Content"></div></span>
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>

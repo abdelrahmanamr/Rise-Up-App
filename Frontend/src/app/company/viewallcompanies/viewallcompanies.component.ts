@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
   <div style="float:left;">
   <img src="/assets/company.png" style="width:100%">
   <h4>{{company.name}}</h4>
-  Field: {{company.type}}
+  Tags: <span class="tags-input__tag" *ngFor="let tag of company.tags;">{{tag}}</span>
   </div>
   <div style="float:right;"> <br> <Button (click)="ViewCompany(company._id)" class="btn btn-danger btn-sm"> see more </Button>
   </div>
@@ -48,7 +48,10 @@ ngOnInit() {
   ViewCompanies(){
     this.httpClient.get(environment.apiUrl +'Company/viewCompanies').subscribe(
       res=>{  
-        this.companies=res['data']
+        this.companies=res['data'];
+        this.companies.forEach(company => {
+          company.tags=company.tags.split(",");
+        });
      }
     );
 
@@ -57,8 +60,19 @@ ngOnInit() {
 
 
   ViewCompany(ID: string){
-
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json'
+      }
+  }
+    this.httpClient.patch(environment.apiUrl+"company/CompanyViews/"+ID,config).subscribe(
+      res=>{  
+        this.companies=res['data']
+     }
+    );
     this.router.navigateByUrl('/company/viewcompany/'+ID);
+    
 
 
   }

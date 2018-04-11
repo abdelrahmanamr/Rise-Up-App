@@ -21,15 +21,9 @@
 
 /deep/ .profile .uppercase{
   text-transform: uppercase;
-
-
-
 }
     /deep/ .profile .cap{
       text-transform: capitalize;
-
-
-
     }
     /deep/ .profile .card {
       box-shadow: 0 4px 4px 0 rgba(192, 155, 84, 0.2);
@@ -43,6 +37,10 @@
       max-height: 100%;
       margin: auto;
       text-align: center;
+    }
+
+    /deep/ .btn-danger{
+      background-color:#D00018;
     }
 
     /deep/ .profile  .title {
@@ -71,6 +69,25 @@
 
     /deep/ .profile  button:hover, a:hover {
       opacity: 0.7;
+    }
+
+    /deep/ .tags-input__tag{
+      padding:3px 7px;
+      background-color: #DC0C18;
+      color: #FFF;
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size:14px;
+      margin-right:5px;
+    
+    }
+
+    /deep/ .tags-input__tag-remove-btn {
+      color: #FFE302;
+      font-weight: 900;
+      margin: -2px;
+      font-size: 15px;
+      
     }
 
   }

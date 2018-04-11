@@ -91,6 +91,7 @@ router.get('/company/getCompanies',CompanyCtrl.getCompanies);
 router.get('/company/getCompany/:companyId',CompanyCtrl.getCompanyById);
 router.post('/company/createCompany', CompanyCtrl.createCompany);
 router.delete('/company/deleteCompany/:companyId', CompanyCtrl.deleteCompany);
+router.patch('/company/CompanyViews/:ID', CompanyCtrl.IncrementViews);
 
 //-------------------------------Admin Routes-----------------------------------
 

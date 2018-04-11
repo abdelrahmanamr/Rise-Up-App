@@ -10,25 +10,28 @@ import { DatePipe } from '@angular/common';
   selector: 'app-company-viewcompany',
   template: `
   <div class="container">
-  
-  <h2>{{Company.name}}</h2>
+  <h5>Viewing Company:</h5>
+  <h2><b>{{Company.name}}</b></h2>
   <br> 
-  <div class="card" style="padding:25px 15px; padding-bottom:120px; margin-bottom:20px;display: block; ">
+  <div class="card" style="padding:25px 15px; padding-bottom:220px; margin-bottom:20px;display: block; ">
 
-  <div style="float:right;" *ngIf = "adminStatus"><Button (click)="DeleteCompany(ID)" class="btn btn-danger btn-sm"> Delete StartUP </Button>
+  <div style="float:right;" *ngIf = "adminStatus"><Button (click)="DeleteCompany(ID)" class="btn btn-danger btn-sm"><i class="nb-trash" style="font-size:20px;color:#FFF;font-weight:900;"></i>
+
+
+  </Button>
   </div>
 
   <div style="float:left;">
   
-  Field:  {{Company.type}}
+  <div><b>Field:</b>  {{Company.type}}</div>
   <br>
-  email: {{Company.email}}
+  <div><b>Email:</b> {{Company.email}}</div>
   <br>
-  website: {{Company.website}}
+  <div><b>Website:</b>{{Company.website}}</div>
   <br>
-  tags: {{Company.tags}}
+  <div><b>Views:</b> {{Company.views}}</div>
   <br>
-  views: {{Company.views}}
+  <div><b>Tag:</b> <span class="tags-input__tag" *ngFor="let tag of Company.tags;">{{tag}}</span></div>
   <br>
   
   
@@ -64,11 +67,11 @@ export class ViewCompanyComponent {
     this.httpClient.get(environment.apiUrl +'/Company/viewCompany/'+this.ID,config).subscribe(
       res=>{  
         this.Company = res['data'];  
-       // console.log(Company);
+        this.Company['tags']= this.Company['tags'].split(",");
+        });
           
       }
-    );
-      }
+      
 
 
  DeleteCompany(ident:string)

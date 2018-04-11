@@ -3,7 +3,7 @@ import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {Router} from "@angular/router";
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-content-suggestedcontent',
   template: `<div class="container">
@@ -28,7 +28,8 @@ import {Router} from "@angular/router";
 export class SuggestedContentComponent {
   public contents:any[]=[];
   
-  constructor(private httpClient: HttpClient,private router: Router) { }
+  constructor(private httpClient: HttpClient,private router: Router,
+    private toastr: ToastrService) { }
 
 ngOnInit() {
   this.ViewContents();

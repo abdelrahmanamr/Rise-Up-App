@@ -20,7 +20,17 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
   <div class="container">
-  <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)"> 
+  <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)">
+  
+  <div *ngIf="this.editContent['type']=='content'">
+  <h3>Editing Content</h3>
+  </div>
+
+  <div *ngIf="this.editContent['type']=='suggestion'">
+  <h3>Editing Suggestion</h3>
+  </div>
+
+
   <input type = "text" class="form-control" name = "title" [(ngModel)]="title" placeholder = "Title Here" ngModel><br />
 
   <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>     <br />

@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
       },
       {
+        path: 'editcontent',
+        loadChildren: './editcontent/editcontent.module#EditcontentModule'
+      },
+      {
         path: 'create',
         loadChildren: './create/create.module#CreateModule'
       },

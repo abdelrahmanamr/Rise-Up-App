@@ -25,26 +25,16 @@ export class SafePipe implements PipeTransform {
 
   
   <div class="container">
-  <div class="card" style="padding:10px 15px; padding-left:40px;padding-bottom:10px; margin-bottom:20px;display: block; ">
-  <span>  
-   <h4 ><font size="7">{{PostTitle}}</font></h4>
-  </span>
+  <div class="card" style="padding:10px 15px; padding-left:40px;padding-bottom:80px; margin-bottom:20px;display: block; ">
 
-  <span> <div [innerHTML]="Content"></div></span>
-  <span><a href="{{ Body }}"> {{ Title }} </a></span> 
+   <h4 ><font size="7">{{PostTitle}}</font></h4>
+
+  <div [innerHTML]="Content"></div>
+  <a href="{{ Body }}"> {{ Title }} </a>
   <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br />
 <br />
-
-
-
-
-
-
-
-
-
 
 <div class="container">
 
@@ -54,21 +44,28 @@ export class SafePipe implements PipeTransform {
 
 
   <style>
+
+
+
+
   .checked {
-      color: yellow;
-      
+    color: yellow;
   }
-  span:hover { 
+  span:hover > span,
+  span:hover {
     color: yellow;
   }
   </style>
 
   <h2>Rating</h2>
-  <a (click)="rate(1)"><span class="fa fa-star" [class.checked]="rating >= 1"></span></a>
-  <a (click)="rate(2)"><span class="fa fa-star" [class.checked]="rating >= 2"></span></a>
-  <a (click)="rate(3)"><span class="fa fa-star" [class.checked]="rating >= 3"></span></a>
-  <a (click)="rate(4)"><span class="fa fa-star" [class.checked]="rating >= 4"></span></a>
-  <a (click)="rate(5)"><span class="fa fa-star" [class.checked]="rating >= 5"></span></a>
+  <div class="rating">
+  <a (click)="rate(1)"><span class="fa fa-star" id="minStar1" [class.checked]="rating >= 1"></span></a>
+  <a (click)="rate(2)"><span class="fa fa-star" id="minStar2" [class.checked]="rating >= 2"></span></a>
+  <a (click)="rate(3)"><span class="fa fa-star" id="minStar3" [class.checked]="rating >= 3"></span></a>
+  <a (click)="rate(4)"><span class="fa fa-star" id="minStar4" [class.checked]="rating >= 4"></span></a>
+  <a (click)="rate(5)"><span class="fa fa-star" id="minStar5" [class.checked]="rating >= 5"></span></a>
+  </div>
+
 
   <div   style="float:right; margin-top: -28px"> 
    <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">copy Link</button>

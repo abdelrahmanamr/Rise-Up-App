@@ -118,6 +118,7 @@ export class ProfileComponent {
             console.log(el);
             this.tags.push(el);
         });
+        
     
     });
 

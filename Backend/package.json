@@ -21,6 +21,7 @@
     "node-emailer": "^1.0.1",
     "nodemailer": "^4.6.4",
     "nodemailer-smtp-transport": "^2.7.4",
+    "npm": "^5.8.0",
     "rand-token": "^0.4.0",
     "random-token": "0.0.8",
     "randombytes": "^2.0.6",

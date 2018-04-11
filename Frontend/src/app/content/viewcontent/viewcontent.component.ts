@@ -7,6 +7,8 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 // import { App, NavController } from 'ionic-angular';
 import { ToastrService} from 'ngx-toastr';
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
+import { ValueTransformer } from '@angular/compiler/src/util';
+import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
@@ -19,6 +21,9 @@ export class SafePipe implements PipeTransform {
 @Component({
   selector: 'app-content-viewcontent',
   template: ` 
+  
+
+  
   <div class="container">
   <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
   <span> <b> {{ PostTitle }} </b> </span>
@@ -28,6 +33,26 @@ export class SafePipe implements PipeTransform {
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
+  <br />
+<br />
+
+
+
+
+<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
+<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+
+
+
+
+
+
+
+<div class="container">
+
+
   <br>
 
   <style>
@@ -60,6 +85,24 @@ export class SafePipe implements PipeTransform {
  
 
   </div>
+
+  <br />
+<br />
+<div><h3> comments: </h3> 
+<br />
+</div>
+
+  <div *ngFor="let comment of comments">
+  <div class="card"> <h4>{{comment.username}} :</h4></div>
+  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+  <div style="float:left;">
+  <h4>{{comment.body}}</h4>
+
+
+  </div>
+</div>
+</div>
+
   
   `
 
@@ -74,8 +117,11 @@ ID:string
 Content : any;
 Title:any
 PostTitle :any
+array = [];
+userID :any
 Body:any
 ImagePath:string
+public comments:any[]=[];
 adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
@@ -104,7 +150,7 @@ constructor(private toastr: ToastrService,private httpClient: HttpClient,private
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
-    
+    this.ViewComments();
       }
 
       rate(rate:number){
@@ -120,7 +166,7 @@ constructor(private toastr: ToastrService,private httpClient: HttpClient,private
         }
       }
   
-        var data = JSON.stringify({rating: rate,uID:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        var data = JSON.stringify({rating: rate,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
@@ -175,8 +221,10 @@ constructor(private toastr: ToastrService,private httpClient: HttpClient,private
         res=>{  
           this.Content = res['data'].body;  
           this.PostTitle = res['data'].title;
-            
-        }
+            this.array.push("comment1");
+            this.array.push("comment2");
+
+          }
       );
      }
      
@@ -235,7 +283,54 @@ constructor(private toastr: ToastrService,private httpClient: HttpClient,private
   
  }
 
-    
+createComment(ID:String, comment:string)
+ {
+
+  this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
+  var data = {"body":comment["comment"] ,
+             "userid":this.userID,
+              "contentid":this.ID,
+            "username":JSON.parse(localStorage.getItem("userProps"))["username"]};
+
+   var config = {
+                 headers : 
+                 {
+                     'Content-Type':'application/json'
+                 }
+             }
+
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data/*hena*/ ,config).subscribe(
+    res=>{
+    // this.comment=(res['data'].body);  
+    console.log(res["data"]);
+     // this.array.push( comment["comment"] );
+    }
+  );
+
+  window.location.reload();
+ }
+
+
+
+
+
+
+ ViewComments(){
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+  this.httpClient.get(environment.apiUrl +'Content/getComments/'+this.ID,config).subscribe(
+    res=>{  
+    this.comments=(res['data']);  
+    console.log(res['data']);
+    }
+  );
+
+}
+
 
 
 

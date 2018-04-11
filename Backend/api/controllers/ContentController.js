@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   moment = require('moment'),
   Validations = require('../utils/Validations'),
   Content = mongoose.model('Content');
+  Comment = mongoose.model('Comment');
   User = mongoose.model('User');
   Rating = mongoose.model('Rating');
 
@@ -341,13 +342,13 @@ module.exports.rateNew = function(req,res,next){
   if (!Validations.isObjectId(req.params.contentId)) {
     return res.status(422).json({
       err: null,
-      msg: 'productId parameter must be a valid ObjectId.',
+      msg: 'contentId parameter must be a valid ObjectId.',
       data: null
     });
   }
   var valid =
   req.body.rating &&
-  Validations.isNumber(req.body.rating) && req.body.uID && Validations.isObjectId(req.body.uID);
+  Validations.isNumber(req.body.rating) && req.body.userid && Validations.isObjectId(req.body.userid);
 if (!valid) {
   return res.status(422).json({
     err: null,
@@ -355,7 +356,7 @@ if (!valid) {
     data: null
   });
 }else{
-  Rating.findOne({userid: req.body.uID,
+  Rating.findOne({userid: req.body.userid,
     contentid: req.params.contentId
   }).exec(function(err, ratingFound) {
     if (err) {
@@ -363,17 +364,20 @@ if (!valid) {
     }
     else{
       if(ratingFound){
+        console.log("update")
         ratingFound.rating = req.body.rating;
-        ratingFound.updatedAt = Date.now;
+        ratingFound.updatedAt = Date.now();
+        console.log("here")
         ratingFound.save(function(err,ratingFound,num){
             if(err){
               return res.status(422).json({
-                err: null,
+                err: err,
                 msg: 'Error updating existing entry in database',
                 data: null
               });
             }
             else{
+              console.log(num)
               if(num==0){
                 return res.status(422).json({
                   err: null,
@@ -381,7 +385,8 @@ if (!valid) {
                   data: null
                 });
               }
-              else if(num==1){
+              else {
+                console.log("akhr update");
                 Rating.find({
                   contentid: req.params.contentId
                 }).exec(function(err, AllRatings) {
@@ -394,6 +399,7 @@ if (!valid) {
               totalRatings += EachRating.rating
             });
             avgRating = totalRatings/AllRatings.length;
+            console.log(avgRating);
             Content.findByIdAndUpdate(req.params.contentId,{ $set: { rating: avgRating }}).exec(function(err,content){
               if(err){
                 return res.status(422).json({
@@ -416,6 +422,7 @@ if (!valid) {
             }
         });
       }else{
+        console.log("create")
         Rating.create({
           contentid: req.params.contentId,
           userid: req.body.userid,
@@ -463,3 +470,125 @@ if (!valid) {
 });
 }
 }
+
+
+
+
+module.exports.createComment = function(req, res, next) {
+  
+  var valid = req.params.contentId && 
+  Validations.isObjectId(req.params.contentId) && 
+  req.body.body &&  
+  Validations.isString(req.body.body) && 
+  req.body.userid && 
+  Validations.isObjectId(req.body.userid);
+
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'body(String) and userid(ObjectId) and contentid are required fields.',
+      data: null
+    });
+  }else{
+  
+
+  Comment.create(req.body, function(err, comments) {
+    if (err) {
+      return next(err);
+    }
+    res.status(201).json({
+      err: null,
+      msg: 'Comment was created successfully.',
+      data: comments
+    });
+  });
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// module.exports.viewComment = function(req, res, next) {
+//   if (!Validations.isObjectId(req.params.contentId)) {
+//     return res.status(422).json({
+//       err: null,
+//       msg: 'contentId parameter must be a valid ObjectId.',
+//       data: null
+//     });
+//   }
+//   Comment.findById(req.params.commentId).exec(function(err, comments) {
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!comments) {
+//       return res
+//         .status(404)
+//         .json({ err: null, msg: 'comment not found.', data: null });
+//     }
+//     res.status(200).json({
+//       err: null,
+//       msg: 'comment retrieved successfully.',
+//       data: comments
+//     });
+//   });
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports.getComments = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.contentId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'contentId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  Comment.find({contentid:req.params.contentId}).exec(function(err, comments) {
+    console.log(req.body.contentId)
+    if (err) {
+      return next(err);
+    }
+    if (!comments) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'no comments are found.', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'content retrieved successfully.',
+      data: comments
+    });
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@ import {ElementRef,Component, OnInit , ViewChild  } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {Router} from "@angular/router";
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-dashboard-items',
   template: `<div class="container">
@@ -29,7 +29,8 @@ export class ViewAllContentsComponent {
   adminStatus:boolean = false;
   View:number;
   
-  constructor(private http: HttpClient,private httpClient: HttpClient,private router: Router) { }
+  constructor(private http: HttpClient,private httpClient: HttpClient,private router: Router,
+    private toastr: ToastrService) { }
 
 ngOnInit() {
 

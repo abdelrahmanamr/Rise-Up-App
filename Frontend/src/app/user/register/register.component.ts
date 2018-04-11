@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-register',
   styles:
@@ -133,7 +134,7 @@ export class RegisterComponent implements OnInit{
 
 });
 }
-  constructor(private http: HttpClient,private router: Router){
+  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
 
   }
 
@@ -170,6 +171,7 @@ var config = {
             this.router.navigateByUrl("/user/login");
         },err=>{
             console.log(err);
+            this.toastr.error("",err['error']['msg']);
             this.errorhandle = err['error']['msg'];
         });
 

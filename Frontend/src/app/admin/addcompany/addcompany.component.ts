@@ -28,7 +28,7 @@ import { environment } from '../../../environments/environment';
 
               <label for="companytags">Company Tags</label>
               <tags-input class="form-control input-lg" formControlName="companytags" type="text"
-                          (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+                          [(ngModel)]="tags" name="tags"></tags-input>
               <br>
 
               <label for="companytype">Company Type</label>
@@ -53,12 +53,7 @@ tags:any=[];
 
     myForm: FormGroup;
     constructor(private http: HttpClient,private router: Router){}
-    onTagsChanged($event){
 
-    console.log(this.tags);
-       console.log( (JSON.stringify(this.tags)));
-
-    }
 
     onSubmit(companyForm){
         var result = this.tags.map(function(val) {

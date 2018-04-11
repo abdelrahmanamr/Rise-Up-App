@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
 import BlotFormatter from 'quill-blot-formatter';
@@ -114,7 +115,8 @@ export class CreateComponent implements OnInit{
 
   
 
-  constructor(private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef) {
+  constructor(private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef,
+    private toastr: ToastrService) {
 
     this.form = fb.group({
       editor: ['']
@@ -209,9 +211,11 @@ export class CreateComponent implements OnInit{
                      }
             )
         },
-        err=>console.log("error adding to index"));
+        
+        err=>
+        console.log("error adding to index"));
     },err=>{
-   
+      this.toastr.error("",err['error']["msg"]);
       this.errorHandle = err['error']['msg'];
     });
   }
@@ -221,6 +225,7 @@ export class CreateComponent implements OnInit{
       console.log(res);
       this.router.navigate(["/suggestedcontent/viewSuggestedContents/"])
     },err=>{
+      this.toastr.error("",err['error']["msg"]);
       this.errorHandle = err['error']['msg'];
     });
   }

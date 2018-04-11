@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -31,7 +32,7 @@ import {Router} from "@angular/router";
 })
 export class ForgotComponent implements OnInit {
 errorView = "";
-  constructor(private http: HttpClient,private router: Router){
+  constructor(private http: HttpClient,private router: Router, private toastr: ToastrService){
 
   }
   ngOnInit(){
@@ -61,6 +62,7 @@ this.http.post('http://localhost:3000/api/user/forgetPassword', data, config)
     }
 
   },err=>{
+    this.toastr.error("",err.error["msg"])
     this.errorView = err.error["msg"];
     console.log(err.error["msg"]);
   }

@@ -56,8 +56,19 @@ ngOnInit() {
 
 
   ViewCompany(ID: string){
-
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json'
+      }
+  }
+    this.httpClient.patch(environment.apiUrl+"company/CompanyViews/"+ID,config).subscribe(
+      res=>{  
+        this.companies=res['data']
+     }
+    );
     this.router.navigateByUrl('/company/viewcompany/'+ID);
+    
 
 
   }

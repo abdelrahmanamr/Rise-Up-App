@@ -25,8 +25,12 @@ export class SafePipe implements PipeTransform {
 
   
   <div class="container">
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-  <span> <b> {{ PostTitle }} </b> </span>
+  <div class="card" style="padding:10px 15px; padding-bottom:10px; margin-bottom:20px;display: block; ">
+  <span>  <div style="float:left;     margin-left: 37%;">
+   <h4 ><font size="7">{{PostTitle}}</font></h4>
+  </div> </span>
+  <br />
+  <br />
   <br>
   <br>
   <span> <div [innerHTML]="Content"></div></span>
@@ -38,11 +42,6 @@ export class SafePipe implements PipeTransform {
 
 
 
-
-<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
-<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
-<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
-</form>
 
 
 
@@ -75,6 +74,7 @@ export class SafePipe implements PipeTransform {
   <a (click)="rate(5)"><span class="fa fa-star" [class.checked]="rating >= 5"></span></a>
 
   <div   style="float:right; margin-top: -28px"> 
+   <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" style="background-color:#D00018" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
    <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
   <br>
   
@@ -95,16 +95,43 @@ export class SafePipe implements PipeTransform {
 <br />
 </div>
 
+<Button (click)="toggle()" class="btn btn-danger btn-sm" style="background-color:#D00018"> show all comments </Button>
+<br />
+
+
+<span *ngIf="commentsflag">
   <div *ngFor="let comment of comments">
-  <div class="card"> <h4>{{comment.username}} :</h4></div>
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-  <div style="float:left;">
+  <div class="card">
+
+  <div  class="card"> <b style= "color:#D00018"> <font size="4">   {{comment.username}} :   </font>   </b></div> 
+  <br />
+  
+  <div style="padding:10px 15px; padding-bottom:10px; margin-bottom:30px;display: block; ">
+  <div style="float:left;    margin-left: 70px;">
   <h4>{{comment.body}}</h4>
 
-
+  </div>
   </div>
 </div>
 </div>
+</span>
+
+<br />
+<br />
+<br />
+
+
+
+<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
+<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+
+<br />
+<br />
+<br />
+
+
 
   
   `
@@ -132,6 +159,8 @@ link:boolean=false;
 IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
+commentsflag:boolean=false;
+
 
 comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
@@ -332,7 +361,9 @@ createComment(ID:String, comment:string)
 
 }
 
-
+toggle(){
+  this.commentsflag=!this.commentsflag
+ }
 
 
 

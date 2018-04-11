@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
   <br>
   <br>
   <div *ngFor="let company of companies">
-  <div class="card" style="padding:10px 15px; padding-bottom:80px; margin-bottom:20px;display: block; ">
+  <div class="card" style="padding:10px 15px; padding-bottom:80px; margin-bottom:20px;display:block; ">
   <div style="float:left;">
   <img src="/assets/company.png" style="width:100%">
   <h4>{{company.name}}</h4>

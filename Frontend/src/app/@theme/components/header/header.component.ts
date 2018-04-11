@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
       this.loggedin = false;
     }
     
-    this.userMenu = [{ title: 'Logout' }];
+    this.userMenu = [{title:"Change password"},{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');
 
@@ -55,6 +55,8 @@ export class HeaderComponent implements OnInit {
         this.user = null;
         this.adminStatus = false;
         window.location.reload();
+      }else{
+        this.router.navigateByUrl("/user/changePassword");
       }
     });
   }

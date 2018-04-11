@@ -13,7 +13,7 @@ const routes: Routes = [
         loadChildren: './viewallcompanies/viewallcompanies.module#ViewAllCompaniesModule'
       },
       {
-        path: 'viewcompany',
+        path: 'viewcompany/:id',
         loadChildren: './viewcompany/viewcompany.module#ViewCompanyModule'
       },
       {

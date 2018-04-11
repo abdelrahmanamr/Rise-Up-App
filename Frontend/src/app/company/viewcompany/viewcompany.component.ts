@@ -41,11 +41,16 @@ export class ViewCompanyComponent {
   Company="";
   ID:any;
   adminStatus : boolean = false;
+  Url = "";
 
-  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
+  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { 
+    this.Url=window.location.href;
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
+    console.log(this.ID);
+
+  }
 
   ngOnInit() {
-    this.ID=localStorage.getItem("companyID");
 
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];

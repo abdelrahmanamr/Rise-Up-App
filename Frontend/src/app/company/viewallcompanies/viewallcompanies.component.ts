@@ -57,8 +57,7 @@ ngOnInit() {
 
   ViewCompany(ID: string){
 
-    localStorage.setItem("companyID",ID);
-    this.router.navigate(['/company/viewcompany']);
+    this.router.navigateByUrl('/company/viewcompany/'+ID);
 
 
   }

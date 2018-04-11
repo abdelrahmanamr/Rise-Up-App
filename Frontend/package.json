@@ -41,6 +41,7 @@
     "ng2-tree": "^2.0.0-rc.6",
     "ngx-quill": "2.2.0",
     "ngx-tags-input": "^1.1.1",
+    "ngx-clipboard": "^10.0.0",
     "normalize.css": "^7.0.0",
     "npm": "^5.8.0",
     "pace-js": "^1.0.2",

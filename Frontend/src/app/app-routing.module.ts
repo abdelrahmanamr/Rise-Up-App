@@ -9,7 +9,6 @@ const routes: Routes = [
     path: 'content',
     loadChildren: './content/content.module#ContentModule'
   },
-
   {
     path: 'company',
     loadChildren: './company/company.module#CompanyModule'
@@ -21,10 +20,15 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: './user/user.module#UserModule'
-  },{
+  },
+  {
         path: 'reset/:id',
         loadChildren: './user/reset/reset.module#ResetModule'
     },
+    // {
+    //   path: 'viewcontent/:id',
+    //   loadChildren: './content/viewcontent/viewcontent.module#ViewContentModule'
+    // },
   {
     path: 'search',
     loadChildren: './search/search.module#SearchModule'

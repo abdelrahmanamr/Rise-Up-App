@@ -8,6 +8,7 @@ var express = require('express'),
   searchCtrl = require('../controllers/SearchController');
   AdminController = require('../controllers/AdminController');
   CompanyCtrl = require('../controllers/CompanyController');
+  bodyParser = require('body-parser').json();
 
 
 //-------------------------------Product Routes-----------------------------------
@@ -17,6 +18,7 @@ router.get('/product/getProductsBelowPrice/:price', productCtrl.getProductsBelow
 
 router.get('/Content/viewContent/:contentId', contentCtrl.viewContent);
 router.get('/Content/viewContents', contentCtrl.viewContents);
+router.patch('/Content/views/:contentId', contentCtrl.views);
 
 router.get('/User/viewUser/:userId', userController.viewUser);
 router.get('/User/viewUsers', userController.viewUsers);
@@ -30,11 +32,22 @@ router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 //-------------------------------Content Routes-----------------------------------
 router.post('/content/addContent', contentCtrl.createContent);
 router.patch('/content/editContent/:contentId',contentCtrl.editContent);
+router.put('/content/updateContent', bodyParser, contentCtrl.rate);
+
+router.post('/product/createProduct', productCtrl.createProduct);
+
 router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
+router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
+
+
+router.post('/Content/createComment/:contentId' /*aw hena*/, contentCtrl.createComment);
+router.get('/Content/getComments/:contentId',contentCtrl.getComments);
+
 
 router.post('/product/createProduct', productCtrl.createProduct);
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
+
 
 //-------------------------------SuggestedContent Routes-----------------------------------
 router.post('/suggestedcontent/addSuggestedContent', suggestedContentCtrl.createSuggestedContent);
@@ -42,6 +55,7 @@ router.delete('/suggestedcontent/deleteSuggestedContent/:contentId', suggestedCo
 router.get('/suggestedcontent/viewSuggestedContents', suggestedContentCtrl.viewSuggestedContents);
 router.get('/suggestedcontent/viewSuggestedContent/:contentId', suggestedContentCtrl.viewSuggestedContent);
 router.patch('/suggestedcontent/updateSuggestedContent/:contentId', suggestedContentCtrl.updateSuggestedContent);
+
 
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);

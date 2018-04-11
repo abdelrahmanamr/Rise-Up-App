@@ -67,3 +67,5 @@ require('../models/Comment');
 require('../models/User');
 require('../models/Company');
 require('../models/SuggestedContent');
+require('../models/Rating');
+

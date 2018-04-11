@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import {ElementRef,Component, OnInit , ViewChild  } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {Router} from "@angular/router";
@@ -17,7 +16,7 @@ import {Router} from "@angular/router";
 
     </div>
   </div>
-  </div>
+</div>
 
   <br>
 
@@ -28,6 +27,7 @@ import {Router} from "@angular/router";
 export class ViewAllContentsComponent {
   public contents:any[]=[];
   adminStatus:boolean = false;
+  View:number;
   
   constructor(private http: HttpClient,private httpClient: HttpClient,private router: Router) { }
 
@@ -50,10 +50,28 @@ ngOnInit() {
   }
  
 
-  ViewContent(ID: string){
 
-    localStorage.setItem("contentID",ID);
-    this.router.navigate(['/content/viewcontent']);
+views(ID: string){
+   
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json'
+      }
+  }
+  
+this.httpClient.patch(environment.apiUrl +'/Content/views/'+ID,config).subscribe(
+  res=>{
+    console.log(res['data']);
+  }
+)
+  
+ }
+
+
+ViewContent(ID: string){
+  this.views(ID);
+  this.router.navigate(['/content/viewcontent/'+ID]);
 
 
   }

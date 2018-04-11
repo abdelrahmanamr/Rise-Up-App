@@ -61,10 +61,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 
               <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-              class="btn btn-primary" (click)="submitTags()">Submit Tags
-      </button>
-
-                    
+              class="btn btn-primary" (click)="submitTags()" >Submit Tags
+                  
+               
+              </button>
+                      <div *ngIf="check">
+                          <div *ngFor="let tag of tags">
+                          {{ tag }}
+                      </div>
+                      </div>
         
                   </div>
               </div>
@@ -84,7 +89,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class ProfileComponent {
     data = {};
     flag = false;
-    //tags: any;
+    tags: any[];
+    check=false;
   constructor(private http: HttpClient,private router: Router){}
 
   ngOnInit() 
@@ -102,7 +108,7 @@ export class ProfileComponent {
     subscribe(res =>{
         console.log(res['data']);
         this.data = res['data'];
-        //this.tags = res['data'].tags;
+        this.tags = res['data'].tags;
     
     });
 
@@ -124,6 +130,8 @@ export class ProfileComponent {
     //window.location.replace("#/admin/editExpertTags");
     window.location.replace("#/admin/edittags");
   }
+
+
 submitTags(){
     var config = {
         headers : {
@@ -134,6 +142,7 @@ submitTags(){
     this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+id, config)
         .subscribe((info:any) => {console.log(info);});
         this.flag=false;
+        this.check=true;
 }
   UnBlock()
   {

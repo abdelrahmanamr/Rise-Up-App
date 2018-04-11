@@ -177,10 +177,6 @@ module.exports.createComment = function(req, res, next) {
   req.body.userid && 
   Validations.isObjectId(req.body.userid);
 
-
-
-
-  
   if (!valid) {
     return res.status(422).json({
       err: null,
@@ -188,23 +184,7 @@ module.exports.createComment = function(req, res, next) {
       data: null
     });
   }else{
-  Content.findById(req.params.contentId).exec(function(err,content) {
-    if(err){
-      return next(err);
-    }
-    else {
-      if(!content){ 
-      return res
-      .status(404)
-      .json({ err: null, msg: 'Content not found.', data: null });
-    }else{
- 
-    
   
-
-  // Security Check
- // delete req.body.createdAt;
-  //delete req.body.updatedAt;
 
   Comment.create(req.body, function(err, comments) {
     if (err) {
@@ -216,8 +196,9 @@ module.exports.createComment = function(req, res, next) {
       data: comments
     });
   });
-}}});
 }}
+
+
 
 
 
@@ -267,20 +248,36 @@ module.exports.createComment = function(req, res, next) {
 
 
 
-
-
 module.exports.getComments = function(req, res, next) {
-  Comment.find({}).exec(function(err, comments) {
-      if (err) {
-          return next(err);
-      }
-      res.status(200).json({
-          err: null,
-          msg: 'Comments retrieved successfully.',
-          data: comments
-      });
+  if (!Validations.isObjectId(req.params.contentId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'contentId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  Comment.find({contentid:req.params.contentId}).exec(function(err, comments) {
+    console.log(req.body.contentId)
+    if (err) {
+      return next(err);
+    }
+    if (!comments) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'no comments are found.', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'content retrieved successfully.',
+      data: comments
+    });
   });
 };
+
+
+
+
+
 
 
 

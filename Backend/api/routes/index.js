@@ -30,7 +30,7 @@ router.post('/product/createProduct', productCtrl.createProduct);
 router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 router.post('/Content/createComment/:contentId' /*aw hena*/, contentCtrl.createComment);
 // router.get('/Content/viewComment/:contentId' , contentCtrl.viewComment);
-router.get('/Content/getComments',contentCtrl.getComments);
+router.get('/Content/getComments/:contentId',contentCtrl.getComments);
 
 
 

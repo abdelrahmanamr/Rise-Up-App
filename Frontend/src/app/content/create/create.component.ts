@@ -20,7 +20,7 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
   <div class="container">
-  <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)"> 
+  <form #contentForm="ngForm" > 
   <input type = "text" class="form-control" name = "title" placeholder = "Title Here" ngModel><br />
 
   <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>     <br />
@@ -85,9 +85,10 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   </div>
     <br />
 
-    <input type = "text" class="form-control" name = "tags" placeholder = "Tags to be properly implemented later" ngModel><br />
-
-    <input class="btn btn-danger" type = "submit" value = "submit"> {{errorHandle}}
+    <tags-input class="form-control input-lg" type="text"
+    (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+<br>
+    <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
 
     <br />
 
@@ -110,6 +111,7 @@ export class CreateComponent implements OnInit{
   editor : any;
   editor_text = "";
   quill: any;
+  tags:any=[];
 
 
   
@@ -124,7 +126,12 @@ export class CreateComponent implements OnInit{
 
 
   }
+  onTagsChanged($event){
 
+    console.log(this.tags);
+       console.log( (JSON.stringify(this.tags)));
+
+    }
   changeType(select){
     if(this.typeToSet=="Link"){
       this.post =1;
@@ -167,15 +174,19 @@ export class CreateComponent implements OnInit{
     console.log(this.user['_id']);
     console.log();
     var data:any;
+    var result = this.tags.map(function(val) {
+      return val.displayValue;
+  }).join(',');
+  console.log(result);
 
     if(this.post==2 && this.url==""){
       this.text = "Please add a photo";
     }else{
 
     if(this.post == 0){
-      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:content.tags,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:result,userid:this.user['_id']})
     }else if(this.post==1){
-      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:content.tags,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:result,userid:this.user['_id']})
     }
     var config = {
         headers : {

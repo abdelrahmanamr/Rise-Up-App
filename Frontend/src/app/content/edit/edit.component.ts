@@ -85,9 +85,9 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   </div>
     <br />
 
-    <input type = "text" class="form-control" name = "tags" [(ngModel)]="tags" placeholder = "Tags to be properly implemented later" ngModel><br />
+    <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
 
-    <input class="btn btn-danger" type = "submit" value = "submit"> {{errorHandle}}
+    <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
 
     <br />
 
@@ -114,8 +114,7 @@ export class EditComponent implements OnInit{
   contentToEdit="";
   title = "";
   link = "";
-  tags = "";
-
+  tags:any=[];
 
   
 
@@ -129,7 +128,13 @@ export class EditComponent implements OnInit{
 
 
   }
+  onTagsChanged($event){
 
+    console.log(this.tags);
+     console.log( (JSON.stringify(this.tags)));
+
+    }
+   
   changeType(select){
     if(this.typeToSet=="Link"){
       this.post =1;
@@ -173,7 +178,6 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
       console.log(res['data']);
       
       this.title = res['data'].title;
-  
       this.typeToSet = res['data'].type;
     if(res['data'].type== "Post"){
       this.quill.root.innerHTML = res['data'].body;
@@ -183,7 +187,13 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
       this.link = res['data'].body;
     }  
   
-    this.tags = res['data'].tags;
+    if(res['data'].tags!=null)
+      // this.tags = res['data'].tags.split(",");
+      res['data'].tags.split(",").forEach(element => {
+          var el = JSON.parse(JSON.stringify({"displayValue":element}));
+          console.log(el);
+          this.tags.push(el);
+      });
   
     }
   );
@@ -212,6 +222,7 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
     }
 
 
+
   }
 
 
@@ -225,15 +236,17 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
     console.log(this.user['_id']);
     console.log();
     var data:any;
-
+    var result = this.tags.map(function(val) {
+      return val.displayValue;
+  }).join(',');
     if(this.post==2 && this.url==""){
       this.text = "Please add a photo";
     }else{
 
     if(this.post == 0){
-      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:content.tags,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:result,userid:this.user['_id']})
     }else if(this.post==1){
-      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:content.tags,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:result,userid:this.user['_id']})
     }
     var config = {
         headers : {

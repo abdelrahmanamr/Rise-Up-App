@@ -6,12 +6,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { CreateRoutingModule } from './create-routing.module';
-
+import { TagsInputModule } from 'ngx-tags-input/dist';
 import { CreateComponent } from './create.component';
 
 @NgModule({
   imports: [ThemeModule, CreateRoutingModule,QuillModule,FormsModule,
-    ReactiveFormsModule,CommonModule],
+    ReactiveFormsModule,CommonModule,TagsInputModule.forRoot()],
   declarations: [CreateComponent],
   providers: []
 })

@@ -21,7 +21,6 @@
     "moment": "^2.20.1",
     "mongoose": "^5.0.5",
     "morgan": "^1.9.0",
-    "ng-tags-input": "^3.2.0",
     "regex": "^0.1.1"
   }
 }

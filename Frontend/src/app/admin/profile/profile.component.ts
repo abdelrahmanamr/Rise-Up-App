@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
 import {environment} from '../../../environments/environment';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-dashboard-items',
@@ -21,13 +22,13 @@ import {environment} from '../../../environments/environment';
                   <p class="title">{{data.email}}</p></div>
           </div>
 
-          <div style="margin-left:100px;text-align: center; width: 20%;overflow: hidden; max-width:700px;max-height: 300px">
+          <div style="margin-left:100px;text-align: center; width: 20%;overflow: hidden; max-width:700px;max-height: 400px">
               <div class="card" style=" background-color:rgba(253,255,245,0.49);max-width: 700px">
                   <label for="ctrs" style="color:rgba(22,19,8,0.92);">
                       <b> Admin Controls </b>
                   </label>
 
-                  <div id="ctrs" style="text-align: center; overflow: hidden; max-width:300px;max-height: 300px">
+                  <div id="ctrs" style="text-align: center; overflow: hidden; max-width:300px;max-height: 500px">
                       <button *ngIf="!data.blocked" type="button" style="margin-bottom:10px; background-color:#DC0C18;width: 200px;"
                               class="btn btn-primary" (click)="Block()">Block
                       </button>
@@ -50,6 +51,26 @@ import {environment} from '../../../environments/environment';
                       <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
                               class="btn btn-primary" (click)="RemoveExpert()">Remove expert
                       </button>
+
+                      <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                      class="btn btn-primary" (click)="go()">Show Expert Tags
+              </button>
+
+              <tags-input *ngIf="flag" class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
+              
+
+
+              <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+              class="btn btn-primary" (click)="submitTags()" >Submit Tags
+                  
+               
+              </button>
+                      <div *ngIf="check">
+                          <div *ngFor="let tag of tags">
+                          {{ tag }}
+                      </div>
+                      </div>
+        
                   </div>
               </div>
           </div>
@@ -67,11 +88,13 @@ import {environment} from '../../../environments/environment';
 })
 export class ProfileComponent {
     data = {};
+    flag = false;
+    tags:any=[];
+    check=false;
   constructor(private http: HttpClient,private router: Router){}
 
   ngOnInit() 
   {
-
     var config = {
         headers : {
             'Content-Type': 'application/json'
@@ -84,6 +107,13 @@ export class ProfileComponent {
     subscribe(res =>{
         console.log(res['data']);
         this.data = res['data'];
+        if(res['data'].tags!=null)
+        // this.tags = res['data'].tags.split(",");
+        res['data'].tags.split(",").forEach(element => {
+            var el = JSON.parse(JSON.stringify({"displayValue":element}));
+            console.log(el);
+            this.tags.push(el);
+        });
     
     });
 
@@ -101,7 +131,30 @@ export class ProfileComponent {
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
+  editExpert(){
+    //window.location.replace("#/admin/editExpertTags");
+    window.location.replace("#/admin/edittags");
+  }
 
+
+submitTags(){
+    console.log(this.tags);
+    var config = {
+        headers : {
+            'Content-Type': 'application/json'
+        }
+    }
+    var result = this.tags.map(function(val) {
+        return val.displayValue;
+    }).join(',');
+    var data = JSON.stringify({tags:result})
+
+    var id= sessionStorage.getItem('userId');
+    this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+id,data, config)
+        .subscribe((info:any) => {console.log(info);});
+        this.flag=false;
+        this.check=true;
+}
   UnBlock()
   {
     var config = {
@@ -158,7 +211,9 @@ export class ProfileComponent {
     
     
     
-    
+    go(){
+        this.flag = true;
+    }
     
     AddExpert()
     {
@@ -173,6 +228,12 @@ export class ProfileComponent {
         window.location.reload();
     }
 
+    onTagsChanged($event){
+
+        console.log(this.tags);
+        //    console.log( (JSON.stringify(this.tags)));
+    
+        }
 
 
 }

@@ -218,8 +218,8 @@ module.exports.getContentTags= function ( req, res, next) {
         });
     }
     Content.find({
-        tags:{$regex:new RegExp(req.params.tags)}
-    }).exec(function (err,content) {
+        $or:[{tags:{$regex:new RegExp(req.params.tags)}},{title:{$regex:new RegExp(req.params.tags)}}]
+}).exec(function (err,content) {
         if(err){
             console.log(err);
             return next(err);

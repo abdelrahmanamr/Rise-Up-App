@@ -12,6 +12,7 @@ const routes: Routes = [
                 path: 'viewusers',
                 loadChildren: './viewusers/viewusers.module#ViewUsersModule'
             },
+            
             {
                 path: 'profile',
                 loadChildren: './profile/profile.module#ProfileModule'
@@ -21,10 +22,16 @@ const routes: Routes = [
                 loadChildren: './addcompany/addcompany.module#AddCompanyModule'
             },
             {
+                path: 'edittags',
+                loadChildren: './edittags/edittags.module#EdittagsModule'
+            },
+            {
                 path: '',
                 redirectTo: 'viewusers',
                 pathMatch: 'full'
             }
+            
+
         ]
     }
 ];

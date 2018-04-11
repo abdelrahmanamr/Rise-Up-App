@@ -8,56 +8,72 @@ import { environment } from '../../../environments/environment';
   selector: 'app-dashboard-items-addcompany',
   template: `
 
-  <div class="container" style="background-color: #FFF; color:black; padding-top:20px; padding-bottom:20px;">
-  <form class="container" #companyForm="ngForm" (ngSubmit) = "onSubmit(companyForm.value)">
+      <div class="container" style="background-color: #FFF; color:black; padding-top:20px; padding-bottom:20px;">
+
+          <form class="container" [formGroup]="myForm" #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm.value)">
 
 
-  <label for="companyname">Company Name</label><br />
-  <input type = "text" class="form-control" name = "companyname" ngModel>
-  <br>
+              <label for="companyname">Company Name</label><br/>
+              <input type="text" class="form-control" formControlName="companyname" name="companyname" ngModel>
+              <br>
 
 
-  <label for="companyprice">Company Email</label>
-  <input type = "text" class="form-control" name = "companyemail"  ngModel>
-  <br>
+              <label for="companyprice">Company Email</label>
+              <input type="text" class="form-control" formControlName="companyemail" name="companyemail" ngModel>
+              <br>
 
-  <label for="companywebsite">Company Website</label>
-  <input type = "text" class="form-control" name = "companywebsite"  ngModel>
-  <br>
+              <label for="companywebsite">Company Website</label>
+              <input type="text" class="form-control" formControlName="companywebsite" name="companywebsite" ngModel>
+              <br>
 
-  <label for="companytags">Company Tags</label>
-  <input type = "text" class="form-control" name = "companytags"  ngModel>
-  <br>
+              <label for="companytags">Company Tags</label>
+              <tags-input class="form-control input-lg" formControlName="companytags" type="text"
+                          (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+              <br>
 
-  <label for="companytype">Company Type</label>
-  <input type = "text" class="form-control" name = "companytype"  ngModel>
-  <br>
+              <label for="companytype">Company Type</label>
+              <input type="text" class="form-control" formControlName="companytype" name="companytype" ngModel>
+              <br>
 
-  <input class="btn btn-success" type = "submit" value = "submit">
-  {{errorHandle}}
-  </form>
-  <br />
+              <input class="btn btn-success" [disabled]="! myForm.valid" STYLE="background-color: #ff4c6a" type="submit"
+                     value="ADD STARTUP">
+              {{errorHandle}}
+          </form>
+
+          <br/>
 
 
-  </div>
-`
+      </div>
+  `
 })
 export class AddcompanyComponent implements OnInit{
 errorHandle = "";
+tags:any=[];
 
+
+    myForm: FormGroup;
     constructor(private http: HttpClient,private router: Router){}
+    onTagsChanged($event){
 
+    console.log(this.tags);
+       console.log( (JSON.stringify(this.tags)));
+
+    }
 
     onSubmit(companyForm){
+        var result = this.tags.map(function(val) {
+            return val.displayValue;
+        }).join(',');
 
 
+console.log(result);
 var my = JSON.stringify
 ({  
     // userid:localStorage.getItem("user"),
     name:companyForm.companyname,
     email:companyForm.companyemail,
     website:companyForm.companywebsite,
-    tags:companyForm.companytags,
+    tags:result,
     type:companyForm.companytype
 });
 
@@ -91,6 +107,14 @@ console.log(my);
     }
 
     ngOnInit() {
-        
+        this.myForm = new FormGroup({
+            companyname: new FormControl(null, Validators.required),
+            companywebsite: new FormControl(null, Validators.required),
+            companyemail: new FormControl(null, [
+                Validators.required,
+                Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+            ]),
+            companytags:new FormControl(null, Validators.required),
+            companytype: new FormControl(null, Validators.required)});
         
 }}

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router,ActivatedRoute} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -69,7 +70,7 @@ export class ResetComponent implements OnInit {
 
     }
   constructor(private http: HttpClient,private router: Router,
-              private activatedRoute: ActivatedRoute){
+              private activatedRoute: ActivatedRoute,private toastr: ToastrService){
       this.url = this.router.url;
       this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
       console.log(this.final);
@@ -96,6 +97,7 @@ this.http.patch('http://localhost:3000/api/user/reset/'+ this.final , data, conf
     }
 
   },err=>{
+      this.toastr.error("",err.error["msg"]);
     this.errorView = err.error["msg"];
     console.log(err.error["msg"]);
   }

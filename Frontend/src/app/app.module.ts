@@ -10,7 +10,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-
+import { ToastrModule } from 'ngx-toastr';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { HttpModule } from '@angular/http';
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule, ToastrModule.forRoot()
   ],
   bootstrap: [AppComponent],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }]

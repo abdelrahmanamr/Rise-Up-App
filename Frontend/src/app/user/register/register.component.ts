@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-register',
   styles:
@@ -24,25 +25,25 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 
     <label for="usertags">Please write your tag and press "Enter" to add it,or press "Backspace" to edit it.</label>
-    <tags-input class="form-control input-lg" formControlName="usertags" style=" color:#000000; width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" type="text" placeholder="Tags"
+    <tags-input class="form-control input-lg" formControlName="usertags" style=" color:#000000; width: 300px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" type="text" placeholder="Tags"
                 (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
     
     
 </div>
       <div>
 
-          <input placeholder= "Security Question" type="text" id="SQ" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1; margin-top:15px;" class="form-control"
+          <input placeholder= "Security Question" type="text" id="SQ" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1; margin-top:15px;" class="form-control"
                  formControlName="secQField" ngModel></div>
 
 
       <div>
 
-          <input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
+          <input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
                  formControlName="secAField" ngModel></div>
     <div>
-    <label for="bdate"  style="margin-top:10px;font-family: Georgia;"> Birthdate: </label>
+    <label for="bdate"  style="margin-top:10px; "> Birthdate: </label>
 
- <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:15px; ">
+ <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px; ">
  </div>
       <div>
 
@@ -55,36 +56,36 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
           <div>
 
-              <input placeholder= "Username" type="text" id="uname" style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1; margin-top:10px;" class="form-control"
+              <input placeholder= "Username" type="text" id="uname" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1; margin-top:10px;" class="form-control"
                      formControlName="userNameField" (blur) = "checkUsername(userForm.value.userNameField)" ngModel></div>
 
 
           <div>
 
-              <input placeholder= "First Name" type="text" id="fname"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  " class="form-control"
+              <input placeholder= "First Name" type="text" id="fname"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;  " class="form-control"
                      formControlName="firstNameField" ngModel></div>
 
           <div>
 
-              <input placeholder= "Last Name" type="text" id="lname"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+              <input placeholder= "Last Name" type="text" id="lname"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
                      formControlName="lastNameField" ngModel>
           </div>
 
           <div>
 
-              <input placeholder= "Password" type="password" id="pass"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+              <input placeholder= "Password" type="password" id="pass"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
                      formControlName="passwordField" ngModel>
 
           </div>
           <div>
 
-              <input placeholder= "Repeat Password" type="password" id="pass2"style="width: 200px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+              <input placeholder= "Repeat Password" type="password" id="pass2"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
                      formControlName="passwordField2" ngModel>
 <label for="pass2" style="margin-top:10px;"> Password must atleast be 8 characters long </label>
           </div>
           <div>
 
-              <input placeholder = "Email" type="text" id="email"style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+              <input placeholder = "Email" type="text" id="email"style="width: 300px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
                      formControlName="emailField" ngModel>
           </div>
 
@@ -133,7 +134,7 @@ export class RegisterComponent implements OnInit{
 
 });
 }
-  constructor(private http: HttpClient,private router: Router){
+  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
 
   }
 
@@ -170,6 +171,7 @@ var config = {
             this.router.navigateByUrl("/user/login");
         },err=>{
             console.log(err);
+            this.toastr.error("",err['error']['msg']);
             this.errorhandle = err['error']['msg'];
         });
 

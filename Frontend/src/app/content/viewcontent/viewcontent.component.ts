@@ -5,12 +5,10 @@ import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { SafeResourceUrl } from '@angular/platform-browser';
 // import { App, NavController } from 'ionic-angular';
-
-
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-
+import { ToastrService } from 'ngx-toastr';
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
@@ -77,6 +75,7 @@ export class SafePipe implements PipeTransform {
 
   <div   style="float:right; margin-top: -28px"> 
    <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" style="background-color:#D00018" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
+   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
   <br>
   
   <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
@@ -164,7 +163,8 @@ commentsflag:boolean=false;
 
 
 comment:any;
-  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService) { 
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);
@@ -172,7 +172,10 @@ comment:any;
 
   @ViewChild('mass_timings') mass_timings: ElementRef;
 
-
+ShowPopUp(){
+  console.log("asdas");
+  this.toastr.success("","Link copied to clipbaord");
+}
   ngOnInit() { 
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
@@ -202,6 +205,7 @@ comment:any;
            // this.rating = res['data'].rating;
                   
           }, err=>{
+            this.toastr.error("",err.error["msg"]);
             console.log(err);
           });
       }

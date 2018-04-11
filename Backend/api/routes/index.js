@@ -47,6 +47,14 @@ router.post('/search/addToIndex', searchCtrl.addToIndex);
 router.post('/search/addToContentIndex', searchCtrl.addToContentIndex);
 router.get('/search/getTagbyKeyword/:tag', searchCtrl.getTagbyKeyword);
 router.get('/search/getContentbyTitle/:title', searchCtrl.getContentbyTitle);
+router.get('/search/getCompanyTags/:tags', searchCtrl.getCompanyTags);
+router.get('/search/getExpertTags/:tags', searchCtrl.getExpertTags);
+router.get('/search/getContentTags/:tags', searchCtrl.getContentTags);
+router.get('/search/getCompanyTagsOrNameOrType/:tags', searchCtrl.getCompanyTagsOrNameOrType);
+router.get('/search/getCompanyTagsOrType/:tags', searchCtrl.getCompanyTagsOrType);
+router.get('/search/getCompanyTagsOrName/:tags', searchCtrl.getCompanyTagsOrName);
+
+
 
 //-----------------------------Company Routes--------------------------------------
 router.get('/company/getCompanies',CompanyCtrl.getCompanies);

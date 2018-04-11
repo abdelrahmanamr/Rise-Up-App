@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { ToastrModule } from 'ngx-toastr';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeModule } from './@theme/theme.module';
@@ -23,8 +22,7 @@ import { HttpModule } from '@angular/http';
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     HttpModule,
-    AppRoutingModule,
-    ToastrModule.forRoot()
+    AppRoutingModule
   ],
   bootstrap: [AppComponent],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }]

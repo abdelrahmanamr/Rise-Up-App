@@ -22,6 +22,12 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 
   <div class="container">
   <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)"> 
+  <div *ngIf="this.user['admin']">
+  <h3>Adding Content</h3>
+  </div>
+  <div *ngIf="!this.user['admin']">
+  <h3>Suggesting Content</h3>
+  </div>
   <input type = "text" class="form-control" name = "title" placeholder = "Title Here" ngModel><br />
 
   <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>     <br />

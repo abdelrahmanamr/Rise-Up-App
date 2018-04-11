@@ -20,6 +20,9 @@ const routes: Routes = [
         },  {
             path: 'reset/:id',
             loadChildren: './reset/reset.module#ResetModule'
+        },{
+          path: 'changePassword',
+          loadChildren: './changePassword/changePassword.module#ChangePasswordModule'
         },
         {
         path: '',

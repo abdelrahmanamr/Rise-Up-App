@@ -75,9 +75,10 @@ import {Router} from "@angular/router";
         </div>
 
         <div *ngIf="searchByTags">
-        <div id="tablesDiv" *ngFor="let item of this.Items">
         <div class="container">
         <h1>Results</h1>
+        <div id="tablesDiv" *ngFor="let item of this.Items">
+
 
               <div id="companyDiv" *ngIf="item._source.type=='Company'">
               
@@ -105,9 +106,9 @@ import {Router} from "@angular/router";
               
          </div>
               </div>
-
               <div id="contentDiv" *ngIf="item._source.type=='Content'">
               <h2>Content</h2>
+
               <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
               <h4 class="text-uppercase">{{item._source.object.title}}</h4>
               

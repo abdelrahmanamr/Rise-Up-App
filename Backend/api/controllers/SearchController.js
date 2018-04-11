@@ -92,39 +92,39 @@ module.exports.getCompanyByType = function ( req, res, next) {
         });
     });
 };
-// function createElasticSearchIndex() {           // to be run once for the database to create the index
-//     client.indices.create({
-//         index: 'elasticsearch'
-//     }, function (err, res, status) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log("create", res);
-//         }
-//     })
-// };
-// function createMappingtags() {        // to be run once for the database to create the mapping
-//     client.indices.putMapping({
-//         index: 'elasticsearch',
-//         type: 'tags',
-//         body: {
-//             properties: {
-//                 'name': {
-//                     'type': 'text', // type is a required attribute if index is specified
-//                     'analyzer': 'english'
-//                 }
-//             }
-//         }
-//     }, function (err, resp, status) {
-//         if (err) {
-//             console.log(err);
-//         }
-//         else {
-//             console.log(resp);
-//         }
-//     })
-// };
+function createElasticSearchIndex() {           // to be run once for the database to create the index
+    client.indices.create({
+        index: 'elasticsearch'
+    }, function (err, res, status) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("create", res);
+        }
+    })
+};
+function createMappingtags() {        // to be run once for the database to create the mapping
+    client.indices.putMapping({
+        index: 'elasticsearch',
+        type: 'tags',
+        body: {
+            properties: {
+                'name': {
+                    'type': 'text', // type is a required attribute if index is specified
+                    'analyzer': 'english'
+                }
+            }
+        }
+    }, function (err, resp, status) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(resp);
+        }
+    })
+};
 
 function createContentsearchIndex() {           // to be run once for the database to create the index
     client.indices.create({
@@ -270,11 +270,11 @@ module.exports.getContentbyTitle =function(req, res, next) {
     });
 };
 
-// function dropIndex() {                  // method to delete an index in elastic search
-//     return client.indices.delete({
-//         index: 'contentelasticsearch',
-//     });
-// }
+function dropIndex() {                  // method to delete an index in elastic search
+    return client.indices.delete({
+        index: 'contentelasticsearch',
+    });
+}
 
 
  // function deleteecord()  // to delete all documents in the an index
@@ -292,9 +292,9 @@ module.exports.getContentbyTitle =function(req, res, next) {
 
 
    Promise.resolve()
- //       .then(createMappingtitle)
- //      .then(createMappingtitle),
- // .then(deleteecord),
-// .then(createContentsearchIndex),
-   .then(createMappingtitle);
+    //    .then(createElasticSearchIndex)
+    //   .then(createMappingtitle)
+//  .then(deleteecord)
+// .then(createContentsearchIndex)
+//    .then(createMappingtitle);
 

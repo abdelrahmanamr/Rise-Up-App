@@ -73,7 +73,7 @@ console.log(my);
          var tags =   res["data"]["tags"];
          var JSONtoIndex = {
              "name":tags,
-             "id":res["data"]["_id"],
+             "object":res["data"],
              "type":"Company"
          }
          this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)

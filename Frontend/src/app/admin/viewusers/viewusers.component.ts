@@ -29,8 +29,7 @@ export class ViewUsersComponent {
 
   goToUser(ident:string)
   {
-     sessionStorage.setItem('userId',ident);
-     window.location.replace("#/admin/profile");
+     this.router.navigate(["/admin/profile/"+ident]);
    }
 
 

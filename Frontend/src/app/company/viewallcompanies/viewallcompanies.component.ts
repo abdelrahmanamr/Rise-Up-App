@@ -13,9 +13,9 @@ import {Router} from "@angular/router";
   <br>
   <br>
   <div *ngFor="let company of companies">
-  <div class="card" style="padding:10px 15px; padding-bottom:80px; margin-bottom:20px;display: block; ">
-  <div style="float:left;">
-  <img src="/assets/company.png" style="width:100%">
+  <div class="card" style="padding:10px 15px; padding-bottom:100px; margin-bottom:20px;display: block; ">
+  <div style="float:left; width:600px;">
+  <img src="/assets/company.png" style="float:left;margin-right:10px;">
   <h4>{{company.name}}</h4>
   Tags: <span class="tags-input__tag" *ngFor="let tag of company.tags;">{{tag}}</span>
   </div>

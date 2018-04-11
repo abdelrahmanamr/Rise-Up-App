@@ -16,23 +16,14 @@ import {Router} from "@angular/router";
           </tr>
           </thead>
       <tbody>
-          
           <tr *ngFor="let item of data">
-          
-         
-  
               <td>{{item.username}}</td>
               <td>{{item.firstname}}</td>
               <td>{{item.lastname}}</td>
               <td>  <a  (click) = "goToUser(item._id)">View user</a></td>
-
           </tr>
-         
-   
-          
           </tbody>
       </table>
-
 </div>
       
 

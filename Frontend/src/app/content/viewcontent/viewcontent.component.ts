@@ -116,7 +116,7 @@ contentid: string;
         }
       }
   
-        var data = JSON.stringify({rating: rate,uID:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        var data = JSON.stringify({rating: rate,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  

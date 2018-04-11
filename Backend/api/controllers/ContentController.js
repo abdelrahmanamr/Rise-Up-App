@@ -341,13 +341,13 @@ module.exports.rateNew = function(req,res,next){
   if (!Validations.isObjectId(req.params.contentId)) {
     return res.status(422).json({
       err: null,
-      msg: 'productId parameter must be a valid ObjectId.',
+      msg: 'contentId parameter must be a valid ObjectId.',
       data: null
     });
   }
   var valid =
   req.body.rating &&
-  Validations.isNumber(req.body.rating) && req.body.uID && Validations.isObjectId(req.body.uID);
+  Validations.isNumber(req.body.rating) && req.body.userid && Validations.isObjectId(req.body.userid);
 if (!valid) {
   return res.status(422).json({
     err: null,
@@ -355,7 +355,7 @@ if (!valid) {
     data: null
   });
 }else{
-  Rating.findOne({userid: req.body.uID,
+  Rating.findOne({userid: req.body.userid,
     contentid: req.params.contentId
   }).exec(function(err, ratingFound) {
     if (err) {
@@ -363,17 +363,20 @@ if (!valid) {
     }
     else{
       if(ratingFound){
+        console.log("update")
         ratingFound.rating = req.body.rating;
-        ratingFound.updatedAt = Date.now;
+        ratingFound.updatedAt = Date.now();
+        console.log("here")
         ratingFound.save(function(err,ratingFound,num){
             if(err){
               return res.status(422).json({
-                err: null,
+                err: err,
                 msg: 'Error updating existing entry in database',
                 data: null
               });
             }
             else{
+              console.log(num)
               if(num==0){
                 return res.status(422).json({
                   err: null,
@@ -381,7 +384,8 @@ if (!valid) {
                   data: null
                 });
               }
-              else if(num==1){
+              else {
+                console.log("akhr update");
                 Rating.find({
                   contentid: req.params.contentId
                 }).exec(function(err, AllRatings) {
@@ -394,6 +398,7 @@ if (!valid) {
               totalRatings += EachRating.rating
             });
             avgRating = totalRatings/AllRatings.length;
+            console.log(avgRating);
             Content.findByIdAndUpdate(req.params.contentId,{ $set: { rating: avgRating }}).exec(function(err,content){
               if(err){
                 return res.status(422).json({
@@ -416,6 +421,7 @@ if (!valid) {
             }
         });
       }else{
+        console.log("create")
         Rating.create({
           contentid: req.params.contentId,
           userid: req.body.userid,

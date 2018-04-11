@@ -51,7 +51,8 @@ module.exports.expire = function(req,res,next){
 
 module.exports.ChangePassword = function(req,res,next){
   var valid = req.body.newpassword && Validations.isString(req.body.newpassword) &&
-  req.body.confirmpassword && Validations.isString(req.body.confirmpassword);
+  req.body.confirmpassword && Validations.isString(req.body.confirmpassword) &&
+  req.body.oldpassword && Validations.isString(req.body.oldpassword);
 
   if(!valid){
       return res.status(422).json({
@@ -73,47 +74,60 @@ else{
     }
 else{
     console.log("we la2eet el user aho");
-    var newpassword = req.body.newpassword.trim();
-    if(newpassword.length < 6){
-        return res.status(422).json({
-          err: null,
-          msg: 'Your new password does not meet the minimum length requirement',
-          data: null
-        });
-    }
-    else{
-      if(newpassword != (req.body.confirmpassword.trim())){
-        return res.status(422).json({
-          err:null,
-          msg:'New Password does not match Confirm Password',
-          data:null
-        });
-
-    }else{
-        Encryption.hashPassword(req.body.newpassword,function(err,hash){
-            if(err){
-                return next(err);
+    Encryption.comparePasswordToHash(req.body.oldpassword,userfound.password,function(err,matched){
+        if(err){
+            return next(err)
+        }else if(!matched){
+            return res.status(422).json({
+                err:null,
+                msg:'Wrong input data',
+                data:null
+            });
+        }else{
+            var newpassword = req.body.newpassword.trim();
+            if(newpassword.length < 6){
+                return res.status(422).json({
+                  err: null,
+                  msg: 'Your new password does not meet the minimum length requirement',
+                  data: null
+                });
+            }
+            else{
+              if(newpassword != (req.body.confirmpassword.trim())){
+                return res.status(422).json({
+                  err:null,
+                  msg:'New Password does not match Confirm Password',
+                  data:null
+                });
+        
             }else{
-                userfound.password = hash;
-                userfound.save(function(err,userfound,num){
+                Encryption.hashPassword(req.body.newpassword,function(err,hash){
                     if(err){
-                        return res.status(422).json({
-                            err: null,
-                            msg: 'Error saving new data',
-                            data: null
-                          });
+                        return next(err);
                     }else{
-                        return res.status(201).json({
-                            err: null,
-                            msg: 'Success',
-                            data: userfound
+                        userfound.password = hash;
+                        userfound.save(function(err,userfound,num){
+                            if(err){
+                                return res.status(422).json({
+                                    err: null,
+                                    msg: 'Error saving new data',
+                                    data: null
+                                  });
+                            }else{
+                                return res.status(201).json({
+                                    err: null,
+                                    msg: 'Success',
+                                    data: userfound
+                                });
+                            }
                         });
                     }
                 });
             }
-        });
-    }
-}
+        }
+        }
+    });
+ 
 }
   });
 }

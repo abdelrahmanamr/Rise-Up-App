@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
@@ -29,10 +29,15 @@ import {Router} from "@angular/router";
   <br /> 
   `
 })
-export class ForgotComponent{
+export class ForgotComponent implements OnInit {
 errorView = "";
   constructor(private http: HttpClient,private router: Router){
 
+  }
+  ngOnInit(){
+    if(localStorage.getItem('userDocs')==null){
+      this.router.navigate(["/search"]);
+    }
   }
 
 onSubmit = function(user){

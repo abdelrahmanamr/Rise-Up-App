@@ -41,8 +41,8 @@ errorView = "";
 
   }
   ngOnInit(){
-    if(localStorage.getItem('userDocs')==null){
-      this.router.navigate(["/search"]);
+    if(localStorage.getItem('userProps')==null){
+      this.router.navigateByUrl("/");
     }
   }
 
@@ -61,7 +61,7 @@ this.http.patch('http://localhost:3000/api/user/ChangePassword/'+id, data, confi
 .subscribe(res=>{
   console.log(res["data"]);
 
-        this.router.navigate(["/search"]);
+        this.router.navigateByUrl("/");
 
 
   },err=>{

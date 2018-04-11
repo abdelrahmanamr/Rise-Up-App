@@ -54,22 +54,24 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 
                       <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
                       class="btn btn-primary" (click)="go()">Show Expert Tags
+                          
               </button>
 
-              <tags-input *ngIf="flag" class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
-              
+              <tags-input *ngIf="flag" class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" 
+                          [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
 
+                      <div *ngIf="check">
+                          <div *ngFor="let tag of tags">
+                              {{ tag }}
+                          </div>
+                      </div>
 
               <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
               class="btn btn-primary" (click)="submitTags()" >Submit Tags
                   
                
               </button>
-                      <div *ngIf="check">
-                          <div *ngFor="let tag of tags">
-                          {{ tag }}
-                      </div>
-                      </div>
+                     
         
                   </div>
               </div>
@@ -108,7 +110,7 @@ export class ProfileComponent {
     subscribe(res =>{
         console.log(res['data']);
         this.data = res['data'];
-        this.tags = res['data'].tags;
+        this.tags = res['data'].tags.split(",");
     
     });
 
@@ -142,7 +144,7 @@ submitTags(){
     this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+id, config)
         .subscribe((info:any) => {console.log(info);});
         this.flag=false;
-        this.check=true;
+
 }
   UnBlock()
   {
@@ -202,6 +204,7 @@ submitTags(){
     
     go(){
         this.flag = true;
+        this.check=true;
     }
     
     AddExpert()

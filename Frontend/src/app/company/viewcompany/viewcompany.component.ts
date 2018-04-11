@@ -38,35 +38,33 @@ import { DatePipe } from '@angular/common';
   </div>`
 })
 export class ViewCompanyComponent {
-  ID:string=localStorage.getItem("companyID");
-  Company:any
+  Company="";
+  ID:any;
   adminStatus : boolean = false;
 
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    
+    this.ID=localStorage.getItem("companyID");
+
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
-    this.ViewCompany(this.ID) ;
+    var config ={
+      headers : 
+    {
+  'Content-Type':'application/json'
+    }
+  }
+    this.httpClient.get(environment.apiUrl +'/Company/viewCompany/'+this.ID,config).subscribe(
+      res=>{  
+        this.Company = res['data'];  
+       // console.log(Company);
+          
+      }
+    );
       }
 
-ViewCompany(ID:String){
-  var config ={
-    headers : 
-  {
-'Content-Type':'application/json'
-  }
-}
-  this.httpClient.get(environment.apiUrl +'/Company/viewCompany/'+ID,config).subscribe(
-    res=>{  
-      this.Company = res['data'];  
-     // console.log(Company);
-        
-    }
-  );
- }
 
  DeleteCompany(ident:string)
  {

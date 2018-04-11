@@ -22,6 +22,7 @@
     "@angular/router": "^5.2.0",
     "@nebular/theme": "2.0.0-rc.6",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0",
+    "angular-tag": "^3.0.0",
     "angular2-toaster": "^4.0.1",
     "bootstrap": "4.0.0",
     "classlist.js": "^1.1.20150312",
@@ -32,8 +33,10 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.20.1",
     "nebular-icons": "^1.0.6",
+    "ng-tags-input": "^3.2.0",
     "ng2-smart-table": "^1.2.2",
     "ng2-tree": "^2.0.0-rc.6",
+    "ngx-quill": "2.2.0",
     "normalize.css": "^7.0.0",
     "pace-js": "^1.0.2",
     "roboto-fontface": "0.8.0",
@@ -42,7 +45,6 @@
     "typeface-exo": "^0.0.44",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.19",
-    "ngx-quill": "2.2.0",
     "quill-blot-formatter": "^1.0.5"
   },
   "devDependencies": {

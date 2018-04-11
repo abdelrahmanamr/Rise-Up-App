@@ -72,6 +72,58 @@ var mongoose = require('mongoose'),
     });
 };
 
+module.exports.editContent = function(req, res, next) {
+  if (!Validations.isObjectId(req.params.contentId)) {
+    return res.status(422).json({
+      err: null,
+      msg: 'contentId parameter must be a valid ObjectId.',
+      data: null
+    });
+  }
+  // var valid = 
+  //  req.body.title &&
+  //  Validations.isString(req.body.title)&&
+  //  req.body.body &&
+  //  Validations.isString(req.body.body) &&
+  //  req.body.userid &&
+  //  Validations.isObjectId(req.body.userid)&&
+  //  req.body.tags &&
+  //  Validations.isString(req.body.tags);
+  // if (!valid){
+  //   return res.status(422).json({
+  //     err: null,
+  //     msg: 'title(String), body(String) and tags(String) are required fields.',
+  //     data: null
+  //   });
+  // }
+
+  delete req.body.createdAt;
+  req.body.updatedAt = moment().toDate();
+ 
+  Content.findByIdAndUpdate(
+    req.params.contentId,
+    
+    {
+      $set: req.body
+    },
+    { new: true }
+  ).exec(function(err, updateContent) {
+    if (err) {
+      return next(err);
+    }
+    if (!updateContent) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'content not found.', data: null });
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'content retrieved successfully.',
+      data: updateContent
+    });
+  });
+};
+
 
   module.exports.createContent = function(req, res, next) {
     var valid =

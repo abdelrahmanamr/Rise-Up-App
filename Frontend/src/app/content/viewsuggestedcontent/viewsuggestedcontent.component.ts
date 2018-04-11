@@ -18,7 +18,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   <br>
   <div style="float:left;"> <Button *ngIf="adminStatus" (click)="EditContent(ID)" class="btn btn-danger btn-sm"> Edit </Button><br /><br />
   <Button *ngIf="adminStatus" (click)="AddContent(ID)" class="btn btn-danger btn-sm"> Approve </Button></div>
-  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DisapproveContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
+  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DisapproveContent(ID)" class="btn btn-danger btn-sm"> Disapprove </Button></div>
   </div>
   </div>
   

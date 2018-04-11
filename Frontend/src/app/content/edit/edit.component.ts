@@ -81,7 +81,6 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 </div>
 
   <div id="editor" style="height: 500px">
-  <b>hello world</b>
   </div>
   </div>
     <br />
@@ -146,6 +145,7 @@ export class EditComponent implements OnInit{
 'Content-Type':'application/json'
 }
 }
+if(this.editContent['type']=='suggestion'){
 this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
   res=>{  
 
@@ -166,6 +166,28 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
 
   }
 );
+}else if (this.editContent['type']=='content'){
+  this.http.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
+    res=>{  
+  
+      console.log(res['data']);
+      
+      this.title = res['data'].title;
+  
+      this.typeToSet = res['data'].type;
+    if(res['data'].type== "Post"){
+      this.quill.root.innerHTML = res['data'].body;
+    }   
+    
+    if(res['data'].type== "Link"){
+      this.link = res['data'].body;
+    }  
+  
+    this.tags = res['data'].tags;
+  
+    }
+  );
+}
 }
 
   ngOnInit(){
@@ -226,10 +248,17 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
         console.log(res);
           this.router.navigate(["/content/suggestedcontent"]);
         },err=>{
-      
           this.errorHandle = err['error']['msg'];
         });
-      }
+      }else if(this.editContent['type']=='content'){
+        this.http.patch(environment.apiUrl+'/content/editContent/'+this.editContent['id'], data, config)
+        .subscribe(res=>{
+          console.log(res);
+          this.router.navigate(["/content/viewallcontents"]);
+      },err=>{
+        this.errorHandle = err['error']['msg'];
+      });
+    }
   }
   else{
     

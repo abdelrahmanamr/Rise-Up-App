@@ -16,7 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser'
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <span><img src="{{ImagePath}}">  </span>  
   <br>
-  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
+  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"><i class="fa fa-trash" style="font-size:20px;color:white"></i></Button></div>
   </div>
   </div>
   
@@ -53,14 +53,14 @@ adminStatus :boolean = false;
   }
     this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
       res=>{  
-      if(res['data'].type== "Post"){
+      if(res['data'].type == "Post"){
         this.ViewText(this.ID)
       }   
       
-      if(res['data'].type== "Image"){
+      if(res['data'].type == "Image"){
         this.ViewImage(this.ID)
       }  
-      if(res['data'].type== "Link"){
+      if(res['data'].type == "Link"){
         this.ViewLink(this.ID)
       }  
           
@@ -72,7 +72,7 @@ adminStatus :boolean = false;
       var config ={
         headers : 
       {
-    'Content-Type':'application/json'
+        'Content-Type':'application/json'
       }
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(

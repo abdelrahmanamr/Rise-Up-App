@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
     <div style="float:left;">
     <h4>{{content.title}}</h4>
     Tags: {{content.tags}}</div>
-    <div style="float:right;"><Button (click)="ViewContent(content._id)" class="btn btn-danger btn-sm"> Read </Button><br />
+    <div style="float:right;"><Button *ngIf="adminStatus" style="background:orange;border-raduis:100px" (click)="EditContent(content._id)" class="btn btn-sm"><i class="fa fa-edit" style="font-size:19px"></i></Button>  <Button (click)="ViewContent(content._id)" class="btn btn-danger btn-sm"><i class="fa fa-eye" style="font-size:20px;color:white"></i></Button><br />
     Views: {{content.views}}</div>
 
     </div>
@@ -27,10 +27,17 @@ import {Router} from "@angular/router";
 })
 export class ViewAllContentsComponent {
   public contents:any[]=[];
+  adminStatus:boolean = false;
   
-  constructor(private httpClient: HttpClient,private router: Router) { }
+  constructor(private http: HttpClient,private httpClient: HttpClient,private router: Router) { }
 
 ngOnInit() {
+
+  
+    if(localStorage.getItem("UserDoc")!=null){
+       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
+    }
+
   this.ViewContents();
   }
 
@@ -48,6 +55,18 @@ ngOnInit() {
     localStorage.setItem("contentID",ID);
     this.router.navigate(['/content/viewcontent']);
 
+
+  }
+
+
+  EditContent(ID:string){
+    var editContent = {
+      "id":ID,
+      "type":"content"
+    }
+    console.log(ID);
+    localStorage.setItem("editContent",JSON.stringify(editContent));
+    this.router.navigateByUrl('/content/edit');
 
   }
 

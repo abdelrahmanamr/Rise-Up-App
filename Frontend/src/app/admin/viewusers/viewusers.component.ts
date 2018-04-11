@@ -6,21 +6,19 @@ import {Router} from "@angular/router";
   selector: 'app-dashboard-items',
   template: `
 <div class="container">
+
+
       <table  id ="table" class="table table-bordered">
           <thead>
           <tr>
-              <th scope="col">Username</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">   </th>
+              <th style="text-align:center" scope="col">Profile photo</th>
+              <th style="text-align:center" scope="col">Username</th>
           </tr>
           </thead>
       <tbody>
-          <tr *ngFor="let item of data">
-              <td>{{item.username}}</td>
-              <td>{{item.firstname}}</td>
-              <td>{{item.lastname}}</td>
-              <td>  <a  (click) = "goToUser(item._id)">View user</a></td>
+          <tr *ngFor="let item of data" title="Click to view this user's information">
+              <td style="text-align:center"><img src="/assets/profile1.png" (click) = "goToUser(item._id)"></td>
+              <td style="text-align:center" (click) = "goToUser(item._id)">{{item.username}}</td>
           </tr>
           </tbody>
       </table>
@@ -36,9 +34,7 @@ export class ViewUsersComponent {
   ngOnInit() 
   {
         this.http.get('http://localhost:3000/api/admin/getUsers').
-       subscribe(res =>{this.data=res["data"]});
-
-       
+       subscribe(res =>{this.data=res["data"]});     
   }
 
   goToUser(ident:string)

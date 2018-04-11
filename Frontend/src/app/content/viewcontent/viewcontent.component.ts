@@ -8,6 +8,8 @@ import { SafeResourceUrl } from '@angular/platform-browser';
 
 
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
+import { ValueTransformer } from '@angular/compiler/src/util';
+import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -21,6 +23,9 @@ export class SafePipe implements PipeTransform {
 @Component({
   selector: 'app-content-viewcontent',
   template: ` 
+  
+
+  
   <div class="container">
   <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
   <span> <b> {{ PostTitle }} </b> </span>
@@ -30,6 +35,44 @@ export class SafePipe implements PipeTransform {
   <span><a href="{{ Body }}"> {{ Title }} </a></span> 
   <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
+  <br />
+<br />
+
+
+
+
+<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
+<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+
+
+
+
+<br />
+<br />
+<div><b> comments: </b> 
+<br />
+</div>
+
+
+
+<div class="container">
+<div *ngFor="let comment of comments">
+  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+  <div style="float:left;">
+  <h4>{{comment.body}}</h4>
+
+
+  </div>
+</div>
+</div>
+
+
+
+
+
+
   <br>
 
   <style>
@@ -62,6 +105,8 @@ export class SafePipe implements PipeTransform {
  
 
   </div>
+
+
   
   `
 
@@ -76,8 +121,11 @@ ID:string
 Content : any;
 Title:any
 PostTitle :any
+array = [];
+userID :any
 Body:any
 ImagePath:string
+public comments:any[]=[];
 adminStatus :boolean = false;
 Url:string;
 Link:boolean=false;
@@ -86,6 +134,7 @@ IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
 
+comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
@@ -100,7 +149,7 @@ contentid: string;
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
-    
+    this.ViewComments();
       }
 
       rate(rate:number){
@@ -168,8 +217,10 @@ contentid: string;
         res=>{  
           this.Content = res['data'].body;  
           this.PostTitle = res['data'].title;
-            
-        }
+            this.array.push("comment1");
+            this.array.push("comment2");
+
+          }
       );
      }
      
@@ -228,7 +279,69 @@ contentid: string;
   
  }
 
-    
+createComment(ID:String, comment:string)
+ {
+
+  this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
+  var data = {"body":comment["comment"] ,
+             "userid":this.userID};
+
+console.log(comment)
+  console.log(data);
+
+
+
+
+//  const com = this.comment.get('comment').value();
+   var config = {
+                 headers : 
+                 {
+                     'Content-Type':'application/json'
+                 }
+             }
+
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+ID , data/*hena*/ ,config).subscribe(
+    res=>{
+    this.comment=(res['data'].body);  
+    console.log(res["data"]);
+      this.array.push( comment["comment"] );
+      //this.array.push( "kaka");
+      this.router.navigateByUrl('/content/viewallcontents');
+
+    }
+  );
+
+
+this.ViewComments();
+
+
+   
+  
+
+
+
+
+ }
+
+
+
+
+
+
+ ViewComments(){
+
+  
+
+  this.httpClient.get(environment.apiUrl +'Content/getComments').subscribe(
+    res=>{  
+      this.comments=(res['data']);  
+
+      
+    }
+  );
+
+}
+
 
 
 

@@ -33,6 +33,17 @@ router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
 
+router.post('/Content/createComment/:contentId' /*aw hena*/, contentCtrl.createComment);
+// router.get('/Content/viewComment/:contentId' , contentCtrl.viewComment);
+router.get('/Content/getComments',contentCtrl.getComments);
+
+
+
+
+router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
+
+router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
+
 //-----------------------------Authentication Routes-------------------------
 router.post('/user/register',userController.register);
 router.post('/user/login',userController.login);

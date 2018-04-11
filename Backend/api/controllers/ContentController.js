@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
   moment = require('moment'),
   Validations = require('../utils/Validations'),
   Content = mongoose.model('Content');
+  Comment = mongoose.model('Comment');
   User = mongoose.model('User');
   Rating = mongoose.model('Rating');
 
@@ -469,3 +470,128 @@ if (!valid) {
 });
 }
 }
+
+
+
+
+module.exports.createComment = function(req, res, next) {
+  
+  var valid = req.params.contentId && 
+  Validations.isObjectId(req.params.contentId) && 
+  req.body.body &&  
+  Validations.isString(req.body.body) && 
+  req.body.userid && 
+  Validations.isObjectId(req.body.userid);
+
+
+
+
+  
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'body(String) and userid(ObjectId) and contentid are required fields.',
+      data: null
+    });
+  }else{
+  Content.findById(req.params.contentId).exec(function(err,content) {
+    if(err){
+      return next(err);
+    }
+    else {
+      if(!content){ 
+      return res
+      .status(404)
+      .json({ err: null, msg: 'Content not found.', data: null });
+    }else{
+ 
+    
+  
+
+  // Security Check
+ // delete req.body.createdAt;
+  //delete req.body.updatedAt;
+
+  Comment.create(req.body, function(err, comments) {
+    if (err) {
+      return next(err);
+    }
+    res.status(201).json({
+      err: null,
+      msg: 'Comment was created successfully.',
+      data: comments
+    });
+  });
+}}});
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// module.exports.viewComment = function(req, res, next) {
+//   if (!Validations.isObjectId(req.params.contentId)) {
+//     return res.status(422).json({
+//       err: null,
+//       msg: 'contentId parameter must be a valid ObjectId.',
+//       data: null
+//     });
+//   }
+//   Comment.findById(req.params.commentId).exec(function(err, comments) {
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!comments) {
+//       return res
+//         .status(404)
+//         .json({ err: null, msg: 'comment not found.', data: null });
+//     }
+//     res.status(200).json({
+//       err: null,
+//       msg: 'comment retrieved successfully.',
+//       data: comments
+//     });
+//   });
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+module.exports.getComments = function(req, res, next) {
+  Comment.find({}).exec(function(err, comments) {
+      if (err) {
+          return next(err);
+      }
+      res.status(200).json({
+          err: null,
+          msg: 'Comments retrieved successfully.',
+          data: comments
+      });
+  });
+};
+
+
+
+
+
+
+
+

@@ -4,6 +4,10 @@ var mongoose = require('mongoose'),
   Validations = require('../utils/Validations'),
   Encryption = require('../utils/Encryption')
   User = mongoose.model('User');
+  var nodemailer = require('nodemailer');
+  var randomToken = require('random-token');
+  var smtpTransport = require('nodemailer-smtp-transport');
+
 
 
 
@@ -19,6 +23,266 @@ var mongoose = require('mongoose'),
       });
     });
   };
+
+module.exports.expire = function(req,res,next){
+
+
+
+    User.findOne({ resetPasswordToken: req.params.token,resetPasswordExpires: { $gt: Date.now() }  }, function(err, user) {
+        if (!user) {
+            return res.status(422).json({
+                err: null,
+                msg: 'Expired',
+                data: null
+            });
+        }else{
+            return res.status(201).json({
+                err: null,
+                msg: 'Not Expired',
+                data: null
+            });
+
+
+
+        }
+    });
+}
+
+
+module.exports.ChangePassword = function(req,res,next){
+  var valid = req.body.newpassword && Validations.isString(req.body.newpassword) &&
+  req.body.confirmpassword && Validations.isString(req.body.confirmpassword);
+
+  if(!valid){
+      return res.status(422).json({
+          err:null,
+          msg:'Wrong input data',
+          data:null
+      });
+}
+else{
+    console.log("Ana 3adeet el validations");
+  User.findById(req.params.userId).exec(function(err, userfound) {
+    if (err) {
+      return next(err);
+    }
+    if (!userfound) {
+      return res
+        .status(404)
+        .json({ err: null, msg: 'Username was not found.', data: null });
+    }
+else{
+    console.log("we la2eet el user aho");
+    var newpassword = req.body.newpassword.trim();
+    if(newpassword.length < 6){
+        return res.status(422).json({
+          err: null,
+          msg: 'Your new password does not meet the minimum length requirement',
+          data: null
+        });
+    }
+    else{
+      if(newpassword != (req.body.confirmpassword.trim())){
+        return res.status(422).json({
+          err:null,
+          msg:'New Password does not match Confirm Password',
+          data:null
+        });
+
+    }else{
+        Encryption.hashPassword(req.body.newpassword,function(err,hash){
+            if(err){
+                return next(err);
+            }else{
+                userfound.password = hash;
+                userfound.save(function(err,userfound,num){
+                    if(err){
+                        return res.status(422).json({
+                            err: null,
+                            msg: 'Error saving new data',
+                            data: null
+                          });
+                    }else{
+                        return res.status(201).json({
+                            err: null,
+                            msg: 'Success',
+                            data: userfound
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+}
+  });
+}
+}
+
+
+
+module.exports.reset = function(req,res,next){
+
+
+
+        User.findOne({ resetPasswordToken: req.params.token,resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+            if (!user) {
+                return res.status(422).json({
+                    err: null,
+                    msg: 'No user with this tokens',
+                    data: null
+                });
+            }
+            else {
+                if (req.body.password.length < 6) {
+
+                    return res.status(422).json({
+                        err: null,
+                        msg: "Password doesn't meet length requirements",
+                        data: null
+                    });
+                }
+                else {
+                    Encryption.hashPassword(req.body.password, function (err, hash) {
+                        if (err) {
+                            return next(err);
+                        }
+                        req.body.password = hash;
+                        user.password = hash;
+                        user.resetPasswordToken = null;
+                        user.resetPasswordExpires = null;
+                        user.save(function (err, user, num) {
+                            if (err) {
+                                console.log(err);
+                                return res.status(422).json({
+                                    err: err,
+                                    msg: "Error updating user's password",
+                                    data: null
+                                });
+                            }
+                            else {
+                                var smtpTransport = nodemailer.createTransport({
+                                    service: 'SendGrid', // sets automatically host, port and connection security settings
+                                    auth: {
+                                        user: 'startupkit_18',
+                                        pass: 'T18mail123'
+                                    }
+                                });
+
+
+                                // setup email data with unicode symbols
+                                var mailOptions = {
+                                    to: user.email,
+                                    from: 'startupkit.18@gmail.com',
+                                    subject: 'Node.js Password Reset',
+                                    text: 'Your pass has changed'
+                                };
+
+
+                                smtpTransport.sendMail(mailOptions, (error, info) => {
+                                    if (error) {
+                                        console.log('Error while sending mail: ' + error);
+                                        console.log("hllo");
+                                        return res.status(422).json({
+                                            err: null,
+                                            msg: "Error updating user's token",
+                                            data: null
+                                        });
+
+                                    } else {
+                                        console.log('Message sent: %s', info.messageId);
+                                        return res.status(201).json({
+                                            err: null,
+                                            msg: 'Success',
+                                            data: user
+                                        });
+                                    }
+                                    smtpTransport.close(); // shut down the connection pool, no more messages.
+                                });
+                            }
+                        });
+                    });
+
+
+                }
+            } });
+
+};
+
+
+module.exports.forgetPassword = function(req,res,next){
+
+            console.log("generated random token");
+            var token = randomToken(16);
+            if(token!=null){
+            User.findOne({ email: req.body.email }, function(err, user) {
+              if (!user) {
+                return res.status(422).json({
+                    err: null,
+                    msg: 'No user with this email',
+                    data: null
+                  });
+              }
+              else{
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+                user.save(function(err,user,num) {
+                  if(err){
+                    return res.status(422).json({
+                        err: null,
+                        msg: "Error updating user's token",
+                        data: null
+                      });
+                  }
+                  else{
+                    var smtpTransport = nodemailer.createTransport({
+                        service: 'SendGrid', // sets automatically host, port and connection security settings
+                        auth: {
+                            user: 'startupkit_18',
+                            pass: 'T18mail123'
+                        }
+                    });
+
+
+                    // setup email data with unicode symbols
+                    var mailOptions = {
+                        to: user.email,
+                        from: 'startupkit.18@gmail.com',
+                        subject: 'Node.js Password Reset',
+                        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                          'http://' + 'localhost:4200/#/user' + '/reset/' + token + '\n\n' +
+                          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                    };
+
+
+                    smtpTransport.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            console.log('Error while sending mail: ' + error);
+                            return res.status(422).json({
+                                err: null,
+                                msg: "Error updating user's token",
+                                data: null
+                              });
+
+                        } else {
+                            console.log('Message sent: %s', info.messageId);
+                         return   res.status(201).json({
+                                err: null,
+                                msg: 'Success',
+                                data: user
+                              });
+                        }
+                        smtpTransport.close(); // shut down the connection pool, no more messages.
+                    });
+                  }
+                });
+
+            }
+            });
+        }
+      };
+
 
 
   module.exports.viewUser = function(req, res, next) {
@@ -122,7 +386,7 @@ module.exports.register = function(req,res,next){
 
                         });
 
-                        
+
                     })
                     ;
                 };
@@ -210,11 +474,11 @@ module.exports.login = function(req,res,next){
                 }
                 else{
                     console.log("Comparing passwords");
-                    // console.log(req.body.password.trim().toLowerCase());
-                    // console.log(userfound.password);
-                    // Encryption.hashPassword(req.body.password.trim().toLowerCase(), function(err, password) {
-                    //     console.log(password);
-                    // })
+                    console.log(req.body.password.trim().toLowerCase());
+                    console.log(userfound.password);
+                    Encryption.hashPassword(req.body.password.trim().toLowerCase(), function(err, password) {
+                        console.log(password);
+                    })
                     Encryption.comparePasswordToHash(req.body.password,userfound.password,function(err,passMatched){
                         if(err){
                             console.log("I found an error2");

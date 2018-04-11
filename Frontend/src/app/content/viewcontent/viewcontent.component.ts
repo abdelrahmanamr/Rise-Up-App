@@ -49,28 +49,10 @@ export class SafePipe implements PipeTransform {
 
 
 
-<br />
-<br />
-<div><b> comments: </b> 
-<br />
-</div>
 
 
 
 <div class="container">
-<div *ngFor="let comment of comments">
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-  <div style="float:left;">
-  <h4>{{comment.body}}</h4>
-
-
-  </div>
-</div>
-</div>
-
-
-
-
 
 
   <br>
@@ -106,6 +88,22 @@ export class SafePipe implements PipeTransform {
 
   </div>
 
+  <br />
+<br />
+<div><h3> comments: </h3> 
+<br />
+</div>
+
+  <div *ngFor="let comment of comments">
+  <div class="card"> <h4>{{comment.username}} :</h4></div>
+  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+  <div style="float:left;">
+  <h4>{{comment.body}}</h4>
+
+
+  </div>
+</div>
+</div>
 
   
   `
@@ -284,15 +282,10 @@ createComment(ID:String, comment:string)
 
   this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
   var data = {"body":comment["comment"] ,
-             "userid":this.userID};
+             "userid":this.userID,
+              "contentid":this.ID,
+            "username":JSON.parse(localStorage.getItem("userProps"))["username"]};
 
-console.log(comment)
-  console.log(data);
-
-
-
-
-//  const com = this.comment.get('comment').value();
    var config = {
                  headers : 
                  {
@@ -300,27 +293,15 @@ console.log(comment)
                  }
              }
 
-  this.httpClient.post(environment.apiUrl +'Content/createComment/'+ID , data/*hena*/ ,config).subscribe(
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data/*hena*/ ,config).subscribe(
     res=>{
-    this.comment=(res['data'].body);  
+    // this.comment=(res['data'].body);  
     console.log(res["data"]);
-      this.array.push( comment["comment"] );
-      //this.array.push( "kaka");
-      this.router.navigateByUrl('/content/viewallcontents');
-
+     // this.array.push( comment["comment"] );
     }
   );
 
-
-this.ViewComments();
-
-
-   
-  
-
-
-
-
+  window.location.reload();
  }
 
 
@@ -329,14 +310,16 @@ this.ViewComments();
 
 
  ViewComments(){
-
-  
-
-  this.httpClient.get(environment.apiUrl +'Content/getComments').subscribe(
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+  this.httpClient.get(environment.apiUrl +'Content/getComments/'+this.ID,config).subscribe(
     res=>{  
-      this.comments=(res['data']);  
-
-      
+    this.comments=(res['data']);  
+    console.log(res['data']);
     }
   );
 

@@ -35,7 +35,7 @@ router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
 router.post('/Content/createComment/:contentId' /*aw hena*/, contentCtrl.createComment);
 // router.get('/Content/viewComment/:contentId' , contentCtrl.viewComment);
-router.get('/Content/getComments',contentCtrl.getComments);
+router.get('/Content/getComments/:contentId',contentCtrl.getComments);
 
 
 

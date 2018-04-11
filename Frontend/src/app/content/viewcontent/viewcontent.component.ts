@@ -31,7 +31,7 @@ export class SafePipe implements PipeTransform {
 
   <div [innerHTML]="Content"></div>
   <a href="{{ Body }}"> {{ Title }} </a>
-  <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
+  <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-primary" (click)="this.viewlink=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br />
 <br />
@@ -40,9 +40,19 @@ export class SafePipe implements PipeTransform {
 
 
   <br>
-
-
-
+  <div   style="float:right; margin-top: -28px"> 
+   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">copy Link</button>
+  <br>
+  
+  <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
+  
+  </div>
+  <br><br>
+  <br><br>
+    <span  *ngIf="viewlink"> <iframe width="100%" height="1000" [src]="Body | safe" ></iframe> </span>
+   
+    <br><br>
+    <br><br>
   <style>
 
 
@@ -67,17 +77,8 @@ export class SafePipe implements PipeTransform {
   </div>
 
 
-  <div   style="float:right; margin-top: -28px"> 
-   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">copy Link</button>
-  <br>
-  
-  <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
-  
-  </div>
-  </div>
 
-  <span  *ngIf="Link"> <iframe width="1450" height="600" [src]="Body | safe" ></iframe> </span>
- 
+  </div>
 
 
   </div>
@@ -148,8 +149,8 @@ ImagePath:string
 public comments:any[]=[];
 adminStatus :boolean = false;
 Url:string;
-Link:boolean=false;
-link:boolean=false;
+viewlink:boolean=false;
+checkLink:boolean=false;
 IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
@@ -267,7 +268,7 @@ ShowPopUp(){
 
           this.Body = res['data'].body;
           console.log(this.Body);
-          this.link=true;
+          this.checkLink=true;
                     
         }
       );

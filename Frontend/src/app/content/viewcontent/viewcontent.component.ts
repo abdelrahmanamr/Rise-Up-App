@@ -74,8 +74,7 @@ export class SafePipe implements PipeTransform {
   <a (click)="rate(5)"><span class="fa fa-star" [class.checked]="rating >= 5"></span></a>
 
   <div   style="float:right; margin-top: -28px"> 
-   <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" style="background-color:#D00018" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
-   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
+   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">copy Link</button>
   <br>
   
   <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
@@ -94,12 +93,17 @@ export class SafePipe implements PipeTransform {
 <div><h3> comments: </h3> 
 <br />
 </div>
-
+<form #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel><br />
+<input class="btn btn-success btn-sm" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+<br />
 <Button (click)="toggle()" class="btn btn-danger btn-sm" style="background-color:#D00018"> show all comments </Button>
 <br />
 
 
-<span *ngIf="commentsflag">
+
+<div *ngIf="commentsflag">
   <div *ngFor="let comment of comments">
   <div class="card">
 
@@ -114,7 +118,7 @@ export class SafePipe implements PipeTransform {
   </div>
 </div>
 </div>
-</span>
+</div>
 
 <br />
 <br />
@@ -122,10 +126,6 @@ export class SafePipe implements PipeTransform {
 
 
 
-<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
-<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
-<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
-</form>
 
 <br />
 <br />

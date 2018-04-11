@@ -355,16 +355,13 @@ export class SearchResultComponent implements OnInit{
 
 }
     viewCompany(id:string){
-        localStorage.setItem("companyID",id);
-        this.router.navigate(['/company/viewcompany/']);
+        this.router.navigateByUrl('/company/viewcompany/'+id);
     }
     viewExpert(id:string){
-        localStorage.setItem("expertID",id);
-        this.router.navigate(['/expert/viewexpert']);
+        this.router.navigateByUrl('/expert/viewexpert/'+id);
     }
     viewContent(id:string){
-        localStorage.setItem("contentID",id);
-        this.router.navigate(['/content/viewcontent']);
+        this.router.navigateByUrl('/content/viewcontent/'+id);
     }
 
 

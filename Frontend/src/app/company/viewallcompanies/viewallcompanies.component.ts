@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
   <div class="card" style="padding:10px 15px; padding-bottom:80px; margin-bottom:20px;display: block; ">
   <div style="float:left;">
   <h4>{{company.name}}</h4>
-  Field: {{company.type}}
+  Tags: <span class="tags-input__tag" *ngFor="let tag of company.tags;">{{tag}}</span>
   </div>
   <div style="float:right;"> <br> <Button (click)="ViewCompany(company._id)" class="btn btn-danger btn-sm"> see more </Button>
   </div>
@@ -47,7 +47,10 @@ ngOnInit() {
   ViewCompanies(){
     this.httpClient.get(environment.apiUrl +'Company/viewCompanies').subscribe(
       res=>{  
-        this.companies=res['data']
+        this.companies=res['data'];
+        this.companies.forEach(company => {
+          company.tags=company.tags.split(",");
+        });
      }
     );
 

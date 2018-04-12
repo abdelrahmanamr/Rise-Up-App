@@ -17,6 +17,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
                   <b *ngIf="data.admin" style="color: #2e2123">Admin</b>
                   <b *ngIf="data.blocked" style="color: #b94a48">Blocked</b>
                   <b *ngIf="data.expert" style="color: #343ab9">Expert</b>
+                  Tags: <div><span class="tags-input__tag" *ngFor="let tag of data.tags;">{{tag}}</span></div>
                   <b style="color: #0b0e2b">Created At: {{data.createdAt | date}}</b>
                   <b style="color: #04040e">Last time updated at: {{data.updatedAt | date}}</b>
                   <p class="title">{{data.email}}</p></div>
@@ -118,6 +119,10 @@ export class ProfileComponent {
             console.log(el);
             this.tags.push(el);
         });
+
+          this.data['tags']=this.data['tags'].split(",");
+
+
         
     
     });

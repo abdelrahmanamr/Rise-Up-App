@@ -26,8 +26,12 @@ const routes: Routes = [
                 loadChildren: './edittags/edittags.module#EdittagsModule'
             },
             {
+                path: 'controlpanel',
+                loadChildren: './controlpanel/controlpanel.module#ControlPanelModule'
+            },
+            {
                 path: '',
-                redirectTo: 'viewusers',
+                redirectTo: 'controlpanel',
                 pathMatch: 'full'
             }
             

@@ -29,11 +29,6 @@ const routes: Routes = [
       path: 'home',
       loadChildren: './home/home.module#HomeModule'
     },
-    
-    // {
-    //   path: 'viewcontent/:id',
-    //   loadChildren: './content/viewcontent/viewcontent.module#ViewContentModule'
-    // },
   {
     path: 'search',
     loadChildren: './search/search.module#SearchModule'

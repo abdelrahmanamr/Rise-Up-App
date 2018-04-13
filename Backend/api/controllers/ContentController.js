@@ -449,7 +449,7 @@ module.exports.rateNew = function(req,res,next){
 if (!valid) {
   return res.status(422).json({
     err: null,
-    msg: 'name(String) and price(Number) are required fields.',
+    msg: 'UserId(String) and rating(Number) are required fields.',
     data: null
   });
 }else{
@@ -483,7 +483,6 @@ if (!valid) {
                 });
               }
               else {
-                console.log("akhr update");
                 Rating.find({
                   contentid: req.params.contentId
                 }).exec(function(err, AllRatings) {

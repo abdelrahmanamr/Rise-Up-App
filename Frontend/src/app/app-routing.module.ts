@@ -25,6 +25,11 @@ const routes: Routes = [
         path: 'reset/:id',
         loadChildren: './user/reset/reset.module#ResetModule'
     },
+    {
+      path: 'home',
+      loadChildren: './home/home.module#HomeModule'
+    },
+    
     // {
     //   path: 'viewcontent/:id',
     //   loadChildren: './content/viewcontent/viewcontent.module#ViewContentModule'

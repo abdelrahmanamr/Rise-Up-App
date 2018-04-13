@@ -8,7 +8,6 @@ import {Router} from "@angular/router";
 @Component({
     selector: 'app-search-searchResult',
     template: `
-
     <div class="dv">
           <input class="srch1" style="outline:none;" type="text" [(ngModel)]="nameortype" placeholder="Search.." ngModel>
            &nbsp; &nbsp;
@@ -31,27 +30,23 @@ import {Router} from "@angular/router";
           <a href="#/content/viewallcontents"><button class="btn btn-danger"> View All Content </button></a>
           <a href="#/company/viewallcompanies"><button class="btn btn-danger"> View All Companies </button></a>
           <a href="#/expert/viewallexperts"><button class="btn btn-danger"> View All Experts </button></a>
-
           </div>
           <style>
               .check{
-                text-align:center;
-                margin-top:3px;
+                 text-align:center;
+                 margin-top:3px;
               }
               .dv{
                   text-align: center;
               }
               .srch1{
-
                   padding: .2em .2em .2em .5em;
                   border-radius: 25px;
                   width: 350px;
                   height: 40px;
               }
           </style>
-
           <div *ngIf="!searchByTags">
-
           <!--Rifky-->
           <div *ngIf="searchStatus">
         <div class="container">
@@ -61,6 +56,7 @@ import {Router} from "@angular/router";
             <div class="container-fluid" *ngFor="let item of this.Items">
                 <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
                     <h4 class="text-uppercase">{{item.name}}</h4>
+                    <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
                     <p class="title" style="float:right;"> {{item.type}}
                         <button class="btn btn-danger"
                                 style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewCompany(item._id)">
@@ -79,7 +75,9 @@ import {Router} from "@angular/router";
             <div class="container-fluid" *ngFor="let item of this.Items">
                 <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
                     <h4 class="text-uppercase">{{item.title}}</h4>
+                    <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
                     <p class="title" style="float:right;"> {{item.type}}
+                    
                         <button class="btn btn-danger"
                                 style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewContent(item._id)">
                             View Content
@@ -97,7 +95,9 @@ import {Router} from "@angular/router";
             <div class="container-fluid" *ngFor="let item of this.Items">
                 <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
                     <h4 class="text-uppercase">{{item.username}}</h4>
+                    <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
                     <p class="title" style="float:right;"> {{item.email}}
+
                         <button class="btn btn-danger"
                                 style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewExpert(item._id)">
                             View Expert
@@ -112,13 +112,14 @@ import {Router} from "@angular/router";
           <div *ngIf="searchByTags">
           <div class="container">
           <h1>Results</h1>
-          <div id="tablesDiv" *ngFor="let item of this.Items">
-                <div id="companyDiv" *ngIf="item._source.type=='Company'">
+          <div id="tablesDiv" >
+                <div id="companyDiv" *ngIf="this.companyElasticSearch.length>0">
                 
                   <h2>Companies</h2>
-                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
+                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;" *ngFor="let item of this.companyElasticSearch">
                     <h4 class="text-uppercase">{{item._source.object.name}}</h4>
-                   
+                    <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+
                         <button class="btn btn-danger"
                         style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewCompany(item._source.object._id)">
                             View Company
@@ -126,34 +127,35 @@ import {Router} from "@angular/router";
                     
                </div>
                 </div>
-                <div id="expertDiv" *ngIf="item._source.type=='User' && item._source.object.expert">
+                <div id="expertDiv" *ngIf="this.userElasticSearch.length>0">
                 <h2>Experts</h2>
-                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
+                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;" *ngFor="let item of this.userElasticSearch">
                 <h4 class="text-uppercase">{{item._source.object.name}}</h4>
-                
+                <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+
                     <button class="btn btn-danger"
                             style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewExpert(item._source.object._id)">
-                        View Company
+                        View Expert
                     </button>
                 
            </div>
                 </div>
-                <div id="contentDiv" *ngIf="item._source.type=='Content'">
+                <div id="contentDiv" *ngIf="this.contentElasticSearch.length>0">
                 <h2>Content</h2>
-                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
+                <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;"  *ngFor="let item of this.contentElasticSearch">
                 <h4 class="text-uppercase">{{item._source.object.title}}</h4>
-                
+                <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+
                     <button class="btn btn-danger"
                             style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;" 
                             (click)="viewContent(item._source.object._id)">
-                        View Company
+                        View Content
                     </button>
               
            </div>
                 </div>
           </div>              
           </div>
-
          `
 
 })
@@ -163,6 +165,9 @@ export class SearchResultComponent implements OnInit{
     searchByTags : boolean;
     expertStatus : boolean;
     contentStatus : boolean;
+    contentElasticSearch =[];
+    companyElasticSearch =[];
+    userElasticSearch =[];
     constructor(private http:HttpClient,private router:Router){
 
     }
@@ -197,6 +202,9 @@ export class SearchResultComponent implements OnInit{
 
     search(){
         this.Items = [];
+        this.contentElasticSearch = [];
+        this.companyElasticSearch = [];
+        this.userElasticSearch = [];
         if((<HTMLInputElement>document.getElementById("comp")).value == "false" &&
            (<HTMLInputElement>document.getElementById("exp")).value == "false" && 
            (<HTMLInputElement>document.getElementById("cont")).value == "false" )
@@ -220,7 +228,28 @@ export class SearchResultComponent implements OnInit{
                             this.Items.concat(res['data']);
 
                         }
-                        console.log(this.Items);
+
+                        this.Items.forEach(element => {
+                            if (element._source.type == 'Company') {
+                                this.companyElasticSearch.push(element);
+                                element._source.object.tags=element._source.object.tags.split(",");
+ 
+                                    
+                            }
+
+                            if (element._source.type == 'Content') {
+                                    this.contentElasticSearch.push(element);
+                                    element._source.object.tags=element._source.object.tags.split(",");
+
+                            }
+                            console.log( this.contentElasticSearch);
+                            if (element._source.type == 'User'&& element._source.object.expert) {
+                                    this.userElasticSearch.push(element);
+                                    element._source.object.tags=element._source.object.tags.split(",");
+
+                            }
+
+                        });
 
                     }
                 )
@@ -239,6 +268,9 @@ export class SearchResultComponent implements OnInit{
             this.http.get(environment.apiUrl + '/search/getCompanyTagsOrNameOrType/' + this.nameortype).subscribe(res=>{
                 if(this.Items=[]){
                     this.Items= res['data'];
+                    this.Items.forEach(item => {
+                        item.tags=item.tags.split(",");
+                      });
                 }
                 this.searchStatus= true;
                 this.expertStatus = false;
@@ -252,6 +284,9 @@ export class SearchResultComponent implements OnInit{
                this.http.get(environment.apiUrl + '/search/getCompanyByNameOrType/' + this.nameortype).subscribe(res=>{
                    if(this.Items=[]){
                        this.Items= res['data'];
+                       this.Items.forEach(item => {
+                        item.tags=item.tags.split(",");
+                      });
                    }
                    this.searchStatus= true;
                    this.expertStatus = false;
@@ -264,6 +299,9 @@ export class SearchResultComponent implements OnInit{
                     this.http.get(environment.apiUrl + '/search/getCompanyTagsOrName/' + this.nameortype).subscribe(res=>{
                         if(this.Items=[]){
                             this.Items= res['data'];
+                            this.Items.forEach(item => {
+                                item.tags=item.tags.split(",");
+                              });
                         }
                         this.searchStatus= true;
                         this.expertStatus = false;
@@ -276,6 +314,9 @@ export class SearchResultComponent implements OnInit{
                         this.http.get(environment.apiUrl + '/search/getCompanyTagsOrType/' + this.nameortype).subscribe(res=>{
                             if(this.Items=[]){
                                 this.Items= res['data'];
+                                this.Items.forEach(item => {
+                                    item.tags=item.tags.split(",");
+                                  });
                             }
                             this.searchStatus= true;
                             this.expertStatus = false;
@@ -288,6 +329,9 @@ export class SearchResultComponent implements OnInit{
                            this.http.get(environment.apiUrl + '/search/getCompanyByName/' + this.nameortype).subscribe(res=>{
                                if(this.Items=[]){
                                    this.Items= res['data'];
+                                   this.Items.forEach(item => {
+                                    item.tags=item.tags.split(",");
+                                  });
                                }
                                this.searchStatus= true;
                                this.expertStatus = false;
@@ -300,6 +344,9 @@ export class SearchResultComponent implements OnInit{
                             this.http.get(environment.apiUrl + '/search/getCompanyByType/' + this.nameortype).subscribe(res=>{
                                if(this.Items=[]){
                                    this.Items= res['data'];
+                                   this.Items.forEach(item => {
+                                    item.tags=item.tags.split(",");
+                                  });
                                }
                                 this.searchStatus= true;
                                 this.expertStatus = false;
@@ -311,6 +358,9 @@ export class SearchResultComponent implements OnInit{
                                this.http.get(environment.apiUrl + '/search/getCompanyTags/' + this.nameortype).subscribe(res=>{
                                   if(this.Items=[]){
                                       this.Items= res['data'];
+                                      this.Items.forEach(item => {
+                                        item.tags=item.tags.split(",");
+                                      });
                                   }
                                    this.searchStatus= true;
                                    this.expertStatus = false;
@@ -333,6 +383,9 @@ export class SearchResultComponent implements OnInit{
         this.http.get(environment.apiUrl + '/search/getContentTags/' + this.nameortype).subscribe(res=>{
             if(this.Items=[]){
                 this.Items= res['data'];
+                this.Items.forEach(item => {
+                    item.tags=item.tags.split(",");
+                  });
             }
              this.contentStatus= true;
              this.expertStatus = false;
@@ -344,6 +397,9 @@ export class SearchResultComponent implements OnInit{
         this.http.get(environment.apiUrl + '/search/getExpertTags/' + this.nameortype).subscribe(res=>{
             if(this.Items=[]){
                 this.Items= res['data'];
+                this.Items.forEach(item => {
+                    item.tags=item.tags.split(",");
+                  });
             }
              this.expertStatus= true;
              this.searchStatus = false;

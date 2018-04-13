@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
     <div style="float:left;">
     <h4>{{content.title}}</h4>
 
-    Tags: {{content.tags}}</div>
+    Tags: <span class="tags-input__tag" *ngFor="let tag of content.tags;">{{tag}}</span></div>
     <div style="float:right;"><Button *ngIf="adminStatus" style="background:orange;border-raduis:100px;" (click)="EditContent(content._id)" class="btn btn-sm"><i class="fa fa-edit" style="font-size:19px"></i></Button>  
     <Button (click)="ViewContent(content._id)" class="btn btn-danger btn-sm" >view</Button><br />
 

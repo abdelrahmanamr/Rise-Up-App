@@ -31,7 +31,7 @@ export class SafePipe implements PipeTransform {
 
   <div [innerHTML]="Content"></div>
   <a href="{{ Body }}"> {{ Title }} </a>
-  <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-primary" (click)="this.viewlink=true" >show link</button></td>
+  <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br />
 <br />
@@ -165,7 +165,6 @@ comment:any;
     console.log(this.ID);
   }
 
-  @ViewChild('mass_timings') mass_timings: ElementRef;
 
 ShowPopUp(){
   console.log("asdas");
@@ -180,11 +179,6 @@ ShowPopUp(){
       }
 
       rate(rate:number){
-        // let body = {
-        //   userid: JSON.parse(localStorage.getItem("userProps"))["_id"],
-        //   _id: this.ID,
-        //   rating: rate
-        // }
         var config ={
           headers : 
         {
@@ -196,9 +190,7 @@ ShowPopUp(){
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
-            console.log(res);
-           // this.rating = res['data'].rating;
-                  
+            console.log(res);           
           }, err=>{
             this.toastr.error("",err.error["msg"]);
             console.log(err);

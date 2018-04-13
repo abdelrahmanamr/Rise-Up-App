@@ -40,7 +40,7 @@ router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
 
-router.post('/Content/createComment/:contentId' /*aw hena*/, contentCtrl.createComment);
+router.post('/Content/createComment/:contentId', contentCtrl.createComment);
 router.get('/Content/getComments/:contentId',contentCtrl.getComments);
 
 

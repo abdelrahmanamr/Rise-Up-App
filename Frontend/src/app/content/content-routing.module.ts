@@ -20,11 +20,7 @@ const routes: Routes = [
         path: 'viewsuggestedcontent',
         loadChildren: './viewsuggestedcontent/viewsuggestedcontent.module#ViewSuggestedContentModule'
       },
-      {
-        path: 'editcontent',
-        loadChildren: './editcontent/editcontent.module#EditcontentModule'
 
-      },
       {
         path: 'create',
         loadChildren: './create/create.module#CreateModule'

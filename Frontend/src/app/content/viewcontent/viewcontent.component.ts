@@ -305,7 +305,7 @@ ShowPopUp(){
   
  }
 
-createComment(ID:String, comment:string)
+createComment(ID:String, comment:string) //this method is called on clicking on button "Comment" once the user finished his comment, and the method calls post httprequest createComment method in the backend
  {
 
   this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
@@ -321,7 +321,7 @@ createComment(ID:String, comment:string)
                  }
              }
 
-  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data/*hena*/ ,config).subscribe(
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
     res=>{
     console.log(res["data"]);
     }
@@ -335,7 +335,8 @@ createComment(ID:String, comment:string)
 
 
 
- ViewComments(){
+ ViewComments() //this method calls a http get request calling getComments from the backend which retrieves all the comments related to that post from the database
+ {
   var config = {
     headers : 
     {
@@ -351,7 +352,8 @@ createComment(ID:String, comment:string)
 
 }
 
-toggle(){
+toggle() //this method is responsible for showing/hiding comments, the function toggles every time it is clicked
+{
   this.commentsflag=!this.commentsflag  //a method to show and hide comments
  }
 

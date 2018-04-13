@@ -571,7 +571,7 @@ if (!valid) {
 
 
 
-module.exports.createComment = function(req, res, next) {
+module.exports.createComment = function(req, res, next) { //method createComment which accesses the database and inserts the comment written in the textfield with the contentId of the post the user is seeing
   
   var valid = req.params.contentId && 
   Validations.isObjectId(req.params.contentId) && 
@@ -606,7 +606,7 @@ module.exports.createComment = function(req, res, next) {
 
 
 
-module.exports.getComments = function(req, res, next) {
+module.exports.getComments = function(req, res, next) { //getComments method is responsible for getting all the comments related to the post with the given contentId from the database and showing them
   if (!Validations.isObjectId(req.params.contentId)) {
     return res.status(422).json({
       err: null,

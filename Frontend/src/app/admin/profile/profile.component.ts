@@ -104,7 +104,8 @@ export class ProfileComponent {
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
 
@@ -133,7 +134,8 @@ export class ProfileComponent {
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
     var id= sessionStorage.getItem('userId');
@@ -151,7 +153,8 @@ submitTags(){
     console.log(this.tags);
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
     var result = this.tags.map(function(val) {
@@ -169,7 +172,8 @@ submitTags(){
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
     var id= sessionStorage.getItem('userId');
@@ -181,7 +185,8 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
         var id= sessionStorage.getItem('userId');
@@ -194,7 +199,8 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
         var id= sessionStorage.getItem('userId');
@@ -208,7 +214,8 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
         var id= sessionStorage.getItem('userId');
@@ -229,7 +236,8 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
         var id= sessionStorage.getItem('userId');

@@ -203,13 +203,34 @@ var mongoose = require('mongoose'),
   }
   
   module.exports.removeContent = function(req, res, next) {
-    if (!Validations.isObjectId(req.params.contentId)) {
+    req.body.userid = req.params.contentId.split("..")[1];
+    req.params.contentId = req.params.contentId.split("..")[0];
+    if (!Validations.isObjectId(req.params.contentId)
+    ) {
         return res.status(422).json({
             err: null,
             msg: 'ContentId parameter must be a valid ObjectId.',
             data: null
         });
     }
+    else{
+      User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found.', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     Content.findByIdAndRemove(req.params.contentId).exec(function(
         err,
         deletedContent
@@ -229,31 +250,44 @@ var mongoose = require('mongoose'),
         });
     });
 };
-
-module.exports.editContent = function(req, res, next) {
-  if (!Validations.isObjectId(req.params.contentId)) {
-    return res.status(422).json({
-      err: null,
-      msg: 'contentId parameter must be a valid ObjectId.',
-      data: null
+        };
+      };
     });
   }
-  // var valid = 
-  //  req.body.title &&
-  //  Validations.isString(req.body.title)&&
-  //  req.body.body &&
-  //  Validations.isString(req.body.body) &&
-  //  req.body.userid &&
-  //  Validations.isObjectId(req.body.userid)&&
-  //  req.body.tags &&
-  //  Validations.isString(req.body.tags);
-  // if (!valid){
-  //   return res.status(422).json({
-  //     err: null,
-  //     msg: 'title(String), body(String) and tags(String) are required fields.',
-  //     data: null
-  //   });
-  // }
+}
+
+module.exports.editContent = function(req, res, next) {
+  var valid = req.body.userid &&
+  Validations.isObjectId(req.body.userid)&&
+  req.body.tags &&
+  Validations.isString(req.body.tags) && 
+    req.body.title &&
+  Validations.isString(req.body.title)
+  ;
+if (!valid) {
+  return res.status(422).json({
+    err: null,
+    msg: 'title(String) and body(String) and tags are required fields.',
+    data: null
+  });
+}else{
+User.findById(req.body.userid).exec(function(err,user) {
+  if(err){
+    return next(err);
+  }
+  else {
+    if(!user){
+    return res
+    .status(404)
+    .json({ err: null, msg: 'User not found.', data: null });
+  }else{
+  if(!user['admin']){
+    return res.status(422).json({
+      err: null,
+      msg: 'Unauthorized! You are not an admin.',
+      data: null
+    });
+  }else{
 
   delete req.body.createdAt;
   req.body.updatedAt = moment().toDate();
@@ -280,7 +314,13 @@ module.exports.editContent = function(req, res, next) {
       data: updateContent
     });
   });
-};
+
+}
+  }
+  }
+});
+}
+}
 
 
   module.exports.createContent = function(req, res, next) {

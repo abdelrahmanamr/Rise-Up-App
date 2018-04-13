@@ -17,7 +17,24 @@ module.exports.AddExpert=function(req, res, next){
             data: null
         });
     }
-
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -50,6 +67,10 @@ module.exports.AddExpert=function(req, res, next){
         });
     });
 };
+        }
+    }
+});
+}
 
 
 
@@ -62,6 +83,24 @@ module.exports.updateExpertTags=function(req, res, next){
             data: null
         });
     }
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
 
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
@@ -93,7 +132,10 @@ module.exports.updateExpertTags=function(req, res, next){
         });
     });
 };
-
+        }
+    }
+});
+}
 module.exports.BlockUser=function(req, res, next){
 
     if(!Validations.isObjectId(req.params.userId)){
@@ -103,8 +145,24 @@ module.exports.BlockUser=function(req, res, next){
             data: null
         });
     }
-
-
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -137,6 +195,10 @@ module.exports.BlockUser=function(req, res, next){
         });
     });
 };
+        }
+    }
+});
+}
 
 
 module.exports.AddAdmin=function(req, res, next){
@@ -149,7 +211,24 @@ module.exports.AddAdmin=function(req, res, next){
         });
     }
    
-
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -182,6 +261,10 @@ module.exports.AddAdmin=function(req, res, next){
         });
     });
 };
+        }
+    }
+});
+}
 
 
 module.exports.RemoveExpert=function(req, res, next){
@@ -195,7 +278,24 @@ module.exports.RemoveExpert=function(req, res, next){
     }
 
     
-
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -228,6 +328,10 @@ module.exports.RemoveExpert=function(req, res, next){
         });
     });
 };
+        }
+    }
+});
+}
 
 module.exports.UnblockUser=function(req, res, next){
 
@@ -239,6 +343,24 @@ module.exports.UnblockUser=function(req, res, next){
         });
     }
 
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
@@ -272,6 +394,10 @@ module.exports.UnblockUser=function(req, res, next){
         });
     });
 };
+        }
+    }
+});
+}
 
 module.exports.RemoveAdmin=function(req, res, next){
 
@@ -284,7 +410,24 @@ module.exports.RemoveAdmin=function(req, res, next){
     }
 
    
-
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -317,6 +460,10 @@ module.exports.RemoveAdmin=function(req, res, next){
         });
     });
 };
+        }
+    }
+});
+}
 //--------------------------------------------------------------------------------------------------------------
 module.exports.removeCompany = function(req, res, next) {
     if (!Validations.isObjectId(req.params.companyId)) {
@@ -368,11 +515,29 @@ module.exports.addCompany = function(req, res, next) {
             data: null
         });
     }
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     // Security Check
     delete req.body.createdAt;
     delete req.body.updatedAt;
 
-    Company.create(req.body, function(err, company) {
+    Company.create(req.body, function(err, company) {    
         if (err) {
             return next(err);
         }
@@ -383,8 +548,14 @@ module.exports.addCompany = function(req, res, next) {
         });
     });
 };
+        }
+    }
+});
+}
+
 
 module.exports.getCompanies = function(req, res, next) {
+
     Company.find({}).exec(function(err, companies) {
         if (err) {
             return next(err);
@@ -396,8 +567,28 @@ module.exports.getCompanies = function(req, res, next) {
         });
     });
 };
+        
+
 
 module.exports.getUsers = function(req, res, next) {
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     User.find({}).exec(function(err, users) {
         if (err) {
             return next(err);
@@ -408,8 +599,14 @@ module.exports.getUsers = function(req, res, next) {
             data: users
         });
     });
-};
+}
+        }
+    }
+});
+}
+
 module.exports.getUserById = function(req, res, next) {
+    
     if (!Validations.isObjectId(req.params.userId)) {
         return res.status(422).json({
             err: null,
@@ -417,6 +614,24 @@ module.exports.getUserById = function(req, res, next) {
             data: null
         });
     }
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     User.findById(req.params.userId).exec(function(err, user) {
         if (err) {
             return next(err);
@@ -433,6 +648,10 @@ module.exports.getUserById = function(req, res, next) {
         });
     });
 };
+        }
+    }
+});
+}
 module.exports.addCompany = function(req, res, next) {
 
     console.log(req.body);
@@ -457,7 +676,24 @@ module.exports.addCompany = function(req, res, next) {
       });
   }
 
-
+  req.body.userid = req["headers"]["id"];
+  User.findById(req.body.userid).exec(function(err,user) {
+      if(err){
+        return next(err);
+      }
+      else {
+        if(!user){
+        return res
+        .status(404)
+        .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+      }else{
+      if(!user['admin']){
+        return res.status(422).json({
+          err: null,
+          msg: 'Unauthorized! You are not an admin.',
+          data: null
+        });
+      }else{
   // Security Check
   delete req.body.createdAt;
   delete req.body.updatedAt;
@@ -477,6 +713,10 @@ module.exports.addCompany = function(req, res, next) {
       });
   });
 };
+      }
+    }
+});
+}
 
 module.exports.viewCompanies = function(req, res, next) {
   Company.find({}).exec(function(err, company) {
@@ -513,7 +753,24 @@ module.exports.BlockUser=function(req, res, next){
           data:null
       });
   }
-
+  req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
   delete req.body.createdAt;
   req.body.updatedAt = moment().toDate();
 
@@ -546,6 +803,10 @@ module.exports.BlockUser=function(req, res, next){
       });
   });
 };
+        }
+    }
+});
+}
 module.exports.RemoveCompany = function(req, res, next) {
     if (!Validations.isObjectId(req.params.companyId)) {
         return res.status(422).json({

@@ -300,7 +300,7 @@ ShowPopUp(){
                      'Content-Type':'application/json'
                  }
              }
-   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident,config).
+   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
    subscribe(res=>{
     this.router.navigateByUrl('/content/viewallcontents');
    });

@@ -75,7 +75,8 @@ var my = JSON.stringify
 console.log(my);
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
 

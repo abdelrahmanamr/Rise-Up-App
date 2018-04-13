@@ -35,7 +35,8 @@ export class EdittagsComponent implements OnInit{
       var config ={
         headers : 
       {
-    'Content-Type':'application/json'
+    'Content-Type':'application/json',
+    "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
       }
     }
       this.httpClient.get(environment.apiUrl +'/User/viewUser/'+ID,config).subscribe(

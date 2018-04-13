@@ -17,6 +17,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
                   <b *ngIf="data.admin" style="color: #2e2123">Admin</b>
                   <b *ngIf="data.blocked" style="color: #b94a48">Blocked</b>
                   <b *ngIf="data.expert" style="color: #343ab9">Expert</b>
+                  Tags: <div><span class="tags-input__tag" *ngFor="let tag of data.tags;">{{tag}}</span></div>
                   <b style="color: #0b0e2b">Created At: {{data.createdAt | date}}</b>
                   <b style="color: #04040e">Last time updated at: {{data.updatedAt | date}}</b>
                   <p class="title">{{data.email}}</p></div>
@@ -56,7 +57,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
                       class="btn btn-primary" (click)="go()">Show Expert Tags
               </button>
 
-              <tags-input *ngIf="flag" class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
+              <tags-input *ngIf="flag" class="form-control input-lg"  [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
               
 
 
@@ -91,7 +92,13 @@ export class ProfileComponent {
     flag = false;
     tags:any=[];
     check=false;
-  constructor(private http: HttpClient,private router: Router){}
+    Url:String
+    ID:any
+  constructor(private http: HttpClient,private router: Router){
+    this.Url=window.location.href
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
+    console.log(this.ID);
+  }
 
   ngOnInit() 
   {
@@ -101,9 +108,7 @@ export class ProfileComponent {
         }
     }
 
-    var id= sessionStorage.getItem('userId');
-
-    this.http.get('http://localhost:3000/api/admin/getUserById/'+id,config).
+    this.http.get('http://localhost:3000/api/admin/getUserById/'+this.ID,config).
     subscribe(res =>{
         console.log(res['data']);
         this.data = res['data'];
@@ -114,6 +119,11 @@ export class ProfileComponent {
             console.log(el);
             this.tags.push(el);
         });
+
+          this.data['tags']=this.data['tags'].split(",");
+
+
+        
     
     });
 
@@ -127,7 +137,7 @@ export class ProfileComponent {
         }
     }
     var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/blockUser/'+id, config)
+    this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID, config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
@@ -150,7 +160,7 @@ submitTags(){
     var data = JSON.stringify({tags:result})
 
     var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+id,data, config)
+    this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+this.ID,data, config)
         .subscribe((info:any) => {console.log(info);});
         this.flag=false;
         this.check=true;
@@ -163,7 +173,7 @@ submitTags(){
         }
     }
     var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+id, config)
+    this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID, config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
@@ -175,7 +185,7 @@ submitTags(){
             }
         }
         var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+id, config)
+        this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID, config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
@@ -188,7 +198,7 @@ submitTags(){
             }
         }
         var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+id, config)
+        this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID, config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
@@ -202,7 +212,7 @@ submitTags(){
             }
         }
         var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+id, config)
+        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID, config)
             .subscribe((info:any) => {console.log(info);});
 
 
@@ -223,17 +233,10 @@ submitTags(){
             }
         }
         var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+id, config)
+        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID, config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
-
-    onTagsChanged($event){
-
-        console.log(this.tags);
-        //    console.log( (JSON.stringify(this.tags)));
-    
-        }
 
 
 }

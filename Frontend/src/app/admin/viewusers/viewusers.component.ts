@@ -8,24 +8,14 @@ import {Router} from "@angular/router";
 <div class="container">
 
 
-      <table  id ="table" class="table table-bordered">
-          <thead>
-          <tr>
-              <th style="text-align:center" scope="col">Profile photo</th>
-              <th style="text-align:center" scope="col">Username</th>
-          </tr>
-          </thead>
-      <tbody>
-          <tr *ngFor="let item of data" title="Click to view this user's information">
-              <td style="text-align:center"><img src="/assets/profile1.png" (click) = "goToUser(item._id)"></td>
-              <td style="text-align:center" (click) = "goToUser(item._id)">{{item.username}}</td>
-          </tr>
-          </tbody>
-      </table>
+  <div class="card" style="padding:15px 15px; padding-bottom:10px; padding-top:10px; 
+  margin-bottom:20px;display: block; " *ngFor="let item of data">
+ 
+  <img src="/assets/profile1.png" (click) = "goToUser(item._id)">
+  <span> <b> {{ item.username }} </b> </span>
+  <div style="float:right;padding-top:20px;"><Button (click)="goToUser(item._id)" class="btn btn-danger btn-sm">View </Button></div>
 </div>
-      
-
-   `
+`
  
 })
 export class ViewUsersComponent {
@@ -39,8 +29,7 @@ export class ViewUsersComponent {
 
   goToUser(ident:string)
   {
-     sessionStorage.setItem('userId',ident);
-     window.location.replace("#/admin/profile");
+     this.router.navigate(["/admin/profile/"+ident]);
    }
 
 

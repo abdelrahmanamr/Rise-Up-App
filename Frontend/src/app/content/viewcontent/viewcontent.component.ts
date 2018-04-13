@@ -6,12 +6,10 @@ import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { SafeResourceUrl } from '@angular/platform-browser';
 // import { App, NavController } from 'ionic-angular';
-
-
 import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
-
+import { ToastrService } from 'ngx-toastr';
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
@@ -28,66 +26,60 @@ export class SafePipe implements PipeTransform {
 
   
   <div class="container">
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-  <span> <b> {{ PostTitle }} </b> </span>
-  <br>
-  <br>
-  <span> <div [innerHTML]="Content"></div></span>
-  <span><a href="{{ Body }}"> {{ Title }} </a></span> 
-  <td><button type="button" *ngIf="link" class="btn btn-primary" (click)="this.Link=true" >show link</button></td>
+  <div class="card" style="padding:10px 15px; padding-left:40px;padding-bottom:80px; margin-bottom:20px;display: block; ">
+
+   <h4 ><font size="7">{{PostTitle}}</font></h4>
+
+  <div [innerHTML]="Content"></div>
+  <a href="{{ Body }}"> {{ Title }} </a>
+  <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-primary" (click)="this.viewlink=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br />
 <br />
-
-
-
-
-<form class="container" #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
-<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel>
-<input class="btn btn-success" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
-</form>
-
-
-
-
-
-
 
 <div class="container">
 
 
   <br>
-
-
-
-  <style>
-  .checked {
-      color: yellow;
-      
-  }
-  span:hover { 
-    color: yellow;
-  }
-  </style>
-
-  <h2>Rating</h2>
-  <a (click)="rate(1)"><span class="fa fa-star" [class.checked]="rating >= 1"></span></a>
-  <a (click)="rate(2)"><span class="fa fa-star" [class.checked]="rating >= 2"></span></a>
-  <a (click)="rate(3)"><span class="fa fa-star" [class.checked]="rating >= 3"></span></a>
-  <a (click)="rate(4)"><span class="fa fa-star" [class.checked]="rating >= 4"></span></a>
-  <a (click)="rate(5)"><span class="fa fa-star" [class.checked]="rating >= 5"></span></a>
-
   <div   style="float:right; margin-top: -28px"> 
-   <button class="btn btn-danger btn-sm" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true">copy Link</button>
+   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">copy Link</button>
   <br>
   
   <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
   
   </div>
+  <br><br>
+  <br><br>
+    <span  *ngIf="viewlink"> <iframe width="100%" height="1000" [src]="Body | safe" ></iframe> </span>
+   
+    <br><br>
+    <br><br>
+  <style>
+
+
+
+
+  .checked {
+    color: yellow;
+  }
+  span:hover > span,
+  span:hover {
+    color: yellow;
+  }
+  </style>
+
+  <h2>Rating</h2>
+  <div class="rating">
+  <a (click)="rate(1)"><span class="fa fa-star" id="minStar1" [class.checked]="rating >= 1"></span></a>
+  <a (click)="rate(2)"><span class="fa fa-star" id="minStar2" [class.checked]="rating >= 2"></span></a>
+  <a (click)="rate(3)"><span class="fa fa-star" id="minStar3" [class.checked]="rating >= 3"></span></a>
+  <a (click)="rate(4)"><span class="fa fa-star" id="minStar4" [class.checked]="rating >= 4"></span></a>
+  <a (click)="rate(5)"><span class="fa fa-star" id="minStar5" [class.checked]="rating >= 5"></span></a>
   </div>
 
-  <span  *ngIf="Link"> <iframe width="1450" height="600" [src]="Body | safe" ></iframe> </span>
- 
+
+
+  </div>
 
 
   </div>
@@ -97,17 +89,45 @@ export class SafePipe implements PipeTransform {
 <div><h3> comments: </h3> 
 <br />
 </div>
+<form #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel><br />
+<input class="btn btn-success btn-sm" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+<br />
+<Button (click)="toggle()" class="btn btn-danger btn-sm" style="background-color:#D00018"> show all comments </Button>
+<br />
 
+
+
+<div *ngIf="commentsflag">
   <div *ngFor="let comment of comments">
-  <div class="card"> <h4>{{comment.username}} :</h4></div>
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-  <div style="float:left;">
+  <div class="card">
+
+  <div  class="card"> <b style= "color:#D00018"> <font size="4">   {{comment.username}} :   </font>   </b></div> 
+  <br />
+  
+  <div style="padding:10px 15px; padding-bottom:10px; margin-bottom:30px;display: block; ">
+  <div style="float:left;    margin-left: 70px;">
   <h4>{{comment.body}}</h4>
 
-
+  </div>
   </div>
 </div>
 </div>
+</div>
+
+<br />
+<br />
+<br />
+
+
+
+
+<br />
+<br />
+<br />
+
+
 
   
   `
@@ -130,14 +150,17 @@ ImagePath:string
 public comments:any[]=[];
 adminStatus :boolean = false;
 Url:string;
-Link:boolean=false;
-link:boolean=false;
+viewlink:boolean=false;
+checkLink:boolean=false;
 IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
+commentsflag:boolean=false;
+
 
 comment:any;
-  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute) { 
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService) { 
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);
@@ -145,7 +168,10 @@ comment:any;
 
   @ViewChild('mass_timings') mass_timings: ElementRef;
 
-
+ShowPopUp(){
+  console.log("asdas");
+  this.toastr.success("","Link copied to clipbaord");
+}
   ngOnInit() { 
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
@@ -175,6 +201,7 @@ comment:any;
            // this.rating = res['data'].rating;
                   
           }, err=>{
+            this.toastr.error("",err.error["msg"]);
             console.log(err);
           });
       }
@@ -242,7 +269,7 @@ comment:any;
 
           this.Body = res['data'].body;
           console.log(this.Body);
-          this.link=true;
+          this.checkLink=true;
                     
         }
       );
@@ -330,7 +357,9 @@ createComment(ID:String, comment:string)
 
 }
 
-
+toggle(){
+  this.commentsflag=!this.commentsflag
+ }
 
 
 

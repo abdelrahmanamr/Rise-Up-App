@@ -28,6 +28,33 @@ module.exports.getCompanyById = function(req, res, next) {
         });
     });
 };
+module.exports.IncrementViews = function(req,res,next){
+var valid = req.params.ID && Validations.isObjectId(req.params.ID) 
+if(!valid){
+    return res
+    .status(404)
+    .json({ err: null, msg: 'Company not found.', data: null });
+    
+}
+else{
+    Company.findByIdAndUpdate(req.params.ID,
+    {
+        $inc: {views : 1}
+    },
+    { new: true }
+    ).exec(function(err,updatedCompany){
+        if(err){
+            return next(err);
+        }else if(!updatedCompany){
+            return res
+            .status(404)
+            .json({ err: null, msg: 'Company not found.', data: null });
+        }else{
+            return res.status(201).json({ err: null, msg: 'Updated Views', data: updatedCompany })
+        }
+    });
+}
+}
 
 
 module.exports.getCompanies = function(req, res, next) {

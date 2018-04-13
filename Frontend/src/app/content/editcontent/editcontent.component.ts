@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-content-viewcontent',
     templateUrl:'editcontent.component.html' 
@@ -34,7 +33,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
         adminStatus :boolean = false;
         public contents:any[]=[];
 
-        constructor(private httpClient: HttpClient,private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef)
+        constructor(private httpClient: HttpClient,private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef,
+          private toastr: ToastrService)
          {
           this.form = fb.group({
             editor: ['']
@@ -170,7 +170,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
             this.router.navigate(["/content/viewallcontents"]);
           },err=>{
-         
+            this.toastr.error("",err.error["msg"]) 
             this.errorHandle = err['error']['msg'];
           });
       

@@ -35,6 +35,7 @@ export class SafePipe implements PipeTransform {
 
   <div [innerHTML]="Content"></div>
   <a href="{{ Body }}"> {{ Title }} </a>
+  <br><br>
   <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br />

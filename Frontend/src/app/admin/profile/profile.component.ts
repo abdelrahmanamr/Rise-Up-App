@@ -7,7 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 @Component({
   selector: 'app-dashboard-items',
   template: `
-      <div class="container">
+      <div class="container" xmlns="http://www.w3.org/1999/html">
 
           <div class="profile" style="float: left; width: 40%;overflow: hidden;">
               <div class="card">
@@ -22,62 +22,86 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
                   <b style="color: #04040e">Last time updated at: {{data.updatedAt | date}}</b>
                   <p class="title">{{data.email}}</p></div>
           </div>
+       
+              <div style="margin-left:100px;text-align: center; width: 20%;overflow: hidden; max-width:700px;max-height: 1000px">
+                  <div class="card" style=" background-color:rgba(253,255,245,0.49);max-width: 700px">
+                      <label for="ctrs" style="color:rgba(22,19,8,0.92);">
+                          <b> Admin Controls </b>
+                      </label>
 
-          <div style="margin-left:100px;text-align: center; width: 20%;overflow: hidden; max-width:700px;max-height: 400px">
-              <div class="card" style=" background-color:rgba(253,255,245,0.49);max-width: 700px">
-                  <label for="ctrs" style="color:rgba(22,19,8,0.92);">
-                      <b> Admin Controls </b>
-                  </label>
+                      <div id="ctrs" style="text-align: center; overflow: hidden; max-width:300px;max-height: 500px">
+                          <button *ngIf="!data.blocked" type="button"
+                                  style="margin-bottom:10px; background-color:#DC0C18;width: 200px;"
+                                  class="btn btn-primary" (click)="Block()">Block
+                          </button>
 
-                  <div id="ctrs" style="text-align: center; overflow: hidden; max-width:300px;max-height: 500px">
-                      <button *ngIf="!data.blocked" type="button" style="margin-bottom:10px; background-color:#DC0C18;width: 200px;"
-                              class="btn btn-primary" (click)="Block()">Block
-                      </button>
+                          <button *ngIf="data.blocked" type="button"
+                                  style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                                  class="btn btn-primary" (click)="UnBlock()">UnBlock
+                          </button>
+                          <br>
+                          <button *ngIf="!data.admin" type="button"
+                                  style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                                  class="btn btn-primary" (click)="AddAdmin()">Make admin
+                          </button>
+                          <button *ngIf="data.admin" type="button"
+                                  style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                                  class="btn btn-primary" (click)="RemoveAdmin()">Remove admin
+                          </button>
+                          <br>
+                          <button *ngIf="!data.expert" type="button"
+                                  style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                                  class="btn btn-primary" (click)="AddExpert()">Make expert
+                          </button>
 
-                      <button *ngIf="data.blocked" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-                              class="btn btn-primary" (click)="UnBlock()">UnBlock
-                      </button>
-                      <br>
-                      <button *ngIf="!data.admin" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-                              class="btn btn-primary" (click)="AddAdmin()">Make admin
-                      </button>
-                      <button *ngIf="data.admin" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-                              class="btn btn-primary" (click)="RemoveAdmin()">Remove admin
-                      </button>
-                  <br>
-                      <button *ngIf="!data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-                              class="btn btn-primary" (click)="AddExpert()">Make expert
-                      </button>
+                          <button *ngIf="data.expert" type="button"
+                                  style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                                  class="btn btn-primary" (click)="RemoveExpert()">Remove expert
+                          </button>
 
-                      <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-                              class="btn btn-primary" (click)="RemoveExpert()">Remove expert
-                      </button>
+                          <button *ngIf="data.expert" type="button"
+                                  style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
+                                  class="btn btn-primary" (click)="go()">Show Expert Tags
 
-                      <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-                      class="btn btn-primary" (click)="go()">Show Expert Tags
-              </button>
+                          </button>
 
-              <tags-input *ngIf="flag" class="form-control input-lg"  [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
-              
+                         
+                          <div *ngIf="check">
+                              <div *ngFor="let tag of tagFinalA">
+                                  {{ tag }}
+                              </div>
+                          </div>
+
+                        
 
 
-              <button *ngIf="data.expert" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;"
-              class="btn btn-primary" (click)="submitTags()" >Submit Tags
-                  
-               
-              </button>
-                      <div *ngIf="check">
-                          <div *ngFor="let tag of tags">
-                          {{ tag }}
                       </div>
-                      </div>
-        
                   </div>
               </div>
+
+          <div style="margin-left:100px;text-align: initial; width: 60%;height:60%;overflow: hidden; max-width:700px;max-height: 1000px">
+              <div class="card" style=" background-color:rgba(253,255,245,0.49);max-width: 700px">
+                  <label for="ctrs" style="color:rgba(22,19,8,0.92);">
+                      <b> Enter Tags Here: </b>
+                  </label>
+                  <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)"
+                               ng-controller="MainCtrl" ng-model="tags"  type="text" [(ngModel)]="tags"
+                               name="tags"> </tags-input>
+                  
+                 
+                      <button  *ngIf="data.expert" type="button"
+                              style="margin-bottom:5px;margin-left:450px;background-color:#DC0C18; width: 200px;"
+                              class="btn btn-primary" (click)="submitTags()">Submit Tags
+
+                         
+                          {{errorHandle}}
+                      </button>
+
+                  
+                  </div>
+              </div>
+
           </div>
-
-
-      </div>
 
 
 
@@ -89,28 +113,32 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class ProfileComponent {
     data = {};
+    datas = {};
     flag = false;
     tags:any=[];
     check=false;
     Url:String
-    ID:any
+    ID:any;
+    tagFinalA:any;
   constructor(private http: HttpClient,private router: Router){
     this.Url=window.location.href
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);
   }
 
+
   ngOnInit() 
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
 
     this.http.get('http://localhost:3000/api/admin/getUserById/'+this.ID,config).
     subscribe(res =>{
-        console.log(res['data']);
+        // console.log(res['data']);
         this.data = res['data'];
         if(res['data'].tags!=null)
         // this.tags = res['data'].tags.split(",");
@@ -122,9 +150,6 @@ export class ProfileComponent {
 
           this.data['tags']=this.data['tags'].split(",");
 
-
-        
-    
     });
 
   }
@@ -133,37 +158,42 @@ export class ProfileComponent {
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
-    var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID, config)
+    var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+    this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID,data,config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
+
   editExpert(){
-    //window.location.replace("#/admin/editExpertTags");
     window.location.replace("#/admin/edittags");
   }
-
+    onTagsChanged($event){}
 
 submitTags(){
-    console.log(this.tags);
+
+    var result = this.tags.map(function(val) {
+        return val.displayValue;
+    }).join(',');
     var config = {
         headers : {
             'Content-Type': 'application/json'
         }
     }
-    var result = this.tags.map(function(val) {
-        return val.displayValue;
-    }).join(',');
-    var data = JSON.stringify({tags:result})
+    var data = JSON.stringify({tags:result,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]})
 
     var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+this.ID,data, config)
-        .subscribe((info:any) => {console.log(info);});
-        this.flag=false;
-        this.check=true;
+    this.http.patch(environment.apiUrl+'/admin/UpdateExpertTag/'+this.ID,data, config)
+        .subscribe(res=> {
+            window.location.reload();
+        });
+
+
+    this.flag = true;
+
 }
   UnBlock()
   {
@@ -172,8 +202,8 @@ submitTags(){
             'Content-Type': 'application/json'
         }
     }
-    var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID, config)
+    var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+    this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID,data,config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
@@ -184,8 +214,8 @@ submitTags(){
                 'Content-Type': 'application/json'
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
@@ -194,11 +224,11 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
@@ -208,11 +238,11 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
 
 
@@ -222,18 +252,34 @@ submitTags(){
     
     
     go(){
-        this.flag = true;
+
+
+        var config = {
+            headers : {
+                'Content-Type': 'application/json'
+            }
+        }
+        this.http.get(environment.apiUrl+'/admin/getUserTags/'+this.ID, config)
+            .subscribe(res =>{
+                console.log(res['data']);
+                this.datas = res['data'];
+                this.tagFinalA = res['data'].split(",");
+
+            });
+
+
+        this.check=true;
     }
     
     AddExpert()
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }

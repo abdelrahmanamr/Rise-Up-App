@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
   Rating = mongoose.model('Rating');
 
 
-  module.exports.views = function(req, res, next) {
+  module.exports.views = function(req, res, next) { //the views method increment the views count by one every time it is called
     if (!Validations.isObjectId(req.params.contentId)) {
       return res.status(422).json({
         err: null,
@@ -203,13 +203,34 @@ var mongoose = require('mongoose'),
   }
   
   module.exports.removeContent = function(req, res, next) {
-    if (!Validations.isObjectId(req.params.contentId)) {
+    req.body.userid = req.params.contentId.split("..")[1];
+    req.params.contentId = req.params.contentId.split("..")[0];
+    if (!Validations.isObjectId(req.params.contentId)
+    ) {
         return res.status(422).json({
             err: null,
             msg: 'ContentId parameter must be a valid ObjectId.',
             data: null
         });
     }
+    else{
+      User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found.', data: null });
+        }else{
+        if(!user['admin']){
+          return res.status(422).json({
+            err: null,
+            msg: 'Unauthorized! You are not an admin.',
+            data: null
+          });
+        }else{
     Content.findByIdAndRemove(req.params.contentId).exec(function(
         err,
         deletedContent
@@ -229,31 +250,44 @@ var mongoose = require('mongoose'),
         });
     });
 };
-
-module.exports.editContent = function(req, res, next) {
-  if (!Validations.isObjectId(req.params.contentId)) {
-    return res.status(422).json({
-      err: null,
-      msg: 'contentId parameter must be a valid ObjectId.',
-      data: null
+        };
+      };
     });
   }
-  // var valid = 
-  //  req.body.title &&
-  //  Validations.isString(req.body.title)&&
-  //  req.body.body &&
-  //  Validations.isString(req.body.body) &&
-  //  req.body.userid &&
-  //  Validations.isObjectId(req.body.userid)&&
-  //  req.body.tags &&
-  //  Validations.isString(req.body.tags);
-  // if (!valid){
-  //   return res.status(422).json({
-  //     err: null,
-  //     msg: 'title(String), body(String) and tags(String) are required fields.',
-  //     data: null
-  //   });
-  // }
+}
+
+module.exports.editContent = function(req, res, next) {
+  var valid = req.body.userid &&
+  Validations.isObjectId(req.body.userid)&&
+  req.body.tags &&
+  Validations.isString(req.body.tags) && 
+    req.body.title &&
+  Validations.isString(req.body.title)
+  ;
+if (!valid) {
+  return res.status(422).json({
+    err: null,
+    msg: 'title(String) and body(String) and tags are required fields.',
+    data: null
+  });
+}else{
+User.findById(req.body.userid).exec(function(err,user) {
+  if(err){
+    return next(err);
+  }
+  else {
+    if(!user){
+    return res
+    .status(404)
+    .json({ err: null, msg: 'User not found.', data: null });
+  }else{
+  if(!user['admin']){
+    return res.status(422).json({
+      err: null,
+      msg: 'Unauthorized! You are not an admin.',
+      data: null
+    });
+  }else{
 
   delete req.body.createdAt;
   req.body.updatedAt = moment().toDate();
@@ -280,7 +314,13 @@ module.exports.editContent = function(req, res, next) {
       data: updateContent
     });
   });
-};
+
+}
+  }
+  }
+});
+}
+}
 
 
   module.exports.createContent = function(req, res, next) {
@@ -390,6 +430,11 @@ Content.findById(req.params.contentId).exec(function(err, ratedContents){
  });
  
 };
+
+
+
+
+
 module.exports.rateNew = function(req,res,next){
   if (!Validations.isObjectId(req.params.contentId)) {
     return res.status(422).json({
@@ -526,7 +571,7 @@ if (!valid) {
 
 
 
-module.exports.createComment = function(req, res, next) {
+module.exports.createComment = function(req, res, next) { //method createComment which accesses the database and inserts the comment written in the textfield with the contentId of the post the user is seeing
   
   var valid = req.params.contentId && 
   Validations.isObjectId(req.params.contentId) && 
@@ -561,52 +606,7 @@ module.exports.createComment = function(req, res, next) {
 
 
 
-
-
-
-
-
-
-
-
-
-// module.exports.viewComment = function(req, res, next) {
-//   if (!Validations.isObjectId(req.params.contentId)) {
-//     return res.status(422).json({
-//       err: null,
-//       msg: 'contentId parameter must be a valid ObjectId.',
-//       data: null
-//     });
-//   }
-//   Comment.findById(req.params.commentId).exec(function(err, comments) {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!comments) {
-//       return res
-//         .status(404)
-//         .json({ err: null, msg: 'comment not found.', data: null });
-//     }
-//     res.status(200).json({
-//       err: null,
-//       msg: 'comment retrieved successfully.',
-//       data: comments
-//     });
-//   });
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports.getComments = function(req, res, next) {
+module.exports.getComments = function(req, res, next) { //getComments method is responsible for getting all the comments related to the post with the given contentId from the database and showing them
   if (!Validations.isObjectId(req.params.contentId)) {
     return res.status(422).json({
       err: null,

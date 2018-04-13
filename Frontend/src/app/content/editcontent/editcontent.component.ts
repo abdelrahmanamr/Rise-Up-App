@@ -99,7 +99,7 @@ import { ToastrService } from 'ngx-toastr';
                      'Content-Type':'application/json'
                  }
              }
-   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident,config).
+   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
    subscribe(res=>{
     this.router.navigateByUrl('/content/viewallcontents');
    });
@@ -149,12 +149,12 @@ import { ToastrService } from 'ngx-toastr';
           else{
 
           if(this.post == 0){
-             data = JSON.stringify({title:this.titleValue,type:"Post",body:this.PostValue,tags:this.TagValue})
+             data = JSON.stringify({title:this.titleValue,type:"Post",body:this.PostValue,tags:this.TagValue,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]})
             console.log("passing the post data to thae backend")
             }else if(this.post==1){
-            data = JSON.stringify({title:this.titleValue,type:"Link",body:this.LinkValue,tags:this.TagValue})
+            data = JSON.stringify({title:this.titleValue,type:"Link",body:this.LinkValue,tags:this.TagValue,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]})
           }else if(this.post==2){
-            data = JSON.stringify({title:this.titleValue,type:"Image",body:this.url,tags:this.TagValue})
+            data = JSON.stringify({title:this.titleValue,type:"Image",body:this.url,tags:this.TagValue,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]})
           }
 
           console.log("calling the backend ........");

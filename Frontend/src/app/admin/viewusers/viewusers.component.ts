@@ -23,7 +23,14 @@ export class ViewUsersComponent {
   constructor(private http: HttpClient,private router: Router){}
   ngOnInit() 
   {
-        this.http.get('http://localhost:3000/api/admin/getUsers').
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json',
+          "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+      }
+  }
+        this.http.get('http://localhost:3000/api/admin/getUsers',config).
        subscribe(res =>{this.data=res["data"]});     
   }
 

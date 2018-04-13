@@ -1,3 +1,4 @@
+
 import { Component, OnInit , ViewChild } from '@angular/core';
 import {Router,ActivatedRoute} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +10,10 @@ import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { ToastrService } from 'ngx-toastr';
-@Pipe({ name: 'safe' })
+
+
+//a pipe to implement secure embeding of any external link
+@Pipe({ name: 'safe' })                                   
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
   transform(Body) {
@@ -160,12 +164,10 @@ commentsflag:boolean=false;
 comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
     private toastr: ToastrService) { 
-    this.Url=window.location.href
-    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
-    console.log(this.ID);
+    this.Url=window.location.href  //getting the url of the current page
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);  // abstracting the id of the content from the url
   }
 
-  @ViewChild('mass_timings') mass_timings: ElementRef;
 
 ShowPopUp(){
   console.log("asdas");
@@ -180,11 +182,6 @@ ShowPopUp(){
       }
 
       rate(rate:number){
-        // let body = {
-        //   userid: JSON.parse(localStorage.getItem("userProps"))["_id"],
-        //   _id: this.ID,
-        //   rating: rate
-        // }
         var config ={
           headers : 
         {
@@ -196,13 +193,13 @@ ShowPopUp(){
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
-            console.log(res);
-           // this.rating = res['data'].rating;
-                  
+            console.log(res);           
           }, err=>{
             this.toastr.error("",err.error["msg"]);
             console.log(err);
           });
+
+          window.location.reload();
       }
 
 
@@ -300,7 +297,7 @@ ShowPopUp(){
                      'Content-Type':'application/json'
                  }
              }
-   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident,config).
+   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
    subscribe(res=>{
     this.router.navigateByUrl('/content/viewallcontents');
    });
@@ -308,7 +305,7 @@ ShowPopUp(){
   
  }
 
-createComment(ID:String, comment:string)
+createComment(ID:String, comment:string) //this method is called on clicking on button "Comment" once the user finished his comment, and the method calls post httprequest createComment method in the backend
  {
 
   this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
@@ -324,11 +321,9 @@ createComment(ID:String, comment:string)
                  }
              }
 
-  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data/*hena*/ ,config).subscribe(
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
     res=>{
-    // this.comment=(res['data'].body);  
     console.log(res["data"]);
-     // this.array.push( comment["comment"] );
     }
   );
 
@@ -340,7 +335,8 @@ createComment(ID:String, comment:string)
 
 
 
- ViewComments(){
+ ViewComments() //this method calls a http get request calling getComments from the backend which retrieves all the comments related to that post from the database
+ {
   var config = {
     headers : 
     {
@@ -356,8 +352,9 @@ createComment(ID:String, comment:string)
 
 }
 
-toggle(){
-  this.commentsflag=!this.commentsflag
+toggle() //this method is responsible for showing/hiding comments, the function toggles every time it is clicked
+{
+  this.commentsflag=!this.commentsflag  //a method to show and hide comments
  }
 
 

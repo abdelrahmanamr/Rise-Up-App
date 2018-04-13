@@ -35,8 +35,8 @@ import {Router} from "@angular/router";
           </div>
           <style>
               .check{
-                   position: relative;
-                 left: 420px;
+                text-align:center;
+                margin-top:3px;
               }
               .dv{
                   text-align: center;

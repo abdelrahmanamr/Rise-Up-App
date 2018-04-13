@@ -40,7 +40,7 @@ router.delete('/Content/deleteContent/:contentId', contentCtrl.removeContent);
 router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
 
-router.post('/Content/createComment/:contentId' /*aw hena*/, contentCtrl.createComment);
+router.post('/Content/createComment/:contentId', contentCtrl.createComment);
 router.get('/Content/getComments/:contentId',contentCtrl.getComments);
 
 
@@ -106,7 +106,9 @@ router.post('/admin/addCompany',AdminController.addCompany);
 router.get('/admin/getCompanies',AdminController.getCompanies);
 router.get('/admin/getUsers',AdminController.getUsers);
 router.get('/admin/getUserById/:userId',AdminController.getUserById);
+router.get('/admin/getUserTags/:userId',AdminController.getTags);
 router.get('/admin/viewCompanies',AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
-router.patch('/admin/updateExpertTags/:userId',AdminController.updateExpertTags)
+router.patch('/admin/UpdateExpertTag/:userId',AdminController.UpdateExpertTags);
+
 module.exports = router;

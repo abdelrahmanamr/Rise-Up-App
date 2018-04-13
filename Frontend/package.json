@@ -11,7 +11,7 @@
     "lint:fix": "ng lint --fix"
   },
   "dependencies": {
-    "@angular/animations": "^5.2.0",
+    "@angular/animations": "^5.2.9",
     "@angular/cdk": "github:angular/cdk-builds",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
@@ -39,10 +39,10 @@
     "ng2-smart-table": "^1.2.2",
     "ng2-tag-input": "^1.4.1",
     "ng2-tree": "^2.0.0-rc.6",
-    "ngx-chips": "^1.8.0",
     "ngx-clipboard": "^10.0.0",
     "ngx-quill": "2.2.0",
     "ngx-tags-input": "^1.1.1",
+    "ngx-toastr": "6.5.0",
     "normalize.css": "^7.0.0",
     "npm": "^5.8.0",
     "pace-js": "^1.0.2",

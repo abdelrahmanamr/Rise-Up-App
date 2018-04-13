@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
 import BlotFormatter from 'quill-blot-formatter';
@@ -20,7 +21,14 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
   <div class="container">
-  <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)"> 
+  <form #contentForm="ngForm" > 
+  <div *ngIf="this.user['admin']">
+  <h3>Adding Content</h3>
+  </div>
+  <div *ngIf="!this.user['admin']">
+  <h3>Suggesting Content</h3>
+  </div>
+
   <input type = "text" class="form-control" name = "title" placeholder = "Title Here" ngModel><br />
 
   <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>     <br />
@@ -85,9 +93,10 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   </div>
     <br />
 
-    <input type = "text" class="form-control" name = "tags" placeholder = "Tags to be properly implemented later" ngModel><br />
-
-    <input class="btn btn-danger" type = "submit" value = "submit"> {{errorHandle}}
+    <tags-input class="form-control input-lg" type="text"
+    (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+<br>
+    <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
 
     <br />
 
@@ -110,11 +119,13 @@ export class CreateComponent implements OnInit{
   editor : any;
   editor_text = "";
   quill: any;
+  tags:any=[];
 
 
   
 
-  constructor(private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef) {
+  constructor(private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef,
+    private toastr: ToastrService) {
 
     this.form = fb.group({
       editor: ['']
@@ -124,7 +135,12 @@ export class CreateComponent implements OnInit{
 
 
   }
+  onTagsChanged($event){
 
+    console.log(this.tags);
+       console.log( (JSON.stringify(this.tags)));
+
+    }
   changeType(select){
     if(this.typeToSet=="Link"){
       this.post =1;
@@ -167,15 +183,19 @@ export class CreateComponent implements OnInit{
     console.log(this.user['_id']);
     console.log();
     var data:any;
+    var result = this.tags.map(function(val) {
+      return val.displayValue;
+  }).join(',');
+  console.log(result);
 
     if(this.post==2 && this.url==""){
       this.text = "Please add a photo";
     }else{
 
     if(this.post == 0){
-      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:content.tags,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:result,userid:this.user['_id']})
     }else if(this.post==1){
-      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:content.tags,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:result,userid:this.user['_id']})
     }
     var config = {
         headers : {
@@ -209,9 +229,11 @@ export class CreateComponent implements OnInit{
                      }
             )
         },
-        err=>console.log("error adding to index"));
+        
+        err=>
+        console.log("error adding to index"));
     },err=>{
-   
+      this.toastr.error("",err['error']["msg"]);
       this.errorHandle = err['error']['msg'];
     });
   }
@@ -221,6 +243,7 @@ export class CreateComponent implements OnInit{
       console.log(res);
       this.router.navigate(["/suggestedcontent/viewSuggestedContents/"])
     },err=>{
+      this.toastr.error("",err['error']["msg"]);
       this.errorHandle = err['error']['msg'];
     });
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -44,7 +45,8 @@ export class LoginComponent{
 errorView = "";
     url="";
     final="";
-  constructor(private http: HttpClient,private router: Router,  private activatedRoute: ActivatedRoute){
+  constructor(private http: HttpClient,private router: Router,  private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService){
       this.url = this.router.url;
       this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
       console.log(this.final);
@@ -84,7 +86,8 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
     }
   },err=>{
     this.errorView = err.error["msg"];
-    console.log(err.error["msg"]);
+    this.toastr.error("",err.error["msg"]);
+        console.log(err.error["msg"]);
   }
 );
 

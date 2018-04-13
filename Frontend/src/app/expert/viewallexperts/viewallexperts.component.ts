@@ -10,8 +10,10 @@ import {Router} from "@angular/router";
   
   <div class="container">
   <div *ngFor="let expert of experts">
-    <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-    <div style="float:left;">
+    <div class="card" style="padding:10px 15px; padding-bottom:100px; margin-bottom:20px;display: block; ">
+    <div style="float:left; width:600px;">
+    <img src="/assets/profile1.png" style="float:left;margin-right:10px;">
+
     <h4>{{expert.firstname}} {{expert.lastname}}</h4>
     Email: {{expert.email}}</div>
     <div style="float:right;"><Button (click)="ViewExpert(expert._id)" class="btn btn-danger btn-sm"> View Expert </Button><br />

@@ -2,6 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -37,7 +38,7 @@ Password Must Atleast be 6 characters long
 })
 export class ChangePasswordComponent implements OnInit{
 errorView = "";
-  constructor(private http: HttpClient,private router: Router){
+  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
 
   }
   ngOnInit(){
@@ -65,6 +66,7 @@ this.http.patch('http://localhost:3000/api/user/ChangePassword/'+id, data, confi
 
 
   },err=>{
+    this.toastr.error("",err.error["msg"]) 
     this.errorView = err.error["msg"];
     console.log(err.error["msg"]);
   }

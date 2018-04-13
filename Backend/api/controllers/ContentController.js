@@ -430,6 +430,11 @@ Content.findById(req.params.contentId).exec(function(err, ratedContents){
  });
  
 };
+
+
+
+
+
 module.exports.rateNew = function(req,res,next){
   if (!Validations.isObjectId(req.params.contentId)) {
     return res.status(422).json({
@@ -595,51 +600,6 @@ module.exports.createComment = function(req, res, next) {
     });
   });
 }}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// module.exports.viewComment = function(req, res, next) {
-//   if (!Validations.isObjectId(req.params.contentId)) {
-//     return res.status(422).json({
-//       err: null,
-//       msg: 'contentId parameter must be a valid ObjectId.',
-//       data: null
-//     });
-//   }
-//   Comment.findById(req.params.commentId).exec(function(err, comments) {
-//     if (err) {
-//       return next(err);
-//     }
-//     if (!comments) {
-//       return res
-//         .status(404)
-//         .json({ err: null, msg: 'comment not found.', data: null });
-//     }
-//     res.status(200).json({
-//       err: null,
-//       msg: 'comment retrieved successfully.',
-//       data: comments
-//     });
-//   });
-// };
-
-
-
-
-
-
 
 
 

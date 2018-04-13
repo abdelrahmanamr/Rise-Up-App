@@ -6,9 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "@types/elasticsearch": "^5.0.22",
     "angular-tag": "^3.0.0",
-    "@sendgrid/mail": "^6.2.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
@@ -23,6 +23,7 @@
     "mongoose": "^5.0.5",
     "morgan": "^1.9.0",
     "node-emailer": "^1.0.1",
+    "node-mailer": "^0.1.1",
     "nodemailer": "^4.6.4",
     "nodemailer-smtp-transport": "^2.7.4",
     "npm": "^5.8.0",

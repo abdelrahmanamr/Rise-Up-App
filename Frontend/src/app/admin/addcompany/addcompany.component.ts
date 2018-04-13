@@ -69,14 +69,14 @@ var my = JSON.stringify
     email:companyForm.companyemail,
     website:companyForm.companywebsite,
     tags:result,
-    type:companyForm.companytype
+    type:companyForm.companytype,
+    userid:JSON.parse(localStorage.getItem("userProps"))["_id"]
 });
 
 console.log(my);
         var config = {
             headers : {
                 'Content-Type': 'application/json',
-                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
 

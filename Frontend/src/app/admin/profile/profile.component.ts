@@ -138,8 +138,8 @@ export class ProfileComponent {
             "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
         }
     }
-    var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID, config)
+    var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+    this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID,data,config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
@@ -153,14 +153,13 @@ submitTags(){
     console.log(this.tags);
     var config = {
         headers : {
-            'Content-Type': 'application/json',
-            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+            'Content-Type': 'application/json'
         }
     }
     var result = this.tags.map(function(val) {
         return val.displayValue;
     }).join(',');
-    var data = JSON.stringify({tags:result})
+    var data = JSON.stringify({tags:result,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]})
 
     var id= sessionStorage.getItem('userId');
     this.http.patch(environment.apiUrl+'/admin/updateExpertTags/'+this.ID,data, config)
@@ -172,12 +171,11 @@ submitTags(){
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json',
-            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+            'Content-Type': 'application/json'
         }
     }
-    var id= sessionStorage.getItem('userId');
-    this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID, config)
+    var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+    this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID,data,config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
   }
@@ -185,12 +183,11 @@ submitTags(){
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json',
-                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+                'Content-Type': 'application/json'
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
@@ -200,11 +197,10 @@ submitTags(){
         var config = {
             headers : {
                 'Content-Type': 'application/json',
-                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }
@@ -215,11 +211,10 @@ submitTags(){
         var config = {
             headers : {
                 'Content-Type': 'application/json',
-                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
 
 
@@ -237,11 +232,12 @@ submitTags(){
         var config = {
             headers : {
                 'Content-Type': 'application/json',
-                "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
             }
         }
-        var id= sessionStorage.getItem('userId');
-        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID, config)
+        var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+        
+        console.log(config);
+        this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
             .subscribe((info:any) => {console.log(info);});
         window.location.reload();
     }

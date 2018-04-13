@@ -53,7 +53,7 @@ module.exports.AddExpert=function(req, res, next){
 
 
 
-module.exports.updateExpertTags=function(req, res, next){
+module.exports.UpdateExpertTags=function(req, res, next){
 
     if(!Validations.isObjectId(req.params.userId)){
         return res.status(422).json({
@@ -393,6 +393,30 @@ module.exports.getCompanies = function(req, res, next) {
             err: null,
             msg: 'Companies retrieved successfully.',
             data: companies
+        });
+    });
+};
+module.exports.getTags = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.userId)) {
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId.',
+            data: null
+        });
+    }
+    User.findById(req.params.userId).exec(function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            return res
+                .status(404)
+                .json({ err: null, msg: 'User not found.', data: null });
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'User retrieved successfully.',
+            data: user.tags
         });
     });
 };

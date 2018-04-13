@@ -10,7 +10,10 @@ import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { ToastrService } from 'ngx-toastr';
-@Pipe({ name: 'safe' })
+
+
+//a pipe to implement secure embeding of any external link
+@Pipe({ name: 'safe' })                                   
 export class SafePipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) { }
   transform(Body) {
@@ -161,9 +164,8 @@ commentsflag:boolean=false;
 comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
     private toastr: ToastrService) { 
-    this.Url=window.location.href
-    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
-    console.log(this.ID);
+    this.Url=window.location.href  //getting the url of the current page
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);  // abstracting the id of the content from the url
   }
 
 
@@ -196,6 +198,8 @@ ShowPopUp(){
             this.toastr.error("",err.error["msg"]);
             console.log(err);
           });
+
+          window.location.reload();
       }
 
 
@@ -319,9 +323,7 @@ createComment(ID:String, comment:string)
 
   this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data/*hena*/ ,config).subscribe(
     res=>{
-    // this.comment=(res['data'].body);  
     console.log(res["data"]);
-     // this.array.push( comment["comment"] );
     }
   );
 
@@ -350,7 +352,7 @@ createComment(ID:String, comment:string)
 }
 
 toggle(){
-  this.commentsflag=!this.commentsflag
+  this.commentsflag=!this.commentsflag  //a method to show and hide comments
  }
 
 

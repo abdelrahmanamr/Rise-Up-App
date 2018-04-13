@@ -33,9 +33,7 @@ export class SafePipe implements PipeTransform {
 
    <h4 ><font size="7">{{PostTitle}}</font></h4>
 
-  <div [innerHTML]="Content"></div>
-  <a href="{{ Body }}"> {{ Title }} </a>
-  <br><br>
+ 
   <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
   <br />
@@ -81,10 +79,12 @@ export class SafePipe implements PipeTransform {
   <a (click)="rate(5)"><span class="fa fa-star" id="minStar5" [class.checked]="rating >= 5"></span></a>
   </div>
 
-
+  <br>
 
   </div>
-
+  <div [innerHTML]="Content"></div>
+  <b> Source: </b> <a href="{{ Body }}"> {{ Body }} </a>
+  
 
   </div>
 

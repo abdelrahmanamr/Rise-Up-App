@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
   Rating = mongoose.model('Rating');
 
 
-  module.exports.views = function(req, res, next) {
+  module.exports.views = function(req, res, next) { //the views method increment the views count by one every time it is called
     if (!Validations.isObjectId(req.params.contentId)) {
       return res.status(422).json({
         err: null,

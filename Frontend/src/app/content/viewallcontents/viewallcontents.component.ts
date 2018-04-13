@@ -60,7 +60,7 @@ ngOnInit() {
  
 
 
-views(ID: string){
+views(ID: string){ // this method calls a patch request to the method "views" in the ContentController in the backend 
    
     var config = {
       headers : 

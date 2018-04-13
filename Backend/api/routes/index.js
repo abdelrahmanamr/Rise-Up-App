@@ -62,7 +62,9 @@ router.post('/admin/addCompany',AdminController.addCompany);
 router.get('/admin/getCompanies',AdminController.getCompanies);
 router.get('/admin/getUsers',AdminController.getUsers);
 router.get('/admin/getUserById/:userId',AdminController.getUserById);
+router.get('/admin/getUserTags/:userId',AdminController.getTags);
 router.get('/admin/viewCompanies',AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
-router.patch('/admin/UpdateExpertTag',AdminController.updateExpertTags)
+router.patch('/admin/UpdateExpertTag/:userId',AdminController.UpdateExpertTags);
+
 module.exports = router;

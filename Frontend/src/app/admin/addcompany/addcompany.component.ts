@@ -102,6 +102,7 @@ console.log(my);
 
     }
 
+
     ngOnInit() {
         this.myForm = new FormGroup({
             companyname: new FormControl(null, Validators.required),

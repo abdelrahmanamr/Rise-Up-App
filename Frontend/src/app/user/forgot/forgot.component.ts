@@ -35,7 +35,7 @@ errorView = "";
 
   }
   ngOnInit(){
-    if(localStorage.getItem('userDocs')==null){
+    if(localStorage.getItem('userDocs')!=null ||localStorage.getItem('userProps')!=null){
       this.router.navigate(["/search"]);
     }
   }

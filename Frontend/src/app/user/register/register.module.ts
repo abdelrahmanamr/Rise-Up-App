@@ -5,9 +5,9 @@ import { RegisterRoutingModule } from './register-routing.module';
 
 import { RegisterComponent } from './register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-
+import {TagsInputModule} from 'ngx-tags-input/dist';
 @NgModule({
-  imports: [ThemeModule, RegisterRoutingModule,FormsModule,ReactiveFormsModule],
+  imports: [ThemeModule, RegisterRoutingModule,FormsModule,ReactiveFormsModule,TagsInputModule.forRoot()],
   declarations: [RegisterComponent],
   providers: []
 })

@@ -13,12 +13,25 @@ const routes: Routes = [
         loadChildren: './viewallcontents/viewallcontents.module#ViewAllContentsModule'
       },
       {
-        path: 'viewcontent',
+        path: 'viewcontent/:id',
         loadChildren: './viewcontent/viewcontent.module#ViewContentModule'
       },
       {
+        path: 'viewsuggestedcontent',
+        loadChildren: './viewsuggestedcontent/viewsuggestedcontent.module#ViewSuggestedContentModule'
+      },
+
+      {
         path: 'create',
         loadChildren: './create/create.module#CreateModule'
+      },
+      {
+        path: 'edit',
+        loadChildren: './edit/edit.module#EditModule'
+      },
+      {
+        path: 'suggestedcontent',
+        loadChildren: './suggestedcontent/suggestedcontent.module#SuggestedContentModule'
       },
       {
         path: '',

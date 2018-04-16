@@ -6,17 +6,31 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
+    "@types/elasticsearch": "^5.0.22",
+    "angular-tag": "^3.0.0",
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
     "cors": "^2.8.4",
     "debug": "^3.1.0",
+    "elasticsearch": "^14.2.2",
     "express": "^4.16.2",
     "helmet": "^3.11.0",
     "jsonwebtoken": "^8.1.1",
     "moment": "^2.20.1",
     "mongoose": "^5.0.5",
     "morgan": "^1.9.0",
-    "regex": "^0.1.1"
+    "node-emailer": "^1.0.1",
+    "node-mailer": "^0.1.1",
+    "nodemailer": "^4.6.4",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "npm": "^5.8.0",
+    "rand-token": "^0.4.0",
+    "random-token": "0.0.8",
+    "randombytes": "^2.0.6",
+    "regex": "^0.1.1",
+    "sendgrid": "^5.2.3"
   }
 }

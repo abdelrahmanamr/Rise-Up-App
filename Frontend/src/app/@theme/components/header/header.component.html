@@ -9,11 +9,11 @@
 
 <nb-actions size="medium" class="header-container right">
   <nb-action>
-
     <a href="#/search/"><span >Search</span></a>
     <a href="#/content/"><span >Content</span></a>
     <a *ngIf="adminStatus==true" href="#/admin/"><span >Admin System</span></a>
-    <a *ngIf="adminStatus==true" href="#/content/create"><span ><button class="btn btn-warning btn-sm">Add Content</button></span></a>
+    <a *ngIf="adminStatus==true" href="#/content/suggestedcontent"><span >Suggested</span></a>
+    <a *ngIf="loggedin==true" href="#/content/create"><span ><button class="btn btn-warning btn-sm">Add Content</button></span></a>
     <nb-user *ngIf="loggedin==true" [nbContextMenu]="userMenu" [name]="user" (menuClick)="onMenuClick($event)"></nb-user>
     <span><a *ngIf="loggedin==false" href="#/user/login" style="padding-right:5px">Login</a>  <a *ngIf="loggedin==false" href="#/user/register" style="padding-right:5px">Register</a></span>
   </nb-action>

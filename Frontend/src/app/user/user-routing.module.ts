@@ -14,8 +14,17 @@ const routes: Routes = [
       },  {
           path: 'register',
           loadChildren: './register/register.module#RegisterModule'
+        }, {
+            path: 'forgot',
+            loadChildren: './forgot/forgot.module#ForgotModule'
+        },  {
+            path: 'reset/:id',
+            loadChildren: './reset/reset.module#ResetModule'
+        },{
+          path: 'changePassword',
+          loadChildren: './changePassword/changePassword.module#ChangePasswordModule'
         },
-      {
+        {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

@@ -1,46 +1,206 @@
+
 import { Component, OnInit , ViewChild } from '@angular/core';
-import {Router} from "@angular/router";
+import {Router,ActivatedRoute} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
+import { SafeResourceUrl } from '@angular/platform-browser';
+// import { App, NavController } from 'ionic-angular';
+import {ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/core';
+import { ValueTransformer } from '@angular/compiler/src/util';
+import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
+import { ToastrService } from 'ngx-toastr';
+
+
+//a pipe to implement secure embeding of any external link
+@Pipe({ name: 'safe' })                                   
+export class SafePipe implements PipeTransform {
+  constructor(private sanitizer: DomSanitizer) { }
+  transform(Body) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(Body);
+  }
+}
+
 
 @Component({
   selector: 'app-content-viewcontent',
   template: ` 
+  
+
+  
   <div class="container">
-  <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-  <span> <b> {{ PostTitle }} </b> </span>
-  <br>
-  <br>
-  <span> <div [innerHTML]="Content"></div></span>
-  <span><a href="{{ Body }}"> {{ Title }} </a></span> 
+  <div class="card" style="padding:10px 15px; padding-left:40px;padding-bottom:80px; margin-bottom:20px;display: block; ">
+
+   <h4 ><font size="7">{{PostTitle}}</font></h4>
+
+ 
+  <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true" >show link</button></td>
   <span><img src="{{ImagePath}}">  </span>  
+  <br />
+<br />
+
+<div class="container">
+
+
   <br>
-  <div style="float:right;"> <Button *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button></div>
+  <div   style="float:right; margin-top: -28px"> 
+   <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">copy Link</button>
+  <br>
+  
+  <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
+  
+  </div>
+  <br><br>
+  <br><br>
+    <span  *ngIf="viewlink"> <iframe width="100%" height="1000" [src]="Body | safe" ></iframe> </span>
+   
+    <br><br>
+    <br><br>
+  <style>
+
+
+
+
+  .checked {
+    color: yellow;
+  }
+  span:hover > span,
+  span:hover {
+    color: yellow;
+  }
+  </style>
+
+  <h2>Rating</h2>
+  <div class="rating">
+  <a (click)="rate(1)"><span class="fa fa-star" id="minStar1" [class.checked]="rating >= 1"></span></a>
+  <a (click)="rate(2)"><span class="fa fa-star" id="minStar2" [class.checked]="rating >= 2"></span></a>
+  <a (click)="rate(3)"><span class="fa fa-star" id="minStar3" [class.checked]="rating >= 3"></span></a>
+  <a (click)="rate(4)"><span class="fa fa-star" id="minStar4" [class.checked]="rating >= 4"></span></a>
+  <a (click)="rate(5)"><span class="fa fa-star" id="minStar5" [class.checked]="rating >= 5"></span></a>
+  </div>
+
+  <br>
+
+  </div>
+  <div [innerHTML]="Content"></div>
+  <b> Source: </b> <a href="{{ Body }}"> {{ Body }} </a>
+  
+
+  </div>
+
+  <br />
+<br />
+<div><h3> comments: </h3> 
+<br />
+</div>
+<form #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
+<input type = "text" class="form-control" name = "comment" placeholder = "Enter your Comment" ngModel><br />
+<input class="btn btn-success btn-sm" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
+</form>
+<br />
+<Button (click)="toggle()" class="btn btn-danger btn-sm" style="background-color:#D00018"> show all comments </Button>
+<br />
+
+
+
+<div *ngIf="commentsflag">
+  <div *ngFor="let comment of comments">
+  <div class="card">
+
+  <div  class="card"> <b style= "color:#D00018"> <font size="4">   {{comment.username}} :   </font>   </b></div> 
+  <br />
+  
+  <div style="padding:10px 15px; padding-bottom:10px; margin-bottom:30px;display: block; ">
+  <div style="float:left;    margin-left: 70px;">
+  <h4>{{comment.body}}</h4>
+
   </div>
   </div>
+</div>
+</div>
+</div>
+
+<br />
+<br />
+<br />
+
+
+
+
+<br />
+<br />
+<br />
+
+
+
   
   `
 
 })
+
+
 export class ViewContentComponent {
-  
-ID:string=localStorage.getItem("contentID");
+
+
+ isCopied1: boolean = false;
+ID:string
 Content : any;
 Title:any
 PostTitle :any
+array = [];
+userID :any
 Body:any
 ImagePath:string
+public comments:any[]=[];
 adminStatus :boolean = false;
+Url:string;
+viewlink:boolean=false;
+checkLink:boolean=false;
+IframeBody:SafeResourceUrl;
+rating: number;
+contentid: string;
+commentsflag:boolean=false;
 
-  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
+
+comment:any;
+  constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService) { 
+    this.Url=window.location.href  //getting the url of the current page
+    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);  // abstracting the id of the content from the url
+  }
 
 
+ShowPopUp(){
+  console.log("asdas");
+  this.toastr.success("","Link copied to clipbaord");
+}
   ngOnInit() { 
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     this.GetContent(this.ID) ;
+    this.ViewComments();
+      }
+
+      rate(rate:number){
+        var config ={
+          headers : 
+        {
+      'Content-Type':'application/json'
+        }
+      }
+  
+        var data = JSON.stringify({rating: rate,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
+
+        this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
+          res=>{  
+            console.log(res);           
+          }, err=>{
+            this.toastr.error("",err.error["msg"]);
+            console.log(err);
+          });
+
+          window.location.reload();
       }
 
 
@@ -53,34 +213,41 @@ adminStatus :boolean = false;
   }
     this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
       res=>{  
+
+        if(res['data']){
+          this.contentid = res['data']._id;
+          this.rating = res['data'].rating;
+        }
       if(res['data'].type== "Post"){
         this.ViewText(this.ID)
       }   
       
-      if(res['data'].type== "Image"){
+      if(res['data'].type == "Image"){
         this.ViewImage(this.ID)
       }  
-      if(res['data'].type== "Link"){
+      if(res['data'].type == "Link"){
         this.ViewLink(this.ID)
       }  
           
       }
     );
- }
+  }
 
      ViewText(ID:String){
       var config ={
         headers : 
       {
-    'Content-Type':'application/json'
+        'Content-Type':'application/json'
       }
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
           this.Content = res['data'].body;  
           this.PostTitle = res['data'].title;
-            
-        }
+            this.array.push("comment1");
+            this.array.push("comment2");
+
+          }
       );
      }
      
@@ -93,13 +260,19 @@ adminStatus :boolean = false;
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
+
           this.Title=res['data'].title
-          this.Body = res['data'].body;  
           this.PostTitle = res['data'].title;
 
+          this.Body = res['data'].body;
+          console.log(this.Body);
+          this.checkLink=true;
+                    
         }
       );
-     }
+    }
+
+    
 
      ViewImage(ID:string){
       var config ={
@@ -125,7 +298,7 @@ adminStatus :boolean = false;
                      'Content-Type':'application/json'
                  }
              }
-   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident,config).
+   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
    subscribe(res=>{
     this.router.navigateByUrl('/content/viewallcontents');
    });
@@ -133,8 +306,57 @@ adminStatus :boolean = false;
   
  }
 
-    
+createComment(ID:String, comment:string) //this method is called on clicking on button "Comment" once the user finished his comment, and the method calls post httprequest createComment method in the backend
+ {
 
+  this.userID = JSON.parse(localStorage.getItem("userProps"))["_id"];
+  var data = {"body":comment["comment"] ,
+             "userid":this.userID,
+              "contentid":this.ID,
+            "username":JSON.parse(localStorage.getItem("userProps"))["username"]};
+
+   var config = {
+                 headers : 
+                 {
+                     'Content-Type':'application/json'
+                 }
+             }
+
+  this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
+    res=>{
+    console.log(res["data"]);
+    }
+  );
+
+  window.location.reload();
+ }
+
+
+
+
+
+
+ ViewComments() //this method calls a http get request calling getComments from the backend which retrieves all the comments related to that post from the database
+ {
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+  this.httpClient.get(environment.apiUrl +'Content/getComments/'+this.ID,config).subscribe(
+    res=>{  
+    this.comments=(res['data']);  
+    console.log(res['data']);
+    }
+  );
+
+}
+
+toggle() //this method is responsible for showing/hiding comments, the function toggles every time it is clicked
+{
+  this.commentsflag=!this.commentsflag  //a method to show and hide comments
+ }
 
 
 

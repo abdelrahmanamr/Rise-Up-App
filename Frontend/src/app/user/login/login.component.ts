@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -26,7 +27,7 @@ import {Router} from "@angular/router";
 
               <a href="#/user/register" style="padding-right:5px ;color: #DC0C18">Create your account</a>
               <br> <br />
-              <a href="#/user/login" style="padding-right:5px ;color: #DC0C18">Forgot your password?</a>
+              <a href="#/user/forgot" style="padding-right:5px ;color: #DC0C18">Forgot your password?</a>
               
               
           </div>
@@ -42,8 +43,13 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent{
 errorView = "";
-  constructor(private http: HttpClient,private router: Router){
-
+    url="";
+    final="";
+  constructor(private http: HttpClient,private router: Router,  private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService){
+      this.url = this.router.url;
+      this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
+      console.log(this.final);
   }
 
 onSubmit = function(user){
@@ -80,7 +86,8 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
     }
   },err=>{
     this.errorView = err.error["msg"];
-    console.log(err.error["msg"]);
+    this.toastr.error("",err.error["msg"]);
+        console.log(err.error["msg"]);
   }
 );
 

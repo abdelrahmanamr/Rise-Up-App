@@ -12,8 +12,9 @@ const routes: Routes = [
                 path: 'viewusers',
                 loadChildren: './viewusers/viewusers.module#ViewUsersModule'
             },
+            
             {
-                path: 'profile',
+                path: 'profile/:id',
                 loadChildren: './profile/profile.module#ProfileModule'
             },
             {
@@ -21,10 +22,20 @@ const routes: Routes = [
                 loadChildren: './addcompany/addcompany.module#AddCompanyModule'
             },
             {
+                path: 'edittags',
+                loadChildren: './edittags/edittags.module#EdittagsModule'
+            },
+            {
+                path: 'controlpanel',
+                loadChildren: './controlpanel/controlpanel.module#ControlPanelModule'
+            },
+            {
                 path: '',
-                redirectTo: 'viewusers',
+                redirectTo: 'controlpanel',
                 pathMatch: 'full'
             }
+            
+
         ]
     }
 ];

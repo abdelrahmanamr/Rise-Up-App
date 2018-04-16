@@ -6,37 +6,16 @@ import {Router} from "@angular/router";
   selector: 'app-dashboard-items',
   template: `
 <div class="container">
-      <table  id ="table" class="table table-bordered">
-          <thead>
-          <tr>
-              <th scope="col">Username</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">   </th>
-          </tr>
-          </thead>
-      <tbody>
-          
-          <tr *ngFor="let item of data">
-          
-         
-  
-              <td>{{item.username}}</td>
-              <td>{{item.firstname}}</td>
-              <td>{{item.lastname}}</td>
-              <td>  <a  (click) = "goToUser(item._id)">View user</a></td>
 
-          </tr>
-         
-   
-          
-          </tbody>
-      </table>
 
+  <div class="card" style="padding:15px 15px; padding-bottom:10px; padding-top:10px; 
+  margin-bottom:20px;display: block; " *ngFor="let item of data">
+ 
+  <img src="/assets/profile1.png" (click) = "goToUser(item._id)">
+  <span> <b> {{ item.username }} </b> </span>
+  <div style="float:right;padding-top:20px;"><Button (click)="goToUser(item._id)" class="btn btn-danger btn-sm">View </Button></div>
 </div>
-      
-
-   `
+`
  
 })
 export class ViewUsersComponent {
@@ -44,16 +23,20 @@ export class ViewUsersComponent {
   constructor(private http: HttpClient,private router: Router){}
   ngOnInit() 
   {
-        this.http.get('http://localhost:3000/api/admin/getUsers').
-       subscribe(res =>{this.data=res["data"]});
-
-       
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json',
+          "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+      }
+  }
+        this.http.get('http://localhost:3000/api/admin/getUsers',config).
+       subscribe(res =>{this.data=res["data"]});     
   }
 
   goToUser(ident:string)
   {
-     sessionStorage.setItem('userId',ident);
-     window.location.replace("#/admin/profile");
+     this.router.navigate(["/admin/profile/"+ident]);
    }
 
 

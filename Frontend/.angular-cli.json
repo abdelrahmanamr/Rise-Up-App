@@ -9,8 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico",
-        "favicon.png"
+        "logo.png"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -27,7 +26,8 @@
         "../node_modules/font-awesome/scss/font-awesome.scss",
         "../node_modules/nebular-icons/scss/nebular-icons.scss",
         "../node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
-        "./app/@theme/styles/styles.scss"
+        "./app/@theme/styles/styles.scss",
+        "../node_modules/ngx-toastr/toastr.css"
       ],
       "scripts": [
         "../node_modules/pace-js/pace.min.js",

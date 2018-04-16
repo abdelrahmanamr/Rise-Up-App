@@ -1,0 +1,83 @@
+<link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
+
+<div class="container">
+    <form #contentForm="ngForm" > 
+        <div *ngIf="this.user['admin']">
+            <h3>Adding Content</h3>
+        </div>
+        <div *ngIf="!this.user['admin']">
+            <h3>Suggesting Content</h3>
+        </div>
+
+        <input type = "text" class="form-control" name = "title" placeholder = "Title Here" ngModel><br />
+
+        <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>
+            <option [value]="'Post'">Choose type (Default: Post)</option>
+                <option *ngFor="let type of types" [value]="type">{{type}}
+            </option>
+        </select>
+        <br />
+
+        <input type = "text" class="form-control" name = "link" placeholder = "Enter your Link" *ngIf="post==1" ngModel>
+
+        <div [hidden]="post==1">
+
+            <div id="toolbar-container">
+                <span class="ql-formats">
+                    <select class="ql-font"></select>
+                    <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-script" value="sub"></button>
+                    <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-header" value="1"></button>
+                    <button class="ql-header" value="2"></button>
+                    <button class="ql-blockquote"></button>
+                    <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-indent" value="-1"></button>
+                    <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-direction" value="rtl"></button>
+                    <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <button class="ql-image"></button>
+                    <button class="ql-video"></button>
+                    <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                </span>
+            </div>
+
+            <div id="editor" style="height: 500px" >
+            </div>
+        </div>
+        <br />
+        <tags-input class="form-control input-lg" type="text"
+        (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags" placeholder="Enter your tags here"></tags-input>
+        <br>
+        <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
+        <br />
+        {{text}}
+    </form>
+</div>

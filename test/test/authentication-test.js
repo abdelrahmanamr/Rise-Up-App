@@ -11,7 +11,7 @@ dbURI = 'mongodb://localhost:27017/nodejs-test';
 
 chai.use(chaiHttp);
 
-const userCredentials = {
+const registeringUserCredentials = {
     username: 'user2', 
     password: 'helloworld',
     confirmPassword: 'helloworld',
@@ -20,20 +20,45 @@ const userCredentials = {
     lastname:'user',
   }
 
-  const userLoginCredentials = {
-      username: 'user2',
-      password: 'helloworld'
+  const registeringUserLoginCredentials = {
+      username: 'Saleh',
+      password: 'testingpassword'
   }
 
   var authenticatedUser2 = null;
 
 
+
+
+
   describe('Testing Authentication',function(){
+    beforeEach(function(done){                    // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
+    mongoose.connect('mongodb://localhost:27017/nodejs-test');
+        var data = {
+        username: 'Saleh',
+          securityQ: 'user.secQField',
+          securityA : 'user.secAField',
+          password: 'testingpassword',
+        confirmPassword: 'testingpassword',
+          firstname: 'Saleh',
+          lastname: "Elhadidy",
+        tags:"result",
+        email: "register@user.com",
+        dateOfBirth:"19/1/2018"
+    };
+    chai.request(server).post('/api/user/register').send(data).end(function(err,res){
+        res.should.have.status(201);
+      User.findOne({"username":"Saleh"}).exec(function(err,userfound){
+          authenticatedUser2 = userfound;
+          done();
+          });
+    });
+      });
 
     it('should register as a user on /api/user/register POST',function(done){
         chai.request(server)
             .post('/api/user/register')
-            .send(userCredentials)
+            .send(registeringUserCredentials)
             .end(function(err,res){
                 res.should.have.status(201);
                 done();
@@ -43,7 +68,7 @@ const userCredentials = {
     it('should login as a user on /api/user/login POST',function(done){
         chai.request(server)
             .post('/api/user/login')
-            .send(userLoginCredentials)
+            .send(registeringUserLoginCredentials)
             .end(function(err,res){
                 // console.log(res);
                 res.should.have.status(200);
@@ -55,5 +80,37 @@ const userCredentials = {
                 authenticatedUser = payload['user'];
                 done();
             });
-      });
+      }),it("FAIL to change a user's password as he didn't type in his new/old password or confirm it /api/user/changePassword/:userId PATCH",function(done){
+          chai.request(server).patch("/api/user/changePassword/"+authenticatedUser2['_id']).end(function(err,res){
+            res.should.have.status(422);
+            res.body.msg.should.equal("Wrong input data");
+            done();
+          });
+          
+       
+      }),
+      it("FAIL to change a user's password as a wrong old password was written /api/user/changePassword/:userId PATCH",function(done){
+        chai.request(server).patch("/api/user/changePassword/"+authenticatedUser2['_id']).send({oldpassword:"testingpass",newpassword:"newpassword",confirmpassword:"newpassword"}).end(function(err,res){
+          res.should.have.status(422);
+          res.body.msg.should.equal("Old password is wrong");
+          done();
+        });
+    }),it("FAIL to change a user's password as a password that doesn't meet requirements was written was written /api/user/changePassword/:userId PATCH",function(done){
+        chai.request(server).patch("/api/user/changePassword/"+authenticatedUser2['_id']).send({oldpassword:"testingpassword",newpassword:"1234",confirmpassword:"1234"}).end(function(err,res){
+          res.should.have.status(422);
+          res.body.msg.should.equal("Your new password does not meet the minimum length requirement");
+          done();
+        });
+    }),it("SUCESS to change a user's password as it meets all requirements /api/user/changePassword/:userId PATCH",function(done){
+        chai.request(server).patch("/api/user/changePassword/"+authenticatedUser2['_id']).send({oldpassword:"testingpassword",newpassword:"123456",confirmpassword:"123456"}).end(function(err,res){
+          res.should.have.status(201);
+          res.body.msg.should.equal("Success");
+          done();
+        });
+    });
+    afterEach(function(done){
+        User.collection.drop();
+        done();
+    });
   });
+

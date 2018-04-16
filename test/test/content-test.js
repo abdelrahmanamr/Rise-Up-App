@@ -36,31 +36,31 @@ const adminCredentials = {
 
 
 
-before(function(done){
-    mongoose.connect('mongodb://localhost:27017/nodejs-test');
-    var adminUser = new User(adminCredentials);
-    var normalUser = new User(userCredentials);
 
-    adminUser.save(function(err,admin){
-        if(admin){
-            normalUser.save(function(err,user){
-                if(user){
-                    User.findOne({"username":"admin"}).exec(function(err,userfound){
-                        authenticatedAdmin = userfound;
-                        User.findOne({"username":"user"}).exec(function(err,userfound){
-                            authenticatedUser = userfound;
-                            done();
-                        });
-                    });
-                }
-            });
-        }
-    });
-
-});
 
 
 describe('Testing Contents',function(){
+    beforeEach(function(done){
+        mongoose.connect('mongodb://localhost:27017/nodejs-test'); 
+        var adminUser = new User(adminCredentials);
+        var normalUser = new User(userCredentials);
+        adminUser.save(function(err,admin){
+            if(admin){
+                normalUser.save(function(err,user){
+                    if(user){
+                        User.findOne({"username":"admin"}).exec(function(err,userfound){
+                            authenticatedAdmin = userfound;
+                            User.findOne({"username":"user"}).exec(function(err,userfound){
+                                authenticatedUser = userfound;
+                                done();
+                            });
+                        });
+                    }
+                });
+            }
+        });
+    
+    });
 
     it('should add a single content as an admin on /api/Content/addContent POST ',function(done){
         chai.request(server)
@@ -141,12 +141,15 @@ describe('Testing Contents',function(){
             });
         });
     });
+    afterEach(function(done){
+        User.collection.drop();
+        done();
+    });
 });
 
 
 
 after(function(done){
-    User.collection.drop();
     Content.collection.drop();
     done();
 });

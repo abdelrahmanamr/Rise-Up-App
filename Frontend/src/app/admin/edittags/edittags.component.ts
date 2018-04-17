@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-admin-edittags',
-  template: 'edittags.html'
+  templateUrl: 'edittags.html'
   
 })
 export class EdittagsComponent implements OnInit{

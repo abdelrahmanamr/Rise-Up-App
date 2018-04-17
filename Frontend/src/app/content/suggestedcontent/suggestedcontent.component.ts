@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-content-suggestedcontent',
-  templateUrl: 'suggestedcontent.thml'
+  templateUrl: 'suggestedcontent.html'
 })
 export class SuggestedContentComponent {
   public contents:any[]=[];

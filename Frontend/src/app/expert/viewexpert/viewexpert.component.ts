@@ -5,18 +5,7 @@ import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 @Component({
   selector: 'app-expert-viewexpert',
-  template: `
-  <div class="container">
-
-  <div class="profile" style="float: left; width: 40%;overflow: hidden;">
-  <div class="card">
-      <img src="/assets/profile.png" alt="{{expert.username}}" style="width:100%">
-      <h1 class="uppercase">{{expert.username}}</h1>
-      <h1 class="cap">{{expert.firstname}} {{expert.lastname}}</h1>
-      <b *ngIf="expert.expert" style="color: #343ab9">Expert</b>
-      <p class="title">{{expert.email}}</p></div>
-</div>
-  </div>`
+  templateUrl: `viewexpert.html`
 })
 export class ViewExpertComponent {
   ID:string=localStorage.getItem("expertID");

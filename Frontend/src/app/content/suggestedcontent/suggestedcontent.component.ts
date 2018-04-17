@@ -6,24 +6,7 @@ import {Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-content-suggestedcontent',
-  template: `<div class="container">
-  <div *ngFor="let content of contents">
-    <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
-    <div style="float:left;">
-    <h4>{{content.title}}</h4>
-    Tags: {{content.tags}}</div>
-    <div style="float:right;"><Button (click)="ViewContent(content._id)" class="btn btn-danger btn-sm"> Read </Button><br />
-    Views: {{content.views}}</div>
-
-    </div>
-  </div>
-  </div>
-
-  <br>
-
-  
-
-  `
+  templateUrl: 'suggestedcontent.html'
 })
 export class SuggestedContentComponent {
   public contents:any[]=[];

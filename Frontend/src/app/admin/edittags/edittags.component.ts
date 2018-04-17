@@ -6,21 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-admin-edittags',
-  template: `
-  <div class="container">
-
-<h2>Expert Tags</h2>
-
-<form action="/action_page.php">
-  <input type="text" name="tags" style="font-size:18pt;height:100px;width:600px;">
-  <br><br>
-  <input class="btn btn-primary" type="button" style="margin-bottom:10px;background-color:#DC0C18; width: 200px;" (click)="go()"
-  value="DONE">
-</form> 
-
-  </div>   
-
-  `
+  template: 'edittags.html'
+  
 })
 export class EdittagsComponent implements OnInit{
     ID:string=localStorage.getItem("expertID");

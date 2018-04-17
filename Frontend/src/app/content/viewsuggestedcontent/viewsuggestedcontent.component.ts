@@ -6,23 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-content-viewsuggestedcontent',
-  template: ` 
-  <div class="container">
-  <div class="card" style="padding:10px 15px; padding-bottom:120px; margin-bottom:20px;display: block; ">
-  <span> <b> {{ PostTitle }} </b> </span>
-  <br>
-  <br>
-  <span> <div [innerHTML]="Content"></div></span>
-  <span><a href="{{ Body }}"> {{ Title }} </a></span> 
-  <span><img src="{{ImagePath}}">  </span>  
-  <br>
-  <div style="float:left;"> <Button *ngIf="adminStatus" (click)="EditContent(ID)" class="btn btn-danger btn-sm"> Edit </Button><br /><br /></div>
-  <div style="float:right;"><Button *ngIf="adminStatus" (click)="AddContent(ID)" class="btn btn-success btn-sm" > Approve </Button>
-   <Button *ngIf="adminStatus" (click)="DisapproveContent(ID)" class="btn btn-danger btn-sm"> Disapprove </Button></div>
-  </div>
-  </div>
-  
-  `
+  templateUrl: `viewsuggestedcontent.html`
 
 })
 export class ViewSuggestedContentComponent {

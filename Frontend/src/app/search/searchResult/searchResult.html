@@ -17,9 +17,9 @@
         <input  id="tag" type="checkbox" value="false" (click)="checkUncheck('tag')"> TAG
     </div>
     <br />
-    <a href="#/content/viewallcontents"><button class="btn btn-danger"> View All Content </button></a>
-    <a href="#/company/viewallcompanies"><button class="btn btn-danger"> View All Companies </button></a>
-    <a href="#/expert/viewallexperts"><button class="btn btn-danger"> View All Experts </button></a>
+    <button class="btn btn-danger" (click)="viewAllContent()"> View All Content </button>
+    <button class="btn btn-danger" > View All Companies </button>
+    <button class="btn btn-danger"> View All Experts </button>
     </div>
     <style>
         .check{
@@ -57,7 +57,7 @@
       </div>
   </div>
 </div>
-<div *ngIf="contentStatus">
+<div *ngIf="contentStatus|| this.Items.length>0">
   <div class="container">
       <h1>Results</h1>
       <br>

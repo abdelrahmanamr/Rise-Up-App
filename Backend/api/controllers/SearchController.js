@@ -238,7 +238,8 @@ module.exports.getTagbyKeyword =function(req, res, next) {
         type: 'tags',
         body: {
             'query': {
-                'match' :{ "name":req.params.tag}
+                'match' :{ "name":req.params.tag},
+                "auto_generate_synonyms_phrase_query":true
             }
         }
     }).then(function (hit) {

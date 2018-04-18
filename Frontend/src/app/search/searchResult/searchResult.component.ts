@@ -12,10 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SearchResultComponent implements OnInit{
     Items = [];
-    searchStatus : boolean;
-    searchByTags : boolean;
-    expertStatus : boolean;
-    contentStatus : boolean;
+    searchResult=false;
     contentElasticSearch =[];
     companyElasticSearch =[];
     userElasticSearch =[];
@@ -30,12 +27,8 @@ export class SearchResultComponent implements OnInit{
     typeOfView:number = 0;
     constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
 
-
     }
     ngOnInit(){
-        this.searchStatus = false;
-        this.expertStatus = false;
-        this.contentStatus = false;
         document.getElementById("getHide").style.display = "none";
         this.route.queryParams.subscribe(params=>{
             this.param1 = params['param1'];
@@ -89,6 +82,7 @@ export class SearchResultComponent implements OnInit{
     }
 
     search(){
+        this.searchResult = true;
         this.Items = [];
         this.contentElasticSearch = [];
         this.companyElasticSearch = [];
@@ -109,7 +103,6 @@ export class SearchResultComponent implements OnInit{
                 {
                     this.Items= res['data'];
                 }
-                this.searchByTags=true;
                 console.log(res['data']);
 
                 this.http.get(environment.apiUrl+'/search/getContentbyTitle/'+this.param1).subscribe(
@@ -125,20 +118,20 @@ export class SearchResultComponent implements OnInit{
 
                         this.Items.forEach(element => {
                             if (element._source.type == 'Company') {
-                                this.companyElasticSearch.push(element);
+                                this.companyElasticSearch.push(element._source.object);
                                 element._source.object.tags=element._source.object.tags.split(",");
  
                                     
                             }
 
                             if (element._source.type == 'Content') {
-                                    this.contentElasticSearch.push(element);
+                                    this.contentElasticSearch.push(element._source.object);
                                     element._source.object.tags=element._source.object.tags.split(",");
 
                             }
                             console.log( this.contentElasticSearch);
                             if (element._source.type == 'User'&& element._source.object.expert) {
-                                    this.userElasticSearch.push(element);
+                                    this.userElasticSearch.push(element._source.object);
                                     element._source.object.tags=element._source.object.tags.split(",");
 
                             }
@@ -155,23 +148,18 @@ export class SearchResultComponent implements OnInit{
         }
         else
         {
-                this.searchByTags=false;
-        
      if((<HTMLInputElement>document.getElementById("comp")).value == "true"){
          if(((<HTMLInputElement>document.getElementById("name")).value == "true" &&(<HTMLInputElement>document.getElementById("type")).value == "true"&&(<HTMLInputElement>document.getElementById("tag")).value == "true" ) ||
          ((<HTMLInputElement>document.getElementById("name")).value == "false" &&(<HTMLInputElement>document.getElementById("type")).value == "false"&&(<HTMLInputElement>document.getElementById("tag")).value == "false" ) ){
 
             console.log("entered");
             this.http.get(environment.apiUrl + '/search/getCompanyTagsOrNameOrType/' + this.nameortype).subscribe(res=>{
-                if(this.Items=[]){
-                    this.Items= res['data'];
-                    this.Items.forEach(item => {
+                if(this.companyElasticSearch=[]){
+                    this.companyElasticSearch= res['data'];
+                    this.companyElasticSearch.forEach(item => {
                         item.tags=item.tags.split(",");
                       });
                 }
-                this.searchStatus= true;
-                this.expertStatus = false;
-                this.contentStatus = false;
                 console.log(res['data']);
             });
          }
@@ -179,89 +167,71 @@ export class SearchResultComponent implements OnInit{
             if(((<HTMLInputElement>document.getElementById("name")).value == "true" &&(<HTMLInputElement>document.getElementById("type")).value == "true")){
                console.log("entered");
                this.http.get(environment.apiUrl + '/search/getCompanyByNameOrType/' + this.nameortype).subscribe(res=>{
-                   if(this.Items=[]){
-                       this.Items= res['data'];
-                       this.Items.forEach(item => {
+                   if(this.companyElasticSearch=[]){
+                       this.companyElasticSearch= res['data'];
+                       this.companyElasticSearch.forEach(item => {
                         item.tags=item.tags.split(",");
                       });
                    }
-                   this.searchStatus= true;
-                   this.expertStatus = false;
-                   this.contentStatus = false;
                    console.log(res['data']);
                });
             }else{
                 if(((<HTMLInputElement>document.getElementById("name")).value == "true" &&(<HTMLInputElement>document.getElementById("tag")).value == "true")){
                     console.log("entered");
                     this.http.get(environment.apiUrl + '/search/getCompanyTagsOrName/' + this.nameortype).subscribe(res=>{
-                        if(this.Items=[]){
-                            this.Items= res['data'];
-                            this.Items.forEach(item => {
+                        if(this.companyElasticSearch=[]){
+                            this.companyElasticSearch= res['data'];
+                            this.companyElasticSearch.forEach(item => {
                                 item.tags=item.tags.split(",");
                               });
                         }
-                        this.searchStatus= true;
-                        this.expertStatus = false;
-                        this.contentStatus = false;
                         console.log(res['data']);
                     });
                  }else{
                     if(((<HTMLInputElement>document.getElementById("type")).value == "true" &&(<HTMLInputElement>document.getElementById("tag")).value == "true")){
                         console.log("entered");
                         this.http.get(environment.apiUrl + '/search/getCompanyTagsOrType/' + this.nameortype).subscribe(res=>{
-                            if(this.Items=[]){
-                                this.Items= res['data'];
-                                this.Items.forEach(item => {
+                            if(this.companyElasticSearch=[]){
+                                this.companyElasticSearch= res['data'];
+                                this.companyElasticSearch.forEach(item => {
                                     item.tags=item.tags.split(",");
                                   });
                             }
-                            this.searchStatus= true;
-                            this.expertStatus = false;
-                            this.contentStatus = false;
                             console.log(res['data']);
                         });
                      }else{
                         if((<HTMLInputElement>document.getElementById("name")).value == "true"){
                             console.log("entered name");
                            this.http.get(environment.apiUrl + '/search/getCompanyByName/' + this.nameortype).subscribe(res=>{
-                               if(this.Items=[]){
-                                   this.Items= res['data'];
-                                   this.Items.forEach(item => {
+                               if(this.companyElasticSearch=[]){
+                                   this.companyElasticSearch= res['data'];
+                                   this.companyElasticSearch.forEach(item => {
                                     item.tags=item.tags.split(",");
                                   });
                                }
-                               this.searchStatus= true;
-                               this.expertStatus = false;
-                               this.contentStatus = false;
                                console.log(res['data']);
                            });
                
                            }
                            if((<HTMLInputElement>document.getElementById("type")).value == "true"){
                             this.http.get(environment.apiUrl + '/search/getCompanyByType/' + this.nameortype).subscribe(res=>{
-                               if(this.Items=[]){
-                                   this.Items= res['data'];
-                                   this.Items.forEach(item => {
+                               if(this.companyElasticSearch=[]){
+                                   this.companyElasticSearch= res['data'];
+                                   this.companyElasticSearch.forEach(item => {
                                     item.tags=item.tags.split(",");
                                   });
                                }
-                                this.searchStatus= true;
-                                this.expertStatus = false;
-                                this.contentStatus = false;
                                 console.log(res['data']);
                             });
                            }
                            if((<HTMLInputElement>document.getElementById("tag")).value == "true"){
                                this.http.get(environment.apiUrl + '/search/getCompanyTags/' + this.nameortype).subscribe(res=>{
-                                  if(this.Items=[]){
-                                      this.Items= res['data'];
-                                      this.Items.forEach(item => {
+                                  if(this.companyElasticSearch=[]){
+                                      this.companyElasticSearch= res['data'];
+                                      this.companyElasticSearch.forEach(item => {
                                         item.tags=item.tags.split(",");
                                       });
                                   }
-                                   this.searchStatus= true;
-                                   this.expertStatus = false;
-                                   this.contentStatus = false;
                                    console.log(res['data']);
                                });
                            }
@@ -278,29 +248,23 @@ export class SearchResultComponent implements OnInit{
 
     if((<HTMLInputElement>document.getElementById("cont")).value == "true"){
         this.http.get(environment.apiUrl + '/search/getContentTags/' + this.nameortype).subscribe(res=>{
-            if(this.Items=[]){
-                this.Items= res['data'];
-                this.Items.forEach(item => {
+            if(this.contentElasticSearch=[]){
+                this.contentElasticSearch= res['data'];
+                this.contentElasticSearch.forEach(item => {
                     item.tags=item.tags.split(",");
                   });
             }
-             this.contentStatus= true;
-             this.expertStatus = false;
-        this.searchStatus = false;
          });
     }
 
     if((<HTMLInputElement>document.getElementById("exp")).value == "true"){
         this.http.get(environment.apiUrl + '/search/getExpertTags/' + this.nameortype).subscribe(res=>{
-            if(this.Items=[]){
-                this.Items= res['data'];
-                this.Items.forEach(item => {
+            if(this.userElasticSearch=[]){
+                this.userElasticSearch = res['data'];
+                this.userElasticSearch.forEach(item => {
                     item.tags=item.tags.split(",");
                   });
             }
-             this.expertStatus= true;
-             this.searchStatus = false;
-        this.contentStatus = false;
          });
 
     }
@@ -321,44 +285,43 @@ export class SearchResultComponent implements OnInit{
 
 
     viewAllContent(){
-       this.typeOfView = 1;
-
+        this.companyElasticSearch =[];
+        this.contentElasticSearch = [];
+        this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
-            this.Items = res['data'];
             console.log(this.Items);
-            this.Items= res['data'];
-            this.Items.forEach(item => {
+            this.contentElasticSearch= res['data'];
+            this.contentElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
-            })
-            this.searchByTags=false;
-        })
+            });
+            this.searchResult=true;
+        });
     }
     viewAllCompanies(){
-        this.typeOfView = 2;
-
+        this.companyElasticSearch =[];
+        this.contentElasticSearch = [];
+        this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"/company/getCompanies").subscribe(res =>{
-            this.Items = res['data'];
-            this.Items= res['data'];
-            this.Items.forEach(item => {
+            this.companyElasticSearch= res['data'];
+            this.companyElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
-            })
-            this.searchByTags=false;
-            console.log(this.Items);
-        })
+            });
+            this.searchResult=true;
+            console.log(this.companyElasticSearch);
+        });
     }
     viewAllExperts(){
-        this.typeOfView = 3;
-
+        this.companyElasticSearch =[];
+        this.contentElasticSearch = [];
+        this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"/User/viewUsers").subscribe(res =>{
-            this.Items = res['data'];
-            this.Items= res['data'];
-            this.Items.forEach(item => {
+            this.userElasticSearch = res['data'];
+            this.userElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
-            })
-            this.searchByTags=false;
-            console.log(this.Items);
-            console.log(this.typeOfView);
-        })
+            });
+            this.searchResult=true;
+            console.log(this.userElasticSearch);
+        });
     }
 }
 

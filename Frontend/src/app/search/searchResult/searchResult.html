@@ -55,82 +55,19 @@
             border: 3px solid #D00018;
         }
     </style>
-    <div *ngIf="!searchByTags">
-    <!--Rifky-->
-    <div *ngIf="searchStatus ||  ( (this.Items.length>0) && (this.typeOfView == 2) )">
-  <div class="container">
-      <h1>Results</h1>
-      <br>
-      
-      <div class="container-fluid" *ngFor="let item of this.Items">
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
-              <h4 class="text-uppercase">{{item.name}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
-              <p class="title" style="float:right;"> {{item.type}}
-                  <button class="btn btn-danger"
-                          style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewCompany(item._id)">
-                      View Company
-                  </button>
-              </p>
-          </div>
-      </div>
-  </div>
-</div>
-<div *ngIf="contentStatus|| ( (this.Items.length>0) && (this.typeOfView == 1) )">
-  <div class="container">
-      <h1>Results</h1>
-      <br>
-      
-      <div class="container-fluid" *ngFor="let item of this.Items">
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
-              <h4 class="text-uppercase">{{item.title}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
-              <p class="title" style="float:right;"> {{item.type}}
-              
-                  <button class="btn btn-danger"
-                          style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewContent(item._id)">
-                      View Content
-                  </button>
-              </p>
-          </div>
-      </div>
-  </div>
-</div>
-<div *ngIf="expertStatus || ( (this.Items.length>0) && (this.typeOfView == 3) )">
-  <div class="container">
-      <h1>Results</h1>
-      <br>
-      
-      <div class="container-fluid" *ngFor="let item of this.Items">
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
-              <h4 class="text-uppercase">{{item.username}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
-              <p class="title" style="float:right;"> {{item.email}}
-
-                  <button class="btn btn-danger"
-                          style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewExpert(item._id)">
-                      View Expert
-                  </button>
-              </p>
-          </div>
-      </div>
-  </div>
-</div>
-<!--End rifky-->
-</div>
-    <div *ngIf="searchByTags">
     <div class="container">
+        <div *ngIf="this.searchResult">
     <h1>Results</h1>
     <div id="tablesDiv" >
           <div id="companyDiv" *ngIf="this.companyElasticSearch.length>0">
           
             <h2>Companies</h2>
           <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;" *ngFor="let item of this.companyElasticSearch">
-              <h4 class="text-uppercase">{{item._source.object.name}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+              <h4 class="text-uppercase">{{item.name}}</h4>
+              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
 
                   <button class="btn btn-danger"
-                  style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewCompany(item._source.object._id)">
+                  style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewCompany(item._id)">
                       View Company
                   </button>
               
@@ -139,11 +76,11 @@
           <div id="expertDiv" *ngIf="this.userElasticSearch.length>0">
           <h2>Experts</h2>
           <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;" *ngFor="let item of this.userElasticSearch">
-          <h4 class="text-uppercase">{{item._source.object.name}}</h4>
-          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+          <h4 class="text-uppercase">{{item.name}}</h4>
+          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
 
               <button class="btn btn-danger"
-                      style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewExpert(item._source.object._id)">
+                      style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewExpert(item._id)">
                   View Expert
               </button>
           
@@ -152,16 +89,17 @@
           <div id="contentDiv" *ngIf="this.contentElasticSearch.length>0">
           <h2>Content</h2>
           <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;"  *ngFor="let item of this.contentElasticSearch">
-          <h4 class="text-uppercase">{{item._source.object.title}}</h4>
-          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+          <h4 class="text-uppercase">{{item.title}}</h4>
+          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
 
               <button class="btn btn-danger"
                       style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;" 
-                      (click)="viewContent(item._source.object._id)">
+                      (click)="viewContent(item._id)">
                   View Content
               </button>
         
      </div>
           </div>
-    </div>              
+    </div>
+        </div>
     </div>

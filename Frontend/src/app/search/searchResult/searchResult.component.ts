@@ -305,7 +305,7 @@ export class SearchResultComponent implements OnInit{
             this.Items.forEach(item => {
                 item.tags=item.tags.split(",");
             })
-           
+            this.searchByTags=false;
         })
     }
     viewAllCompanies(){
@@ -317,6 +317,7 @@ export class SearchResultComponent implements OnInit{
             this.Items.forEach(item => {
                 item.tags=item.tags.split(",");
             })
+            this.searchByTags=false;
             console.log(this.Items);
         })
     }
@@ -329,7 +330,9 @@ export class SearchResultComponent implements OnInit{
             this.Items.forEach(item => {
                 item.tags=item.tags.split(",");
             })
+            this.searchByTags=false;
             console.log(this.Items);
+            console.log(this.typeOfView);
         })
     }
 

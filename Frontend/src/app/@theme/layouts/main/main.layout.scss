@@ -8,6 +8,9 @@
     flex: 0.15 !important;
   }
 
+
+
+
   nb-layout-column{
     /deep/ .container{
       background-color: #FFF;
@@ -16,7 +19,24 @@
       padding-top:20px; 
       padding-left:30px;
       padding-bottom:10px;
-      border-radius: 25px;
+    }
+
+    // /deep/ .animatebg{
+    //   background-image:url('/assets/banner--shape2.svg');
+    //   background-size:900px 300px;
+    // }  
+
+    /deep/ .filter{
+      text-align:center;
+    }
+
+    /deep/ .filter select{
+      margin:6px;
+      border-radius: 0px;
+      display: inline-block;
+      // background-color: transparent;
+      border: 3px solid #D00018;
+      width:200px;
     }
 
 /deep/ .profile .uppercase{
@@ -40,7 +60,19 @@
     }
 
     /deep/ .btn-danger{
-      background-color:#D00018;
+      background-color: transparent;
+      border: 3px solid #D00018;
+      color:#D00018;
+      border-radius: 0px;
+      font-weight:900;
+    }
+
+    /deep/ .btn-danger:hover{
+      background-color: #D00018;
+      border: 3px solid #D00018;
+      color:#FFF;
+      border-radius: 0px;
+      font-weight:900;
     }
 
     /deep/ .profile  .title {

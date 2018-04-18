@@ -17,9 +17,16 @@ span{
   width: 100%;
 
 
-  .btn-sm{
+  span:hover{
+    color:#FFE302;
+  }
+
+  .btn-warning{
+    border-radius:0px;
     font-size:0.85rem;
     padding: 4px 8px;
+    font-weight:900;
+    background-color:#FFE302;
   }
 
   .left {

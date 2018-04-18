@@ -19,6 +19,12 @@ export class SearchResultComponent implements OnInit{
     contentElasticSearch =[];
     companyElasticSearch =[];
     userElasticSearch =[];
+    filterOn=false;
+    companyFilterOn=false;
+    filters: string[] = ["Content","Company","Expert"];
+    companyFilters: string[] = ["Name","Type"];
+    companyFilterToSet: string="All";
+    filterToSet: string = "All";
     constructor(private http:HttpClient,private router:Router){
 
     }
@@ -30,6 +36,18 @@ export class SearchResultComponent implements OnInit{
 
     }
 
+    changeType(select){
+        if(this.filterToSet == "Company"){
+            this.companyFilterOn=true;
+        }else{
+            this.companyFilterOn=false;
+        }
+      }
+
+      changeCompanyFilter(select){
+        console.log(this.companyFilterToSet);
+      }
+
     hide(){
         var x = document.getElementById("getHide");
         if (x.style.display === "block") {
@@ -37,6 +55,10 @@ export class SearchResultComponent implements OnInit{
         } else {
             x.style.display = "block";
         }
+    }
+
+    showFilter(){
+        this.filterOn = !this.filterOn;
     }
 
     nameortype:any;
@@ -270,8 +292,5 @@ export class SearchResultComponent implements OnInit{
     viewContent(id:string){
         this.router.navigateByUrl('/content/viewcontent/'+id);
     }
-
-
-    
 }
 

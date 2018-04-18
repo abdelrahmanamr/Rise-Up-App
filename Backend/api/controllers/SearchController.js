@@ -233,15 +233,18 @@ module.exports.getContentTags= function ( req, res, next) {
 };
 
 module.exports.getTagbyKeyword =function(req, res, next) {
+    console.log("entered client search");
     client.search({
         index: 'elasticsearch',
         type: 'tags',
         body: {
             'query': {
-                'match' :{ "name":req.params.tag}
+                'match' :{ "name":req.params.tag},
+                // "auto_generate_synonyms_phrase_query":true
             }
         }
     }).then(function (hit) {
+        console.log("entered client hit");
         if(!hit) {
             console.log(err);
             return next(err);

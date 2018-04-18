@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {environment} from "../../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -21,11 +21,15 @@ export class SearchResultComponent implements OnInit{
     userElasticSearch =[];
     filterOn=false;
     companyFilterOn=false;
+    filterToSet = "All";
     filters: string[] = ["Content","Company","Expert"];
     companyFilters: string[] = ["Name","Type"];
     companyFilterToSet: string="All";
-    filterToSet: string = "All";
-    constructor(private http:HttpClient,private router:Router){
+    param1:string;
+    filter:string;
+    typeOfView:number = 0;
+    constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
+
 
     }
     ngOnInit(){
@@ -33,6 +37,17 @@ export class SearchResultComponent implements OnInit{
         this.expertStatus = false;
         this.contentStatus = false;
         document.getElementById("getHide").style.display = "none";
+        this.route.queryParams.subscribe(params=>{
+            this.param1 = params['param1'];
+            this.filter = params['filter'];
+            console.log(this.param1);
+            if(this.param1!=undefined && this.filter!=undefined) {
+                ( <HTMLInputElement>document.getElementById("comp")).value = "false";
+                (<HTMLInputElement>document.getElementById("exp")).value = "false" ;
+                (<HTMLInputElement>document.getElementById("cont")).value = "false";
+                this.search();
+            }
+        });
 
     }
 
@@ -78,12 +93,18 @@ export class SearchResultComponent implements OnInit{
         this.contentElasticSearch = [];
         this.companyElasticSearch = [];
         this.userElasticSearch = [];
+        if(this.param1==undefined || this.nameortype!=undefined) {
+            this.param1 = this.nameortype;
+        }
+        this.filter = "all";
+        console.log(this.param1);
         if((<HTMLInputElement>document.getElementById("comp")).value == "false" &&
            (<HTMLInputElement>document.getElementById("exp")).value == "false" && 
            (<HTMLInputElement>document.getElementById("cont")).value == "false" )
         {
-            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/'+this.nameortype).subscribe
+            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/'+this.param1).subscribe
             (res=>{
+                console.log("entered res");
                 if(this.Items=[])
                 {
                     this.Items= res['data'];
@@ -91,7 +112,7 @@ export class SearchResultComponent implements OnInit{
                 this.searchByTags=true;
                 console.log(res['data']);
 
-                this.http.get(environment.apiUrl+'/search/getContentbyTitle/'+this.nameortype).subscribe(
+                this.http.get(environment.apiUrl+'/search/getContentbyTitle/'+this.param1).subscribe(
                     res=>{
                         if(this.Items.length==0)
                         {
@@ -122,8 +143,11 @@ export class SearchResultComponent implements OnInit{
 
                             }
 
-                        });
 
+                        });
+                        console.log("param is :" + this.param1);
+                        console.log("filter is"+ this.filter);
+                        this.router.navigateByUrl("/search/searchResult?param1="+this.param1+"&filter="+this.filter);
                     }
                 )
 
@@ -287,10 +311,51 @@ export class SearchResultComponent implements OnInit{
         this.router.navigateByUrl('/company/viewcompany/'+id);
     }
     viewExpert(id:string){
+        localStorage.setItem("expertID",id);
+        console.log(id);
         this.router.navigateByUrl('/expert/viewexpert/'+id);
     }
     viewContent(id:string){
         this.router.navigateByUrl('/content/viewcontent/'+id);
+    }
+
+
+    viewAllContent(){
+       this.typeOfView = 1;
+
+        this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
+            this.Items = res['data'];
+            console.log(this.Items);
+            this.Items= res['data'];
+            this.Items.forEach(item => {
+                item.tags=item.tags.split(",");
+            })
+           
+        })
+    }
+    viewAllCompanies(){
+        this.typeOfView = 2;
+
+        this.http.get(environment.apiUrl+"/company/getCompanies").subscribe(res =>{
+            this.Items = res['data'];
+            this.Items= res['data'];
+            this.Items.forEach(item => {
+                item.tags=item.tags.split(",");
+            })
+            console.log(this.Items);
+        })
+    }
+    viewAllExperts(){
+        this.typeOfView = 3;
+
+        this.http.get(environment.apiUrl+"/User/viewUsers").subscribe(res =>{
+            this.Items = res['data'];
+            this.Items= res['data'];
+            this.Items.forEach(item => {
+                item.tags=item.tags.split(",");
+            })
+            console.log(this.Items);
+        })
     }
 }
 

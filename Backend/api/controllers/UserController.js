@@ -178,7 +178,7 @@ module.exports.reset = function(req,res,next){
                                 var smtpTransport = nodemailer.createTransport({
                                     service: 'SendGrid', // sets automatically host, port and connection security settings
                                     auth: {
-                                        user: 'startupkit_18',
+                                        user: 'startupkit_t18',
                                         pass: 'T18mail123'
                                     }
                                 });
@@ -188,7 +188,7 @@ module.exports.reset = function(req,res,next){
                                 var mailOptions = {
                                     to: user.email,
                                     from: 'startupkit.18@gmail.com',
-                                    subject: 'Node.js Password Reset',
+                                    subject: 'Riseup Connect Password Reset',
                                     text: 'Your pass has changed'
                                 };
 
@@ -196,7 +196,6 @@ module.exports.reset = function(req,res,next){
                                 smtpTransport.sendMail(mailOptions, (error, info) => {
                                     if (error) {
                                         console.log('Error while sending mail: ' + error);
-                                        console.log("hllo");
                                         return res.status(422).json({
                                             err: null,
                                             msg: "Error updating user's token",
@@ -252,7 +251,7 @@ module.exports.forgetPassword = function(req,res,next){
                     var smtpTransport = nodemailer.createTransport({
                         service: 'SendGrid', // sets automatically host, port and connection security settings
                         auth: {
-                            user: 'startupkit_18',
+                            user: 'startupkit_t18',
                             pass: 'T18mail123'
                         }
                     });
@@ -262,7 +261,7 @@ module.exports.forgetPassword = function(req,res,next){
                     var mailOptions = {
                         to: user.email,
                         from: 'startupkit.18@gmail.com',
-                        subject: 'Node.js Password Reset',
+                        subject: 'Riseup Connect Password Reset',
                         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
                           'http://' + 'localhost:4200/#/user' + '/reset/' + token + '\n\n' +

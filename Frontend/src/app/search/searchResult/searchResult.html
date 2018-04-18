@@ -34,9 +34,9 @@
         <input  id="tag" type="checkbox" value="false" (click)="checkUncheck('tag')"> TAG
     </div>
     <br />
-    <a href="#/content/viewallcontents"><button class="btn btn-danger"> View All Content </button></a>
-    <a href="#/company/viewallcompanies"><button class="btn btn-danger"> View All Companies </button></a>
-    <a href="#/expert/viewallexperts"><button class="btn btn-danger"> View All Experts </button></a>
+    <button class="btn btn-danger" (click)="viewAllContent()"> View All Content </button>
+    <button class="btn btn-danger"  (click)="viewAllCompanies()"> View All Companies </button>
+    <button class="btn btn-danger" (click)="viewAllExperts()"> View All Experts </button>
     </div>
     </div>
     <style>
@@ -57,7 +57,7 @@
     </style>
     <div *ngIf="!searchByTags">
     <!--Rifky-->
-    <div *ngIf="searchStatus">
+    <div *ngIf="searchStatus ||  ( (this.Items.length>0) && (this.typeOfView == 2) )">
   <div class="container">
       <h1>Results</h1>
       <br>
@@ -76,7 +76,7 @@
       </div>
   </div>
 </div>
-<div *ngIf="contentStatus">
+<div *ngIf="contentStatus|| ( (this.Items.length>0) && (this.typeOfView == 1) )">
   <div class="container">
       <h1>Results</h1>
       <br>
@@ -96,7 +96,7 @@
       </div>
   </div>
 </div>
-<div *ngIf="expertStatus">
+<div *ngIf="expertStatus || ( (this.Items.length>0) && (this.typeOfView == 3) )">
   <div class="container">
       <h1>Results</h1>
       <br>

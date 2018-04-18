@@ -18,8 +18,8 @@
     </div>
     <br />
     <button class="btn btn-danger" (click)="viewAllContent()"> View All Content </button>
-    <button class="btn btn-danger" > View All Companies </button>
-    <button class="btn btn-danger"> View All Experts </button>
+    <button class="btn btn-danger"  (click)="viewAllCompanies()"> View All Companies </button>
+    <button class="btn btn-danger" (click)="viewAllExperts()"> View All Experts </button>
     </div>
     <style>
         .check{
@@ -38,7 +38,7 @@
     </style>
     <div *ngIf="!searchByTags">
     <!--Rifky-->
-    <div *ngIf="searchStatus">
+    <div *ngIf="searchStatus ||  ( (this.Items.length>0) && (this.typeOfView == 2) )">
   <div class="container">
       <h1>Results</h1>
       <br>
@@ -57,7 +57,7 @@
       </div>
   </div>
 </div>
-<div *ngIf="contentStatus|| this.Items.length>0">
+<div *ngIf="contentStatus|| ( (this.Items.length>0) && (this.typeOfView == 1) )">
   <div class="container">
       <h1>Results</h1>
       <br>
@@ -77,7 +77,7 @@
       </div>
   </div>
 </div>
-<div *ngIf="expertStatus">
+<div *ngIf="expertStatus || ( (this.Items.length>0) && (this.typeOfView == 3) )">
   <div class="container">
       <h1>Results</h1>
       <br>

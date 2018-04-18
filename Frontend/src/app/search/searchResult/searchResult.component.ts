@@ -21,6 +21,7 @@ export class SearchResultComponent implements OnInit{
     userElasticSearch =[];
     param1:string;
     filter:string;
+    typeOfView:number = 0;
     constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
 
     }
@@ -286,6 +287,8 @@ export class SearchResultComponent implements OnInit{
         this.router.navigateByUrl('/company/viewcompany/'+id);
     }
     viewExpert(id:string){
+        localStorage.setItem("expertID",id);
+        console.log(id);
         this.router.navigateByUrl('/expert/viewexpert/'+id);
     }
     viewContent(id:string){
@@ -293,7 +296,34 @@ export class SearchResultComponent implements OnInit{
     }
 
     viewAllContent(){
-        this.http.get(environment.apiUrl+"/Content/viewContents").subscribe(res =>{
+       this.typeOfView = 1;
+
+        this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
+            this.Items = res['data'];
+            console.log(this.Items);
+            this.Items= res['data'];
+            this.Items.forEach(item => {
+                item.tags=item.tags.split(",");
+            })
+           
+        })
+    }
+    viewAllCompanies(){
+        this.typeOfView = 2;
+
+        this.http.get(environment.apiUrl+"/company/getCompanies").subscribe(res =>{
+            this.Items = res['data'];
+            this.Items= res['data'];
+            this.Items.forEach(item => {
+                item.tags=item.tags.split(",");
+            })
+            console.log(this.Items);
+        })
+    }
+    viewAllExperts(){
+        this.typeOfView = 3;
+
+        this.http.get(environment.apiUrl+"/User/viewUsers").subscribe(res =>{
             this.Items = res['data'];
             this.Items= res['data'];
             this.Items.forEach(item => {

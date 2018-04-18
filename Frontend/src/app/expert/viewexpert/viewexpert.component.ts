@@ -13,6 +13,7 @@ expert = "";
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
   ngOnInit() { 
+    console.log(this.ID);
     this.ViewExpert(this.ID) ;
       }
 
@@ -26,6 +27,7 @@ ViewExpert(ID:String){
   this.httpClient.get(environment.apiUrl +'/User/viewUser/'+ID,config).subscribe(
     res=>{  
       this.expert = res['data'];
+      this.expert['tags']= this.expert['tags'].split(",");
         
     }
   );

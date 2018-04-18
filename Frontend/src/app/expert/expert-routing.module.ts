@@ -13,7 +13,7 @@ const routes: Routes = [
         loadChildren: './viewallexperts/viewallexperts.module#ViewAllExpertsModule'
       },
       {
-        path: 'viewexpert',
+        path: 'viewexpert/:id',
         loadChildren: './viewexpert/viewexpert.module#ViewExpertModule'
       },
       {

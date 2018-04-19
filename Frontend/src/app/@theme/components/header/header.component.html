@@ -7,8 +7,10 @@
   </div>
 </div>
 
+
 <nb-actions size="medium" class="header-container right">
   <nb-action>
+    <a ><span ><input  type="text" id="search_text_input" style="border-radius: 0px; padding:8px; border: 1.5px solid #d00018;" placeholder="Search Here"> <div  (click)="searchPage()" id="button-holder"><img src="/assets/search.svg"  /> </div></span></a>
     <a href="#/home/"><span >Home</span></a>
     <a href="#/search/"><span >Search</span></a>
     <a href="#/content/"><span >Content</span></a>
@@ -19,3 +21,4 @@
     <span><a *ngIf="loggedin==false" href="#/user/login" style="padding-right:5px">Login</a>  <a *ngIf="loggedin==false" href="#/user/register" style="padding-right:5px">Register</a></span>
   </nb-action>
 </nb-actions>
+

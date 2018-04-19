@@ -25,6 +25,10 @@ const routes: Routes = [
           loadChildren: './changePassword/changePassword.module#ChangePasswordModule'
         },
         {
+          path: 'profile/:username',
+          loadChildren: './profile/profile.module#ProfileModule'
+        },
+        {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

@@ -58,7 +58,10 @@ var userSchema = mongoose.Schema({
         type: Boolean,
         default:false
     },
-    ImageURL:{
+    biography:{
+        type:String
+    },
+    imageURL:{
         type:String,
         required:false
     },

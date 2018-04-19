@@ -12,11 +12,6 @@ const routes: Routes = [
                 path: 'viewusers',
                 loadChildren: './viewusers/viewusers.module#ViewUsersModule'
             },
-            
-            {
-                path: 'profile/:id',
-                loadChildren: './profile/profile.module#ProfileModule'
-            },
             {
                 path: 'addcompany',
                 loadChildren: './addcompany/addcompany.module#AddCompanyModule'

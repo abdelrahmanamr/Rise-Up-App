@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
  
   <img src="/assets/profile1.png" (click) = "goToUser(item._id)">
   <span> <b> {{ item.username }} </b> </span>
-  <div style="float:right;padding-top:20px;"><Button (click)="goToUser(item._id)" class="btn btn-danger btn-sm">View </Button></div>
+  <div style="float:right;padding-top:20px;"><Button (click)="goToUser(item.username)" class="btn btn-danger btn-sm">View </Button></div>
 </div>
 `
  
@@ -34,9 +34,9 @@ export class ViewUsersComponent {
        subscribe(res =>{this.data=res["data"]});     
   }
 
-  goToUser(ident:string)
+  goToUser(username:string)
   {
-     this.router.navigate(["/admin/profile/"+ident]);
+     this.router.navigate(["/user/profile/"+username]);
    }
 
 

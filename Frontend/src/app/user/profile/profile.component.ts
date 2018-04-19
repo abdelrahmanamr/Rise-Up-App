@@ -19,10 +19,12 @@ export class ProfileComponent {
     Url:String
     ID:any;
     tagFinalA:any;
+    username:String;
+    permitted = false;
   constructor(private http: HttpClient,private router: Router){
     this.Url=window.location.href
-    this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
-    console.log(this.ID);
+    this.username = this.Url.substr(this.Url.lastIndexOf('/') + 1);
+    console.log(this.username);
   }
 
 
@@ -30,16 +32,21 @@ export class ProfileComponent {
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json',
-            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+            'Content-Type': 'application/json'
         }
     }
 
-    this.http.get('http://localhost:3000/api/admin/getUserById/'+this.ID,config).
+    this.http.get('http://localhost:3000/api/user/getUserByUsername/'+this.username,config).
     subscribe(res =>{
         // console.log(res['data']);
         this.data = res['data'];
-        if(res['data'].tags!=null)
+        this.ID = this.data['_id'];
+        if(this.data['expert']||JSON.parse(localStorage.getItem("userProps"))["admin"]){
+            this.permitted=true;
+        }else{
+            this.permitted=false;
+        }
+        if(res['data'].tags!=null){
         // this.tags = res['data'].tags.split(",");
         res['data'].tags.split(",").forEach(element => {
             var el = JSON.parse(JSON.stringify({"displayValue":element}));
@@ -48,6 +55,8 @@ export class ProfileComponent {
         });
 
           this.data['tags']=this.data['tags'].split(",");
+        }
+
 
     });
 
@@ -65,10 +74,6 @@ export class ProfileComponent {
     this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID,data,config)
     .subscribe((info:any) => {console.log(info);});
       window.location.reload();
-  }
-
-  editExpert(){
-    window.location.replace("#/admin/edittags");
   }
     onTagsChanged($event){}
 

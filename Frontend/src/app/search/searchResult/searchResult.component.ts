@@ -23,20 +23,27 @@ export class SearchResultComponent implements OnInit{
     filters: string[] = ["Content","Company","Expert"];
     companyFilters: string[] = ["Name","Type","Tag"];
     companyFilterToSet: string="All";
-    param1:string;
+    key:string;
     filter:string;
     constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
 
     }
     ngOnInit(){
         this.route.queryParams.subscribe(params=>{
-            this.param1 = params['param1'];
+            this.key = params['key'];
             this.filter = params['filter1'];
-            console.log(this.param1);
+            console.log(this.key);
             console.log(this.filter);
-            if(this.param1!=undefined && this.filter!=undefined) {
+            if(this.key=="viewallcontent"){
+                this.viewAllContent();
+            }else if(this.key=="viewallcompanies"){
+                this.viewAllCompanies();
+            }else if(this.key=="viewallexperts"){
+                this.viewAllExperts();
+            }else if(this.key!=undefined && this.filter!=undefined) {
                 this.search();
             }
+        
         });
 
     }
@@ -86,15 +93,15 @@ export class SearchResultComponent implements OnInit{
         this.contentElasticSearch = [];
         this.companyElasticSearch = [];
         this.userElasticSearch = [];
-        if (this.param1 == undefined || this.nameortype != undefined) {
-            this.param1 = this.nameortype;
+        if (this.key == undefined || this.nameortype != undefined) {
+            this.key = this.nameortype;
         }
         //this.filter = "all";
-        console.log(this.param1);
+        console.log(this.key);
         console.log(this.filterToSet);
         if (this.filterToSet == "All") {
             console.log("da5al");
-            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/' + this.param1).subscribe
+            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/' + this.key).subscribe
             (res => {
                 console.log("entered res");
                 if (this.Items = []) {
@@ -102,7 +109,7 @@ export class SearchResultComponent implements OnInit{
                 }
                 console.log(res['data']);
 
-                this.http.get(environment.apiUrl + '/search/getContentbyTitle/' + this.param1).subscribe(
+                this.http.get(environment.apiUrl + '/search/getContentbyTitle/' + this.key).subscribe(
                     res => {
                         if (this.Items.length == 0) {
                             this.Items = res['data'];
@@ -135,9 +142,9 @@ export class SearchResultComponent implements OnInit{
 
 
                         });
-                        console.log("param is :" + this.param1);
+                        console.log("param is :" + this.key);
                         console.log("filter is" + this.filter);
-                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + this.filter);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filter);
                     }
                 )
 
@@ -156,7 +163,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet == "Company" && this.companyFilterToSet == "Name") {
@@ -169,7 +176,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet == "Company" && this.companyFilterToSet == "Type") {
@@ -181,7 +188,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet == "Company" && this.companyFilterToSet == "Tag") {
@@ -193,7 +200,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
                     });
                 }
 
@@ -207,7 +214,7 @@ export class SearchResultComponent implements OnInit{
                             item.tags = item.tags.split(",");
                         });
                     }
-                    this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Content");
+                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Content");
                 });
             }
 
@@ -219,7 +226,7 @@ export class SearchResultComponent implements OnInit{
                             item.tags = item.tags.split(",");
                         });
                     }
-                    this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Expert");
+                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Expert");
                 });
 
             }
@@ -229,10 +236,8 @@ export class SearchResultComponent implements OnInit{
     viewCompany(id:string){
         this.router.navigateByUrl('/company/viewcompany/'+id);
     }
-    viewExpert(id:string){
-        localStorage.setItem("expertID",id);
-        console.log(id);
-        this.router.navigateByUrl('/expert/viewexpert/'+id);
+    viewExpert(username:string){
+        this.router.navigateByUrl('/user/profile/'+username);
     }
     viewContent(id:string){
         this.router.navigateByUrl('/content/viewcontent/'+id);

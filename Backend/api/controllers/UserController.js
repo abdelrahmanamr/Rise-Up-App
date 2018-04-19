@@ -323,6 +323,31 @@ module.exports.forgetPassword = function(req,res,next){
     });
   };
 
+  module.exports.getUserByUsername = function(req, res, next) {
+    if (!Validations.isString(req.params.username)){
+        return res.status(422).json({
+            err: null,
+            msg: 'Username parameter must be a valid string.',
+            data: null
+          });
+    }
+    User.findOne({"username":req.params.username}).exec(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res
+            .status(404)
+            .json({ err: null, msg: 'user not found.', data: null });
+        }
+        res.status(200).json({
+          err: null,
+          msg: 'user retrieved successfully.',
+          data: user
+        });
+      });
+  }
+
 
 module.exports.register = function(req,res,next){
     var valid =

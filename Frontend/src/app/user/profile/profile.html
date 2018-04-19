@@ -1,0 +1,85 @@
+<div class="rightbg">
+        <div *ngIf="!permitted">
+                <div class="container">
+                        <h2>Sorry! </h2>
+                        <p>You are not permitted to view this profile.</p>
+                </div>
+        </div>
+        <div *ngIf="permitted" class="container">
+
+        
+
+        <h2>Profile</h2>
+    
+    <div class="profile" >
+        <div class="card">
+            <img *ngIf="data.imageURL" src="{{data.imageURL}}" alt="{{data.username}}" style="width:100%">
+            <img *ngIf="!data.imageURL" src="/assets/profile.png" alt="{{data.username}}" style="width:100%">
+            <h1 class="cap">{{data.firstname}} {{data.lastname}}</h1>
+            <b *ngIf="data.admin" style="color: #2e2123">Admin</b>
+            <b *ngIf="data.blocked" style="color: #b94a48">Blocked</b>
+            <b *ngIf="data.expert" style="color: #343ab9">Expert</b>
+            <b style="color: #0b0e2b">Created At: {{data.createdAt | date}}</b>
+            <b style="color: #04040e">Last time updated at: {{data.updatedAt | date}}</b>
+            <p class="title">{{data.email}}</p></div>
+    </div>
+
+    <div class="infoRight">
+    <h4>Biography:</h4>
+    <hr>
+    <p>{{data.biography}}</p>
+    <span *ngIf="!data.biography"><i>No biography added</i></span>
+
+    <h4>Interests:</h4>
+    <hr>
+    <div><p><span class="tags-input__tag" *ngFor="let tag of data.tags;">{{tag}}</span></p></div>
+ 
+
+    <h4> Admin Controls </h4>
+    <hr>
+
+    <button *ngIf="!data.blocked" type="button"
+            class="btn btn-danger" (click)="Block()">Block
+    </button>
+    <button *ngIf="data.blocked" type="button" class="btn btn-danger" (click)="UnBlock()">UnBlock
+    </button>
+    <button *ngIf="!data.admin" type="button"
+            class="btn btn-danger" (click)="AddAdmin()">Make admin
+    </button>
+    <button *ngIf="data.admin" type="button"
+            class="btn btn-danger" (click)="RemoveAdmin()">Remove admin
+    </button>
+    <button *ngIf="!data.expert" type="button"
+            class="btn btn-danger" (click)="AddExpert()">Make expert
+    </button>
+
+    <button *ngIf="data.expert" type="button"
+            class="btn btn-danger" (click)="RemoveExpert()">Remove expert
+    </button>
+
+    <button *ngIf="data.expert" type="button"
+            class="btn btn-danger" (click)="go()">Edit Tags
+    </button>
+    <br />
+<div *ngIf="check" class="editTags">
+    <h4> Edit Tags: </h4>
+    <hr>
+<tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)"
+                ng-controller="MainCtrl" ng-model="tags"  type="text" [(ngModel)]="tags"
+                name="tags"> </tags-input>
+
+
+    <button  *ngIf="data.expert" type="button"
+            class="btn btn-danger" (click)="submitTags()">Submit Tags
+    </button>
+    </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+

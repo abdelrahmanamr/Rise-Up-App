@@ -5,6 +5,12 @@ var contentSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    coverImage: {
+        type: String
+    },
+    intro:{
+        type: String
+    },
     type: {
         type: String,
         enum: ["Post","Link","Image"],

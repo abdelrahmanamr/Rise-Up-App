@@ -19,6 +19,9 @@
         </select>
         <br />
 
+        <input type="text" class="form-control" name="intro" placeholder="Enter a brief description of the post" ngModel><br />
+
+
         <input type = "text" class="form-control" name = "link" placeholder = "Enter your Link" *ngIf="post==1" ngModel>
 
         <div [hidden]="post==1">
@@ -76,6 +79,7 @@
         <tags-input class="form-control input-lg" type="text"
         (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags" placeholder="Enter your tags here"></tags-input>
         <br>
+        Cover Photo (Optional): <input type='file' (change)="onSelectFile($event)"><br />
         <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
         <br />
         {{text}}

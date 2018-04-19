@@ -1,4 +1,4 @@
-<div class="animatebg">
+<div class="leftbg">
 <div class="dv">
     <span><input class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." ngModel></span>
     <span><img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px"></span>
@@ -38,8 +38,7 @@
     <button class="btn btn-danger"  (click)="viewAllCompanies()"> View All Companies </button>
     <button class="btn btn-danger" (click)="viewAllExperts()"> View All Experts </button>
     </div>
-    </div>
-    <style>
+        <style>
         .check{
            text-align:center;
            margin-top:3px;
@@ -122,6 +121,29 @@
     <div class="container">
     <h1>Results</h1>
     <div id="tablesDiv" >
+            <div id="contentDiv" *ngIf="this.contentElasticSearch.length>0">
+                    <h2>Content</h2>
+                    <div class="card" *ngFor="let item of this.contentElasticSearch">
+                    <div class="contentToFade">
+                    <h4 class="text-uppercase">{{item._source.object.title}}</h4>
+
+                    <div class="cardBottom">
+                    <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+          
+                        <button class="btn btn-danger"
+                                (click)="viewContent(item._source.object._id)">
+                            View Content
+                        </button>
+                    </div>
+                    </div>
+                    <div class="middle">
+                        <div class="text">Rating 5/5</div>
+                    </div>
+
+                  
+               </div>
+            </div>
+
           <div id="companyDiv" *ngIf="this.companyElasticSearch.length>0">
           
             <h2>Companies</h2>
@@ -149,19 +171,8 @@
           
      </div>
           </div>
-          <div id="contentDiv" *ngIf="this.contentElasticSearch.length>0">
-          <h2>Content</h2>
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;"  *ngFor="let item of this.contentElasticSearch">
-          <h4 class="text-uppercase">{{item._source.object.title}}</h4>
-          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
-
-              <button class="btn btn-danger"
-                      style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;" 
-                      (click)="viewContent(item._source.object._id)">
-                  View Content
-              </button>
-        
-     </div>
-          </div>
+          
     </div>              
     </div>
+    </div>
+</div>

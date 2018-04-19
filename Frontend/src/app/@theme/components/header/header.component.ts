@@ -21,6 +21,12 @@ export class HeaderComponent implements OnInit {
     private router: Router
   ) {}
 
+  searchPage(){
+
+      this.router.navigateByUrl("/search/searchResult");
+
+
+  }
   ngOnInit() {
     if(localStorage.getItem("UserDoc")!=null){
       this.loggedin = true;

@@ -12,10 +12,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SearchResultComponent implements OnInit{
     Items = [];
-    searchStatus : boolean;
-    searchByTags : boolean;
-    expertStatus : boolean;
-    contentStatus : boolean;
+    searchResult=false;
     contentElasticSearch =[];
     companyElasticSearch =[];
     userElasticSearch =[];
@@ -23,28 +20,20 @@ export class SearchResultComponent implements OnInit{
     companyFilterOn=false;
     filterToSet = "All";
     filters: string[] = ["Content","Company","Expert"];
-    companyFilters: string[] = ["Name","Type"];
+    companyFilters: string[] = ["Name","Type","Tag"];
     companyFilterToSet: string="All";
     param1:string;
     filter:string;
-    typeOfView:number = 0;
     constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
-
 
     }
     ngOnInit(){
-        this.searchStatus = false;
-        this.expertStatus = false;
-        this.contentStatus = false;
-        document.getElementById("getHide").style.display = "none";
         this.route.queryParams.subscribe(params=>{
             this.param1 = params['param1'];
-            this.filter = params['filter'];
+            this.filter = params['filter1'];
             console.log(this.param1);
+            console.log(this.filter);
             if(this.param1!=undefined && this.filter!=undefined) {
-                ( <HTMLInputElement>document.getElementById("comp")).value = "false";
-                (<HTMLInputElement>document.getElementById("exp")).value = "false" ;
-                (<HTMLInputElement>document.getElementById("cont")).value = "false";
                 this.search();
             }
         });
@@ -88,225 +77,154 @@ export class SearchResultComponent implements OnInit{
         }
     }
 
-    search(){
+    search() {
+        console.log("filterToSet" + this.filterToSet);
+        console.log("filterToSet" + this.companyFilterToSet)
+        this.searchResult = true;
         this.Items = [];
         this.contentElasticSearch = [];
         this.companyElasticSearch = [];
         this.userElasticSearch = [];
-        if(this.param1==undefined || this.nameortype!=undefined) {
+        if (this.param1 == undefined || this.nameortype != undefined) {
             this.param1 = this.nameortype;
         }
-        this.filter = "all";
+        //this.filter = "all";
         console.log(this.param1);
-        if((<HTMLInputElement>document.getElementById("comp")).value == "false" &&
-           (<HTMLInputElement>document.getElementById("exp")).value == "false" && 
-           (<HTMLInputElement>document.getElementById("cont")).value == "false" )
-        {
-            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/'+this.param1).subscribe
-            (res=>{
+        console.log(this.filterToSet);
+        if (this.filterToSet == "All") {
+            console.log("da5al");
+            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/' + this.param1).subscribe
+            (res => {
                 console.log("entered res");
-                if(this.Items=[])
-                {
-                    this.Items= res['data'];
+                if (this.Items = []) {
+                    this.Items = res['data'];
                 }
-                this.searchByTags=true;
                 console.log(res['data']);
 
-                this.http.get(environment.apiUrl+'/search/getContentbyTitle/'+this.param1).subscribe(
-                    res=>{
-                        if(this.Items.length==0)
-                        {
-                            this.Items= res['data'];
+                this.http.get(environment.apiUrl + '/search/getContentbyTitle/' + this.param1).subscribe(
+                    res => {
+                        if (this.Items.length == 0) {
+                            this.Items = res['data'];
                         }
-                        else{
+                        else {
                             this.Items.concat(res['data']);
 
                         }
+                        console.log(res['data'])
 
                         this.Items.forEach(element => {
                             if (element._source.type == 'Company') {
-                                this.companyElasticSearch.push(element);
-                                element._source.object.tags=element._source.object.tags.split(",");
- 
-                                    
+                                this.companyElasticSearch.push(element._source.object);
+                                element._source.object.tags = element._source.object.tags.split(",");
+
+
                             }
 
                             if (element._source.type == 'Content') {
-                                    this.contentElasticSearch.push(element);
-                                    element._source.object.tags=element._source.object.tags.split(",");
+                                this.contentElasticSearch.push(element._source.object);
+                                element._source.object.tags = element._source.object.tags.split(",");
 
                             }
-                            console.log( this.contentElasticSearch);
-                            if (element._source.type == 'User'&& element._source.object.expert) {
-                                    this.userElasticSearch.push(element);
-                                    element._source.object.tags=element._source.object.tags.split(",");
+                            console.log(this.contentElasticSearch);
+                            if (element._source.type == 'User' && element._source.object.expert) {
+                                this.userElasticSearch.push(element._source.object);
+                                element._source.object.tags = element._source.object.tags.split(",");
 
                             }
 
 
                         });
                         console.log("param is :" + this.param1);
-                        console.log("filter is"+ this.filter);
-                        this.router.navigateByUrl("/search/searchResult?param1="+this.param1+"&filter="+this.filter);
+                        console.log("filter is" + this.filter);
+                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + this.filter);
                     }
                 )
 
             });
         }
         else
-        {
-                this.searchByTags=false;
-        
-     if((<HTMLInputElement>document.getElementById("comp")).value == "true"){
-         if(((<HTMLInputElement>document.getElementById("name")).value == "true" &&(<HTMLInputElement>document.getElementById("type")).value == "true"&&(<HTMLInputElement>document.getElementById("tag")).value == "true" ) ||
-         ((<HTMLInputElement>document.getElementById("name")).value == "false" &&(<HTMLInputElement>document.getElementById("type")).value == "false"&&(<HTMLInputElement>document.getElementById("tag")).value == "false" ) ){
+            {
+                if (this.filterToSet == "Company" && this.companyFilterToSet == "All") {
 
-            console.log("entered");
-            this.http.get(environment.apiUrl + '/search/getCompanyTagsOrNameOrType/' + this.nameortype).subscribe(res=>{
-                if(this.Items=[]){
-                    this.Items= res['data'];
-                    this.Items.forEach(item => {
-                        item.tags=item.tags.split(",");
-                      });
-                }
-                this.searchStatus= true;
-                this.expertStatus = false;
-                this.contentStatus = false;
-                console.log(res['data']);
-            });
-         }
-         else{
-            if(((<HTMLInputElement>document.getElementById("name")).value == "true" &&(<HTMLInputElement>document.getElementById("type")).value == "true")){
-               console.log("entered");
-               this.http.get(environment.apiUrl + '/search/getCompanyByNameOrType/' + this.nameortype).subscribe(res=>{
-                   if(this.Items=[]){
-                       this.Items= res['data'];
-                       this.Items.forEach(item => {
-                        item.tags=item.tags.split(",");
-                      });
-                   }
-                   this.searchStatus= true;
-                   this.expertStatus = false;
-                   this.contentStatus = false;
-                   console.log(res['data']);
-               });
-            }else{
-                if(((<HTMLInputElement>document.getElementById("name")).value == "true" &&(<HTMLInputElement>document.getElementById("tag")).value == "true")){
                     console.log("entered");
-                    this.http.get(environment.apiUrl + '/search/getCompanyTagsOrName/' + this.nameortype).subscribe(res=>{
-                        if(this.Items=[]){
-                            this.Items= res['data'];
-                            this.Items.forEach(item => {
-                                item.tags=item.tags.split(",");
-                              });
-                        }
-                        this.searchStatus= true;
-                        this.expertStatus = false;
-                        this.contentStatus = false;
-                        console.log(res['data']);
-                    });
-                 }else{
-                    if(((<HTMLInputElement>document.getElementById("type")).value == "true" &&(<HTMLInputElement>document.getElementById("tag")).value == "true")){
-                        console.log("entered");
-                        this.http.get(environment.apiUrl + '/search/getCompanyTagsOrType/' + this.nameortype).subscribe(res=>{
-                            if(this.Items=[]){
-                                this.Items= res['data'];
-                                this.Items.forEach(item => {
-                                    item.tags=item.tags.split(",");
-                                  });
-                            }
-                            this.searchStatus= true;
-                            this.expertStatus = false;
-                            this.contentStatus = false;
-                            console.log(res['data']);
-                        });
-                     }else{
-                        if((<HTMLInputElement>document.getElementById("name")).value == "true"){
-                            console.log("entered name");
-                           this.http.get(environment.apiUrl + '/search/getCompanyByName/' + this.nameortype).subscribe(res=>{
-                               if(this.Items=[]){
-                                   this.Items= res['data'];
-                                   this.Items.forEach(item => {
-                                    item.tags=item.tags.split(",");
-                                  });
-                               }
-                               this.searchStatus= true;
-                               this.expertStatus = false;
-                               this.contentStatus = false;
-                               console.log(res['data']);
-                           });
-               
-                           }
-                           if((<HTMLInputElement>document.getElementById("type")).value == "true"){
-                            this.http.get(environment.apiUrl + '/search/getCompanyByType/' + this.nameortype).subscribe(res=>{
-                               if(this.Items=[]){
-                                   this.Items= res['data'];
-                                   this.Items.forEach(item => {
-                                    item.tags=item.tags.split(",");
-                                  });
-                               }
-                                this.searchStatus= true;
-                                this.expertStatus = false;
-                                this.contentStatus = false;
-                                console.log(res['data']);
+                    this.http.get(environment.apiUrl + '/search/getCompanyTagsOrNameOrType/' + this.nameortype).subscribe(res => {
+                        if (this.companyElasticSearch = []) {
+                            this.companyElasticSearch = res['data'];
+                            this.companyElasticSearch.forEach(item => {
+                                item.tags = item.tags.split(",");
                             });
-                           }
-                           if((<HTMLInputElement>document.getElementById("tag")).value == "true"){
-                               this.http.get(environment.apiUrl + '/search/getCompanyTags/' + this.nameortype).subscribe(res=>{
-                                  if(this.Items=[]){
-                                      this.Items= res['data'];
-                                      this.Items.forEach(item => {
-                                        item.tags=item.tags.split(",");
-                                      });
-                                  }
-                                   this.searchStatus= true;
-                                   this.expertStatus = false;
-                                   this.contentStatus = false;
-                                   console.log(res['data']);
-                               });
-                           }
+                        }
+                        console.log(res['data']);
+                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                    });
+                }
+                if (this.filterToSet == "Company" && this.companyFilterToSet == "Name") {
+                    console.log("entered name");
+                    this.http.get(environment.apiUrl + '/search/getCompanyByName/' + this.nameortype).subscribe(res => {
+                        if (this.companyElasticSearch = []) {
+                            this.companyElasticSearch = res['data'];
+                            this.companyElasticSearch.forEach(item => {
+                                item.tags = item.tags.split(",");
+                            });
+                        }
+                        console.log(res['data']);
+                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                    });
+                }
+                if (this.filterToSet == "Company" && this.companyFilterToSet == "Type") {
+                    this.http.get(environment.apiUrl + '/search/getCompanyByType/' + this.nameortype).subscribe(res => {
+                        if (this.companyElasticSearch = []) {
+                            this.companyElasticSearch = res['data'];
+                            this.companyElasticSearch.forEach(item => {
+                                item.tags = item.tags.split(",");
+                            });
+                        }
+                        console.log(res['data']);
+                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                    });
+                }
+                if (this.filterToSet == "Company" && this.companyFilterToSet == "Tag") {
+                    this.http.get(environment.apiUrl + '/search/getCompanyTags/' + this.nameortype).subscribe(res => {
+                        if (this.companyElasticSearch = []) {
+                            this.companyElasticSearch = res['data'];
+                            this.companyElasticSearch.forEach(item => {
+                                item.tags = item.tags.split(",");
+                            });
+                        }
+                        console.log(res['data']);
+                        this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                    });
+                }
 
-                     }
-                 }
             }
+
+            if (this.filterToSet == "Content") {
+                this.http.get(environment.apiUrl + '/search/getContentTags/' + this.nameortype).subscribe(res => {
+                    if (this.contentElasticSearch = []) {
+                        this.contentElasticSearch = res['data'];
+                        this.contentElasticSearch.forEach(item => {
+                            item.tags = item.tags.split(",");
+                        });
+                    }
+                    this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Content");
+                });
+            }
+
+            if (this.filterToSet == "Expert") {
+                this.http.get(environment.apiUrl + '/search/getExpertTags/' + this.nameortype).subscribe(res => {
+                    if (this.userElasticSearch = []) {
+                        this.userElasticSearch = res['data'];
+                        this.userElasticSearch.forEach(item => {
+                            item.tags = item.tags.split(",");
+                        });
+                    }
+                    this.router.navigateByUrl("/search/searchResult?param1=" + this.param1 + "&filter1=" + "Expert");
+                });
+
+            }
+
+
         }
-
-     }
-    
-
-    }
-
-    if((<HTMLInputElement>document.getElementById("cont")).value == "true"){
-        this.http.get(environment.apiUrl + '/search/getContentTags/' + this.nameortype).subscribe(res=>{
-            if(this.Items=[]){
-                this.Items= res['data'];
-                this.Items.forEach(item => {
-                    item.tags=item.tags.split(",");
-                  });
-            }
-             this.contentStatus= true;
-             this.expertStatus = false;
-        this.searchStatus = false;
-         });
-    }
-
-    if((<HTMLInputElement>document.getElementById("exp")).value == "true"){
-        this.http.get(environment.apiUrl + '/search/getExpertTags/' + this.nameortype).subscribe(res=>{
-            if(this.Items=[]){
-                this.Items= res['data'];
-                this.Items.forEach(item => {
-                    item.tags=item.tags.split(",");
-                  });
-            }
-             this.expertStatus= true;
-             this.searchStatus = false;
-        this.contentStatus = false;
-         });
-
-    }
-
-
-}
     viewCompany(id:string){
         this.router.navigateByUrl('/company/viewcompany/'+id);
     }
@@ -321,44 +239,44 @@ export class SearchResultComponent implements OnInit{
 
 
     viewAllContent(){
-       this.typeOfView = 1;
-
+        this.companyElasticSearch =[];
+        this.contentElasticSearch = [];
+        this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
-            this.Items = res['data'];
             console.log(this.Items);
-            this.Items= res['data'];
-            this.Items.forEach(item => {
+            this.contentElasticSearch= res['data'];
+            this.contentElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
-            })
-            this.searchByTags=false;
-        })
+            });
+            this.searchResult=true;
+        });
     }
     viewAllCompanies(){
-        this.typeOfView = 2;
-
+        this.companyElasticSearch =[];
+        this.contentElasticSearch = [];
+        this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"/company/getCompanies").subscribe(res =>{
-            this.Items = res['data'];
-            this.Items= res['data'];
-            this.Items.forEach(item => {
+            this.companyElasticSearch= res['data'];
+            this.companyElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
-            })
-            this.searchByTags=false;
-            console.log(this.Items);
-        })
+            });
+            this.searchResult=true;
+            console.log(this.companyElasticSearch);
+        });
     }
     viewAllExperts(){
-        this.typeOfView = 3;
-
+        this.companyElasticSearch =[];
+        this.contentElasticSearch = [];
+        this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"/User/viewUsers").subscribe(res =>{
-            this.Items = res['data'];
-            this.Items= res['data'];
-            this.Items.forEach(item => {
+            this.userElasticSearch = res['data'];
+            this.userElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
-            })
-            this.searchByTags=false;
-            console.log(this.Items);
-            console.log(this.typeOfView);
-        })
+            });
+            this.searchResult=true;
+            console.log(this.userElasticSearch);
+
+        });
     }
 }
 

@@ -84,6 +84,36 @@ export class CreateComponent implements OnInit{
 
   }
 
+  uploadImage()
+  {
+    let images = this.elem.nativeElement.querySelector('#selectImage').images; 
+    let formdata = new FormData();
+    let image = images[0];
+    formdata.append('selectImage',image,image.name);
+    var config = {headers :{
+      'Content-Type' : 'application/json'
+    }}
+    this.http.post(environment.apiUrl+'content/uploadImage/'+formdata,config).subscribe(res=> 
+      this.dataLoaded(res));
+  }
+
+  private dataLoaded(data:any):void{
+    this.elem.nativeElement.querySelector('#spinner').sytle.visibility='hidden';
+  }
+
+  onSelectFile(event) { // called each time file input changes
+
+    var reader:any,
+    target:EventTarget;
+    if (event.target.files && event.target.files[0]) {
+      reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.url = event.target.result;
+      }
+    }
+  }
 
 
   setFocus($event) {
@@ -96,16 +126,16 @@ export class CreateComponent implements OnInit{
     console.log();
     var data:any;
     var result = this.tags.map(function(val) {
-      return val.displayValue;
-  }).join(',');
-  console.log(result);
+        return val.displayValue;
+    }).join(',');
+    console.log(result);
 
     if(this.post==2 && this.url==""){
       this.text = "Please add a photo";
     }else{
 
     if(this.post == 0){
-      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,tags:result,userid:this.user['_id']})
+      data = JSON.stringify({title:content.title,type:"Post",body:this.quill.root.innerHTML,intro:content.intro,coverImage:this.url,tags:result,userid:this.user['_id']})
     }else if(this.post==1){
       data = JSON.stringify({title:content.title,type:"Link",body:content.link,tags:result,userid:this.user['_id']})
     }

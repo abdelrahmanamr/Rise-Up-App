@@ -1,4 +1,4 @@
-<div class="animatebg">
+<div class="leftbg">
 <div class="dv">
     <span><input class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." ngModel></span>
     <span><img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px"></span>
@@ -19,27 +19,13 @@
             </select>
     </span>
     </div>
-    <form class="check">              
-        <input id="cont" type="checkbox" value="false" (click)="checkUncheck('cont')"> CONTENT
-        &nbsp; &nbsp;
-        <input id="comp" type="checkbox" value="false" (click)="hide();checkUncheck('comp')"> COMPANIES
-        &nbsp; &nbsp;
-        <input id="exp"  type="checkbox" value="false" (click)="checkUncheck('exp')"> EXPERT
-    </form>
 
-      <div style="text-align:center;">
-    <div id="getHide">
-        <input  id="name" type="checkbox" value="false" (click)="checkUncheck('name')"> NAME
-        <input  id="type" type="checkbox" value="false" (click)="checkUncheck('type')"> TYPE
-        <input  id="tag" type="checkbox" value="false" (click)="checkUncheck('tag')"> TAG
-    </div>
-    <br />
+    <div style="text-align:center;">
     <button class="btn btn-danger" (click)="viewAllContent()"> View All Content </button>
     <button class="btn btn-danger"  (click)="viewAllCompanies()"> View All Companies </button>
     <button class="btn btn-danger" (click)="viewAllExperts()"> View All Experts </button>
     </div>
-    </div>
-    <style>
+        <style>
         .check{
            text-align:center;
            margin-top:3px;
@@ -55,113 +41,96 @@
             border: 3px solid #D00018;
         }
     </style>
-    <div *ngIf="!searchByTags">
-    <!--Rifky-->
-    <div *ngIf="searchStatus ||  ( (this.Items.length>0) && (this.typeOfView == 2) )">
-  <div class="container">
-      <h1>Results</h1>
-      <br>
-      
-      <div class="container-fluid" *ngFor="let item of this.Items">
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
-              <h4 class="text-uppercase">{{item.name}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
-              <p class="title" style="float:right;"> {{item.type}}
-                  <button class="btn btn-danger"
-                          style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewCompany(item._id)">
-                      View Company
-                  </button>
-              </p>
-          </div>
-      </div>
-  </div>
-</div>
-<div *ngIf="contentStatus|| ( (this.Items.length>0) && (this.typeOfView == 1) )">
-  <div class="container">
-      <h1>Results</h1>
-      <br>
-      
-      <div class="container-fluid" *ngFor="let item of this.Items">
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
-              <h4 class="text-uppercase">{{item.title}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
-              <p class="title" style="float:right;"> {{item.type}}
-              
-                  <button class="btn btn-danger"
-                          style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewContent(item._id)">
-                      View Content
-                  </button>
-              </p>
-          </div>
-      </div>
-  </div>
-</div>
-<div *ngIf="expertStatus || ( (this.Items.length>0) && (this.typeOfView == 3) )">
-  <div class="container">
-      <h1>Results</h1>
-      <br>
-      
-      <div class="container-fluid" *ngFor="let item of this.Items">
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;">
-              <h4 class="text-uppercase">{{item.username}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
-              <p class="title" style="float:right;"> {{item.email}}
-
-                  <button class="btn btn-danger"
-                          style="margin-left:auto;margin-right:0px;float:right;margin-left:70px;background-color:#DC0C18" (click)="viewExpert(item._id)">
-                      View Expert
-                  </button>
-              </p>
-          </div>
-      </div>
-  </div>
-</div>
-<!--End rifky-->
-</div>
-    <div *ngIf="searchByTags">
-    <div class="container">
-    <h1>Results</h1>
+  
+        <div *ngIf="this.searchResult">
     <div id="tablesDiv" >
-          <div id="companyDiv" *ngIf="this.companyElasticSearch.length>0">
+            <div class="resultDiv" *ngIf="this.contentElasticSearch.length>0">
+                    <h2>Content</h2>
+                    <div class="card" *ngFor="let item of this.contentElasticSearch">
+                    <div class="contentToFade">
+                    <div class="coverImage">
+                    <img *ngIf="item.coverImage!=null" src="{{item.coverImage}}" width=100%>
+                    <img *ngIf="item.coverImage==null" src="/assets/defaultContentCover.jpg" width=100%>
+                    </div>
+                    <br />
+                    <div class="content">
+                    <h4 class="text-uppercase">{{item.title}}</h4>
+                    <span class="intro">{{item.intro}}</span>
+                    <div class="cardBottom">
+                    <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="middle">
+                        <div class="text">
+                            Rating {{item.rating}}/5<br />
+                            <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}<br />
+                            <button class="btn btn-danger" (click)="viewContent(item._id)">
+                            View Content
+                            </button>
+                        </div>                      
+                    </div>          
+               </div>
+            </div>
+          <div class="resultDiv" *ngIf="this.companyElasticSearch.length>0">
           
-            <h2>Companies</h2>
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;" *ngFor="let item of this.companyElasticSearch">
-              <h4 class="text-uppercase">{{item._source.object.name}}</h4>
-              <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
-
-                  <button class="btn btn-danger"
-                  style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewCompany(item._source.object._id)">
-                      View Company
-                  </button>
-              
-         </div>
-          </div>
-          <div id="expertDiv" *ngIf="this.userElasticSearch.length>0">
+            <h2 class="rightAligned">Companies</h2>
+          <div class="card" *ngFor="let item of this.companyElasticSearch">
+                <div class="contentToFade">
+                    <div class="coverImage">
+                        <img *ngIf="item.coverImage!=null" src="{{item.coverImage}}" width=100%>
+                        <img *ngIf="item.coverImage==null" src="/assets/defaultContentCover.jpg" width=100%>
+                    </div>
+                        <br />
+                    <div class="content">
+                        <h4 class="text-uppercase">{{item.name}}</h4>
+                        <span class="intro">{{item.intro}}</span>
+                        <div class="cardBottom">
+                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="middle">
+                            <div class="text">
+                                Rating {{item.rating}}/5<br />
+                                <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}<br />
+                                <button class="btn btn-danger" (click)="viewCompany(item._id)">
+                                        View Company
+                                </button>
+                            </div>                      
+                </div>          
+            </div>
+        </div>              
+          <div class="resultDiv" *ngIf="this.userElasticSearch.length>0">
           <h2>Experts</h2>
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;" *ngFor="let item of this.userElasticSearch">
-          <h4 class="text-uppercase">{{item._source.object.name}}</h4>
-          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
+          <div class="card" *ngFor="let item of this.userElasticSearch">
+                <div class="contentToFade">
+                        <div class="coverImage">
+                        <img *ngIf="item.coverImage!=null" src="{{item.coverImage}}" width=100%>
+                        <img *ngIf="item.coverImage==null" src="/assets/defaultContentCover.jpg" width=100%>
+                        </div>
+                        <br />
+                        <div class="content">
+                        <h4 class="text-uppercase">{{item.firstname}} {{item.lastname}}</h4>
+                        <span class="intro">{{item.intro}}</span>
+                        <div class="cardBottom">
+                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="middle">
+                            <div class="text">
+                                Rating {{item.rating}}/5<br />
+                                <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}<br />
+                                <button class="btn btn-danger" (click)="viewExpert(item._id)">
+                                        View Expert
+                                </button>
+                            </div>                      
+                        </div>    
 
-              <button class="btn btn-danger"
-                      style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;"  (click)="viewExpert(item._source.object._id)">
-                  View Expert
-              </button>
           
-     </div>
-          </div>
-          <div id="contentDiv" *ngIf="this.contentElasticSearch.length>0">
-          <h2>Content</h2>
-          <div class="card" style="margin-bottom: 10px; box-shadow: 0 4px 4px 0 rgb(96,72,28); padding-left:30px; padding-top:10px; padding-right:10px;"  *ngFor="let item of this.contentElasticSearch">
-          <h4 class="text-uppercase">{{item._source.object.title}}</h4>
-          <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item._source.object.tags;">{{tag}}</span></div>
-
-              <button class="btn btn-danger"
-                      style="margin-left:auto;margin-right:0px;float:right;margin-left:80%;margin-bottom:1%;width:20%;" 
-                      (click)="viewContent(item._source.object._id)">
-                  View Content
-              </button>
-        
-     </div>
-          </div>
-    </div>              
+        </div>
+        </div>
     </div>
+</div>
+</div>

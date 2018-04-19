@@ -151,23 +151,7 @@ submitTags(){
     
     
     go(){
-
-
-        var config = {
-            headers : {
-                'Content-Type': 'application/json'
-            }
-        }
-        this.http.get(environment.apiUrl+'/admin/getUserTags/'+this.ID, config)
-            .subscribe(res =>{
-                console.log(res['data']);
-                this.datas = res['data'];
-                this.tagFinalA = res['data'].split(",");
-
-            });
-
-
-        this.check=true;
+        this.check= !this.check;
     }
     
     AddExpert()

@@ -20,7 +20,7 @@ export class ProfileComponent {
     ID:any;
     tagFinalA:any;
     username:String;
-    permitted = false;
+    permitted = true;
   constructor(private http: HttpClient,private router: Router){
     this.Url=window.location.href
     this.username = this.Url.substr(this.Url.lastIndexOf('/') + 1);

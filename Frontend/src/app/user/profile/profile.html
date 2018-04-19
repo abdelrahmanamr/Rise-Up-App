@@ -13,8 +13,10 @@
     
     <div class="profile" >
         <div class="card">
-            <img *ngIf="data.imageURL" src="{{data.imageURL}}" alt="{{data.username}}" style="width:100%">
+        <div style="width:100%;max-height:200px;overflow: hidden;">
+            <img *ngIf="data.imageURL" src="{{data.imageURL}}" alt="{{data.username}}" style="width:100%;">
             <img *ngIf="!data.imageURL" src="/assets/profile.png" alt="{{data.username}}" style="width:100%">
+        </div>
             <h1 class="cap">{{data.firstname}} {{data.lastname}}</h1>
             <b *ngIf="data.admin" style="color: #2e2123">Admin</b>
             <b *ngIf="data.blocked" style="color: #b94a48">Blocked</b>

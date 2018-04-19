@@ -1,0 +1,22 @@
+<div class="topbg">
+<div class="container">
+<h2>Edit Profile</h2>
+    
+    <div class="profile" >
+        <form #profile="ngForm" (ngSubmit) = "onSubmit(profile.value)">
+                <h4>Avatar photo</h4>
+                <hr>
+                <input type='file' (change)="onSelectFile($event)"><br /><br />
+                <h4>Biography:</h4>
+                <hr>
+                <input type = "text" class="form-control" name = "biography" [(ngModel)]="biography" placeholder = "Enter a short description of yourself here" ngModel><br />
+                <h4>Interests:</h4>
+                <hr>
+                <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)"
+                ng-controller="MainCtrl" ng-model="tags"  type="text" [(ngModel)]="tags"
+                name="tags"> </tags-input><br />
+                <input class="btn btn-danger" (click) = "onSubmit(profile.value)" value = "submit">
+        </form>
+    </div>
+</div>
+</div>

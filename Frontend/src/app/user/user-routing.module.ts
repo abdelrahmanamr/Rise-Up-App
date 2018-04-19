@@ -29,6 +29,10 @@ const routes: Routes = [
           loadChildren: './profile/profile.module#ProfileModule'
         },
         {
+          path: 'editProfile',
+          loadChildren: './editProfile/edit.module#EditModule'
+        },
+        {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

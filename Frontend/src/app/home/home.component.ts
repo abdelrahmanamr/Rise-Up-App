@@ -8,20 +8,26 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
   template: `
   <ngx-main-layout >
   <router-outlet>
-  <div class="rightbg">
   <!DOCTYPE html>
   <html>
+  <title>W3.CSS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <body>
-  <div id="slider">
-
-  <div class="w3-content w3-section" style="max-width:400px">
+  <div class="container">
+  <img src="/assets/rise.jpg"  width="100%" height="300">
+</div>
+<div id="salma" class="w3-content w3-section" style="max-width:500px">
   
-    <img class="mySlides w3-animate-fading" src="/assets/1.jpg" style="width:50%">
+    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:75px">
 
-    </div>
-    <button type="button" class="btn btn-default" (click)="go()">Click To Try</button>
+    
+
+  </div>
+  <div id="salma" class="w3-content w3-section" style="max-width:500px">
+  
+    <img class="mySlides w3-animate-fading" src="/assets/1.png" style="width:600px;height:264px">
+
 
   </div>
   
@@ -38,17 +44,21 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
       myIndex++;
       if (myIndex > x.length) {myIndex = 1}    
       x[myIndex-1].style.display = "block";  
-      setTimeout(carousel, 15000);    
+      setTimeout(carousel, 9000);    
   }
   </script>
-  <div id="slider">
-
-  <div class="w3-content w3-section" style="max-width:400px">
+  <div id="salma" class="w3-content w3-section" style="max-width:500px">
   
-    <img class="mySlides w3-animate-fading" src="/assets/2.jpg" style="width:50%">
+    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:264px">
 
-    </div>
-    <button type="button" class="btn btn-default" (click)="go()">Click To Try</button>
+
+  </div>
+
+  <div id="salma" class="w3-content w3-section" style="max-width:500px">
+  
+    <img class="mySlides w3-animate-fading" src="/assets/2.png" style="width:600px;height:264px">
+
+    
 
   </div>
   
@@ -65,17 +75,18 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
       myIndex++;
       if (myIndex > x.length) {myIndex = 1}    
       x[myIndex-1].style.display = "block";  
-      setTimeout(carousel, 15000);    
+      setTimeout(carousel, 9000);    
   }
   </script>
-  <div id="slider">
-
-  <div class="w3-content w3-section" style="max-width:400px">
+  <div id="salma" class="w3-content w3-section" style="max-width:500px">
   
-    <img class="mySlides w3-animate-fading" src="/assets/3.jpg" style="width:50%">
+    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:264px">
 
-    </div>
-    <button type="button" class="btn btn-default" (click)="go2()">Click To Try</button>
+
+  </div>
+  <div id="access" class="w3-content w3-section" style="max-width:500px">
+  
+    <img class="mySlides w3-animate-fading" src="/assets/3.png" style="width:600px;height:264px">
 
   </div>
   
@@ -92,44 +103,39 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
       myIndex++;
       if (myIndex > x.length) {myIndex = 1}    
       x[myIndex-1].style.display = "block";  
-      setTimeout(carousel, 15000);    
+      setTimeout(carousel, 9000);    
   }
   </script>
+  <div id="salma" class="w3-content w3-section" style="max-width:500px">
   
-  
-  
-  <style>
-  .btn {
-    background-color: #DB0C18;
-    border: red;
-    color: white;
-    padding: 10px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    position:absolute;    
-}
-#slider{
- width:500px;
- height:200px;
- margin:20px auto;
- border:10px solid white;
- box-shadow: 0px 0px 5px 2px #ccc;
- position:relative;
-}
+    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:264px">
 
 
-
-/* Darker background on mouse-over */
-.btn:hover {
-    background-color: #FFE200;
-}
-
-  </style>
+  </div>
+  <div class="container">
+  <iframe  width="1000" height="600" src="https://www.youtube.com/embed/-fQQxIa7mDc">
+</iframe>
+ </div>
 
   </body>
+  <style>
+  #vid{
+    position:relative;
+  }
+  .container {
+    position: relative;
+}
+
+
+
+img { 
+    width: 100%;
+    height: auto;
+}
+  
+  </style>
 
   </html>
-  </div>
   </router-outlet>
   </ngx-main-layout>
   `

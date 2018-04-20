@@ -1,23 +1,25 @@
 <!-- <div class="container" style="background-color:rgb(255, 233, 107)" > -->
-    <div class="card" style="padding:10px 15px; padding-left:40px;padding-bottom:80px; margin-bottom:20px;display: block;
-     ">
-     <div style="padding-bottom:25px; background-color:rgb(0,0,0)" class="card-header">
-         <h4 style="text-align: center; color:maroon "><b><font size="7">{{PostTitle}}</font></b></h4>
+    <div class="rightbg">
+
+     <div class="cardHeader">
+         <div *ngIf="data">
+         <div class="coverImage">
+            <img *ngIf="data.coverImage!=null" src="{{data.coverImage}}" width=100%>
+            <img *ngIf="data.coverImage==null || data.coverImage==''" src="/assets/defaultContentCover.jpg" width=100%>
+            <div class="overlay"></div>
+            <div class="leftText"><h4>{{PostTitle}}</h4></div>
+        </div>
+        </div>
     </div>
     
     
 
         
-    
-    
+
+    <div class="contentDiv">
     <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true" >show link</button></td>
     <div><img   src={{ImagePath}} >  </div>  
-    <br />
-    <br />
-    <div class="container">
-    
 
-    </div>
     <div style="color:rgb(0, 0, 0)" [innerHTML]="Content"></div>
     <br />
     <br />    
@@ -40,23 +42,17 @@
     </div>
     
     </div>
-        
-        
+
         <br><br>
     <style>
     
     
     
     
-    .checked {
-        color: yellow;
-    }
-    .span:hover > span,
-    .span:hover {
-        color: yellow;
-    }
+
     </style>
     
+    <div class="resultDiv">
     <h2 style="color:#D00018">Rate this content !</h2>
     <div class="rating">
     <a (click)="rate(1)"><span class="fa fa-star" id="minStar1" [class.checked]="rating >= 1"></span></a>
@@ -72,37 +68,26 @@
         <div *ngFor="let comment of comments">
         <div class="container" >
       
-        <!-- <div  class="card"> <b style= "color:#D00018"> <font size="4">   {{comment.username}} :   </font>   </b></div> 
-        <br /> -->
-        <!-- <div> <b style= "color:#D00018; margin-bottom: 100px"> <font size="4" >   {{comment.username}} :   </font>   </b></div>  -->
-      <hr>
-        <div class="container"style="padding:10px 15px; padding-bottom:10px; margin-bottom:30px;display: inline-block; ">
-        <!-- <div  class="card" style="float:left;  ; display:inline-block;  "> -->
-        <span class="card" style= "color:#D00018 ; display:inline-block; width:125px;border-left:1em solid transparent;
-        border-right:1em solid transparent;">{{comment.username}} :</span>
-        <br> 
-         <span  style= " white-space:normal;
-         word-wrap:break-word;
-         max-width: 1000px;
-         border-left:1em solid transparent;
-         border-right:1em solid transparent;
-         ; color:rgb(0, 0, 0) ; display:inline-block;">  {{comment.body}}</span>  
+       <span class="commenter">{{comment.username}}:</span> <i>{{comment.createdAt | date }}</i>
+        <hr>
+          <span class="commentbody">{{comment.body}}</span>
         
       
         <!-- </div> -->
-        </div>
       </div>
     </div>
-</div>
+    </div>
+
 <br>
       <form #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
-      <textarea style="height:100px" class="form-control" name = "comment" placeholder = "Enter your Comment" cols="40" rows="5" ngModel></textarea>
+      <textarea style="height:100px; width:98%;" class="form-control" name = "comment" placeholder = "Enter your Comment" cols="30" rows="5" ngModel></textarea>
 <br />
 
       <input class="btn btn-success btn-sm" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
       </form>
       <br />
-      
+    </div>
+    </div>
 
     
      

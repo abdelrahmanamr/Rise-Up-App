@@ -40,8 +40,8 @@
             <div class="card" *ngFor="let item of this.contentElasticSearch">
                 <div class="contentToFade">
                     <div class="coverImage">
-                        <img *ngIf="item.coverImage!=null" src="{{item.coverImage}}" width=100%>
-                        <img *ngIf="item.coverImage==null" src="/assets/defaultContentCover.jpg" width=100%>
+                        <img *ngIf='item.coverImage!=null' src="{{item.coverImage}}" width=100%>
+                        <img *ngIf="item.coverImage==null || item.coverImage==''" src="/assets/defaultContentCover.jpg" width=100%>
                     </div>
                     <br />
                     <div class="content">

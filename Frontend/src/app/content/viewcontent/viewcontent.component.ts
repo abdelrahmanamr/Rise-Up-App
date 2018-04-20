@@ -24,7 +24,8 @@ export class SafePipe implements PipeTransform {
 
 @Component({
   selector: 'app-content-viewcontent',
-  templateUrl: `viewcontent.html`
+  templateUrl: `viewcontent.html`,
+  styleUrls:['./style.css']
 
 })
 
@@ -34,6 +35,7 @@ export class ViewContentComponent {
 
  isCopied1: boolean = false;
 ID:string
+data:any;
 Content : any;
 Title:any
 PostTitle :any
@@ -136,6 +138,7 @@ this.Contenttype
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
           this.Content = this.sanitizer.bypassSecurityTrustHtml(res['data'].body); 
+          this.data = res['data'];
           this.PostTitle = res['data'].title;
             this.array.push("comment1");
             this.array.push("comment2");

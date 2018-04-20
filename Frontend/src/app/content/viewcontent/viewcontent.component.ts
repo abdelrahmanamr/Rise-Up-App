@@ -50,11 +50,11 @@ IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
 commentsflag:boolean=false;
-
+Contenttype:boolean=false;;
 
 comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService) { 
+    private toastr: ToastrService, private sanitizer: DomSanitizer) { 
     this.Url=window.location.href  //getting the url of the current page
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);  // abstracting the id of the content from the url
   }
@@ -84,13 +84,14 @@ ShowPopUp(){
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
-            console.log(res);           
+            console.log(res);  
+            window.location.reload();
+         
           }, err=>{
             this.toastr.error("",err.error["msg"]);
             console.log(err);
           });
 
-          window.location.reload();
       }
 
 
@@ -103,13 +104,15 @@ ShowPopUp(){
   }
     this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
       res=>{  
-
+this.Contenttype
         if(res['data']){
           this.contentid = res['data']._id;
           this.rating = res['data'].rating;
         }
       if(res['data'].type== "Post"){
         this.ViewText(this.ID)
+        this.Contenttype=true;
+
       }   
       
       if(res['data'].type == "Image"){
@@ -132,7 +135,7 @@ ShowPopUp(){
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
-          this.Content = res['data'].body;  
+          this.Content = this.sanitizer.bypassSecurityTrustHtml(res['data'].body); 
           this.PostTitle = res['data'].title;
             this.array.push("comment1");
             this.array.push("comment2");
@@ -151,7 +154,7 @@ ShowPopUp(){
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
 
-          this.Title=res['data'].title
+          this.Title= res['data'].title;
           this.PostTitle = res['data'].title;
 
           this.Body = res['data'].body;
@@ -173,7 +176,7 @@ ShowPopUp(){
     }
       this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
         res=>{  
-         this.ImagePath=(res['data'].body);  
+         this.ImagePath =(res['data'].body);  
          this.PostTitle = res['data'].title;
     
         }

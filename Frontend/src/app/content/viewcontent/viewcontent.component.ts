@@ -215,10 +215,11 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
   this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
     res=>{
     console.log(res["data"]);
+        window.location.reload();
     }
   );
 
-  window.location.reload();
+
  }
 
 

@@ -95,6 +95,7 @@ export class SearchResultComponent implements OnInit{
         this.userElasticSearch = [];
         if (this.key == undefined || this.nameortype != undefined) {
             this.key = this.nameortype;
+            this.filter = this.filterToSet;
         }
         //this.filter = "all";
         console.log(this.key);
@@ -122,22 +123,21 @@ export class SearchResultComponent implements OnInit{
 
                         this.Items.forEach(element => {
                             if (element._source.type == 'Company') {
-                                this.companyElasticSearch.push(element._source.object);
                                 element._source.object.tags = element._source.object.tags.split(",");
+                                this.companyElasticSearch.push(element._source.object);
 
 
                             }
 
                             if (element._source.type == 'Content') {
-                                this.contentElasticSearch.push(element._source.object);
                                 element._source.object.tags = element._source.object.tags.split(",");
+                                this.contentElasticSearch.push(element._source.object);
 
                             }
-                            console.log(this.contentElasticSearch);
+                            //console.log(this.contentElasticSearch);
                             if (element._source.type == 'User' && element._source.object.expert) {
-                                this.userElasticSearch.push(element._source.object);
                                 element._source.object.tags = element._source.object.tags.split(",");
-
+                                this.userElasticSearch.push(element._source.object);
                             }
 
 

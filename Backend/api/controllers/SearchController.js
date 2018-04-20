@@ -435,10 +435,10 @@ function dropIndex() {                  // method to delete an index in elastic 
 }
 
 
- function deleteecord()  // to delete all documents in the an index
+ function deleteRecord()  // to delete all documents in the an index
  {
      client.deleteByQuery({
-         index: 'contentelasticsearch',  //index name
+         index: 'elasticsearch',  //index name
          type: 'tags',  // type name
          body: {
              'query': {

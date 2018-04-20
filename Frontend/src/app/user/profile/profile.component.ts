@@ -11,6 +11,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
  
 })
 export class ProfileComponent {
+    currentPerson  ={};
     data = {};
     datas = {};
     flag = false;
@@ -40,6 +41,7 @@ export class ProfileComponent {
     subscribe(res =>{
         // console.log(res['data']);
         this.data = res['data'];
+        this.currentPerson = res['data'];
         this.ID = this.data['_id'];
         if(this.data['expert']||JSON.parse(localStorage.getItem("userProps"))["admin"]){
             this.permitted=true;
@@ -72,8 +74,11 @@ export class ProfileComponent {
     }
     var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
     this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID,data,config)
-    .subscribe((info:any) => {console.log(info);});
-      window.location.reload();
+    .subscribe((info:any) => {
+        console.log(info);
+        window.location.reload();
+    });
+
   }
     onTagsChanged($event){}
 
@@ -108,8 +113,11 @@ submitTags(){
     }
     var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
     this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID,data,config)
-    .subscribe((info:any) => {console.log(info);});
-      window.location.reload();
+    .subscribe((info:any) => {
+        console.log(info);
+        window.location.reload();
+    });
+
   }
     RemoveAdmin()
     {
@@ -120,8 +128,11 @@ submitTags(){
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID,data,config)
-            .subscribe((info:any) => {console.log(info);});
-        window.location.reload();
+            .subscribe((info:any) =>
+            {console.log(info);
+            window.location.reload();
+            });
+
     }
 
     RemoveExpert()
@@ -133,8 +144,11 @@ submitTags(){
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID,data,config)
-            .subscribe((info:any) => {console.log(info);});
-        window.location.reload();
+            .subscribe((info:any) => {
+                console.log(info);
+                window.location.reload();
+            });
+
     }
 
 
@@ -147,10 +161,13 @@ submitTags(){
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID,data,config)
-            .subscribe((info:any) => {console.log(info);});
+            .subscribe((info:any) => {
+                console.log(info);
+                window.location.reload();
+            });
 
 
-        window.location.reload();
+
     }
     
     
@@ -168,8 +185,20 @@ submitTags(){
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
-            .subscribe((info:any) => {console.log(info);});
-        window.location.reload();
+            .subscribe((info:any) => {
+                console.log(info);
+                var JSONtoIndex = {
+                    "name":info['data']['tags'],
+                    "object":info['data'],
+                    "type":"User"
+                }
+                this.http.post(environment.apiUrl+'/search/addToIndex',JSONtoIndex,config).subscribe(res=>{
+                    console.log(res);
+                    window.location.reload();
+                })
+            });
+
+
     }
 
 

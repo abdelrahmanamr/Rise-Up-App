@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
       this.loggedin = false;
     }
     
-    this.userMenu = [{title:"Change password"},{ title: 'Logout' }];
+    this.userMenu = [{title:"Edit Profile"},{title:"Change password"},{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');
 

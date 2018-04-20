@@ -11,6 +11,41 @@ var mongoose = require('mongoose'),
 
 
 
+  module.exports.edit = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.id)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'User ID  parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+    delete req.body.createdAt;
+    req.body.updatedAt = moment().toDate();
+
+    User.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body
+        },
+        { new: true }
+      ).exec(function(err, updatedUser) {
+        if (err) {
+          return next(err);
+        }
+        if (!updatedUser) {
+          return res
+            .status(404)
+            .json({ err: null, msg: 'User not found.', data: null });
+        }
+        res.status(200).json({
+          err: null,
+          msg: 'User was updated successfully.',
+          data: null
+        });
+      });
+    };
+
+
   module.exports.viewUsers = function(req, res, next) {
     User.find({expert:true}).exec(function(err, users) {
       if (err) {

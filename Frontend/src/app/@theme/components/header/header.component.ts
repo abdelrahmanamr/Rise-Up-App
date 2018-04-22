@@ -61,9 +61,13 @@ export class HeaderComponent implements OnInit {
         this.user = null;
         this.adminStatus = false;
         window.location.reload();
-      }else{
-        this.router.navigateByUrl("/user/changePassword");
+      }else if (bag.item.title === 'Change password') {
+        this.router.navigateByUrl('/user/changePassword');
+        window.location.reload();
+      }else if (bag.item.title === 'Edit Profile'){
+        this.router.navigateByUrl('/user/editProfile');
       }
     });
   }
+
 }

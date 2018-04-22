@@ -162,7 +162,7 @@ var config = {
         'Content-Type': 'application/json'
     }
 };
-    this.http.post('http://localhost:3000/api/user/register', data, config)
+    this.http.post(environment.apiUrl+'user/register', data, config)
         .subscribe(res=>{
             console.log(res);
             let message = res["msg"];
@@ -186,7 +186,7 @@ checkUsername = function(username){
   'Content-Type' : 'application/json'
   }
   };
-  this.http.post('http://localhost:3000/api/user/checkUsername', data, config).subscribe( res =>{
+  this.http.post(environment.apiUrl+'user/checkUsername', data, config).subscribe( res =>{
   console.log(res);
   this.errorhandle = "";
   },

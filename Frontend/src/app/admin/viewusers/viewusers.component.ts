@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-dashboard-items',
@@ -30,7 +32,7 @@ export class ViewUsersComponent {
           "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
       }
   }
-        this.http.get('http://localhost:3000/api/admin/getUsers',config).
+        this.http.get(environment.apiUrl+'admin/getUsers',config).
        subscribe(res =>{this.data=res["data"]});     
   }
 

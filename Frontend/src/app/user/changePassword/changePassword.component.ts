@@ -58,7 +58,7 @@ var config = {
     }
 }
 
-this.http.patch('http://localhost:3000/api/user/ChangePassword/'+id, data, config)
+this.http.patch(environment.apiUrl+'user/ChangePassword/'+id, data, config)
 .subscribe(res=>{
   console.log(res["data"]);
 

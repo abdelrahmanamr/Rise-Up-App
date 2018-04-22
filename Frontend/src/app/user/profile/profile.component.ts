@@ -37,7 +37,7 @@ export class ProfileComponent {
         }
     }
 
-    this.http.get('http://localhost:3000/api/user/getUserByUsername/'+this.username,config).
+    this.http.get(environment.apiUrl+'user/getUserByUsername/'+this.username,config).
     subscribe(res =>{
         // console.log(res['data']);
         this.data = res['data'];

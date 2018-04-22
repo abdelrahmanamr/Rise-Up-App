@@ -50,7 +50,7 @@ var config = {
     }
 }
 
-this.http.post('http://localhost:3000/api/user/forgetPassword', data, config)
+this.http.post(environment.apiUrl+'user/forgetPassword', data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
     let message = res["msg"];

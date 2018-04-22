@@ -52,7 +52,7 @@ export class ViewCompanyComponent {
                      'Content-Type':'application/json'
                  }
              }
-   this.httpClient.delete('http://localhost:3000/api/admin/removeCompany/'+ident,config).
+   this.httpClient.delete(environment.apiUrl+'api/admin/removeCompany/'+ident,config).
    subscribe(res=>{
     this.router.navigateByUrl('/company/viewallcompanies');
    });

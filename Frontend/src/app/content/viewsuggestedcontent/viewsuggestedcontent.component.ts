@@ -126,7 +126,7 @@ user = null;
                      'Content-Type':'application/json'
                  }
              }
-   this.httpClient.delete('http://localhost:3000/api/suggestedcontent/deleteSuggestedContent/'+ident,config).
+   this.httpClient.delete(environment.apiUrl+'suggestedcontent/deleteSuggestedContent/'+ident,config).
    subscribe(res=>{
     this.router.navigateByUrl('/content/suggestedcontent');
    });

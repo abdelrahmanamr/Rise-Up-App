@@ -24,23 +24,24 @@ export class SearchResultComponent implements OnInit{
     companyFilters: string[] = ["Name","Type","Tag"];
     companyFilterToSet: string="All";
     key:string;
-    filter:string;
+    filter1:string;
+    filter2:string;
     constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
 
     }
     ngOnInit(){
         this.route.queryParams.subscribe(params=>{
             this.key = params['key'];
-            this.filter = params['filter1'];
+            this.filter1 = params['filter1'];
             console.log(this.key);
-            console.log(this.filter);
-            if(this.key=="viewallcontent"){
+            console.log(this.filter1);
+            if(this.key.toLowerCase()=="allcontent"){
                 this.viewAllContent();
-            }else if(this.key=="viewallcompanies"){
+            }else if(this.key.toLowerCase()=="allcompanies"){
                 this.viewAllCompanies();
-            }else if(this.key=="viewallexperts"){
+            }else if(this.key.toLowerCase()=="allexperts"){
                 this.viewAllExperts();
-            }else if(this.key!=undefined && this.filter!=undefined) {
+            }else if(this.key!=undefined && this.filter1!=undefined) {
                 this.search();
             }
         
@@ -87,7 +88,7 @@ export class SearchResultComponent implements OnInit{
 
     search() {
         console.log("filterToSet" + this.filterToSet);
-        console.log("filterToSet" + this.companyFilterToSet)
+        console.log("filterToSet" + this.companyFilterToSet);
         this.searchResult = true;
         this.Items = [];
         this.contentElasticSearch = [];
@@ -95,7 +96,7 @@ export class SearchResultComponent implements OnInit{
         this.userElasticSearch = [];
         if (this.key == undefined || this.nameortype != undefined) {
             this.key = this.nameortype;
-            this.filter = this.filterToSet;
+            this.filter1 = this.filterToSet;
         }
         //this.filter = "all";
         console.log(this.key);
@@ -143,8 +144,8 @@ export class SearchResultComponent implements OnInit{
 
                         });
                         console.log("param is :" + this.key);
-                        console.log("filter is" + this.filter);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filter);
+                        console.log("filter is" + this.filter1);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filter1);
                     }
                 )
 
@@ -255,6 +256,7 @@ export class SearchResultComponent implements OnInit{
                 item.tags=item.tags.split(",");
             });
             this.searchResult=true;
+            this.router.navigateByUrl("/search/searchResult?key=" + "AllContent");
         });
     }
     viewAllCompanies(){
@@ -267,6 +269,7 @@ export class SearchResultComponent implements OnInit{
                 item.tags=item.tags.split(",");
             });
             this.searchResult=true;
+            this.router.navigateByUrl("/search/searchResult?key=" + "AllCompanies");
             console.log(this.companyElasticSearch);
         });
     }
@@ -280,6 +283,7 @@ export class SearchResultComponent implements OnInit{
                 item.tags=item.tags.split(",");
             });
             this.searchResult=true;
+            this.router.navigateByUrl("/search/searchResult?key=" + "Allexperts");
             console.log(this.userElasticSearch);
 
         });

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+import {Buffer} from 'buffer';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -77,7 +78,7 @@ this.http.post(environment.apiUrl+'user/login', data, config)
         localStorage.setItem("UserDoc",token);
         console.log(localStorage.getItem("UserDoc"));
         payload = token.split('.')[1];
-        payload = window.atob(payload);
+        payload = Buffer.from(payload,'base64');
         temp = JSON.parse(payload);
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
      //  console.log(JSON.parse(localStorage.getItem("user"))["username"]);

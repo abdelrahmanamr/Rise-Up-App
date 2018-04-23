@@ -4,6 +4,8 @@ import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 import {Buffer} from 'buffer';
+import * as JWT from 'jwt-decode';
+
 @Component({
   selector: 'app-user-login',
     styles:
@@ -74,15 +76,9 @@ this.http.post(environment.apiUrl+'user/login', data, config)
         // store username and jwt token in local storage to keep user logged in between page refreshes
 
         this.error = "Login successful";
-        console.log(token);
         localStorage.setItem("UserDoc",token);
-        console.log(localStorage.getItem("UserDoc"));
-        payload = token.split('.')[1];
-        payload = Buffer.from(payload,'base64');
-        temp = JSON.parse(payload);
+        temp = JWT(token);
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
-     //  console.log(JSON.parse(localStorage.getItem("user"))["username"]);
-
         this.router.navigate(["/search"]);
     }
   },err=>{

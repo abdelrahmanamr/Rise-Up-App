@@ -42,6 +42,7 @@ router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
 router.post('/Content/createComment/:contentId', contentCtrl.createComment);
 router.get('/Content/getComments/:contentId',contentCtrl.getComments);
+router.delete('/Content/deleteComment/:commentId',contentCtrl.deleteComment);
 
 
 router.post('/product/createProduct', productCtrl.createProduct);

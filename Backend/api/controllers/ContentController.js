@@ -631,6 +631,87 @@ module.exports.getComments = function(req, res, next) { //getComments method is 
   });
 };
 
+module.exports.deleteComment = function(req,res,next){
+  req.body.userid = req.params.commentId.split("..")[1];
+  req.params.commentId = req.params.commentId.split("..")[0];
+  if (!Validations.isObjectId(req.params.commentId) && !Validations.isObjectId(req.body.userid) ) {
+    return res.status(422).json({
+      err: null,
+      msg: 'commentID parameter must be a valid ObjectId.',
+      data: null
+    });
+  }else{
+      User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          console.log("error wana badawar");
+          console.log(err);
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found.', data: null });
+        }else{
+        if(user['admin']){
+          Comment.findByIdAndRemove(req.params.commentId).exec(function(err,removed){
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: "Can't remove comment right now",
+                data: null
+              });
+            }else{
+              if(!removed){
+                return res.status(422).json({
+                  err: null,
+                  msg: "Can't remove comment right now",
+                  data: null
+                });
+              }
+              if(removed){
+                return res.status(201).json({
+                  err: null,
+                  msg: "Comment removed succecfully",
+                  data: null
+                });
+              }
+            }
+          });
+        }
+        else{
+          Comment.findOne({
+            userid: req.body.userid,
+            _id: req.body.contentid
+          }).exec(function(err, comment) {
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: "Can't remove comment right now",
+                data: null
+              });
+            }
+            else{
+              if(!comment){
+                return res.status(422).json({
+                  err: null,
+                  msg: "This user didn't comment on this post",
+                  data: null
+                });
+              }
+              if(comment){
+                comment.remove();
+              }
+            }
+        });
+      }
+    }
+    }
+  });
+  }
+
+}
+
 
 
 

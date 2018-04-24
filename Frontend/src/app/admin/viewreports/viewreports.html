@@ -1,0 +1,13 @@
+<div class="container">
+   <div *ngFor="let report of reports">
+      <div class="card">
+         <span style="float:left;">
+            <h4><img src="assets/profile1.png" alt="" /> {{report.reportedName}}</h4>
+             <h4>Comment: {{report.commentBody}}</h4>
+             <h4>Reported by: {{report.reporterName}}</h4>
+         <span style="float:right;">
+            <Button (click)="viewProfile(report.reportedName)" class="btn btn-danger btn-sm" >View Profile</Button>
+             </span>
+      </span>
+   </div>
+</div>

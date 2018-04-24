@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
  Company = mongoose.model('Company'),
 Content = mongoose.model('Content'),
+    Report = mongoose.model('Report'),
 Comment = mongoose.model('Comment');
 
 
@@ -556,6 +557,19 @@ module.exports.getCompanies = function(req, res, next) {
             err: null,
             msg: 'Companies retrieved successfully.',
             data: companies
+        });
+    });
+};
+module.exports.viewAllReports = function(req, res, next) {
+
+    Report.find({}).exec(function(err, reports) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Reports retrieved successfully.',
+            data: reports
         });
     });
 };

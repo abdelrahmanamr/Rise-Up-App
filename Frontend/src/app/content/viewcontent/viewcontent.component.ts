@@ -266,6 +266,27 @@ deleteComment(id: string){
     console.log(err);
   });
 }
+reportComment(id: string){
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+var body = {
+  userid:this.userID,
+  name:JSON.parse(localStorage.getItem('userProps'))['username']
+}
+  this.httpClient.post('http://localhost:3000/api/Content/makeReport/'+id,body,config).
+   subscribe(res=>{
+
+    this.toastr.success("","Report sent successfully");
+   },err=>{
+    this.toastr.error("",err.error["msg"]);
+    console.log(err);
+  });
+}
+
 
 toggle() //this method is responsible for showing/hiding comments, the function toggles every time it is clicked
 {

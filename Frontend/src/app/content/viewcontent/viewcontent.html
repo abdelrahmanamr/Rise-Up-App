@@ -69,6 +69,7 @@
         <div class="container" >
       
        <span class="commenter">{{comment.username}}:</span> <i>{{comment.createdAt | date }}</i>
+       <button *ngIf="comment.userid!=this.userID" (click) = "reportComment(comment._id)" class="fa fa-flag"  aria-hidden="true"  id="trash" style="float:right;"> </button>
         <hr>
           <span class="commentbody">{{comment.body}}</span>
           <button *ngIf="comment.userid==this.userID || this.adminStatus ==true" (click) = "deleteComment(comment._id)" class="fa fa-trash" aria-hidden="true"  id="trash" style="float:right;"> </button>

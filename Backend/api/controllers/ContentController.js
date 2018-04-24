@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
   Comment = mongoose.model('Comment');
   User = mongoose.model('User');
   Rating = mongoose.model('Rating');
+  Report = mongoose.model('Report');
 
 
   module.exports.views = function(req, res, next) { //the views method increment the views count by one every time it is called
@@ -710,6 +711,91 @@ module.exports.deleteComment = function(req,res,next){
   });
   }
 
+}
+module.exports.makeReport = function(req,res,next){
+  if (!Validations.isObjectId(req.params.commentId) && !Validations.isObjectId(req.body.userid) ){
+    return res.status(422).json({
+      err: null,
+      msg: 'commentID parameter must be a valid ObjectId.',
+      data: null
+    });
+  }else{
+    Report.findOne({reporterId:req.body.userid,commentId:req.params.commentId}).exec(function(err,AlreadyReported){
+      if(err){
+        console.log("awel error aho");
+        return res.status(422).json({
+          err: null,
+          msg: "Can't access database right now",
+          data: null
+        });
+      }
+      else{
+        if(AlreadyReported){
+          return res.status(422).json({
+            err: null,
+            msg: "You have already reported this comment",
+            data: null
+          });
+        }
+        else{
+          Comment.findOne({_id:req.params.commentId}).exec(function(err,CommentToBeReported){
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: "Can't access database right now",
+                data: null
+              });
+            }
+            else{
+
+              if(!CommentToBeReported){
+                return res.status(422).json({
+                  err: null,
+                  msg: "This comment has already been deleted",
+                  data: null
+                });
+              }
+              else{
+                delete req.body.createdAt;
+                delete req.body.updatedAt;
+                var body = CommentToBeReported["body"];
+                var commenter = CommentToBeReported["username"]
+                var commenterid =CommentToBeReported["userid"]
+                if(commenterid!=req.body.userid){
+                Report.create({reporterName:req.body.name,reporterId:req.body.userid,reportedId:commenterid,
+                    commentId:req.params.commentId,reportedName:commenter,commentBody:body}),function(err,createdReport){
+                      if(err){
+                        return res.status(422).json({
+                          err: null,
+                          msg: "Can't access database right now",
+                          data: null
+                        });
+                      }
+                      else{
+                        if(!createdReport){
+                          return res.status(422).json({
+                            err: null,
+                            msg: "Can't create report",
+                            data: null
+                          });
+                        }
+                        else{
+                          return res.status(201).json({
+                            err: null,
+                            msg: "Comment reported",
+                            data: null
+                          });
+                        }
+                      }
+                    };
+                  }
+              }
+            }
+          });
+        }
+      }
+    });
+  }
 }
 
 

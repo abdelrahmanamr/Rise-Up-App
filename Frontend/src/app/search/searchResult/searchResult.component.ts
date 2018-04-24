@@ -251,7 +251,7 @@ export class SearchResultComponent implements OnInit{
         this.userElasticSearch = [];
         this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
             console.log(this.Items);
-            this.contentElasticSearch= res['data'];
+            this.contentElasticSearch= this.sortPreferedContent(res['data']);
             this.contentElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
             });
@@ -287,6 +287,30 @@ export class SearchResultComponent implements OnInit{
             console.log(this.userElasticSearch);
 
         });
+    }
+    sortPreferedContent(contentResult:any[]){
+        console.log(JSON.parse(localStorage.getItem('userProps'))['tags']);
+        var userTags = (JSON.parse(localStorage.getItem('userProps'))['tags']).split(',');
+        var counterContent;
+        var counterUserTags;
+        var result = [];
+        var loopBreak = false;
+        var finalResult =[];
+        var notPreferedContent =[];
+        for(counterContent=0; counterContent<contentResult.length ; counterContent++){
+            for(counterUserTags=0; counterUserTags<userTags.length &&loopBreak ==false; counterUserTags++){
+                if(contentResult[counterContent]['tags'].match(new RegExp("(?:^|,)"+userTags[counterUserTags]+"(?:,|$)"))){
+              result.push(contentResult[counterContent]);
+              contentResult.splice(counterContent,1);
+              counterContent--;
+              loopBreak = true;
+            }
+        }
+            loopBreak =false;
+        }
+        notPreferedContent = contentResult;
+        finalResult = result.concat(notPreferedContent);
+        return finalResult;
     }
 }
 

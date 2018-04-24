@@ -5,8 +5,9 @@ var mongoose = require('mongoose'),
     Content = mongoose.model('Content'),
     User = mongoose.model('User'),
     regex = require("regex"),
-  elasticsearch = require('elasticsearch'),
-   Promise = require('bluebird');
+    elasticsearch = require('elasticsearch'),
+    Promise = require('bluebird'),
+    synonyms = require("synonyms");
 
 
 
@@ -22,6 +23,7 @@ client.ping({
 });
 
     module.exports.getCompanyByNameOrType = function ( req, res, next) {
+        print(synonyms("Screen"));
         if(!Validations.isString(req.params.name)){
             return res.status(422).json({
                 err:null,

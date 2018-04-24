@@ -53,7 +53,14 @@ export class SearchResultComponent implements OnInit{
                 } else
                     {
                         this.nameortype = this.key;
-                        this.filterToSet= this.filter1;
+                        if(this.filter1 == undefined) {
+                            this.filterToSet = "All";
+                            console.log("et8ayar")
+                            console.log(this.filterToSet);
+                        }
+                        else{
+                            this.filterToSet = this.filter1;
+                        }
                         if(this.filter2!=undefined)
                         {
                             if(this.filter2.toLowerCase()=="type"){
@@ -62,6 +69,9 @@ export class SearchResultComponent implements OnInit{
                                 this.companyFilterToSet = "Name";
                             }else if(this.filter2.toLowerCase()=="tag"){
                                 this.companyFilterToSet = "Tag";
+                            }
+                            else{
+                                this.companyFilterToSet = "All";
                             }
                             this.companyFilterOn = true;
                         }
@@ -108,8 +118,6 @@ export class SearchResultComponent implements OnInit{
         this.search();
     }
     search() {
-        console.log("filterToSet" + this.filterToSet);
-        console.log("filterToSet" + this.companyFilterToSet);
         this.searchResult = true;
         this.Items = [];
         this.contentElasticSearch = [];
@@ -161,7 +169,7 @@ export class SearchResultComponent implements OnInit{
                         });
                         console.log("param is :" + this.key);
                         console.log("filter is" + this.filter1);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filter1);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
                     }
                 )
 
@@ -180,7 +188,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet.toLowerCase() == "company" && this.companyFilterToSet.toLowerCase() == "name") {
@@ -193,7 +201,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet.toLowerCase() == "company" && this.companyFilterToSet.toLowerCase() == "type") {
@@ -205,7 +213,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet.toLowerCase() == "company" && this.companyFilterToSet.toLowerCase() == "tag") {
@@ -217,7 +225,7 @@ export class SearchResultComponent implements OnInit{
                             });
                         }
                         console.log(res['data']);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Company"+"&filter2="+ this.companyFilterToSet);
+                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
 
@@ -231,7 +239,7 @@ export class SearchResultComponent implements OnInit{
                             item.tags = item.tags.split(",");
                         });
                     }
-                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Content");
+                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
                 });
             }
 
@@ -243,7 +251,7 @@ export class SearchResultComponent implements OnInit{
                             item.tags = item.tags.split(",");
                         });
                     }
-                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + "Expert");
+                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
                 });
 
             }
@@ -272,6 +280,7 @@ export class SearchResultComponent implements OnInit{
             this.contentElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
             });
+            this.filterToSet = "All";
             this.searchResult=true;
             this.filterOn=false;
             this.router.navigateByUrl("/search/searchResult?key=" + "AllContent");
@@ -287,6 +296,7 @@ export class SearchResultComponent implements OnInit{
             this.companyElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
             });
+            this.filterToSet = "All";
             this.searchResult=true;
             this.filterOn = false;
             this.router.navigateByUrl("/search/searchResult?key=" + "AllCompanies");
@@ -304,6 +314,7 @@ export class SearchResultComponent implements OnInit{
                 item.tags=item.tags.split(",");
             });
             this.searchResult=true;
+            this.filterToSet = "All";
             this.filterOn = false;
             this.router.navigateByUrl("/search/searchResult?key=" + "Allexperts");
             console.log(this.userElasticSearch);

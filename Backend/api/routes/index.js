@@ -114,5 +114,5 @@ router.get('/admin/getUserTags/:userId',AdminController.getTags);
 router.get('/admin/viewCompanies',AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
 router.patch('/admin/UpdateExpertTag/:userId',AdminController.UpdateExpertTags);
-
+router.delete('/admin/deleteComment/:commentId',AdminController.deleteComment);
 module.exports = router;

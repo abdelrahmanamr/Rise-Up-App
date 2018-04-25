@@ -27,6 +27,7 @@ this.ViewContents();
     }
 
     ViewContents(){
+
         this.httpClient.get(environment.apiUrl +'admin/viewAllReports').subscribe(
             res=>{
                 this.reports = res['data'];
@@ -35,6 +36,22 @@ this.ViewContents();
             }
         );
     }
+   deleteComment(id: string){
+        var config = {
+            headers :
+                {
+                    'Content-Type':'application/json'
+                }
+        }
+        this.httpClient.delete(environment.apiUrl+'/admin/deleteComment/'+id,config).
+        subscribe(res=>{
+
+            window.location.reload();
+        },err=>{
+            this.toastr.error("",err.error["msg"]);
+            console.log(err);
+        });
+    };
 
 
     viewProfile(ID:String){

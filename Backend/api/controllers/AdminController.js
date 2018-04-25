@@ -72,7 +72,72 @@ module.exports.AddExpert=function(req, res, next){
 });
 }
 
+module.exports.deleteComment=function(req,res,next){
+    if (!Validations.isObjectId(req.params.commentId)) {
+        return res.status(422).json({
+            err: null,
+            msg: 'commentId parameter must be a valid ObjectId.',
+            data: null
+        });
+    }else {
 
+        Comment.findByIdAndRemove(req.params.commentId).exec(function (err, removed) {
+            if (err) {
+                return res.status(422).json({
+                    err: null,
+                    msg: "Can't remove comment right now",
+                    data: null
+                });
+            } else {
+                if (!removed) {
+                    return res.status(422).json({
+                        err: null,
+                        msg: "Can't remove comment right now",
+                        data: null
+                    });
+                }
+                if (removed) {
+                    return res.status(201).json({
+                        err: null,
+                        msg: "Comment removed succecfully",
+                        data: null
+                    });
+                }
+            }
+        });
+
+        Report.findOneAndRemove({commentId:req.params.commentId}).exec(function (err,report) {
+            if (err) {
+                return res.status(422).json({
+                    err: null,
+                    msg: "Can't remove comment right now",
+                    data: null
+                });
+            } else {
+                if (!report) {
+                    return res.status(422).json({
+                        err: null,
+                        msg: "Can't remove comment right now",
+                        data: null
+                    });
+                }
+                if (report) {
+                    return res.status(201).json({
+                        err: null,
+                        msg: "Comment removed succecfully",
+                        data: null
+                    });
+                }
+            }
+
+
+
+        });
+
+
+
+    }
+}
 
 module.exports.UpdateExpertTags=function(req, res, next){
 

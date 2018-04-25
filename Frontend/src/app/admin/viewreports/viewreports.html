@@ -12,6 +12,7 @@
              <h2 style="color:  #d00018;margin-left: 40px">Reported by: </h2>
              <h4 style="color:  #260004;margin-left: 300px">{{report.reporterName}}</h4>
          <span style="float:right;">
+            <Button (click)="deleteComment(report.commentId)" class="btn btn-danger btn-sm" >Delete Comment</Button>
             <Button (click)="viewProfile(report.reportedName)" class="btn btn-danger btn-sm" >View Profile</Button>
              </span>
       </span>

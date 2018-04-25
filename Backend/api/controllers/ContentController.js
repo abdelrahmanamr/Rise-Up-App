@@ -644,7 +644,6 @@ module.exports.deleteComment = function(req,res,next){
   }else{
       User.findById(req.body.userid).exec(function(err,user) {
         if(err){
-          console.log("error wana badawar");
           console.log(err);
           return next(err);
         }

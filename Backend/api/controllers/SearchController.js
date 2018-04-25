@@ -21,7 +21,7 @@ client.ping({
     body: 'hello JavaSampleApproach!'
 });
 
-    module.exports.getCompanyByNameOrType = function ( req, res, next) {
+    module.exports.getCompanyByNameOrType = function ( req, res, next) {            //tested
         if(!Validations.isString(req.params.name)){
             return res.status(422).json({
                 err:null,
@@ -45,7 +45,7 @@ client.ping({
         });
     };
 
-module.exports.getCompanyByName = function ( req, res, next) {
+module.exports.getCompanyByName = function ( req, res, next) {              //tested
     if(!Validations.isString(req.params.name)){
         return res.status(422).json({
             err:null,
@@ -70,7 +70,7 @@ module.exports.getCompanyByName = function ( req, res, next) {
     });
 };
 
-module.exports.getCompanyByType = function ( req, res, next) {
+module.exports.getCompanyByType = function ( req, res, next) {              //tested
 
     if(!Validations.isString(req.params.type)){
         return res.status(422).json({
@@ -97,7 +97,7 @@ module.exports.getCompanyByType = function ( req, res, next) {
 
 
 
-module.exports.addToIndex = function (req,res,next){
+module.exports.addToIndex = function (req,res,next){                    //pending
     client.index({
     index:'elasticsearch',
     type:'tags',
@@ -114,7 +114,7 @@ module.exports.addToIndex = function (req,res,next){
     });
 }
 
-module.exports.addToContentIndex = function (req,res,next){
+module.exports.addToContentIndex = function (req,res,next){     //pending
     client.index({
         index:'contentelasticsearch',
         type:'title',
@@ -132,7 +132,7 @@ module.exports.addToContentIndex = function (req,res,next){
 }
 
 
-module.exports.getAllTags =function(req, res, next) {
+module.exports.getAllTags =function(req, res, next) {     //pending
     client.search({
         index: 'elasticsearch',
         type: 'tags',
@@ -157,7 +157,7 @@ module.exports.getAllTags =function(req, res, next) {
     });
 };
 
-module.exports.getCompanyTags= function ( req, res, next) {
+module.exports.getCompanyTags= function ( req, res, next) {   //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -181,7 +181,7 @@ module.exports.getCompanyTags= function ( req, res, next) {
         });
     });
 };
-module.exports.getExpertTags= function ( req, res, next) {
+module.exports.getExpertTags= function ( req, res, next) {  //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -207,7 +207,7 @@ module.exports.getExpertTags= function ( req, res, next) {
     });
 };
 
-module.exports.getContentTags= function ( req, res, next) {
+module.exports.getContentTags= function ( req, res, next) {  //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({

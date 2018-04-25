@@ -32,7 +32,6 @@ router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 //-------------------------------Content Routes-----------------------------------
 router.post('/content/addContent', contentCtrl.createContent);
 router.patch('/content/editContent/:contentId',contentCtrl.editContent);
-router.put('/content/updateContent', bodyParser, contentCtrl.rate);
 
 router.post('/product/createProduct', productCtrl.createProduct);
 

@@ -52,7 +52,7 @@ const registeringUserCredentials = {
           authenticatedUser2 = userfound;
           done();
           });
-    });
+        });
       });
 
     it('should register as a user on /api/user/register POST',function(done){

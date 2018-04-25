@@ -66,7 +66,7 @@ beforeEach(function(done){
                             };
                             const content = {
                                 title: 'testfortesting',
-                                  type: 'test',
+                                  type: 'Post',
                                   body : 'testing content',
                                 tags: 'test',
                                  views: 5,

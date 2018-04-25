@@ -133,7 +133,7 @@ describe('Testing Contents',function(){
     it('should delete a single content on /api/Content/deleteContent/:contentId',function(done){
         Content.findOne({'title':'test post'}).exec(function(err,content){
             chai.request(server)
-            .delete('/api/Content/deleteContent/'+content['_id'])
+            .delete('/api/Content/deleteContent/'+content['_id']+".."+authenticatedAdmin["_id"])
             .end(function(err,res){
                 res.should.have.status(200);
                 res.should.be.json;

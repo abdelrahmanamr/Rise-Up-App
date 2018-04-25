@@ -62,7 +62,6 @@ module.exports.ChangePassword = function(req,res,next){
       });
 }
 else{
-    console.log("Ana 3adeet el validations");
   User.findById(req.params.userId).exec(function(err, userfound) {
     if (err) {
       return next(err);
@@ -73,14 +72,13 @@ else{
         .json({ err: null, msg: 'Username was not found.', data: null });
     }
 else{
-    console.log("we la2eet el user aho");
     Encryption.comparePasswordToHash(req.body.oldpassword,userfound.password,function(err,matched){
         if(err){
             return next(err)
         }else if(!matched){
             return res.status(422).json({
                 err:null,
-                msg:'Wrong input data',
+                msg:'Old password is wrong',
                 data:null
             });
         }else{
@@ -167,7 +165,6 @@ module.exports.reset = function(req,res,next){
                         user.resetPasswordExpires = null;
                         user.save(function (err, user, num) {
                             if (err) {
-                                console.log(err);
                                 return res.status(422).json({
                                     err: err,
                                     msg: "Error updating user's password",
@@ -195,8 +192,7 @@ module.exports.reset = function(req,res,next){
 
                                 smtpTransport.sendMail(mailOptions, (error, info) => {
                                     if (error) {
-                                        console.log('Error while sending mail: ' + error);
-                                        console.log("hllo");
+      
                                         return res.status(422).json({
                                             err: null,
                                             msg: "Error updating user's token",
@@ -204,7 +200,6 @@ module.exports.reset = function(req,res,next){
                                         });
 
                                     } else {
-                                        console.log('Message sent: %s', info.messageId);
                                         return res.status(201).json({
                                             err: null,
                                             msg: 'Success',
@@ -226,7 +221,6 @@ module.exports.reset = function(req,res,next){
 
 module.exports.forgetPassword = function(req,res,next){
 
-            console.log("generated random token");
             var token = randomToken(16);
             if(token!=null){
             User.findOne({ email: req.body.email }, function(err, user) {
@@ -265,14 +259,13 @@ module.exports.forgetPassword = function(req,res,next){
                         subject: 'Node.js Password Reset',
                         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
                           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                          'http://' + 'localhost:4200/#/user' + '/reset/' + token + '\n\n' +
+                          'http://' + 'startupkit.kghandour.me/#/user' + '/reset/' + token + '\n\n' +
                           'If you did not request this, please ignore this email and your password will remain unchanged.\n'
                     };
 
 
                     smtpTransport.sendMail(mailOptions, (error, info) => {
                         if (error) {
-                            console.log('Error while sending mail: ' + error);
                             return res.status(422).json({
                                 err: null,
                                 msg: "Error updating user's token",
@@ -280,7 +273,6 @@ module.exports.forgetPassword = function(req,res,next){
                               });
 
                         } else {
-                            console.log('Message sent: %s', info.messageId);
                          return   res.status(201).json({
                                 err: null,
                                 msg: 'Success',

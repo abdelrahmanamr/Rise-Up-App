@@ -211,7 +211,7 @@ module.exports.AddAdmin=function(req, res, next){
         if(err){
           return next(err);
         }
-        else {
+        else { 
           if(!user){
           return res
           .status(404)

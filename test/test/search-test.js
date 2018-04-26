@@ -112,9 +112,9 @@ it('should get a company by name or type on  /api/search/getCompanyByNameOrType/
         .get('/api/search/getCompanyByNameOrType/'+foundcompany['name'])
         .end(function(err,res){
             res.should.have.status(200);
-           // res.should.be.json;
-           // res.body.should.be.a('object');
-           // res.body.data.should.not.be.null;
+           res.should.be.json;
+           res.body.should.be.a('object');
+           res.body.data.should.not.be.null;
             done();
         });
 }),

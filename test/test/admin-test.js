@@ -52,10 +52,10 @@ chai.use(chaiHttp);
             chai.request(server)
             .patch('/api/admin/addAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
-            .end(function(err ,res) {   
+            .end(function(err ,res) {
               res.status.should.be.eql(200);
               res.body.should.have.property('msg');
-              res.body.msg.should.be.eql('User retrieved correctly'); 
+              res.body.msg.should.be.eql('User retrieved correctly');
               res.body.data.should.have.property('username');
               res.body.data.username.should.equal('dummyuser');
               res.body.data.should.have.property('firstname');
@@ -70,18 +70,18 @@ chai.use(chaiHttp);
               done();
             });
             };
-      
+
             });
             // t send request lel server w te3mel el method el 3ayezha t check
-           
+
 
             }
       });
-   
-      
+
+
 
     }
-    
+
 
 ),
 it('it should register a new Admin without the user being admin ' , function(done) {
@@ -121,10 +121,10 @@ it('it should register a new Admin without the user being admin ' , function(don
     chai.request(server)
       .patch('/admin/addAdmin/'+newadmintest['_id'])
       .send({userid:currentadmintest['_id']})
-      .end(function(err ,res) {   
+      .end(function(err ,res) {
         res.status.should.be.eql(201);
         res.body.should.have.property('msg');
-        res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
+        res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
         res.body.data.should.have.property('username');
         res.body.data.username.should.equal('DummyUser');
         res.body.data.should.have.property('firstName');
@@ -139,11 +139,11 @@ it('it should register a new Admin without the user being admin ' , function(don
         res.body.data.dob.should.equal(false);
         done();
       });
-  }) 
+  })
   }
 );
-    
-  
+
+
   describe('Remove expert test' , function(){
     // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('it should register a new Admin  ' , function(done) {
@@ -183,10 +183,10 @@ it('it should register a new Admin without the user being admin ' , function(don
       chai.request(server)
         .patch('/admin/removeExpert/'+newadmintest['_id'])
         .send({userid:currentadmintest['_id']})
-        .end(function(err ,res) {   
+        .end(function(err ,res) {
           res.status.should.be.eql(201);
           res.body.should.have.property('msg');
-          res.body.msg.should.be.eql('User retrieved correctly'); 
+          res.body.msg.should.be.eql('User retrieved correctly');
           res.body.data.should.have.property('username');
           res.body.data.username.should.equal('DummyUser');
           res.body.data.should.have.property('firstName');
@@ -202,7 +202,7 @@ it('it should register a new Admin without the user being admin ' , function(don
           done();
         });
     }
-    
+
 
 ),
 it('Remove expert without the user being admin ' , function(done) {
@@ -242,10 +242,10 @@ it('Remove expert without the user being admin ' , function(done) {
     chai.request(server)
       .patch('/admin/removeExpert/'+newadmintest['_id'])
       .send({userid:currentadmintest['_id']})
-      .end(function(err ,res) {   
+      .end(function(err ,res) {
         res.status.should.be.eql(201);
         res.body.should.have.property('msg');
-        res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
+        res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
         res.body.data.should.have.property('username');
         res.body.data.username.should.equal('DummyUser');
         res.body.data.should.have.property('firstName');
@@ -260,7 +260,7 @@ it('Remove expert without the user being admin ' , function(done) {
         res.body.data.dob.should.equal(true);
         done();
       });
-  }) 
+  })
   });
 
 
@@ -305,10 +305,10 @@ it('Remove expert without the user being admin ' , function(done) {
       chai.request(server)
         .patch('/admin/unBlockUser/'+newadmintest['_id'])
         .send({userid:currentadmintest['_id']})
-        .end(function(err ,res) {   
+        .end(function(err ,res) {
           res.status.should.be.eql(201);
           res.body.should.have.property('msg');
-          res.body.msg.should.be.eql('User retrieved correctly'); 
+          res.body.msg.should.be.eql('User retrieved correctly');
           res.body.data.should.have.property('username');
           res.body.data.username.should.equal('DummyUser');
           res.body.data.should.have.property('firstName');
@@ -324,7 +324,7 @@ it('Remove expert without the user being admin ' , function(done) {
           done();
         });
     }
-    
+
 
 ),
 it('Remove expert without the user being admin ' , function(done) {
@@ -360,15 +360,15 @@ it('Remove expert without the user being admin ' , function(done) {
           }
           newadmintest =newUser ;
     });
-    // t send request lel server w te3mel el method 
-   
+    // t send request lel server w te3mel el method
+
     chai.request(server)
       .patch('/admin/unBlockUser/'+newadmintest['_id'])
       .send({userid:currentadmintest['_id']})
-      .end(function(err ,res) {   
+      .end(function(err ,res) {
         res.status.should.be.eql(201);
         res.body.should.have.property('msg');
-        res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
+        res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
         res.body.data.should.have.property('username');
         res.body.data.username.should.equal('DummyUser');
         res.body.data.should.have.property('firstName');
@@ -383,7 +383,7 @@ it('Remove expert without the user being admin ' , function(done) {
         res.body.data.dob.should.equal(true);
         done();
       });
-  }) 
+  })
   });
 
   describe('Remove admin test' , function(){
@@ -425,10 +425,10 @@ it('Remove expert without the user being admin ' , function(done) {
       chai.request(server)
         .patch('/admin/unBlockUser/'+newadmintest['_id'])
         .send({userid:currentadmintest['_id']})
-        .end(function(err ,res) {   
+        .end(function(err ,res) {
           res.status.should.be.eql(201);
           res.body.should.have.property('msg');
-          res.body.msg.should.be.eql('User retrieved correctly'); 
+          res.body.msg.should.be.eql('User retrieved correctly');
           res.body.data.should.have.property('username');
           res.body.data.username.should.equal('DummyUser');
           res.body.data.should.have.property('firstName');
@@ -444,7 +444,7 @@ it('Remove expert without the user being admin ' , function(done) {
           done();
         });
     }
-    
+
 
 ),
 it('Remove admin  without the user being admin ' , function(done) {
@@ -485,10 +485,10 @@ it('Remove admin  without the user being admin ' , function(done) {
     chai.request(server)
       .patch('/admin/removeAdmin/'+newadmintest['_id'])
       .send({userid:currentadmintest['_id']})
-      .end(function(err ,res) {   
+      .end(function(err ,res) {
         res.status.should.be.eql(201);
         res.body.should.have.property('msg');
-        res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
+        res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
         res.body.data.should.have.property('username');
         res.body.data.username.should.equal('DummyUser');
         res.body.data.should.have.property('firstName');
@@ -503,7 +503,7 @@ it('Remove admin  without the user being admin ' , function(done) {
         res.body.data.dob.should.equal(true);
         done();
       });
-  }) 
+  })
   });
 
   describe('Get user by id test' , function() {
@@ -528,10 +528,10 @@ it('Remove admin  without the user being admin ' , function(done) {
       chai.request(server)
         .get('/admin/getUserById/'+testuser['_id'])
         .send(admin)
-        .end(function(err ,res) {   
+        .end(function(err ,res) {
           res.status.should.be.eql(201);
           res.body.should.have.property('msg');
-          res.body.msg.should.be.eql('User retrieved successfully.'); 
+          res.body.msg.should.be.eql('User retrieved successfully.');
           res.body.data.should.have.property('username');
           res.body.data.username.should.equal('DummyUser');
           res.body.data.should.have.property('firstName');

@@ -41,7 +41,7 @@ chai.use(chaiHttp);
         'admin' :false
       };
       var newadmintest;
-      User.create(admin, function(err, newUser) {
+      User.create(newadmintest, function(err, newUser) {
         if (err) {
          return next(err);
             }

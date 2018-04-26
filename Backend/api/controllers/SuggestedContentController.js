@@ -121,8 +121,7 @@ var mongoose = require('mongoose'),
         msg: 'test',
         data: null
       });
-    }
-    else{
+    }else{
     User.findById(req.body.userid).exec(function(err,user) {
       if(err){
         return next(err);

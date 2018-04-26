@@ -55,6 +55,7 @@ export class SearchResultComponent implements OnInit{
                         this.nameortype = this.key;
                         if(this.filter1 == undefined) {
                             this.filterToSet = "All";
+                            this.companyFilterOn = false;
                             console.log("et8ayar")
                             console.log(this.filterToSet);
                         }
@@ -127,52 +128,36 @@ export class SearchResultComponent implements OnInit{
         console.log(this.key);
         console.log(this.filterToSet);
         if (this.filterToSet.toLowerCase() == "all" ) {
-            this.http.get(environment.apiUrl + '/search/getTagbyKeyword/' + this.key).subscribe
+            this.http.get(environment.apiUrl + '/search/getUserbyElasticSearch/' + this.key).subscribe
             (res => {
-                console.log("entered res");
-                if (this.Items = []) {
-                    this.Items = res['data'];
-                }
                 console.log(res['data']);
+                res['data'].forEach(element => {
+                    element.tags = element.tags.split(",");
+                    this.userElasticSearch.push(element);
 
-                this.http.get(environment.apiUrl + '/search/getContentbyTitle/' + this.key).subscribe(
+                });
+                this.http.get(environment.apiUrl + '/search/getContentByElasticSearch/' + this.key).subscribe(
                     res => {
-                        if (this.Items.length == 0) {
-                            this.Items = res['data'];
-                        }
-                        else {
-                            this.Items.concat(res['data']);
 
-                        }
-                        console.log(res['data'])
-
-                        this.Items.forEach(element => {
-                            if (element._source.type == 'Company') {
-                                element._source.object.tags = element._source.object.tags.split(",");
-                                this.companyElasticSearch.push(element._source.object);
-
-
-                            }
-
-                            if (element._source.type == 'Content') {
-                                element._source.object.tags = element._source.object.tags.split(",");
-                                this.contentElasticSearch.push(element._source.object);
-
-                            }
-                            //console.log(this.contentElasticSearch);
-                            if (element._source.type == 'User' && element._source.object.expert) {
-                                element._source.object.tags = element._source.object.tags.split(",");
-                                this.userElasticSearch.push(element._source.object);
-                            }
-
+                        res['data'].forEach(element => {
+                            element.tags = element.tags.split(",");
+                            this.contentElasticSearch.push(element);
 
                         });
-                        console.log("param is :" + this.key);
-                        console.log("filter is" + this.filter1);
-                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
-                    }
-                )
+                        this.http.get(environment.apiUrl + '/search/getCompanyByElasticSearch/' + this.key).subscribe(
+                            res => {
+                                res['data'].forEach(element => {
+                                    element.tags = element.tags.split(",");
+                                    this.companyElasticSearch.push(element);
+                                });
+                                console.log("param is :" + this.key);
+                                console.log("filter is" + this.filter1);
+                                this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
 
+                            }
+                        )
+
+                    });
             });
         }
         else

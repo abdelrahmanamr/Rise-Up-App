@@ -74,18 +74,19 @@ beforeEach(function(done){
                             };
 
                             chai.request(server).post('/api/admin/addCompany').send(company).end(function(err,res){
-                                res.should.have.status(201);
+                            res.should.have.status(201);
                             Company.findOne({"name":"testcompany"}).exec(function(err,companyfound){
                             foundcompany = companyfound;
-                              // done();
+                              console.log(foundcompany + "Tb ehhhh?")
                                 }); 
                                 });
-                                console.log(content);
+                               // console.log(founcompany + "here");
                                 chai.request(server).post('/api/content/addContent').send(content).end(function(err,res){
-                                    console.log(res.status + "hereeeeeeeeee");
-                                    res.should.have.status(201);
-                                    Content.findOne({"title":"testfortesting"}).exec(function(err,contentfound){
-                                    foundcontent = contentfound;
+                                res.should.have.status(201);
+                                Content.findOne({"title":"testfortesting"}).exec(function(err,contentfound){
+                                foundcontent = contentfound;
+                                  // console.log(foundcontent + "ahooo");
+
                                      done();
                                       });
                                     });
@@ -109,12 +110,13 @@ beforeEach(function(done){
 
 
 
-it('should get a company by name or type on  /search/getCompanyByNameOrType/ GET ',function(done){
+it('should get a company by name or type on  /api/search/getCompanyByNameOrType/:name GET ',function(done){
+    console.log(foundcompany+"hwaaa ehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
     chai.request(server)
         .post('/api/search/getCompanyByNameOrType/'+foundcompany['name'])
-        .send({})
         .end(function(err,res){
             res.should.have.status(200);
+            console.log(res.status() + "lallalallalallalalallalallallalallaaaallalalalallalalallalala")
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.data.should.not.be.null;
@@ -124,8 +126,7 @@ it('should get a company by name or type on  /search/getCompanyByNameOrType/ GET
 
 it('should get a company name on /search/getCompanyByName/ GET ',function(done){
     chai.request(server)
-        .post('/api/search/getCompanyByNameOrType/'+foundcompany['name'])
-        .send({})
+        .post('/api/search/getCompanyByName/'+foundcompany['name'])
         .end(function(err,res){
             res.should.have.status(200);
             res.should.be.json;
@@ -138,7 +139,6 @@ it('should get a company name on /search/getCompanyByName/ GET ',function(done){
 it('should get a company type on /search/getCompanyByType/ GET ',function(done){
     chai.request(server)
         .post('/api/search/getCompanyByType/'+foundcompany['type'])
-        .send({})
         .end(function(err,res){
             res.should.have.status(200);
             res.should.be.json;
@@ -151,7 +151,6 @@ it('should get a company type on /search/getCompanyByType/ GET ',function(done){
 it('should get a company by tags on /search/getCompanyTags/ GET ',function(done){
     chai.request(server)
         .post('/api/search/getCompanyTags/'+foundcompany['tags'])
-        .send({})
         .end(function(err,res){
             res.should.have.status(200);
             res.should.be.json;
@@ -163,7 +162,6 @@ it('should get a company by tags on /search/getCompanyTags/ GET ',function(done)
 it('should get an expert by tags on /search/getExpertTags/ GET ',function(done){
     chai.request(server)
         .post('/api/search/getExpertTags/'+authenticatedUser['tags'])
-        .send({})
         .end(function(err,res){
             res.should.have.status(200);
             res.should.be.json;
@@ -179,8 +177,7 @@ it('should get an expert by tags on /search/getExpertTags/ GET ',function(done){
 
 it('should get a content by tags on /search/getContentTags/ GET ',function(done){
     chai.request(server)
-        .post('/api/search/getContentTags/'+content['tags'])
-        .send({})
+        .post('/api/search/getContentTags/'+foundcontent['tags'])
         .end(function(err,res){
             res.should.have.status(200);
             res.should.be.json;

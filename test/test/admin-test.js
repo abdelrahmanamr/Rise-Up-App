@@ -7,11 +7,13 @@ var User = require("../../Backend/api/models/User");
 var Content = require("../../Backend/api/models/Content");
 var should = chai.should();
 var contentTest = require('./content-test');
+
 dbURI = 'mongodb://localhost:27017/nodejs-test';
 
 
 chai.use(chaiHttp);
 
+<<<<<<< HEAD
   describe('Add admin test' , function(){
     // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('it should register a new Admin  ' , function(done) {
@@ -684,3 +686,12 @@ User.create(currentadmin, function(err, newUser) {
 ) 
 }
 );
+=======
+
+
+
+
+describe('Testing Admin',function(){
+
+});
+>>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686

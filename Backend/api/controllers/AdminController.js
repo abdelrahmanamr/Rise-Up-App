@@ -4,7 +4,10 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
  Company = mongoose.model('Company'),
 Content = mongoose.model('Content'),
+<<<<<<< HEAD
    // Report = mongoose.model('Report'),
+=======
+>>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686
 Comment = mongoose.model('Comment');
 
 
@@ -72,6 +75,7 @@ module.exports.AddExpert=function(req, res, next){
 });
 }
 
+<<<<<<< HEAD
 // module.exports.deleteComment=function(req,res,next){
 //     if (!Validations.isObjectId(req.params.commentId)) {
 //         return res.status(422).json({
@@ -126,6 +130,9 @@ module.exports.AddExpert=function(req, res, next){
 
 //     }
 // }
+=======
+
+>>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686
 
 module.exports.UpdateExpertTags=function(req, res, next){
 
@@ -613,6 +620,7 @@ module.exports.getCompanies = function(req, res, next) {
         });
     });
 };
+<<<<<<< HEAD
 // module.exports.viewAllReports = function(req, res, next) {
 
 //     Report.find({}).exec(function(err, reports) {
@@ -626,6 +634,8 @@ module.exports.getCompanies = function(req, res, next) {
 //         });
 //     });
 // };
+=======
+>>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686
 module.exports.getTags = function(req, res, next) {
     if (!Validations.isObjectId(req.params.userId)) {
         return res.status(422).json({

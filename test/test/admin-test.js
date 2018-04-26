@@ -588,6 +588,7 @@ describe('Get user by id test' , function(){
                 else{
                 newadmintest =newUser ;
                 console.log(newadmintest['_id']);
+                console.log(currentadmintest['_id']);
           console.log("hererererer");
           chai.request(server)
           .get('/api/admin/getUserById/'+newadmintest['_id'])
@@ -595,7 +596,7 @@ describe('Get user by id test' , function(){
           .end(function(err ,res) {
             res.status.should.be.eql(200);
             res.body.should.have.property('msg');
-            res.body.msg.should.be.eql('User retrieved correctly');
+            res.body.msg.should.be.eql('User retrieved successfully.');
             res.body.data.should.have.property('username');
             res.body.data.username.should.equal('dummyuser');
             res.body.data.should.have.property('firstname');
@@ -603,7 +604,7 @@ describe('Get user by id test' , function(){
             res.body.data.should.have.property('lastname');
             res.body.data.lastname.should.equal('user');
             res.body.data.should.have.property('email');
-            res.body.data.email.should.equal('dummymail@guc.edu.eg');
+            res.body.data.email.should.equal('Dummymail@guc.edu.eg');
             res.body.data.should.have.property('dateOfBirth');
 
             done();

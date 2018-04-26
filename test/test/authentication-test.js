@@ -32,7 +32,7 @@ const registeringUserCredentials = {
 
 
   describe('Testing Authentication',function(){
-    beforeEach(function(done){                    // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
+    beforeEach(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
     mongoose.connect('mongodb://localhost:27017/nodejs-test');
         var data = {
         username: 'Saleh',

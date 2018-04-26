@@ -34,6 +34,9 @@ const adminCredentials = {
   var authenticatedAdmin = null;
   var authenticatedUser = null;
 
+  var foundcontent = null;
+  var foundcomment = null;
+
 
 
 
@@ -48,11 +51,47 @@ describe('Testing Contents',function(){
             if(admin){
                 normalUser.save(function(err,user){
                     if(user){
-                        User.findOne({"username":"admin"}).exec(function(err,userfound){
-                            authenticatedAdmin = userfound;
+                        User.findOne({"username":"admin"}).exec(function(err,user1found){
+                            authenticatedAdmin = user1found;
                             User.findOne({"username":"user"}).exec(function(err,userfound){
                                 authenticatedUser = userfound;
-                                done();
+                             console.log(userfound['_id'] + "  ahpwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+                                const content = {
+                                    title: 'testing',
+                                      type: 'Post',
+                                      body : 'testingcontent',
+                                    tags: 'test',
+                                    //  views: 5,
+                                  userid: user1found['_id'],
+                                };
+                                
+                                chai.request(server).post('/api/content/addContent').send(content).end(function(err,res){
+                                    //console.log(res['data'] + " ahooowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+                                    res.should.have.status(201);
+                                    Content.findOne({"title":"testing"}).sort([['date', -1]]).exec(function(err,contentfound){
+                                    foundcontent = contentfound;
+                                          });
+                                        });
+
+                                        console.log(foundcontent + "ahoooooooooooooowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+                                const  comment = {
+                                    userid: userfound['_id'],
+                                      body : 'testbody',
+                                      contentId : foundcontent['_id'],
+                                };
+
+                                chai.request(server).post('/api/Content/createComment').send(comment).end(function(err,res){
+                                    res.should.have.status(201);
+                                    Comment.findOne({"body":"testbody"}).sort([['date', -1]]).exec(function(err,commentfound){
+                                    foundcomment = commentfound;
+                                    done();
+                                        }); 
+                                        });
+
+
+
+
+
                             });
                         });
                     }
@@ -61,6 +100,25 @@ describe('Testing Contents',function(){
         });
     
     });
+
+
+
+
+
+    it('should list ALL comments on /api/Content/getComments GET',function(done){
+        // Content.find({'contentId':content['_id']}).exec(function(err,content){
+console.log(foundcontent + " " + "ahooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        chai.request(server)
+            .get('/api/Content/getComments/'+foundcontent['_id'])
+            .end(function(err,res){
+                res.should.have.status(200);
+                
+                res.should.be.json;
+                res.body.data.should.be.an('array');
+                done();
+            });
+        // });
+    }),
 
     it('should add a single content as an admin on /api/Content/addContent POST ',function(done){
         chai.request(server)
@@ -143,6 +201,7 @@ describe('Testing Contents',function(){
     });
     afterEach(function(done){
         User.collection.drop();
+        Comment.collection.drop();
         done();
     });
 });

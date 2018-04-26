@@ -33,7 +33,7 @@ client.ping({
         }
         Company.find(
             {$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.name)}}]}
-        ).exec(function (err,companies) {
+        ).sort([['date', -1]]).exec(function (err,companies) {
             if(err){
                 return next(err);
             }

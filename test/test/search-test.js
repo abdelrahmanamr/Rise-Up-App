@@ -75,13 +75,13 @@ beforeEach(function(done){
 
                             chai.request(server).post('/api/admin/addCompany').send(company).end(function(err,res){
                             res.should.have.status(201);
-                            Company.findOne({"name":"testcompany"}).exec(function(err,companyfound){
+                            Company.findOne({"name":"testcompany"}).sort([['date', -1]]).exec(function(err,companyfound){
                             foundcompany = companyfound;
                                 }); 
                                 });
                                 chai.request(server).post('/api/content/addContent').send(content).end(function(err,res){
                                 res.should.have.status(201);
-                                Content.findOne({"title":"testfortesting"}).exec(function(err,contentfound){
+                                Content.findOne({"title":"testfortesting"}).sort([['date', -1]]).exec(function(err,contentfound){
                                 foundcontent = contentfound;
 
                                      done();

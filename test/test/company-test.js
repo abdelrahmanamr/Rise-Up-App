@@ -75,7 +75,7 @@ chai.use(chaiHttp);
 
 
                   chai.request(server)
-                    .get('/api/company/getCompany/'+'sad')
+                    .get('/api/company/getCompany/'+'notid')
                     .send()
                     .end(function(err ,res) {
                       res.status.should.be.eql(422);

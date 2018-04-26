@@ -53,10 +53,10 @@ chai.use(chaiHttp);
             chai.request(server)
             .patch('/api/admin/addAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
-            .end(function(err ,res) {   
+            .end(function(err ,res) {
               res.status.should.be.eql(200);
               res.body.should.have.property('msg');
-              res.body.msg.should.be.eql('User retrieved correctly'); 
+              res.body.msg.should.be.eql('User retrieved correctly');
               res.body.data.should.have.property('username');
               res.body.data.username.should.equal('dummyuser');
               res.body.data.should.have.property('firstname');
@@ -71,18 +71,18 @@ chai.use(chaiHttp);
               done();
             });
             };
-      
+
             });
             // t send request lel server w te3mel el method el 3ayezha t check
-           
+
 
             }
       });
-   
-      
+
+
 
     }
-    
+
 
 ),
 it('it shouldnt register a new Admin  ' , function(done) {
@@ -123,18 +123,18 @@ User.create(currentadmin, function(err, newUser) {
      chai.request(server)
      .patch('/api/admin/addAdmin/'+newadmintest['_id'])
      .send({userid:currentadmintest['_id']})
-     .end(function(err ,res) {   
+     .end(function(err ,res) {
        res.status.should.be.eql(422);
        res.body.should.have.property('msg');
-       res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
- 
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
        done();
      });
      };
 
      });
      // t send request lel server w te3mel el method el 3ayezha t check
-    
+
 
      }
 });
@@ -144,11 +144,11 @@ User.create(currentadmin, function(err, newUser) {
 }
 
 
-) 
+)
   }
 );
-    
-  
+
+
 describe('Remove expert test' , function(){
   // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
   it('it should remove the expert  ' , function(done) {
@@ -189,10 +189,10 @@ describe('Remove expert test' , function(){
           chai.request(server)
           .patch('/api/admin/removeExpert/'+newadmintest['_id'])
           .send({userid:currentadmintest['_id']})
-          .end(function(err ,res) {   
+          .end(function(err ,res) {
             res.status.should.be.eql(200);
             res.body.should.have.property('msg');
-            res.body.msg.should.be.eql('User retrieved correctly'); 
+            res.body.msg.should.be.eql('User retrieved correctly');
             res.body.data.should.have.property('username');
             res.body.data.username.should.equal('dummyuser');
             res.body.data.should.have.property('firstname');
@@ -207,18 +207,18 @@ describe('Remove expert test' , function(){
             done();
           });
           };
-    
+
           });
           // t send request lel server w te3mel el method el 3ayezha t check
-         
+
 
           }
     });
- 
-    
+
+
 
   }
-  
+
 
 ),
 it('it shouldnt remove the expert  ' , function(done) {
@@ -259,18 +259,18 @@ User.create(currentadmin, function(err, newUser) {
      chai.request(server)
      .patch('/api/admin/removeExpert/'+newadmintest['_id'])
      .send({userid:currentadmintest['_id']})
-     .end(function(err ,res) {   
+     .end(function(err ,res) {
        res.status.should.be.eql(422);
        res.body.should.have.property('msg');
-       res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
- 
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
        done();
      });
      };
 
      });
      // t send request lel server w te3mel el method el 3ayezha t check
-    
+
 
      }
 });
@@ -280,7 +280,7 @@ User.create(currentadmin, function(err, newUser) {
 }
 
 
-) 
+)
 }
 );
 
@@ -326,10 +326,10 @@ describe('Unblock user test' , function(){
           chai.request(server)
           .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
           .send({userid:currentadmintest['_id']})
-          .end(function(err ,res) {   
+          .end(function(err ,res) {
             res.status.should.be.eql(200);
             res.body.should.have.property('msg');
-            res.body.msg.should.be.eql('User retrieved correctly'); 
+            res.body.msg.should.be.eql('User retrieved correctly');
             res.body.data.should.have.property('username');
             res.body.data.username.should.equal('dummyuser');
             res.body.data.should.have.property('firstname');
@@ -344,18 +344,18 @@ describe('Unblock user test' , function(){
             done();
           });
           };
-    
+
           });
           // t send request lel server w te3mel el method el 3ayezha t check
-         
+
 
           }
     });
- 
-    
+
+
 
   }
-  
+
 
 ),
 it('it shouldnt unblock user without user being admin  ' , function(done) {
@@ -396,17 +396,17 @@ User.create(currentadmin, function(err, newUser) {
      chai.request(server)
      .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
      .send({userid:currentadmintest['_id']})
-     .end(function(err ,res) {   
+     .end(function(err ,res) {
        res.status.should.be.eql(422);
        res.body.should.have.property('msg');
-       res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
        done();
      });
      };
 
      });
      // t send request lel server w te3mel el method el 3ayezha t check
-    
+
 
      }
 });
@@ -416,7 +416,7 @@ User.create(currentadmin, function(err, newUser) {
 }
 
 
-) 
+)
 }
 );
 describe('Remove admin test' , function(){
@@ -459,10 +459,10 @@ describe('Remove admin test' , function(){
           chai.request(server)
           .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
           .send({userid:currentadmintest['_id']})
-          .end(function(err ,res) {   
+          .end(function(err ,res) {
             res.status.should.be.eql(200);
             res.body.should.have.property('msg');
-            res.body.msg.should.be.eql('User retrieved correctly'); 
+            res.body.msg.should.be.eql('User retrieved correctly');
             res.body.data.should.have.property('username');
             res.body.data.username.should.equal('dummyuser');
             res.body.data.should.have.property('firstname');
@@ -477,18 +477,18 @@ describe('Remove admin test' , function(){
             done();
           });
           };
-    
+
           });
           // t send request lel server w te3mel el method el 3ayezha t check
-         
+
 
           }
     });
- 
-    
+
+
 
   }
-  
+
 
 ),
 it('it shouldnt remove Admin  ' , function(done) {
@@ -529,18 +529,18 @@ User.create(currentadmin, function(err, newUser) {
      chai.request(server)
      .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
      .send({userid:currentadmintest['_id']})
-     .end(function(err ,res) {   
+     .end(function(err ,res) {
        res.status.should.be.eql(422);
        res.body.should.have.property('msg');
-       res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
-      
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
        done();
      });
      };
 
      });
      // t send request lel server w te3mel el method el 3ayezha t check
-    
+
 
      }
 });
@@ -550,7 +550,7 @@ User.create(currentadmin, function(err, newUser) {
 }
 
 
-) 
+)
 }
 );
 describe('Get user by id test' , function(){
@@ -578,7 +578,7 @@ describe('Get user by id test' , function(){
             'lastname': 'user',
             'email': 'Dummymail@guc.edu.eg',
             'dateOfBirth': '1997-03-03T00:00:00.000Z',
-      
+
           };
           var newadmintest;
           User.create(newadmin, function(err, newUser) {
@@ -592,10 +592,10 @@ describe('Get user by id test' , function(){
           chai.request(server)
           .get('/api/admin/getUserById/'+newadmintest['_id'])
           .send({userid:currentadmintest['_id']})
-          .end(function(err ,res) {   
+          .end(function(err ,res) {
             res.status.should.be.eql(200);
             res.body.should.have.property('msg');
-            res.body.msg.should.be.eql('User retrieved correctly'); 
+            res.body.msg.should.be.eql('User retrieved correctly');
             res.body.data.should.have.property('username');
             res.body.data.username.should.equal('dummyuser');
             res.body.data.should.have.property('firstname');
@@ -609,18 +609,18 @@ describe('Get user by id test' , function(){
             done();
           });
           };
-    
+
           });
           // t send request lel server w te3mel el method el 3ayezha t check
-         
+
 
           }
     });
- 
-    
+
+
 
   }
-  
+
 
 )
 it('it shouldnt get user  ' , function(done) {
@@ -647,7 +647,7 @@ User.create(currentadmin, function(err, newUser) {
        'email': 'Dummymail@guc.edu.eg',
        'dateOfBirth': '1997-03-03T00:00:00.000Z',
        'password':'12345678',
-   
+
      };
      var newadmintest;
      User.create(newadmin, function(err, newUser) {
@@ -661,18 +661,18 @@ User.create(currentadmin, function(err, newUser) {
      chai.request(server)
      .get('/api/admin/getUserById/'+newadmintest['_id'])
      .send({userid:currentadmintest['_id']})
-     .end(function(err ,res) {   
+     .end(function(err ,res) {
        res.status.should.be.eql(422);
        res.body.should.have.property('msg');
-       res.body.msg.should.be.eql('Unauthorized! You are not an admin.'); 
-      
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
        done();
      });
      };
 
      });
      // t send request lel server w te3mel el method el 3ayezha t check
-    
+
 
      }
 });
@@ -682,6 +682,6 @@ User.create(currentadmin, function(err, newUser) {
 }
 
 
-) 
+)
 }
 );

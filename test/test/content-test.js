@@ -70,23 +70,25 @@ describe('Testing Contents',function(){
                                     res.should.have.status(201);
                                     Content.findOne({"title":"testing"}).sort([['date', -1]]).exec(function(err,contentfound){
                                     foundcontent = contentfound;
+                                    const  comment = {
+                                        userid: userfound['_id'],
+                                        username:userfound["username"],
+                                          body : 'testbody',
+                                          contentId : foundcontent['_id'],
+                                    };
+                                    chai.request(server).post('/api/Content/createComment/'+foundcontent['_id']).send(comment).end(function(err,res){
+                                        res.should.have.status(201);
+                                        Comment.findOne({"body":"testbody"}).sort([['date', -1]]).exec(function(err,commentfound){
+                                        foundcomment = commentfound;
+                                        done();
+                                            }); 
+                                            });
                                           });
                                         });
 
-                                        console.log(foundcontent + "ahoooooooooooooowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-                                const  comment = {
-                                    userid: userfound['_id'],
-                                      body : 'testbody',
-                                      contentId : foundcontent['_id'],
-                                };
+ 
 
-                                chai.request(server).post('/api/Content/createComment').send(comment).end(function(err,res){
-                                    res.should.have.status(201);
-                                    Comment.findOne({"body":"testbody"}).sort([['date', -1]]).exec(function(err,commentfound){
-                                    foundcomment = commentfound;
-                                    done();
-                                        }); 
-                                        });
+
 
 
 

@@ -85,54 +85,42 @@ module.exports.deleteComment=function(req,res,next){
             if (err) {
                 return res.status(422).json({
                     err: null,
-                    msg: "Can't remove comment right now",
+                    msg: "Can't remove comment right now1",
                     data: null
                 });
             } else {
                 if (!removed) {
                     return res.status(422).json({
-                        err: null,
-                        msg: "Can't remove comment right now",
+                        err: err,
+                        msg: "Can't remove comment right now2",
                         data: null
                     });
                 }
                 if (removed) {
-                    return res.status(201).json({
-                        err: null,
-                        msg: "Comment removed succecfully",
-                        data: null
+                    console.log(req.params.commentId);
+                  //  Report.find({commentId:req.params.commentId}).remove().exec(); {
+                  //  }
+                    Report.remove({commentId:req.params.commentId},function(err){
+                        if(err){
+                            return res.status(422).json({
+                                err: err,
+                                msg: "Can't remove comment right now2",
+                                data: null
+                            });
+                        }
+                        else{
+                            return res.status(201).json({
+                                err: err,
+                                msg: "Done",
+                                data: null
+                            });
+                        }
                     });
                 }
             }
         });
 
-        Report.findOneAndRemove({commentId:req.params.commentId}).exec(function (err,report) {
-            if (err) {
-                return res.status(422).json({
-                    err: null,
-                    msg: "Can't remove comment right now",
-                    data: null
-                });
-            } else {
-                if (!report) {
-                    return res.status(422).json({
-                        err: null,
-                        msg: "Can't remove comment right now",
-                        data: null
-                    });
-                }
-                if (report) {
-                    return res.status(201).json({
-                        err: null,
-                        msg: "Comment removed succecfully",
-                        data: null
-                    });
-                }
-            }
-
-
-
-        });
+ 
 
 
 

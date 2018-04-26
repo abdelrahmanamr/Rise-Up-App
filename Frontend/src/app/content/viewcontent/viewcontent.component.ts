@@ -279,11 +279,9 @@ var body = {
 }
   this.httpClient.post('http://localhost:3000/api/Content/makeReport/'+id,body,config).
    subscribe(res=>{
-
-    this.toastr.success("","Report sent successfully");
-   },err=>{
+    this.toastr.success("","Reported");
+  },err=>{
     this.toastr.error("",err.error["msg"]);
-    console.log(err);
   });
 }
 

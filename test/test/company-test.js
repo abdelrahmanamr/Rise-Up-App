@@ -59,21 +59,44 @@ describe('testing Authentication Functions' , function() {
   });
 
 
-  describe('ESM EL TEST' , function() {
+  describe('Testing Get Company By ID' , function() {
     // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
-    it('it should register a new Admin  ' , function(done) {
-      var admin  = {
+    it('it should return company by ID when correct ID is given' , function(done) {
+      var usertestid;
+      var usertest  = {
         'username': 'DummyUser',
-        'firstName': 'Dummy',
-        'lastName': 'user',
+        'firstname': 'Dummy',
+        'lastname': 'User',
         'email': 'Dummymail@guc.edu.eg',
-        'dob': '1997-03-03T00:00:00.000Z',
-        'password':'12345678'
+        'dateOfBirth': '1997-03-03T00:00:00.000Z',
+        'password':'12345678',
+        'admin' :'true'
       };
+      User.create(usertest, function(err, newUser) {
+            if (err) {
+             return next(err);
+                }
+              usertestid = newUser._id;
+    });
+      var companytest ={
+        userid: usertestid,
+        name :'Microsoft',
+        email:'Microsoft@hotmail.com',
+        website:'Microsoft.com',
+        tags:'3anteel',
+        type:'safa7'
+      };
+      var comp;
+      Company.create(companytest, function(err, company) {
+          if (err) {
+              return next(err);
+          }
+          comp = company;
+      });
       // t send request lel server w te3mel el method el 3ayezha t check
       chai.request(server)
-        .post('/api/admin/registerAdmin')
-        .send(admin)
+        .get('/api/company/getCompany/'+comp._id)
+        .send()
         .end(function(err ,res) {
           res.status.should.be.eql(201);
           res.body.should.have.property('msg');
@@ -92,6 +115,7 @@ describe('testing Authentication Functions' , function() {
         });
     });
   });
+
 
 
 describe('Testing Search',function(){

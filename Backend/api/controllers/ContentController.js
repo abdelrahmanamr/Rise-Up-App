@@ -654,7 +654,16 @@ module.exports.deleteComment = function(req,res,next){
           .json({ err: null, msg: 'User not found.', data: null });
         }else{
         if(user['admin']){
-          Comment.findByIdAndRemove(req.params.commentId).exec(function(err,removed){
+          Report.remove({commentId:req.params.commentId},function(err){
+            if(err){
+                return res.status(422).json({
+                    err: err,
+                    msg: "Can't remove comment right now2",
+                    data: null
+                });
+            }
+            else{
+               Comment.findByIdAndRemove(req.params.commentId).exec(function(err,removed){
             if(err){
               return res.status(422).json({
                 err: null,
@@ -678,11 +687,14 @@ module.exports.deleteComment = function(req,res,next){
               }
             }
           });
+            }
+        });
+          
         }
         else{
           Comment.findOne({
             userid: req.body.userid,
-            _id: req.body.contentid
+            _id: req.params.commentId
           }).exec(function(err, comment) {
             if(err){
               return res.status(422).json({
@@ -701,7 +713,23 @@ module.exports.deleteComment = function(req,res,next){
               }
               if(comment){
                 comment.remove();
-              }
+                Report.remove({commentId:req.params.commentId},function(err){
+                  if(err){
+                      return res.status(422).json({
+                          err: err,
+                          msg: "Report can't be removed at the moment",
+                          data: null
+                      });
+                  }
+                  else{
+                    return res.status(201).json({
+                      err: err,
+                      msg: "Done",
+                      data: null
+                  });
+                }
+              });
+            }
             }
         });
       }
@@ -771,20 +799,13 @@ module.exports.makeReport = function(req,res,next){
                         });
                       }
                       else{
-                        if(!createdReport){
-                          return res.status(422).json({
-                            err: null,
-                            msg: "Can't create report",
-                            data: null
-                          });
-                        }
-                        else{
+                          console.log("hena");
                           return res.status(201).json({
                             err: null,
                             msg: "Comment reported",
-                            data: null
+                            data: createdReport
                           });
-                        }
+                        
                       }
                     };
                   }

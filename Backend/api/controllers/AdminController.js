@@ -98,8 +98,6 @@ module.exports.deleteComment=function(req,res,next){
                 }
                 if (removed) {
                     console.log(req.params.commentId);
-                  //  Report.find({commentId:req.params.commentId}).remove().exec(); {
-                  //  }
                     Report.remove({commentId:req.params.commentId},function(err){
                         if(err){
                             return res.status(422).json({
@@ -110,7 +108,7 @@ module.exports.deleteComment=function(req,res,next){
                         }
                         else{
                             return res.status(201).json({
-                                err: err,
+                                err: null,
                                 msg: "Done",
                                 data: null
                             });

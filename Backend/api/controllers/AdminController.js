@@ -4,10 +4,7 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
  Company = mongoose.model('Company'),
 Content = mongoose.model('Content'),
-<<<<<<< HEAD
-   // Report = mongoose.model('Report'),
-=======
->>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686
+
 Comment = mongoose.model('Comment');
 
 
@@ -20,7 +17,7 @@ module.exports.AddExpert=function(req, res, next){
             data: null
         });
     }
-    
+
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
@@ -75,64 +72,6 @@ module.exports.AddExpert=function(req, res, next){
 });
 }
 
-<<<<<<< HEAD
-// module.exports.deleteComment=function(req,res,next){
-//     if (!Validations.isObjectId(req.params.commentId)) {
-//         return res.status(422).json({
-//             err: null,
-//             msg: 'commentId parameter must be a valid ObjectId.',
-//             data: null
-//         });
-//     }else {
-
-//         Comment.findByIdAndRemove(req.params.commentId).exec(function (err, removed) {
-//             if (err) {
-//                 return res.status(422).json({
-//                     err: null,
-//                     msg: "Can't remove comment right now1",
-//                     data: null
-//                 });
-//             } else {
-//                 if (!removed) {
-//                     return res.status(422).json({
-//                         err: err,
-//                         msg: "Can't remove comment right now2",
-//                         data: null
-//                     });
-//                 }
-//                 if (removed) {
-//                     console.log(req.params.commentId);
-//                   //  Report.find({commentId:req.params.commentId}).remove().exec(); {
-//                   //  }
-//                     Report.remove({commentId:req.params.commentId},function(err){
-//                         if(err){
-//                             return res.status(422).json({
-//                                 err: err,
-//                                 msg: "Can't remove comment right now2",
-//                                 data: null
-//                             });
-//                         }
-//                         else{
-//                             return res.status(201).json({
-//                                 err: err,
-//                                 msg: "Done",
-//                                 data: null
-//                             });
-//                         }
-//                     });
-//                 }
-//             }
-//         });
-
- 
-
-
-
-//     }
-// }
-=======
-
->>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686
 
 module.exports.UpdateExpertTags=function(req, res, next){
 
@@ -333,7 +272,7 @@ module.exports.RemoveExpert=function(req, res, next){
         });
     }
 
-    
+
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
@@ -415,7 +354,7 @@ module.exports.UnblockUser=function(req, res, next){
             data: null
           });
         }else{
-    
+
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -463,7 +402,7 @@ module.exports.RemoveAdmin=function(req, res, next){
         });
     }
 
-   
+
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
@@ -590,7 +529,7 @@ module.exports.removeCompany = function(req, res, next) {
 //     delete req.body.createdAt;
 //     delete req.body.updatedAt;
 
-//     Company.create(req.body, function(err, company) {    
+//     Company.create(req.body, function(err, company) {
 //         if (err) {
 //             return next(err);
 //         }
@@ -620,22 +559,7 @@ module.exports.getCompanies = function(req, res, next) {
         });
     });
 };
-<<<<<<< HEAD
-// module.exports.viewAllReports = function(req, res, next) {
 
-//     Report.find({}).exec(function(err, reports) {
-//         if (err) {
-//             return next(err);
-//         }
-//         res.status(200).json({
-//             err: null,
-//             msg: 'Reports retrieved successfully.',
-//             data: reports
-//         });
-//     });
-// };
-=======
->>>>>>> 3e0fbc14f204068185c7db6fc9461b40a38e1686
 module.exports.getTags = function(req, res, next) {
     if (!Validations.isObjectId(req.params.userId)) {
         return res.status(422).json({
@@ -697,7 +621,7 @@ module.exports.getUsers = function(req, res, next) {
 }
 
 module.exports.getUserById = function(req, res, next) {
-    
+
     if (!Validations.isObjectId(req.params.userId)) {
         return res.status(422).json({
             err: null,

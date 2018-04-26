@@ -12,54 +12,8 @@ dbURI = 'mongodb://localhost:27017/nodejs-test';
 
 chai.use(chaiHttp);
 
-process.env.NODE_ENV = 'test';
 
-let base = undefined;
-if (!process.env.PWD) {
-  base = process.cwd();
-}else{
-  base = process.env.PWD;
-}
-var mongoose = require('mongoose'),
-  Admin = mongoose.model('Admin'),
-  should = require('should'),
-  chai = require('chai'),
-  chaiHTTP = require('chai-http'),
-  server = require(base +'/app'),
-  Teacher = mongoose.model('Teacher');
-chai.use(chaiHTTP);
-
-
-
-process.env.NODE_ENV = 'test';
-
-let base = undefined;
-if (!process.env.PWD) {
-  base = process.cwd();
-}else{
-  base = process.env.PWD;
-}
-var mongoose = require('mongoose'),
-  Admin = mongoose.model('Admin'),
-  should = require('should'),
-  chai = require('chai'),
-  chaiHTTP = require('chai-http'),
-  server = require(base +'/app'),
-  Teacher = mongoose.model('Teacher');
-chai.use(chaiHTTP);
-
-
-
-describe('testing Authentication Functions' , function() {
-  before(function(done) {
-    mongoose.connect('mongodb://localhost:27017/nodejs-nawwar-test' , function() {
-      console.log('Connected to TestDb');
-      done();
-    });
-  });
-
-
-  describe('ESM EL TEST' , function() {
+  describe('Testing Get Company By ID' , function() {
     // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('get Company : it should return company by ID when correct ID is given' , function(done) {
       this.timeout(10000);
@@ -208,7 +162,7 @@ describe('testing Authentication Functions' , function() {
 
 
                   chai.request(server)
-                    .get('/api/Company/viewCompany/'+'sad')
+                    .get('/api/Company/viewCompany/'+'notid')
                     .send()
                     .end(function(err ,res) {
                       res.status.should.be.eql(422);

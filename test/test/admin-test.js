@@ -29,46 +29,57 @@ chai.use(chaiHttp);
         if (err) {
          return next(err);
             }
+            else{
             currentadmintest =newUser ;
-      });
-      var newadmin  = {
-        'username': 'DummyUser',
-        'firstname': 'Dummy',
-        'lastname': 'user',
-        'email': 'Dummymail@guc.edu.eg',
-        'dateOfBirth': '1997-03-03T00:00:00.000Z',
-        'password':'12345678',
-        'admin' :false
-      };
-      var newadmintest;
-      User.create(newadmintest, function(err, newUser) {
-        if (err) {
-         return next(err);
+            var newadmin  = {
+              'username': 'DummyUser',
+              'firstname': 'Dummy',
+              'lastname': 'user',
+              'email': 'Dummymail@guc.edu.eg',
+              'dateOfBirth': '1997-03-03T00:00:00.000Z',
+              'password':'12345678',
+              'admin' :false
+            };
+            var newadmintest;
+            User.create(newadmin, function(err, newUser) {
+              if (err) {
+               return next(err);
+                  }
+                  else{
+                  newadmintest =newUser ;
+                  console.log(newadmintest['_id']);
+            console.log("hererererer");
+            chai.request(server)
+            .patch('/api/admin/addAdmin/'+newadmintest['_id'])
+            .send({userid:currentadmintest['_id']})
+            .end(function(err ,res) {   
+              res.status.should.be.eql(200);
+              res.body.should.have.property('msg');
+              res.body.msg.should.be.eql('User retrieved correctly'); 
+              res.body.data.should.have.property('username');
+              res.body.data.username.should.equal('dummyuser');
+              res.body.data.should.have.property('firstname');
+              res.body.data.firstname.should.equal('dummy');
+              res.body.data.should.have.property('lastname');
+              res.body.data.lastname.should.equal('user');
+              res.body.data.should.have.property('email');
+              res.body.data.email.should.equal('dummymail@guc.edu.eg');
+              res.body.data.should.have.property('dateOfBirth');
+              res.body.data.should.have.property('admin');
+              res.body.data.admin.should.equal(true);
+              done();
+            });
+            };
+      
+            });
+            // t send request lel server w te3mel el method el 3ayezha t check
+           
+
             }
-            newadmintest =newUser ;
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
-      chai.request(server)
-        .patch('/api/admin/addAdmin/'+newadmintest['_id'])
-        .send({userid:currentadmintest['_id']})
-        .end(function(err ,res) {   
-          res.status.should.be.eql(201);
-          res.body.should.have.property('msg');
-          res.body.msg.should.be.eql('User retrieved correctly'); 
-          res.body.data.should.have.property('username');
-          res.body.data.username.should.equal('DummyUser');
-          res.body.data.should.have.property('firstName');
-          res.body.data.firstName.should.equal('Dummy');
-          res.body.data.should.have.property('lastName');
-          res.body.data.lastName.should.equal('user');
-          res.body.data.should.have.property('email');
-          res.body.data.email.should.equal('Dummymail@guc.edu.eg');
-          res.body.data.should.have.property('dateOfBirth');
-          res.body.data.dob.should.equal('1997-03-03T00:00:00.000Z');
-          res.body.data.should.have.property('admin');
-          res.body.data.dob.should.equal(true);
-          done();
-        });
+   
+      
+
     }
     
 

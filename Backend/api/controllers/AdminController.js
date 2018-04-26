@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User'),
  Company = mongoose.model('Company'),
 Content = mongoose.model('Content'),
+    Report = mongoose.model('Report'),
 Comment = mongoose.model('Comment');
 
 
@@ -71,7 +72,60 @@ module.exports.AddExpert=function(req, res, next){
 });
 }
 
+module.exports.deleteComment=function(req,res,next){
+    if (!Validations.isObjectId(req.params.commentId)) {
+        return res.status(422).json({
+            err: null,
+            msg: 'commentId parameter must be a valid ObjectId.',
+            data: null
+        });
+    }else {
 
+        Comment.findByIdAndRemove(req.params.commentId).exec(function (err, removed) {
+            if (err) {
+                return res.status(422).json({
+                    err: null,
+                    msg: "Can't remove comment right now1",
+                    data: null
+                });
+            } else {
+                if (!removed) {
+                    return res.status(422).json({
+                        err: err,
+                        msg: "Can't remove comment right now2",
+                        data: null
+                    });
+                }
+                if (removed) {
+                    console.log(req.params.commentId);
+                  //  Report.find({commentId:req.params.commentId}).remove().exec(); {
+                  //  }
+                    Report.remove({commentId:req.params.commentId},function(err){
+                        if(err){
+                            return res.status(422).json({
+                                err: err,
+                                msg: "Can't remove comment right now2",
+                                data: null
+                            });
+                        }
+                        else{
+                            return res.status(201).json({
+                                err: err,
+                                msg: "Done",
+                                data: null
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+ 
+
+
+
+    }
+}
 
 module.exports.UpdateExpertTags=function(req, res, next){
 
@@ -211,7 +265,7 @@ module.exports.AddAdmin=function(req, res, next){
         if(err){
           return next(err);
         }
-        else { 
+        else {
           if(!user){
           return res
           .status(404)
@@ -556,6 +610,19 @@ module.exports.getCompanies = function(req, res, next) {
             err: null,
             msg: 'Companies retrieved successfully.',
             data: companies
+        });
+    });
+};
+module.exports.viewAllReports = function(req, res, next) {
+
+    Report.find({}).exec(function(err, reports) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Reports retrieved successfully.',
+            data: reports
         });
     });
 };

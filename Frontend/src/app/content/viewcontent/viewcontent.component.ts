@@ -63,12 +63,13 @@ comment:any;
 
 
 ShowPopUp(){
-  console.log("asdas");
   this.toastr.success("","Link copied to clipbaord");
 }
   ngOnInit() { 
     if(localStorage.getItem("userProps")!=null){
       this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
+      this.userID =JSON.parse(localStorage.getItem('userProps'))['_id'];
+
     }
     this.GetContent(this.ID) ;
     this.ViewComments();
@@ -249,6 +250,41 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
   );
 
 }
+deleteComment(id: string){
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+  this.httpClient.delete('http://localhost:3000/api/Content/deleteComment/'+id+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+   subscribe(res=>{
+
+    window.location.reload();
+   },err=>{
+    this.toastr.error("",err.error["msg"]);
+    console.log(err);
+  });
+}
+reportComment(id: string){
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json'
+    }
+}
+var body = {
+  userid:this.userID,
+  name:JSON.parse(localStorage.getItem('userProps'))['username']
+}
+  this.httpClient.post('http://localhost:3000/api/Content/makeReport/'+id,body,config).
+   subscribe(res=>{
+    this.toastr.success("","Reported");
+  },err=>{
+    this.toastr.error("",err.error["msg"]);
+  });
+}
+
 
 toggle() //this method is responsible for showing/hiding comments, the function toggles every time it is clicked
 {

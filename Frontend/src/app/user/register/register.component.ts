@@ -191,6 +191,7 @@ checkUsername = function(username){
   this.errorhandle = "";
   },
 err=>{
+    this.toastr.error("",err['error']['msg']);
   console.log(err);
   this.errorhandle = "username already exists";
 }

@@ -25,6 +25,10 @@ const routes: Routes = [
                 loadChildren: './controlpanel/controlpanel.module#ControlPanelModule'
             },
             {
+                path: 'viewreports',
+                loadChildren: './viewreports/viewreports.module#ViewReportsModule'
+            },
+            {
                 path: '',
                 redirectTo: 'controlpanel',
                 pathMatch: 'full'

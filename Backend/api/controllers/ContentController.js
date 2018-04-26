@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
   Comment = mongoose.model('Comment');
   User = mongoose.model('User');
   Rating = mongoose.model('Rating');
+  Report = mongoose.model('Report');
 
 
   module.exports.views = function(req, res, next) { //the views method increment the views count by one every time it is called
@@ -630,6 +631,192 @@ module.exports.getComments = function(req, res, next) { //getComments method is 
     });
   });
 };
+
+module.exports.deleteComment = function(req,res,next){
+  req.body.userid = req.params.commentId.split("..")[1];
+  req.params.commentId = req.params.commentId.split("..")[0];
+  if (!Validations.isObjectId(req.params.commentId) && !Validations.isObjectId(req.body.userid) ) {
+    return res.status(422).json({
+      err: null,
+      msg: 'commentID parameter must be a valid ObjectId.',
+      data: null
+    });
+  }else{
+      User.findById(req.body.userid).exec(function(err,user) {
+        if(err){
+          console.log(err);
+          return next(err);
+        }
+        else {
+          if(!user){
+          return res
+          .status(404)
+          .json({ err: null, msg: 'User not found.', data: null });
+        }else{
+        if(user['admin']){
+          Report.remove({commentId:req.params.commentId},function(err){
+            if(err){
+                return res.status(422).json({
+                    err: err,
+                    msg: "Can't remove comment right now2",
+                    data: null
+                });
+            }
+            else{
+               Comment.findByIdAndRemove(req.params.commentId).exec(function(err,removed){
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: "Can't remove comment right now",
+                data: null
+              });
+            }else{
+              if(!removed){
+                return res.status(422).json({
+                  err: null,
+                  msg: "Can't remove comment right now",
+                  data: null
+                });
+              }
+              if(removed){
+                return res.status(201).json({
+                  err: null,
+                  msg: "Comment removed succecfully",
+                  data: null
+                });
+              }
+            }
+          });
+            }
+        });
+          
+        }
+        else{
+          Comment.findOne({
+            userid: req.body.userid,
+            _id: req.params.commentId
+          }).exec(function(err, comment) {
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: "Can't remove comment right now",
+                data: null
+              });
+            }
+            else{
+              if(!comment){
+                return res.status(422).json({
+                  err: null,
+                  msg: "This user didn't comment on this post",
+                  data: null
+                });
+              }
+              if(comment){
+                comment.remove();
+                Report.remove({commentId:req.params.commentId},function(err){
+                  if(err){
+                      return res.status(422).json({
+                          err: err,
+                          msg: "Report can't be removed at the moment",
+                          data: null
+                      });
+                  }
+                  else{
+                    return res.status(201).json({
+                      err: err,
+                      msg: "Done",
+                      data: null
+                  });
+                }
+              });
+            }
+            }
+        });
+      }
+    }
+    }
+  });
+  }
+
+}
+module.exports.makeReport = function(req,res,next){
+  if (!Validations.isObjectId(req.params.commentId) && !Validations.isObjectId(req.body.userid) ){
+    return res.status(422).json({
+      err: null,
+      msg: 'commentID parameter must be a valid ObjectId.',
+      data: null
+    });
+  }else{
+    Report.findOne({reporterId:req.body.userid,commentId:req.params.commentId}).exec(function(err,AlreadyReported){
+      if(err){
+        console.log("awel error aho");
+        return res.status(422).json({
+          err: null,
+          msg: "Can't access database right now",
+          data: null
+        });
+      }
+      else{
+        if(AlreadyReported){
+          return res.status(422).json({
+            err: null,
+            msg: "You have already reported this comment",
+            data: null
+          });
+        }
+        else{
+          Comment.findOne({_id:req.params.commentId}).exec(function(err,CommentToBeReported){
+            if(err){
+              return res.status(422).json({
+                err: null,
+                msg: "Can't access database right now",
+                data: null
+              });
+            }
+            else{
+
+              if(!CommentToBeReported){
+                return res.status(422).json({
+                  err: null,
+                  msg: "This comment has already been deleted",
+                  data: null
+                });
+              }
+              else{
+                delete req.body.createdAt;
+                delete req.body.updatedAt;
+                var body = CommentToBeReported["body"];
+                var commenter = CommentToBeReported["username"]
+                var commenterid =CommentToBeReported["userid"]
+                if(commenterid!=req.body.userid){
+                Report.create({reporterName:req.body.name,reporterId:req.body.userid,reportedId:commenterid,
+                    commentId:req.params.commentId,reportedName:commenter,commentBody:body}),function(err,createdReport){
+                      if(err){
+                        return res.status(422).json({
+                          err: null,
+                          msg: "Can't access database right now",
+                          data: null
+                        });
+                      }
+                      else{
+                          console.log("hena");
+                          return res.status(201).json({
+                            err: null,
+                            msg: "Comment reported",
+                            data: createdReport
+                          });
+                        
+                      }
+                    };
+                  }
+              }
+            }
+          });
+        }
+      }
+    });
+  }
+}
 
 
 

@@ -42,7 +42,8 @@ router.patch('/Content/updateContent/:contentId', contentCtrl.rateNew);
 
 router.post('/Content/createComment/:contentId', contentCtrl.createComment);
 router.get('/Content/getComments/:contentId',contentCtrl.getComments);
-
+router.delete('/Content/deleteComment/:commentId',contentCtrl.deleteComment);
+router.post('/Content/makeReport/:commentId', contentCtrl.makeReport);
 
 router.post('/product/createProduct', productCtrl.createProduct);
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
@@ -106,11 +107,12 @@ router.patch('/admin/removeAdmin/:userId', AdminController.RemoveAdmin);
 router.delete('/admin/removeCompany/:companyId',AdminController.removeCompany);
 router.post('/admin/addCompany',AdminController.addCompany);
 router.get('/admin/getCompanies',AdminController.getCompanies);
+router.get('/admin/viewAllReports',AdminController.viewAllReports);
 router.get('/admin/getUsers',AdminController.getUsers);
 router.get('/admin/getUserById/:userId',AdminController.getUserById);
 router.get('/admin/getUserTags/:userId',AdminController.getTags);
 router.get('/admin/viewCompanies',AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId',AdminController.RemoveCompany);
 router.patch('/admin/UpdateExpertTag/:userId',AdminController.UpdateExpertTags);
-
+router.delete('/admin/deleteComment/:commentId',AdminController.deleteComment);
 module.exports = router;

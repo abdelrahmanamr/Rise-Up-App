@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
 import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-items-addcompany',
@@ -14,7 +15,7 @@ tags:any=[];
 
 
     myForm: FormGroup;
-    constructor(private http: HttpClient,private router: Router){}
+    constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){}
 
 
     onSubmit(companyForm){
@@ -23,7 +24,6 @@ tags:any=[];
         }).join(',');
 
 
-console.log(result);
 var my = JSON.stringify
 ({  
     // userid:localStorage.getItem("user"),
@@ -35,10 +35,10 @@ var my = JSON.stringify
     userid:JSON.parse(localStorage.getItem("userProps"))["_id"]
 });
 
-console.log(my);
         var config = {
             headers : {
                 'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
             }
         }
 
@@ -58,8 +58,13 @@ console.log(my);
         err=>console.log("error adding to index"));
         }
     ,err=>{
-        this.errorHandle = err['error']['msg'];
-      });
+            this.toastr.error("",err.error["msg"]);
+            if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+              localStorage.clear();
+              this.router.navigateByUrl("/search/searchresults")
+            }
+          }
+      );
         
 
     }

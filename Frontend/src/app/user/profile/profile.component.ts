@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
 import {environment} from '../../../environments/environment';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-items',
@@ -22,7 +23,7 @@ export class ProfileComponent {
     tagFinalA:any;
     username:String;
     permitted = true;
-  constructor(private http: HttpClient,private router: Router){
+  constructor(private http: HttpClient,private router: Router, private toastr: ToastrService){
     this.Url=window.location.href
     this.username = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.username);
@@ -33,7 +34,8 @@ export class ProfileComponent {
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
         }
     }
 
@@ -60,7 +62,13 @@ export class ProfileComponent {
         }
 
 
-    });
+    },err=>{
+        this.toastr.error("",err['error']["msg"]);
+        if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+          localStorage.clear();
+          this.router.navigateByUrl("/search/searchresults")
+        }     
+      });
 
   }
 
@@ -69,7 +77,7 @@ export class ProfileComponent {
     var config = {
         headers : {
             'Content-Type': 'application/json',
-            "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+            'authorization':localStorage.getItem('UserDoc')
         }
     }
     var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -77,7 +85,13 @@ export class ProfileComponent {
     .subscribe((info:any) => {
         console.log(info);
         window.location.reload();
-    });
+    },err=>{
+        this.toastr.error("",err['error']["msg"]);
+        if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+          localStorage.clear();
+          this.router.navigateByUrl("/search/searchresults")
+        }     
+      });
 
   }
     onTagsChanged($event){}
@@ -89,7 +103,8 @@ submitTags(){
     }).join(',');
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
         }
     }
     var data = JSON.stringify({tags:result,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]})
@@ -98,7 +113,13 @@ submitTags(){
     this.http.patch(environment.apiUrl+'/admin/UpdateExpertTag/'+this.ID,data, config)
         .subscribe(res=> {
             window.location.reload();
-        });
+        },err=>{
+            this.toastr.error("",err['error']["msg"]);
+            if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+              localStorage.clear();
+              this.router.navigateByUrl("/search/searchresults")
+            }     
+          });
 
 
     this.flag = true;
@@ -108,7 +129,8 @@ submitTags(){
   {
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
         }
     }
     var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -116,14 +138,21 @@ submitTags(){
     .subscribe((info:any) => {
         console.log(info);
         window.location.reload();
-    });
+    },err=>{
+        this.toastr.error("",err['error']["msg"]);
+        if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+          localStorage.clear();
+          this.router.navigateByUrl("/search/searchresults")
+        }     
+      });
 
   }
     RemoveAdmin()
     {
         var config = {
             headers : {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
             }
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -131,7 +160,13 @@ submitTags(){
             .subscribe((info:any) =>
             {console.log(info);
             window.location.reload();
-            });
+            },err=>{
+                this.toastr.error("",err['error']["msg"]);
+                if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+                  localStorage.clear();
+                  this.router.navigateByUrl("/search/searchresults")
+                }     
+              });
 
     }
 
@@ -140,6 +175,7 @@ submitTags(){
         var config = {
             headers : {
                 'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
             }
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -147,7 +183,13 @@ submitTags(){
             .subscribe((info:any) => {
                 console.log(info);
                 window.location.reload();
-            });
+            },err=>{
+                this.toastr.error("",err['error']["msg"]);
+                if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+                  localStorage.clear();
+                  this.router.navigateByUrl("/search/searchresults")
+                }     
+              });
 
     }
 
@@ -157,6 +199,7 @@ submitTags(){
         var config = {
             headers : {
                 'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
             }
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -164,7 +207,13 @@ submitTags(){
             .subscribe((info:any) => {
                 console.log(info);
                 window.location.reload();
-            });
+            },err=>{
+                this.toastr.error("",err['error']["msg"]);
+                if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+                  localStorage.clear();
+                  this.router.navigateByUrl("/search/searchresults")
+                }     
+              });
 
 
 
@@ -181,6 +230,7 @@ submitTags(){
         var config = {
             headers : {
                 'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
             }
         }
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -196,7 +246,13 @@ submitTags(){
                     console.log(res);
                     window.location.reload();
                 })
-            });
+            },err=>{
+                this.toastr.error("",err['error']["msg"]);
+                if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+                  localStorage.clear();
+                  this.router.navigateByUrl("/search/searchresults")
+                }     
+              });
 
 
     }

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router} from "@angular/router";
 import * as QuillNamespace from 'quill';
+import { ToastrService } from 'ngx-toastr';
 let Quill: any = QuillNamespace;
 import BlotFormatter from 'quill-blot-formatter';
 Quill.register('modules/blotFormatter', BlotFormatter);
@@ -38,7 +39,8 @@ export class EditComponent implements OnInit{
 
   
 
-  constructor(private http: HttpClient,private router:Router,fb: FormBuilder,private elem : ElementRef) {
+  constructor(private http: HttpClient, private toastr: ToastrService
+    ,private router:Router,fb: FormBuilder,private elem : ElementRef) {
 
     this.form = fb.group({
       editor: ['']
@@ -50,8 +52,6 @@ export class EditComponent implements OnInit{
   }
   onTagsChanged($event){
 
-    console.log(this.tags);
-     console.log( (JSON.stringify(this.tags)));
 
     }
    
@@ -67,7 +67,9 @@ export class EditComponent implements OnInit{
     var config ={
   headers : 
 {
-'Content-Type':'application/json'
+'Content-Type':'application/json',
+'authorization':localStorage.getItem('UserDoc')
+
 }
 }
 if(this.editContent['type']=='suggestion'){
@@ -111,7 +113,6 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
       // this.tags = res['data'].tags.split(",");
       res['data'].tags.split(",").forEach(element => {
           var el = JSON.parse(JSON.stringify({"displayValue":element}));
-          console.log(el);
           this.tags.push(el);
       });
   
@@ -170,7 +171,8 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
     }
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
         }
     }
 
@@ -181,16 +183,22 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
         console.log(res);
           this.router.navigate(["/content/suggestedcontent"]);
         },err=>{
-          this.errorHandle = err['error']['msg'];
-        });
+          this.toastr.error("",err['error']["msg"]);
+          if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+            localStorage.clear();
+            this.router.navigateByUrl("/search/searchresults")
+          }         });
       }else if(this.editContent['type']=='content'){
         this.http.patch(environment.apiUrl+'/content/editContent/'+this.editContent['id'], data, config)
         .subscribe(res=>{
           console.log(res);
           this.router.navigate(["/content/viewallcontents"]);
       },err=>{
-        this.errorHandle = err['error']['msg'];
-      });
+        this.toastr.error("",err['error']["msg"]);
+        if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+          localStorage.clear();
+          this.router.navigateByUrl("/search/searchresults")
+        }         });
     }
   }
   else{

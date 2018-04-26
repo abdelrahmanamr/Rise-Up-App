@@ -255,6 +255,17 @@ toggle() //this method is responsible for showing/hiding comments, the function 
   this.commentsflag=!this.commentsflag  //a method to show and hide comments
  }
 
+ EditContent(ID:string){
+  var editContent = {
+    "id":ID,
+    "type":"content"
+  }
+  console.log(ID);
+  localStorage.setItem("editContent",JSON.stringify(editContent));
+  this.router.navigateByUrl('/content/edit');
+
+}
+
 
 
 }

@@ -1,13 +1,13 @@
 <link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
 <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
-<div class="container">
+<div class="resultDiv">
     <form #contentForm="ngForm" > 
         <div *ngIf="this.user['admin']">
-            <h3>Adding Content</h3>
+            <h2>Adding Content</h2>
         </div>
         <div *ngIf="!this.user['admin']">
-            <h3>Suggesting Content</h3>
+            <h2>Suggesting Content</h2>
         </div>
 
         <input type = "text" class="form-control" name = "title" placeholder = "Title Here" ngModel><br />
@@ -26,7 +26,7 @@
 
         <div [hidden]="post==1">
 
-            <div id="toolbar-container">
+            <div id="toolbar-container" style="width:98%;">
                 <span class="ql-formats">
                     <select class="ql-font"></select>
                     <select class="ql-size"></select>
@@ -72,7 +72,7 @@
                 </span>
             </div>
 
-            <div id="editor" style="height: 500px" >
+            <div id="editor" style="height: 500px; width:98%;" >
             </div>
         </div>
         <br />

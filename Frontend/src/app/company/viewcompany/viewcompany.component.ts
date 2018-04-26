@@ -8,7 +8,8 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-company-viewcompany',
-  templateUrl: `viewcompany.html`
+  templateUrl: `viewcompany.html`,
+  styleUrls: ['style.css']
 })
 export class ViewCompanyComponent {
   Company="";

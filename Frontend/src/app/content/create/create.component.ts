@@ -16,7 +16,8 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-content-create',
-  templateUrl: 'create.html'
+  templateUrl: 'create.html',
+  styleUrls: ['style.css']
 })
 export class CreateComponent implements OnInit{
 
@@ -167,7 +168,7 @@ export class CreateComponent implements OnInit{
                  this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoContentIndex,config).subscribe(
                      res => {
                          console.log(res);
-                         this.router.navigate(["/content/viewallcontents"])
+                         this.router.navigateByUrl("/search/searchResult?key=viewallcontent");
                      }
             )
         },

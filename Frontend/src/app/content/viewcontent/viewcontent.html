@@ -32,13 +32,13 @@
     <br />
     <br /> 
 
-    
+    <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="EditContent(ID)" class="btn btn-danger btn-sm"> Edit </Button>
         <div   style="float:right; margin-top: -28px"> 
-        <button class="btn btn-success btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" style="background-color:#D00018">share content</button>
+        <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" >share content</button>
     <br>
-    
+
     <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
-    
+
     </div>
     
     </div>

@@ -13,7 +13,6 @@
     <!-- <a ><span ><input  type="text" id="search_text_input" style="border-radius: 0px; padding:8px; border: 1.5px solid #d00018;" placeholder="Search Here"> <div  (click)="searchPage()" id="button-holder"><img src="/assets/search.svg"  /> </div></span></a> -->
     <a href="#/home/"><span >Home</span></a>
     <a href="#/search/"><span >Search</span></a>
-    <a href="#/content/"><span >Content</span></a>
     <a *ngIf="adminStatus==true" href="#/admin/"><span >Admin System</span></a>
     <a *ngIf="adminStatus==true" href="#/content/suggestedcontent"><span >Suggested</span></a>
     <a *ngIf="loggedin==true" href="#/content/create"><span ><button class="btn btn-warning btn-sm">Add Content</button></span></a>

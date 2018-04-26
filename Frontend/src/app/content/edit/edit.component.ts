@@ -15,7 +15,8 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-content-create',
-  templateUrl: `edit.html`
+  templateUrl: `edit.html`,
+  styleUrls:['style.css']
 })
 export class EditComponent implements OnInit{
 

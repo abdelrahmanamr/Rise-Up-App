@@ -354,6 +354,9 @@ export class SearchResultComponent implements OnInit{
             case "Editor\'s Choice":
                 this.sortBoosted();
                 break;
+            case "Rating":
+                this.sortHighestRating();
+                break;
         }
     }
 

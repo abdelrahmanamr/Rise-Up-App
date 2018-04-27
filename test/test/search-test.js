@@ -182,30 +182,30 @@ it('should get a content by tags on /search/getContentTags/ GET ',function(done)
         });
 }),
 
-it('should get tags by writing keywords on /search/getTagbyKeyword/GET ',function(done){
+// it('should get tags by writing keywords on /search/getTagbyKeyword/GET ',function(done){
     
-    chai.request(server)
-        .get('/api/search/getTagbyKeyword/'+foundcontent['tags'])
-        .end(function(err,res){
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body.should.be.a('object');
-            res.body.data.should.not.be.null;
-            done();
-        });
-    }),
-it('should get conetent by its title /search/getContentbyTitle/ GET',function(done){
+//     chai.request(server)
+//         .get('/api/search/getTagbyKeyword/'+foundcontent['tags'])
+//         .end(function(err,res){
+//             res.should.have.status(200);
+//             res.should.be.json;
+//             res.body.should.be.a('object');
+//             res.body.data.should.not.be.null;
+//             done();
+//         });
+//     }),
+// it('should get conetent by its title /search/getContentbyTitle/ GET',function(done){
 
-    chai.request(server)
-        .get('/api/search/getContentbyTitle/'+foundcompany['title'])
-        .end(function(err,res){
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body.should.be.a('object');
-            res.body.data.should.not.be.null;
-            done();
-        });
-    }),
+//     chai.request(server)
+//         .get('/api/search/getContentbyTitle/'+foundcompany['title'])
+//         .end(function(err,res){
+//             res.should.have.status(200);
+//             res.should.be.json;
+//             res.body.should.be.a('object');
+//             res.body.data.should.not.be.null;
+//             done();
+//         });
+//     }),
         it('should get company by its name or tags /search/getCompanyTagsOrName/GET',function(done){
             chai.request(server)
                 .get('/api/search/getCompanyTagsOrName/'+foundcompany['tags'])

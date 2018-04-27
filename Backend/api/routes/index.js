@@ -107,6 +107,8 @@ router.patch('/admin/removeAdmin/:userId', AdminController.RemoveAdmin);
 router.delete('/admin/removeCompany/:companyId',AdminController.removeCompany);
 router.post('/admin/addCompany',AdminController.addCompany);
 router.get('/admin/getCompanies',AdminController.getCompanies);
+router.get('/admin/getActivityReport',AdminController.getActivityReport);
+router.get('/admin/getActivityComment',AdminController.getActivityComment);
 router.get('/admin/viewAllReports',AdminController.viewAllReports);
 router.get('/admin/getUsers',AdminController.getUsers);
 router.get('/admin/getUserById/:userId',AdminController.getUserById);

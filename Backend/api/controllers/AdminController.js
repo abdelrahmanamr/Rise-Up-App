@@ -72,6 +72,37 @@ module.exports.AddExpert=function(req, res, next){
 });
 }
 
+module.exports.getActivityComment=function(req,res,next){
+    var queryDate = new Date();
+    queryDate.setDate(queryDate.getDate()-7);
+    Comment.find( {"createdAt":{$gt: queryDate}}).exec(function(err, comments) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'comments retrieved successfully.',
+            data: comments
+        });
+    });
+
+}
+module.exports.getActivityReport=function(req,res,next){
+    var queryDate = new Date();
+    queryDate.setDate(queryDate.getDate()-7);
+    Report.find( {"createdAt":{$gt: queryDate}}).exec(function(err, reports) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Reports retrieved successfully.',
+            data: reports
+        });
+    });
+
+}
+
 module.exports.deleteComment=function(req,res,next){
     if (!Validations.isObjectId(req.params.commentId)) {
         return res.status(422).json({

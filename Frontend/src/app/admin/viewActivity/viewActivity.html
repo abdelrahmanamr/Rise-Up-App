@@ -1,0 +1,24 @@
+<div class="container">
+   <div *ngFor="let report of reports">
+      <div class="card">
+         <span style="float:left;">
+            <h4><img src="assets/profile1.png" alt="" /> {{report.reportedName}} was reported by {{report.reporterName}} for commenting "{{report.commentBody}}" </h4>
+            <br>
+            <br>
+
+
+      </span>
+   </div>
+      <div *ngFor="let comment of comm">
+         <div class="card">
+         <span style="float:left;">
+            <h4><img src="assets/profile1.png" alt="" /> {{comment.username}} commented "{{comment.body}}"</h4>
+            <br>
+            <br>
+
+      </span>
+         </div>
+
+
+</div>
+</div>

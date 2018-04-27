@@ -13,6 +13,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SearchResultComponent implements OnInit{
     Items = [];
+    keySynonyms = [];
+    synonymResult:string;
     searchResult=false;
     contentElasticSearch =[];
     companyElasticSearch =[];
@@ -128,37 +130,60 @@ export class SearchResultComponent implements OnInit{
         console.log(this.key);
         console.log(this.filterToSet);
         if (this.filterToSet.toLowerCase() == "all" ) {
-            this.http.get(environment.apiUrl + '/search/getContentByElasticSearch/' + this.key).subscribe
-            (res => {
-                console.log(res['data']);
-                res['data'].forEach(element => {
-                    element.tags = element.tags.split(",");
-                    this.contentElasticSearch.push(element);
 
+            this.http.get(environment.apiUrl + '/search/getSynonyms/' + this.key).subscribe(
+                res => {
+                    console.log("HELLO World");
+                    console.log(res['err']);
+                    if (res['err'] == 'empty') {
+                        this.keySynonyms = [this.key];
+                    }
+                    else if (res['err'] == 'found') {
+                        this.keySynonyms = res['data'];
+                    }
+                    var i;
+                    for (i = 0; i < this.keySynonyms.length; i = i + 1) {
+                        if (this.keySynonyms[i] == null) {
+                            this.keySynonyms.splice(i, 1);
+                        }
+                    }
+                    console.log(this.keySynonyms);
+                    this.synonymResult = this.keySynonyms.join(',');
+                    console.log(this.synonymResult);
 
-                });
-                this.http.get(environment.apiUrl + '/search/getCompanyByElasticSearch/'+ this.key).subscribe(
-                    res => {
+                    this.http.get(environment.apiUrl + '/search/getContentByElasticSearch/' + this.synonymResult).subscribe
+                    (res => {
+                        console.log(res['data']);
                         res['data'].forEach(element => {
                             element.tags = element.tags.split(",");
-                            this.companyElasticSearch.push(element);
+                            this.contentElasticSearch.push(element);
+
+
                         });
-                        });
-                        this.http.get(environment.apiUrl + '/search/getUserbyElasticSearch/' + this.key).subscribe(
+                        this.http.get(environment.apiUrl + '/search/getCompanyByElasticSearch/' + this.synonymResult).subscribe(
                             res => {
                                 res['data'].forEach(element => {
                                     element.tags = element.tags.split(",");
-                                    this.userElasticSearch.push(element);
-                                console.log("param is :" + this.key);
-                                console.log("filter is" + this.filter1);
-                                this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
+                                    this.companyElasticSearch.push(element);
+                                });
+                            });
+                        this.http.get(environment.apiUrl + '/search/getUserbyElasticSearch/' + this.synonymResult).subscribe(
+                            res => {
+                                res['data'].forEach(element => {
+                                        element.tags = element.tags.split(",");
+                                        this.userElasticSearch.push(element);
+                                        console.log("param is :" + this.key);
+                                        console.log("filter is" + this.filter1);
+                                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
 
-                            }
-                        )
+                                    }
+                                )
 
+                            });
                     });
-            });
+                });
         }
+
         else
             {
                 if (this.filterToSet.toLowerCase() == "company" && this.companyFilterToSet.toLowerCase() == "all") {

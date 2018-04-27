@@ -174,11 +174,10 @@ export class SearchResultComponent implements OnInit{
                                         this.userElasticSearch.push(element);
                                         console.log("param is :" + this.key);
                                         console.log("filter is" + this.filter1);
-                                        this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
 
                                     }
-                                )
-
+                            )
+                                this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
                             });
                     });
                 });

@@ -35,14 +35,19 @@
 
         <!-- Content div. Only shows content -->
         <div class="resultDiv" *ngIf="this.contentElasticSearch.length>0">
-            <h2>Content</h2>
+            <h2 style="display:inline-block">Content</h2>
+            <span style="float:right; margin-right:20px;">Sort: <select name="contentSort" #type="ngModel" [(ngModel)]="contentSortToSet" (ngModelChange)="sortContent(contentSortToSet)" required>
+                <option *ngFor="let option of contentSortOptions" [value]="option" class="selectOption">{{option}}
+                </option>
+            </select></span><br />
             <!-- Each content card is shown here -->
             <div class="card" *ngFor="let item of this.contentElasticSearch">
                 <div class="contentToFade">
                     <div class="coverImage">
-                        <img *ngIf='item.coverImage!=null' src="{{item.coverImage}}" width=100%>
+                        <img *ngIf="item.coverImage!=null && item.coverImage!=''" src="{{item.coverImage}}" width=100%>
                         <img *ngIf="item.coverImage==null || item.coverImage==''" src="/assets/defaultContentCover.jpg" width=100%>
                     </div>
+                    <span *ngIf="item.boost" class="boostedContent">Editor's Pick</span>
                     <br />
                     <div class="content">
                         <h4 class="text-uppercase">{{item.title}}</h4>

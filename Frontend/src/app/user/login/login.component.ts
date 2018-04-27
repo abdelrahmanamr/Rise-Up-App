@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+import * as JWT from 'jwt-decode';
 @Component({
   selector: 'app-user-login',
     styles:
@@ -76,10 +77,10 @@ this.http.post('http://localhost:3000/api/user/login', data, config)
         console.log(token);
         localStorage.setItem("UserDoc",token);
         console.log(localStorage.getItem("UserDoc"));
-        payload = token.split('.')[1];
-        payload = window.atob(payload);
-        temp = JSON.parse(payload);
-        localStorage.setItem('userProps', JSON.stringify(temp["user"]));
+        // payload = token.split('.')[1];
+        payload = JWT(token);
+        temp = payload['user'];
+        localStorage.setItem('userProps', JSON.stringify(temp));
      //  console.log(JSON.parse(localStorage.getItem("user"))["username"]);
 
         this.router.navigate(["/search"]);

@@ -3,6 +3,7 @@ import {environment} from "../../../environments/environment.prod";
 import {HttpClient} from "@angular/common/http";
 import { FormsModule } from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
+import { ChangeDetectorRef } from '@angular/core';
 
 
 @Component({
@@ -23,10 +24,12 @@ export class SearchResultComponent implements OnInit{
     filters: string[] = ["Content","Company","Expert"];
     companyFilters: string[] = ["Name","Type","Tag"];
     companyFilterToSet: string="All";
+    contentSortOptions: string[] = ['Oldest','Newest','Editor\'s Choice','Views','Rating'];
+    contentSortToSet: string="Oldest";
     key:string;
     filter1:string;
     filter2:string;
-    constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute){
+    constructor(private http:HttpClient,private router:Router,private route:ActivatedRoute,private ref: ChangeDetectorRef){
 
     }
     ngOnInit(){
@@ -134,7 +137,8 @@ export class SearchResultComponent implements OnInit{
                 res['data'].forEach(element => {
                     element.tags = element.tags.split(",");
                     this.contentElasticSearch.push(element);
-
+                    this.sortBoosted();
+                    this.contentSortToSet = "Editor\'s Choice";
 
                 });
                 this.http.get(environment.apiUrl + '/search/getCompanyByElasticSearch/'+ this.key).subscribe(
@@ -223,6 +227,8 @@ export class SearchResultComponent implements OnInit{
                             item.tags = item.tags.split(",");
                         });
                     }
+                    this.sortBoosted();
+                    this.contentSortToSet = "Editor\'s Choice";
                     this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
                 });
             }
@@ -239,6 +245,8 @@ export class SearchResultComponent implements OnInit{
                 });
 
             }
+
+
 
 
         }
@@ -329,5 +337,83 @@ export class SearchResultComponent implements OnInit{
         finalResult = result.concat(notPreferedContent);
         return finalResult;
     }
+
+
+    sortContent(sortMethod){
+        console.log(sortMethod);
+        switch(sortMethod){
+            case "Newest":
+                this.sortNewest();
+                break;
+            case "Views":
+                this.sortMostViews();
+                break;
+            case "Oldest":
+                this.sortOldest();
+                break;
+            case "Editor\'s Choice":
+                this.sortBoosted();
+                break;
+        }
+    }
+
+    sortMostViews(){
+        this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
+            if (obj1.views < obj2.views) {
+                return 1;
+            }
+        
+            if (obj1.views > obj2.views) {
+                return -1;
+            }
+        
+            return 0;
+        });
+    }
+
+    sortNewest(){
+        this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
+            if (obj1.createdAt < obj2.createdAt) {
+                return 1;
+            }
+        
+            if (obj1.createdAt > obj2.createdAt) {
+                return -1;
+            }
+        
+            return 0;
+        });
+    }
+
+    sortOldest(){
+        this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
+            if (obj1.createdAt > obj2.createdAt) {
+                return 1;
+            }
+        
+            if (obj1.createdAt < obj2.createdAt) {
+                return -1;
+            }
+        
+            return 0;
+        });
+    }
+
+    sortBoosted(){
+        console.log("boost");
+        this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
+            if (obj1.boost < obj2.boost) {
+                return 1;
+            }
+        
+            if (obj1.boost > obj2.boost) {
+                return -1;
+            }
+        
+            return 0;
+        });
+    }
+
+
 }
 

@@ -371,6 +371,20 @@ export class SearchResultComponent implements OnInit{
         });
     }
 
+    sortHighestRating(){
+        this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
+            if (obj1.rating < obj2.rating) {
+                return 1;
+            }
+        
+            if (obj1.rating > obj2.rating) {
+                return -1;
+            }
+        
+            return 0;
+        });
+    }
+
     sortNewest(){
         this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
             if (obj1.createdAt < obj2.createdAt) {

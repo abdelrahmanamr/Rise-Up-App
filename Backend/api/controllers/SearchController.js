@@ -6,7 +6,8 @@ var mongoose = require('mongoose'),
     User = mongoose.model('User'),
     regex = require("regex"),
     elasticsearch = require('elasticsearch'),
-    Promise = require('bluebird');
+    Promise = require('bluebird'),
+    synonyms = require("synonyms");
 
 
 
@@ -247,6 +248,65 @@ module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) {
     });
 };
 
+
+
+module.exports.getSynonyms = function ( req, res,next) {
+    if(!Validations.isString(req.params.keyword)) {
+        return res.status(422).json({
+            err: null,
+            msg: ' keyword parameter must be a valid string.',
+            data: null
+
+        });
+    }
+    if(req.params.keyword.length>2) {
+        nouns = [];
+        verbs = [];
+        subjects = [];
+        all = [];
+        nouns = synonyms(req.params.keyword, "n");
+        verbs = synonyms(req.params.keyword, "v");
+        subjects = synonyms(req.params.keyword, "s");
+        if (!nouns && !verbs && !subjects) {
+            return res.status(200).json({
+                err: 'empty',
+                msg: 'All synonyms of ' + req.params.keyword + ' retrieved successfully',
+                data: []
+            });
+        }
+        if (!nouns) {
+            nouns = [];
+        }
+        if (!verbs) {
+            verbs = [];
+        }
+        if (!subjects) {
+            subjects = [];
+        }
+        all = nouns.concat(verbs, subjects);
+        var unique_array = []
+        var i;
+        var arrayLength = all.length;
+        for( i = 0;i < arrayLength; i++){
+            var element = all.pop();
+            if(all.indexOf(element) == -1){
+                unique_array.push(element)
+            }}
+        return res.status(200).json({
+            err: 'found',
+            msg: 'All synonyms of ' + req.params.keyword + ' retrieved successfully',
+            data: unique_array
+        });
+    }
+    else{
+        return res.status(200).json({
+            err: 'empty',
+            msg: 'All synonyms of ' + req.params.keyword + ' retrieved successfully',
+            data: []
+        });
+    }
+
+};
 
 //---------------------------------------------------------------------Content Elastic Search-----------------------------------//
 function createContentsearchIndex() {           // to be run once for the database to create the index
@@ -576,7 +636,7 @@ module.exports.addToUserIndex = function (req,res,next){
 //--------------------------------------------------------------------------------------------------------------------------------//
 function dropIndex() {                  // method to delete an index in elastic search
     return client.indices.delete({
-        index: 'userelasticsearch',
+        index: 'contentelasticsearch',
     });
 }
 
@@ -596,9 +656,9 @@ function dropIndex() {                  // method to delete an index in elastic 
 
 
    Promise.resolve()
-       //.then(createCompanysearchIndex)
-       //.then(createContentsearchIndex);
-       //.then(createUsersearchIndex);
+       // .then(createCompanysearchIndex)
+       // .then(createContentsearchIndex)
+       // .then(createUsersearchIndex);
        //.then(createMappingCompany)
        //.then(createMappingContent)
        //.then(dropIndex);
@@ -608,6 +668,4 @@ function dropIndex() {                  // method to delete an index in elastic 
     //    .then(createElasticSearchIndex)
     //   .then(createMappingtitle)
   //.then(deleteRecord)
-// .then(createContentsearchIndex)
-//    .then(createMappingtitle);
 

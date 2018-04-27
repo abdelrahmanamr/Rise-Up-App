@@ -111,6 +111,7 @@ router.get('/search/getContentTags/:tags', searchCtrl.getContentTags);
 router.get('/search/getCompanyTagsOrNameOrType/:tags', searchCtrl.getCompanyTagsOrNameOrType);
 router.get('/search/getCompanyTagsOrType/:tags', searchCtrl.getCompanyTagsOrType);
 router.get('/search/getCompanyTagsOrName/:tags', searchCtrl.getCompanyTagsOrName);
+router.get('/search/getSynonyms/:keyword',searchCtrl.getSynonyms);
 
 
 

@@ -4,7 +4,8 @@ process.env.NODE_ENV = 'test';
 var mongoose = require("mongoose");
 var server = require('../../Backend/app');
 var User = require("../../Backend/api/models/User");
-var Content = require("../../Backend/api/models/SuggestedContent");
+var SuggestedContent = require("../../Backend/api/models/SuggestedContent");
+
 var should = chai.should();
 
 dbURI = 'mongodb://localhost:27017/nodejs-test';
@@ -33,15 +34,15 @@ describe('Testing SuggestedContent', () =>
         body:'This content is made to test the content controller',
         tags:'testTag' });
         suggestedContentTest.save((err, suggestedContentTest) => {
-        chai.request(server).get('/api/suggestedContent/viewSuggestedContent' + suggestedContentTest.id).
+        chai.request(server).get('/api/suggestedContent/viewSuggestedContent/' + suggestedContentTest.id).
         send(suggestedContentTest).end((err, res) => 
         {
             res.should.have.status(200); 
-            res.body.should.have.property('title'); 
-            res.body.should.have.property('body'); 
-            res.body.should.have.property('tags'); 
+            res.body.data.should.have.property('title'); 
+            res.body.data.should.have.property('body'); 
+            res.body.data.should.have.property('tags'); 
             res.body.msg.should.equal("content retrieved successfully.");
-            res.body.should.have.property('_id').eql(suggestedContentTest.id);
+            res.body.data.should.have.property('_id').eql(suggestedContentTest.id);
             done(); });
     });});});
     ///////////////////////#3//add a user and add his id in the bidy of the request
@@ -56,7 +57,7 @@ describe('Testing SuggestedContent', () =>
 
         chai.request(server).post('/api/suggestedContent/addSuggestedContent').send(suggestedContentTest).end((err, res) => 
         { res.should.have.status(201);
-        res.body.should.have.property('message').eql('Suggested Content was created successfully.' ); 
+        res.body.should.have.property('msg').eql('Suggested Content was created successfully.' ); 
         done();
     });});
     /////////////////////////#4 it doesnt see what is the suggested content
@@ -71,13 +72,15 @@ describe('Testing SuggestedContent', () =>
         suggestedContentTest.save((err, suggestedContentTest) => { chai.request(server)
         .delete('/api/suggestedContent/deleteSuggestedContent/' + suggestedContentTest.id) .end((err, res) => {
         res.should.have.status(200);
-        res.body.should.have.property('message').eql('Content was deleted successfully.'); 
+        res.body.should.have.property('msg').eql('Content was deleted successfully.'); 
     done();});});});});
    ////////////////////////////#5 THE Patch method
    describe('/PATCH/:id /api/suggestedContent/updateSuggestedContent', () => {
    it('it should UPDATE a book given the id' , (done) => {
     let suggestedContentTest = new SuggestedContent
-    ({title: "The Chronicles of Narnia", author: "C.S. Lewis", year: 1948, pages: 778})
+    ({title:'testingContent',
+    body:'This content is made to test the content controller',
+    tags:'testTag'})
     suggestedContentTest.save((err, suggestedContentTest) => { chai.request(server).patch('/api/suggestedContent/updateSuggestedContent/' + suggestedContentTest.id)
     .send(
         {   title:'testingContent',
@@ -85,7 +88,7 @@ describe('Testing SuggestedContent', () =>
             tags:'testTag',}
         ).end((err, res) => {
     res.should.have.status(200);
-    res.body.should.have.property('message').eql('Content was updated successfully.'); 
+    res.body.should.have.property('msg').eql('Content was updated successfully.'); 
     done();});});});});
 
 

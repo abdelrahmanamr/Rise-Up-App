@@ -276,7 +276,6 @@ describe('Remove expert test' , function(){
                                     });
                             };
 
-<<<<<<< HEAD
                         });
 
                     }
@@ -489,11 +488,9 @@ describe('Remove expert test' , function(){
           res.body.data.dob.should.equal(false);
           done();
         });
-    }
-=======
+    })
 
   }
->>>>>>> 492281a5b954ce07c732707f6863bd762994e9d2
 
 
 ),
@@ -956,9 +953,7 @@ User.create(currentadmin, function(err, newUser) {
 
 
 
+})
 }
 
-
-)
-}
-);
+)});

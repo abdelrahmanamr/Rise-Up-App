@@ -6,6 +6,7 @@ var express = require('express'),
   productCtrl = require('../controllers/ProductController');
   userController = require('../controllers/UserController');
   searchCtrl = require('../controllers/SearchController');
+  applyExpertCtrl  = require('../controllers/ApplyExpertController');
   AdminController = require('../controllers/AdminController');
   CompanyCtrl = require('../controllers/CompanyController');
   bodyParser = require('body-parser').json();
@@ -45,6 +46,7 @@ router.get('/Content/getComments/:contentId',contentCtrl.getComments);
 
 
 router.post('/product/createProduct', productCtrl.createProduct);
+router.post('/applyExpert/createApplyExpert', applyExpertCtrl.createApplyExpert);
 router.patch('/product/updateProduct/:productId', productCtrl.updateProduct);
 router.delete('/product/deleteProduct/:productId', productCtrl.deleteProduct);
 

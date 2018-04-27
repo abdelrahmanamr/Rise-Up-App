@@ -25,6 +25,10 @@ const routes: Routes = [
           loadChildren: './changePassword/changePassword.module#ChangePasswordModule'
         },
         {
+          path: 'applyExpert',
+          loadChildren: './applyExpert/applyExpert.module#ApplyExpertModule'
+        },
+        {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

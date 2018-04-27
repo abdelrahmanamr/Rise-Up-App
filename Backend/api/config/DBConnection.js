@@ -68,4 +68,4 @@ require('../models/User');
 require('../models/Company');
 require('../models/SuggestedContent');
 require('../models/Rating');
-
+require('../models/ApplyExpert');

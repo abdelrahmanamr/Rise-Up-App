@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
       this.loggedin = false;
     }
     
-    this.userMenu = [{title:"Change password"},{ title: 'Logout' }];
+    this.userMenu = [{title:"Change password"},{title:"Apply to be an Expert"},{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');
 
@@ -56,8 +56,15 @@ export class HeaderComponent implements OnInit {
         this.adminStatus = false;
         window.location.reload();
       }else{
-        this.router.navigateByUrl("/user/changePassword");
+        if (bag.item.title === 'Apply to be an Expert') {
+          this.router.navigateByUrl("/user/applyExpert");
+
+        }
+        else{
+          this.router.navigateByUrl("/user/changePassword");
+        }
       }
+     
     });
   }
 }

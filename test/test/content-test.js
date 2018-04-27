@@ -142,6 +142,44 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
 
     }), 
 
+
+
+    it("should SUCCESS to edit content as an admin on /content/editContent/:contentId PATCH",function(done){
+        chai.request(server).patch('/api/content/editContent/'+foundcontent['_id'])
+        .send({ 'body' : 'testingcontent',
+        'title' : 'testing',
+        'userid':authenticatedAdmin['_id'],
+        'type': 'Post',
+        'tags': 'test'})
+        .end(function(err,res){
+          res.should.have.status(200);
+          res.body.msg.should.equal("content retrieved successfully.");
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.data.should.not.be.null;
+          done();
+        });
+    }),
+
+
+    
+    it("should FAIL to edit content as a user on /content/editContent/:contentId PATCH",function(done){
+        chai.request(server).patch('/api/content/editContent/'+foundcontent['_id'])
+        .send({ 'body' : 'testingcontent',
+        'title' : 'testing',
+        'userid':authenticatedUser['_id'],
+        'type': 'Post',
+        'tags': 'test'})
+        .end(function(err,res){
+          res.should.have.status(422);
+          res.body.msg.should.equal("Unauthorized! You are not an admin.");
+          res.should.be.json;
+          done();
+        });
+    }),
+
+
+
     it('should add a single content as an admin on /api/Content/addContent POST ',function(done){
         chai.request(server)
             .post('/api/Content/addContent')

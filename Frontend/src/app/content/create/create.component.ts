@@ -152,26 +152,15 @@ export class CreateComponent implements OnInit{
     var tags =   res["data"]["tags"];
          var object = res["data"];
          var JSONtoIndex = {
-             "name":tags,
-             "object":res["data"],
-             "type":"Content"
+             "tags":tags,
+             "objectId":res["data"]._id,
+             "title":res['data'].title
          }
          console.log(JSONtoIndex);
-         this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
+         this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoIndex,config)
          .subscribe(res =>{console.log(res);
-                 var JSONtoContentIndex = {
-                     "name": content.title,
-                     "object":object,
-                     "type": "Content"
-                 }
-                 this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoContentIndex,config).subscribe(
-                     res => {
-                         console.log(res);
-                         this.router.navigate(["/content/viewallcontents"])
-                     }
-            )
+                 this.router.navigate(["/content/viewallcontents"])
         },
-        
         err=>
         console.log("error adding to index"));
     },err=>{

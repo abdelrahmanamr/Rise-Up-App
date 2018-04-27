@@ -46,11 +46,11 @@ console.log(my);
         .subscribe(res => {console.log(res)
          var tags =   res["data"]["tags"];
          var JSONtoIndex = {
-             "name":tags,
-             "object":res["data"],
-             "type":"Company"
+             "tags":tags,
+             "objectId":res["data"]["_id"],
+             "name":res["data"]["name"]
          }
-         this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
+         this.http.post(environment.apiUrl+'search/addToCompanyIndex',JSONtoIndex,config)
          .subscribe(res =>{console.log(res)
             this.router.navigate(['/admin']);
 

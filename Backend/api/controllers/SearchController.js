@@ -297,8 +297,8 @@ module.exports.getContentByElasticSearch =function(req, res, next) {
                     "should": [
                         { "match": { "title":  req.params.keyword }},
                         { "match": { "tags": req.params.keyword  }},
-                        { "regexp": { "title": '.*'+req.params.keyword+'.*' }},
-                        { "regexp": { "tags": '.*'+req.params.keyword+'.*' }}
+                        { "regexp": { "title": '.*'+req.params.keyword.toLowerCase()+'.*' }},
+                        { "regexp": { "tags": '.*'+req.params.keyword.toLowerCase()+'.*' }}
                     ]
                 }
             }
@@ -399,8 +399,8 @@ module.exports.getCompanyByElasticSearch =function(req, res, next) {
                     "should": [
                         { "match": { "name":  req.params.keyword }},
                         { "match": { "tags": req.params.keyword  }},
-                        { "regexp": { "name": '.*'+req.params.keyword+'.*' }},
-                        { "regexp": { "tags": '.*'+req.params.keyword+'.*' }}
+                        { "regexp": { "name": '.*'+req.params.keyword.toLowerCase()+'.*' }},
+                        { "regexp": { "tags": '.*'+req.params.keyword.toLowerCase()+'.*' }}
                     ]
                 }
             }
@@ -501,8 +501,8 @@ module.exports.getUserByElasticSearch =function(req, res, next) {
                     "should": [
                         { "match": { "username":  req.params.keyword }},
                         { "match": { "tags": req.params.keyword  }},
-                        { "regexp": { "username": '.*'+req.params.keyword+'.*' }},
-                        { "regexp": { "tags": '.*'+req.params.keyword+'.*' }}
+                        { "regexp": { "username": '.*'+req.params.keyword.toLowerCase()+'.*' }},
+                        { "regexp": { "tags": '.*'+req.params.keyword.toLowerCase()+'.*' }}
                     ]
                 }
             }
@@ -558,18 +558,18 @@ module.exports.addToUserIndex = function (req,res,next){
     });
 }
 
-function addToUserIndex () {
-    client.index({
-        index: 'userelasticsearch',
-        type: 'users',
-        body: {
-            username: "abdelrahman salem",
-            tags: "sleeping,waking",
-            objectId: "5a983005fe9fa10467be1324"
-        }
-    });
-
-}
+// function addToUserIndex () {
+//     client.index({
+//         index: 'userelasticsearch',
+//         type: 'users',
+//         body: {
+//             username: "abdelrahman salem",
+//             tags: "sleeping,waking",
+//             objectId: "5a983005fe9fa10467be1324"
+//         }
+//     });
+//
+// }
 //--------------------------------------------------------------------------------------------------------------------------------//
 function dropIndex() {                  // method to delete an index in elastic search
     return client.indices.delete({

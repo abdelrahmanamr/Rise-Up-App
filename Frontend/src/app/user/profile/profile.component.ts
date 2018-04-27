@@ -186,15 +186,7 @@ submitTags(){
         this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
             .subscribe((info:any) => {
                 console.log(info);
-                var JSONtoIndex = {
-                    "name":info['data']['tags'],
-                    "object":info['data'],
-                    "type":"User"
-                }
-                this.http.post(environment.apiUrl+'/search/addToIndex',JSONtoIndex,config).subscribe(res=>{
-                    console.log(res);
-                    window.location.reload();
-                })
+                window.location.reload();
             });
 
 

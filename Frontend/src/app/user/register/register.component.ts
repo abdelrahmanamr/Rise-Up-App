@@ -1,4 +1,5 @@
 
+
 import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -164,11 +165,20 @@ var config = {
 };
     this.http.post('http://localhost:3000/api/user/register', data, config)
         .subscribe(res=>{
+            console.log("ta7t deh el response");
             console.log(res);
             let message = res["msg"];
             console.log(message);
+            var JSONtoIndex = {
+                "tags":res["data"]["tags"],
+                "objectId":res["data"]["_id"],
+                "username":res["data"]["username"]
+            }
             this.errorhandle = "Register successful";
-            this.router.navigateByUrl("/user/login");
+            this.http.post(environment.apiUrl+'search/addToUserIndex',JSONtoIndex,config).subscribe(res=>{
+                console.log(res);
+                this.router.navigateByUrl("/user/login");
+            });
         },err=>{
             console.log(err);
             this.toastr.error("",err['error']['msg']);

@@ -52,7 +52,8 @@ IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
 commentsflag:boolean=false;
-Contenttype:boolean=false;;
+Contenttype:boolean=false;
+owner:string;
 
 comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
@@ -111,6 +112,7 @@ this.Contenttype
         if(res['data']){
           this.contentid = res['data']._id;
           this.rating = res['data'].rating;
+          this.owner = res['data'].userid;
         }
       if(res['data'].type== "Post"){
         this.ViewText(this.ID)
@@ -127,6 +129,25 @@ this.Contenttype
           
       }
     );
+  }
+
+  viewAdder()
+  {
+    var config = {
+      headers:
+      {
+
+        "Content-Type":'application/json',
+        "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+
+      }
+    }
+    this.httpClient.get(environment.apiUrl+'/admin/getUserById/'+this.owner,config).subscribe(
+      res=>{
+        this.router.navigate(["/user/profile/"+res['data'].username]);
+      }
+    )
+    
   }
 
      ViewText(ID:String){

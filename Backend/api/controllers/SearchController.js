@@ -232,7 +232,7 @@ module.exports.getContentTags= function ( req, res, next) {  //tested
     });
 };
 
-module.exports.getTagbyKeyword =function(req, res, next) {
+module.exports.getTagbyKeyword =function(req, res, next) {   //pending
     client.search({
         index: 'elasticsearch',
         type: 'tags',
@@ -256,7 +256,7 @@ module.exports.getTagbyKeyword =function(req, res, next) {
     });
 };
 
-module.exports.getContentbyTitle =function(req, res, next) {
+module.exports.getContentbyTitle =function(req, res, next) {    //pending
     client.search({
         index: 'contentelasticsearch',
         type: 'title',
@@ -281,7 +281,7 @@ module.exports.getContentbyTitle =function(req, res, next) {
 };
 
 
-module.exports.getCompanyTagsOrName= function ( req, res, next) {
+module.exports.getCompanyTagsOrName= function ( req, res, next) {      //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -306,7 +306,7 @@ module.exports.getCompanyTagsOrName= function ( req, res, next) {
     });
 };
 
-module.exports.getCompanyTagsOrType= function ( req, res, next) {
+module.exports.getCompanyTagsOrType= function ( req, res, next) {      //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -331,7 +331,7 @@ module.exports.getCompanyTagsOrType= function ( req, res, next) {
     });
 };
 
-module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) {
+module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) { //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({

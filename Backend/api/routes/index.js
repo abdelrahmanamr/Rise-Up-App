@@ -5,6 +5,7 @@ var express = require('express'),
   suggestedContentCtrl = require('../controllers/SuggestedContentController');
   userController = require('../controllers/UserController');
   searchCtrl = require('../controllers/SearchController');
+  applyExpertCtrl  = require('../controllers/ApplyExpertController');
   AdminController = require('../controllers/AdminController');
   CompanyCtrl = require('../controllers/CompanyController');
   bodyParser = require('body-parser').json();
@@ -69,6 +70,8 @@ router.get('/Content/getComments/:contentId',contentCtrl.getComments);
 router.delete('/Content/deleteComment/:commentId',isAuthenticated,contentCtrl.deleteComment);
 router.post('/Content/makeReport/:commentId',isAuthenticated,contentCtrl.makeReport);
 
+
+router.post('/applyExpert/createApplyExpert', applyExpertCtrl.createApplyExpert);
 
 
 //-------------------------------SuggestedContent Routes-----------------------------------

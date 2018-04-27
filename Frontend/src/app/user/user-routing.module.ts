@@ -33,6 +33,10 @@ const routes: Routes = [
           loadChildren: './editProfile/edit.module#EditModule'
         },
         {
+          path: 'applyExpert',
+          loadChildren: './applyExpert/applyExpert.module#ApplyExpertModule'
+        },
+        {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'

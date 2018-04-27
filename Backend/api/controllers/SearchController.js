@@ -284,10 +284,18 @@ module.exports.getSynonyms = function ( req, res,next) {
             subjects = [];
         }
         all = nouns.concat(verbs, subjects);
+        var unique_array = []
+        var i;
+        var arrayLength = all.length;
+        for( i = 0;i < arrayLength; i++){
+            var element = all.pop();
+            if(all.indexOf(element) == -1){
+                unique_array.push(element)
+            }}
         return res.status(200).json({
             err: 'found',
             msg: 'All synonyms of ' + req.params.keyword + ' retrieved successfully',
-            data: all
+            data: unique_array
         });
     }
     else{
@@ -628,7 +636,7 @@ module.exports.addToUserIndex = function (req,res,next){
 //--------------------------------------------------------------------------------------------------------------------------------//
 function dropIndex() {                  // method to delete an index in elastic search
     return client.indices.delete({
-        index: 'userelasticsearch',
+        index: 'contentelasticsearch',
     });
 }
 
@@ -648,9 +656,9 @@ function dropIndex() {                  // method to delete an index in elastic 
 
 
    Promise.resolve()
-       //.then(createCompanysearchIndex)
-       //.then(createContentsearchIndex);
-       //.then(createUsersearchIndex);
+       // .then(createCompanysearchIndex)
+       // .then(createContentsearchIndex)
+       // .then(createUsersearchIndex);
        //.then(createMappingCompany)
        //.then(createMappingContent)
        //.then(dropIndex);
@@ -660,6 +668,4 @@ function dropIndex() {                  // method to delete an index in elastic 
     //    .then(createElasticSearchIndex)
     //   .then(createMappingtitle)
   //.then(deleteRecord)
-// .then(createContentsearchIndex)
-//    .then(createMappingtitle);
 

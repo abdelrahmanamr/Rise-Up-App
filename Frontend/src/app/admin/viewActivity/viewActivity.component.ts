@@ -9,8 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ViewActivityComponent {
 
-    public reports:any[]=[];
-    public comm:any[]=[];
+    reports:any;
+    comm:any;
     adminStatus:boolean = false;
     View:number;
 
@@ -23,8 +23,7 @@ export class ViewActivityComponent {
         if(localStorage.getItem("UserDoc")!=null){
             this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
         }
-
-this.ViewReport();
+        this.ViewReport();
         this.ViewComment();
     }
 
@@ -41,6 +40,7 @@ this.ViewReport();
         this.httpClient.get(environment.apiUrl +'admin/getActivityComment').subscribe(
             res=>{
                 this.comm = res['data'];
+                console.log(this.comm);
             }
         );
     }

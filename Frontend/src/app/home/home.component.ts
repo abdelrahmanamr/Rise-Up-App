@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
+import { Slider } from 'ngx-slider';
 
 @Component({
   selector: 'app-home',
@@ -8,148 +9,101 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
   template: `
   <ngx-main-layout >
   <router-outlet>
-  <!DOCTYPE html>
-  <html>
-  <title>W3.CSS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <body>
-  <div class="container">
-  <img src="/assets/rise.jpg"  width="100%" height="300">
+  <div class="rightbg">
+
+  <div>
+  <img src="/assets/grey.png"  width="80%" height="30px">
+  
 </div>
-<div id="salma" class="w3-content w3-section" style="max-width:500px">
+  <div>
+  <img src="/assets/connect.png"  align="right" width="90px" height="400px">
   
-    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:75px">
+</div>
 
-    
 
-  </div>
-  <div id="salma" class="w3-content w3-section" style="max-width:500px">
+  <div>
   
-    <img class="mySlides w3-animate-fading" src="/assets/1.png" style="width:600px;height:264px">
+  <img  src="/assets/final.gif" style="width:55%;height:20%">
 
-
-  </div>
   
-  <script>
-  var myIndex = 0;
-  carousel();
+
+</div>
+<div>
+  <img src="/assets/grey.png"  width="80%" height="150px">
   
-  function carousel() {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      for (i = 0; i < x.length; i++) {
-         x[i].style.display = "none";  
-      }
-      myIndex++;
-      if (myIndex > x.length) {myIndex = 1}    
-      x[myIndex-1].style.display = "block";  
-      setTimeout(carousel, 9000);    
-  }
-  </script>
-  <div id="salma" class="w3-content w3-section" style="max-width:500px">
-  
-    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:264px">
+</div>
+<h1>SNEAK PEEK OF OUR EVENTS</h1>
 
 
-  </div>
-
-  <div id="salma" class="w3-content w3-section" style="max-width:500px">
+<div style="height: 400px">
+  <ngx-slider [init]="slider" ></ngx-slider>
+</div>
+<div>
+  <img src="/assets/grey.png"  width="80%" height="300px">
   
-    <img class="mySlides w3-animate-fading" src="/assets/2.png" style="width:600px;height:264px">
-
-    
-
-  </div>
-  
-  <script>
-  var myIndex = 0;
-  carousel();
-  
-  function carousel() {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      for (i = 0; i < x.length; i++) {
-         x[i].style.display = "none";  
-      }
-      myIndex++;
-      if (myIndex > x.length) {myIndex = 1}    
-      x[myIndex-1].style.display = "block";  
-      setTimeout(carousel, 9000);    
-  }
-  </script>
-  <div id="salma" class="w3-content w3-section" style="max-width:500px">
-  
-    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:264px">
-
-
-  </div>
-  <div id="access" class="w3-content w3-section" style="max-width:500px">
-  
-    <img class="mySlides w3-animate-fading" src="/assets/3.png" style="width:600px;height:264px">
-
-  </div>
-  
-  <script>
-  var myIndex = 0;
-  carousel();
-  
-  function carousel() {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      for (i = 0; i < x.length; i++) {
-         x[i].style.display = "none";  
-      }
-      myIndex++;
-      if (myIndex > x.length) {myIndex = 1}    
-      x[myIndex-1].style.display = "block";  
-      setTimeout(carousel, 9000);    
-  }
-  </script>
-  <div id="salma" class="w3-content w3-section" style="max-width:500px">
-  
-    <img class="mySlides w3-animate-fading" src="/assets/white.jpg" style="width:600px;height:264px">
-
-
-  </div>
-  <div class="container">
-  <iframe  width="1000" height="600" src="https://www.youtube.com/embed/-fQQxIa7mDc">
+</div>
+<div>
+  <iframe  width="65%" height="450"  src="https://www.youtube.com/embed/-fQQxIa7mDc">
 </iframe>
  </div>
-
-  </body>
+  </div>
   <style>
-  #vid{
-    position:relative;
-  }
-  .container {
-    position: relative;
-}
-
-
-
-img { 
-    width: 100%;
-    height: auto;
-}
   
+
+h1 {
+    color: #DB0C18;
+   font-weight:bolder;
+   align:center;
+   font-family: helvetica;
+   font-size: 35;
+   position: relative;
+    left: 320px;
+}
+iframe{
+  position: relative;
+    left: 85px;
+}
+
   </style>
 
-  </html>
+ 
   </router-outlet>
   </ngx-main-layout>
-  `
+  `,
+  styles: ["../node_modules/font-awesome/css/font-awesome.min.css"]
+
 })
 export class HomeComponent implements OnInit {
-  menu: NbMenuItem[];
+  public slider = new Slider();
+ 
+  constructor() {
+    this.slider.config.loop = true;
+    this.slider.config.showPreview = false;
+    this.slider.config.showDots = true;
+    this.slider.config.showTitle = false;
 
+  }
   ngOnInit() {
-   
+    const slideItems = [
+      { src: '/assets/rise12.png' },
+      { src: '/assets/rise10.png' },
+      { src: '/assets/rise7.png' },
+      { src: '/assets/rise9.png' },
+      { src: '/assets/rise2.png' },
+      { src: '/assets/rise11.png' },
+      { src: '/assets/rise1.png' },
+      { src: '/assets/rise5.png' },
+      { src: '/assets/rise3.png' },
+      { src: '/assets/rise8.png' },
+      { src: '/assets/rise15.png' },
+      { src: '/assets/rise14.png' },
+      { src: '/assets/rise13.png' },
+      { src: '/assets/rise4.png' },
+      { src: '/assets/rise6.png' },
+      { src: '/assets/rise16.png' }
+    ];
+ 
+    this.slider.items = slideItems;
   }
-  go(){
-    window.location.replace("#/search")
-  }
-  go2(){
-    window.location.replace("#/content")
-  }
+  
 }

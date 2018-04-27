@@ -41,6 +41,7 @@
     "ng2-tree": "^2.0.0-rc.6",
     "ngx-clipboard": "^10.0.0",
     "ngx-quill": "2.2.0",
+    "ngx-slider": "0.0.5",
     "ngx-tags-input": "^1.1.1",
     "ngx-toastr": "6.5.0",
     "node-sass": "^4.8.1",

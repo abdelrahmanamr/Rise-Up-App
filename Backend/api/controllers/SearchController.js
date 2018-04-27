@@ -318,14 +318,15 @@ module.exports.getContentByElasticSearch =function(req, res, next) {
             Content.findById(currentElement).exec(function(err, content) {
                 if (content) {
                     contents.push(content);
-                }
-                if(content._id==lastElement){
-                    return res.status(200).json({
-                        err:null,
-                        msg:'All contents tags and titles containing '+req.params.keyword+ ' retrieved successfully',
-                        data:contents
-                    });
 
+                    if (content._id == lastElement) {
+                        return res.status(200).json({
+                            err: null,
+                            msg: 'All contents tags and titles containing ' + req.params.keyword + ' retrieved successfully',
+                            data: contents
+                        });
+
+                    }
                 }
 
             });
@@ -420,14 +421,15 @@ module.exports.getCompanyByElasticSearch =function(req, res, next) {
             Company.findById(hits[i]._source.objectId).exec(function(err, company) {
                 if (company) {
                     companies.push(company);
-                }
-                if(company._id==lastElement){
-                    return res.status(200).json({
-                        err:null,
-                        msg:'All companies tags and names containing '+req.params.keyword+ ' retrieved successfully',
-                        data:companies
-                });
 
+                    if (company._id == lastElement) {
+                        return res.status(200).json({
+                            err: null,
+                            msg: 'All companies tags and names containing ' + req.params.keyword + ' retrieved successfully',
+                            data: companies
+                        });
+
+                    }
                 }
 
             });
@@ -525,14 +527,15 @@ module.exports.getUserByElasticSearch =function(req, res, next) {
                 User.findById(currentElement).exec(function (err, user) {
                     if (user) {
                         users.push(user);
-                    }
-                    if (user._id == lastElement) {
-                        return res.status(200).json({
-                            err: null,
-                            msg: 'All users tags and usernames containing ' + req.params.keyword + ' retrieved successfully',
-                            data: users
-                        });
 
+                        if (user._id == lastElement) {
+                            return res.status(200).json({
+                                err: null,
+                                msg: 'All users tags and usernames containing ' + req.params.keyword + ' retrieved successfully',
+                                data: users
+                            });
+
+                        }
                     }
 
                 });

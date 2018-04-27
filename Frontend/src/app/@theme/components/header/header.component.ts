@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     }
     
 
-    this.userMenu = [{title:"Edit Profile"},{title:"Change password"},{title:"Apply to be an Expert"},{ title: 'Logout' }];
+    this.userMenu = [{title:"Edit Profile"},{title:"Change password"},{title:"Apply to be an Expert"},{title:"Suggest Company"},{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');
 
@@ -69,6 +69,8 @@ export class HeaderComponent implements OnInit {
         this.router.navigateByUrl('/user/editProfile');
       }else if (bag.item.title === 'Apply to be an Expert') {
           this.router.navigateByUrl("/user/applyExpert");
+      }else if (bag.item.title === 'Suggest Company') {
+        this.router.navigateByUrl("/company/suggest");
       }
       
      

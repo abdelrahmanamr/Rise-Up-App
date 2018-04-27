@@ -3,6 +3,7 @@ var express = require('express'),
   router = express.Router(),
   contentCtrl = require('../controllers/ContentController');
   suggestedContentCtrl = require('../controllers/SuggestedContentController');
+  suggestedCompanyCtrl = require('../controllers/SuggestedCompanyController');
   userController = require('../controllers/UserController');
   searchCtrl = require('../controllers/SearchController');
   applyExpertCtrl  = require('../controllers/ApplyExpertController');
@@ -120,6 +121,13 @@ router.get('/company/getCompany/:companyId',CompanyCtrl.getCompanyById);
 router.post('/company/createCompany', isAuthenticated, CompanyCtrl.createCompany);
 router.delete('/company/deleteCompany/:companyId', isAuthenticated, CompanyCtrl.deleteCompany);
 router.patch('/company/CompanyViews/:ID', CompanyCtrl.IncrementViews);
+
+
+
+//---------------------------SuggestedCompany Routes------------------------------
+
+router.post('/suggestedcompany/addSuggestedCompany',suggestedCompanyCtrl.addSuggestedCompany);
+
 
 //-------------------------------Admin Routes-----------------------------------
 

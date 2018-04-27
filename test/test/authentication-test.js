@@ -15,6 +15,7 @@ const registeringUserCredentials = {
     username: 'user2', 
     password: 'helloworld',
     confirmPassword: 'helloworld',
+    // token: '123',
     email:'user2@user.com',
     firstname:'user',
     lastname:'user',
@@ -40,6 +41,7 @@ const registeringUserCredentials = {
           securityA : 'user.secAField',
           password: 'testingpassword',
         confirmPassword: 'testingpassword',
+        // token : '123',
           firstname: 'Saleh',
           lastname: "Elhadidy",
         tags:"result",
@@ -54,6 +56,23 @@ const registeringUserCredentials = {
           });
         });
       });
+
+
+
+
+
+    //   it("SUCESS to reset a user's password on /api/user/reset/:token PATCH",function(done){
+    //     chai.request(server).patch('/api/user/reset/'+authenticatedUser2['_token']) //should pass the token of the last part of the url (dont know how)
+    //     .send({'password' : authenticatedUser2['_password']})
+    //     .end(function(err,res){
+    //       res.should.have.status(201);
+    //       res.body.msg.should.equal("Success");
+    //       done();
+    //     });
+    // }),
+
+
+
 
     it('should register as a user on /api/user/register POST',function(done){
         chai.request(server)

@@ -20,11 +20,12 @@ chai.use(chaiHttp);
       var usertestid;
       var usertest  = {
         'username': 'DummyUser',
-        'firstName': 'Dummy',
-        'lastName': 'user',
+        'firstname': 'Dummy',
+        'lastname': 'User',
         'email': 'Dummymail@guc.edu.eg',
-        'dob': '1997-03-03T00:00:00.000Z',
-        'password':'12345678'
+        'dateOfBirth': '1997-03-03T00:00:00.000Z',
+        'password':'12345678',
+        'admin' :'true'
       };
       User.create(usertest, function(err, newUser) {
             if (err) {
@@ -75,7 +76,7 @@ chai.use(chaiHttp);
 
 
                   chai.request(server)
-                    .get('/api/company/getCompany/'+'sad')
+                    .get('/api/company/getCompany/'+'notid')
                     .send()
                     .end(function(err ,res) {
                       res.status.should.be.eql(422);

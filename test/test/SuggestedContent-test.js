@@ -28,7 +28,7 @@ describe('Testing SuggestedContent', () =>
     describe('/GET/:id /api/suggestedContent/viewSuggestedContent', () => {
     it('it should GET a suggestedContent by the given id' , (done) => {
         let suggestedContentTest = 
-        new suggestedContent({ 
+        new SuggestedContent({ 
         title:'testingContent',
         body:'This content is made to test the content controller',
         tags:'testTag' });
@@ -62,7 +62,7 @@ describe('Testing SuggestedContent', () =>
     /////////////////////////#4 it doesnt see what is the suggested content
     describe('DELETE/:id /api/suggestedContent/deleteSuggestedContent', () => {
     it('it should DELETE a suggestedContent given the id' , (done) => {
-        let suggestedContentTest = new suggestedContent(
+        let suggestedContentTest = new SuggestedContent(
         {
             title:'testingContent',
             body:'This content is made to test the content controller',
@@ -76,7 +76,7 @@ describe('Testing SuggestedContent', () =>
    ////////////////////////////#5 THE Patch method
    describe('/PATCH/:id /api/suggestedContent/updateSuggestedContent', () => {
    it('it should UPDATE a book given the id' , (done) => {
-    let suggestedContentTest = new suggestedContent
+    let suggestedContentTest = new SuggestedContent
     ({title: "The Chronicles of Narnia", author: "C.S. Lewis", year: 1948, pages: 778})
     suggestedContentTest.save((err, suggestedContentTest) => { chai.request(server).patch('/api/suggestedContent/updateSuggestedContent/' + suggestedContentTest.id)
     .send(

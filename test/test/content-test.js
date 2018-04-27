@@ -122,6 +122,26 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
         // });
     }),
 
+
+    it('should create a comment as a user on /api/Content/createComment POST',function(done){
+        chai.request(server)
+        .post('/api/Content/createComment/'+foundcontent['_id']).send({
+            'body' : 'testcomment',
+            'userid':authenticatedUser['_id'],
+            'contentId' : foundcontent['_id'],
+            'username': 'user'})
+            .end(function(err,res){ 
+                res.should.have.status(201);
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.data.should.not.be.null;
+                done();
+            });
+
+        
+
+    }), 
+
     it('should add a single content as an admin on /api/Content/addContent POST ',function(done){
         chai.request(server)
             .post('/api/Content/addContent')

@@ -521,7 +521,6 @@ module.exports.login = function(req,res,next){
         });
     }
     else{
-        console.log("Checking all database entries for an entry like this");
         var toCheck = null;
         if(req.body.email==null){
             toCheck = req.body.username.trim().toLowerCase();
@@ -530,14 +529,12 @@ module.exports.login = function(req,res,next){
         }
         User.findOne({$or:[{email:toCheck},{username:toCheck}]}).exec(function(err,userfound){
             if(err){
-                console.log("I found an error");
                 return next(err);
             }
 
             else{
 
                 if(!userfound){
-                    console.log("No user found");
 
                     return res.status(422).json({
                         err:null,
@@ -546,15 +543,11 @@ module.exports.login = function(req,res,next){
                     });
                 }
                 else{
-                    console.log("Comparing passwords");
-                    console.log(req.body.password.trim().toLowerCase());
-                    console.log(userfound.password);
+
                     Encryption.hashPassword(req.body.password.trim().toLowerCase(), function(err, password) {
-                        console.log(password);
                     })
                     Encryption.comparePasswordToHash(req.body.password,userfound.password,function(err,passMatched){
                         if(err){
-                            console.log("I found an error2");
                             return next(err);
                         }
                         else{
@@ -580,7 +573,7 @@ module.exports.login = function(req,res,next){
                                   },
                                   req.app.get('secret'),
                                   {
-                                      expiresIn: '12h'
+                                      expiresIn: '5m'
                                   }
                             );
                             res.status(200).json({

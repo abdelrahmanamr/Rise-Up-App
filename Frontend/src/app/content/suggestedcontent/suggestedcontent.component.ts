@@ -18,8 +18,14 @@ ngOnInit() {
   this.ViewContents();
   }
   ViewContents(){
+    var config = {
+      headers : {
+          'Content-Type': 'application/json',
+          'authorization':localStorage.getItem('UserDoc')
+      }
+  }
     
-    this.httpClient.get(environment.apiUrl +'suggestedcontent/viewSuggestedContents').subscribe(
+    this.httpClient.get(environment.apiUrl +'suggestedcontent/viewSuggestedContents',config).subscribe(
       res=>{ 
         for(var i = 0 ; i <res['data'].length;i++){
           if(res['data'][i].status == 0){
@@ -27,7 +33,12 @@ ngOnInit() {
           }
         }
         
-      }
+      },err=>{
+        this.toastr.error("",err['error']["msg"]);
+        if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+          localStorage.clear();
+          this.router.navigateByUrl("/search/searchresults")
+        }         }
     );
   }
   ViewContent(ID: string){

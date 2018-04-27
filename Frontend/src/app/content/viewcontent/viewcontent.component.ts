@@ -77,11 +77,11 @@ ShowPopUp(){
       }
 
       rate(rate:number){
-        var config ={
-          headers : 
-        {
-      'Content-Type':'application/json'
-        }
+        var config = {
+          headers : {
+              'Content-Type': 'application/json',
+             'authorization':localStorage.getItem('UserDoc')
+          }
       }
   
         var data = JSON.stringify({rating: rate,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -91,9 +91,12 @@ ShowPopUp(){
             console.log(res);  
             window.location.reload();
          
-          }, err=>{
-            this.toastr.error("",err.error["msg"]);
-            console.log(err);
+          },err=>{
+            this.toastr.error("",err['error']["msg"]);
+            if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+              localStorage.clear();
+              this.router.navigateByUrl("/search/searchresults")
+            }     
           });
 
       }
@@ -210,16 +213,24 @@ this.Contenttype
 
  DeleteContent(ident:string)
  {
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
-   this.httpClient.delete(environment.apiUrl+'api/Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+  var config = {
+    headers : {
+        'Content-Type': 'application/json',
+       'authorization':localStorage.getItem('UserDoc')
+    }
+}
+this.httpClient.delete(environment.apiUrl+'Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+
    subscribe(res=>{
     this.router.navigateByUrl('/content/viewallcontents');
-   });
+   },err=>{
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
+  }
+  );
 
   
  }
@@ -233,17 +244,23 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
               "contentid":this.ID,
             "username":JSON.parse(localStorage.getItem("userProps"))["username"]};
 
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
+            var config = {
+              headers : {
+                  'Content-Type': 'application/json',
+                 'authorization':localStorage.getItem('UserDoc')
+              }
+          }
 
   this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
     res=>{
     console.log(res["data"]);
         window.location.reload();
+    },err=>{
+      this.toastr.error("",err.error["msg"]);
+      if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+        localStorage.clear();
+        this.router.navigateByUrl("/search/searchresults")
+      }
     }
   );
 
@@ -273,36 +290,43 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
 }
 deleteComment(id: string){
   var config = {
-    headers : 
-    {
-        'Content-Type':'application/json'
+    headers : {
+        'Content-Type': 'application/json',
+       'authorization':localStorage.getItem('UserDoc')
     }
 }
-  this.httpClient.delete('http://localhost:3000/api/Content/deleteComment/'+id+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+  this.httpClient.delete(environment.apiUrl +'Content/deleteComment/'+id+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
    subscribe(res=>{
 
     window.location.reload();
    },err=>{
-    this.toastr.error("",err.error["msg"]);
-    console.log(err);
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
   });
 }
 reportComment(id: string){
   var config = {
-    headers : 
-    {
-        'Content-Type':'application/json'
+    headers : {
+        'Content-Type': 'application/json',
+       'authorization':localStorage.getItem('UserDoc')
     }
 }
 var body = {
   userid:this.userID,
   name:JSON.parse(localStorage.getItem('userProps'))['username']
 }
-  this.httpClient.post('http://localhost:3000/api/Content/makeReport/'+id,body,config).
+  this.httpClient.post(environment.apiUrl +'Content/makeReport/'+id,body,config).
    subscribe(res=>{
     this.toastr.success("","Reported");
   },err=>{
-    this.toastr.error("",err.error["msg"]);
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
   });
 }
 

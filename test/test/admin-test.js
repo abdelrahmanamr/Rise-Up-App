@@ -215,8 +215,9 @@ describe('Remove expert test' , function(){
           }
     });
 
-//******************************************addExpert*********************************************
-describe('Add Expert test' , function(){
+
+
+    describe('Add Expert test' , function(){
         // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
         it('it should register a new Expert  ' , function(done) {
                 var currentadmin  = {
@@ -345,7 +346,8 @@ describe('Add Expert test' , function(){
             })
     }
 );
-//********************************************getTags*********************************
+
+
 describe('Get Tags test' , function() {
     // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('it should register a new Admin  ' , function(done) {
@@ -386,7 +388,8 @@ describe('Get Tags test' , function() {
             });
     });
 });
-//***************************************UpdateExpertTags****************************
+
+
 describe('Update Expert Tag test' , function() {
     // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('it should register a new Admin  ' , function(done) {

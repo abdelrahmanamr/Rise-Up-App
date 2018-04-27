@@ -123,7 +123,6 @@ submitTags(){
 
 
     this.flag = true;
-
 }
   UnBlock()
   {
@@ -237,6 +236,7 @@ submitTags(){
         this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
             .subscribe((info:any) => {
                 console.log(info);
+
                 var JSONtoIndex = {
                     "name":info['data']['tags'],
                     "object":info['data'],
@@ -253,9 +253,5 @@ submitTags(){
                   this.router.navigateByUrl("/search/searchresults")
                 }     
               });
-
-
     }
-
-
 }

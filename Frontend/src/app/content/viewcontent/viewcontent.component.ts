@@ -73,6 +73,7 @@ ShowPopUp(){
 
     }
     this.GetContent(this.ID) ;
+    this.views(this.ID);
     this.ViewComments();
       }
 
@@ -336,6 +337,7 @@ toggle() //this method is responsible for showing/hiding comments, the function 
   this.commentsflag=!this.commentsflag  //a method to show and hide comments
  }
 
+
  EditContent(ID:string){
   var editContent = {
     "id":ID,
@@ -348,5 +350,24 @@ toggle() //this method is responsible for showing/hiding comments, the function 
 }
 
 
+ views(ID: string){ // this method calls a patch request to the method "views" in the ContentController in the backend 
+   
+ var config = {
+   headers : 
+   {
+       'Content-Type':'application/json'
+   }
+}
+
+this.httpClient.patch(environment.apiUrl +'/Content/views/'+ID,config).subscribe(
+res=>{
+ console.log(res['data']);
+}
+)
+
 
 }
+
+}
+
+

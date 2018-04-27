@@ -80,6 +80,7 @@ this.http.post(environment.apiUrl+'user/login', data, config)
         payload = token.split('.')[1];
         temp = JWT(token);
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
+
      //  console.log(JSON.parse(localStorage.getItem("user"))["username"]);
 
         this.router.navigate(["/search"]);

@@ -34,6 +34,9 @@ const adminCredentials = {
   var authenticatedAdmin = null;
   var authenticatedUser = null;
 
+  var foundcontent = null;
+  var foundcomment = null;
+
 
 
 
@@ -48,11 +51,49 @@ describe('Testing Contents',function(){
             if(admin){
                 normalUser.save(function(err,user){
                     if(user){
-                        User.findOne({"username":"admin"}).exec(function(err,userfound){
-                            authenticatedAdmin = userfound;
+                        User.findOne({"username":"admin"}).exec(function(err,user1found){
+                            authenticatedAdmin = user1found;
                             User.findOne({"username":"user"}).exec(function(err,userfound){
                                 authenticatedUser = userfound;
-                                done();
+                             console.log(userfound['_id'] + "  ahpwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+                                const content = {
+                                    title: 'testing',
+                                      type: 'Post',
+                                      body : 'testingcontent',
+                                    tags: 'test',
+                                    //  views: 5,
+                                  userid: user1found['_id'],
+                                };
+                                
+                                chai.request(server).post('/api/content/addContent').send(content).end(function(err,res){
+                                    //console.log(res['data'] + " ahooowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+                                    res.should.have.status(201);
+                                    Content.findOne({"title":"testing"}).sort([['date', -1]]).exec(function(err,contentfound){
+                                    foundcontent = contentfound;
+                                    const  comment = {
+                                        userid: userfound['_id'],
+                                        username:userfound["username"],
+                                          body : 'testbody',
+                                          contentId : foundcontent['_id'],
+                                    };
+                                    chai.request(server).post('/api/Content/createComment/'+foundcontent['_id']).send(comment).end(function(err,res){
+                                        res.should.have.status(201);
+                                        Comment.findOne({"body":"testbody"}).sort([['date', -1]]).exec(function(err,commentfound){
+                                        foundcomment = commentfound;
+                                        done();
+                                            }); 
+                                            });
+                                          });
+                                        });
+
+ 
+
+
+
+
+
+
+
                             });
                         });
                     }
@@ -61,6 +102,91 @@ describe('Testing Contents',function(){
         });
     
     });
+
+
+
+
+
+    it('should list ALL comments on /api/Content/getComments GET',function(done){
+        chai.request(server)
+            .get('/api/Content/getComments/'+foundcontent['_id'])
+            .end(function(err,res){
+                res.should.have.status(200);
+                
+                res.should.be.json;
+                res.body.data.should.be.an('array');
+                done();
+            });
+    }),
+
+    it('should FAIL in listing all comments on /api/Content/getComments GET',function(done){
+        chai.request(server)
+            .get('/api/Content/getComments/'+foundcontent['_title'])
+            .end(function(err,res){
+                res.should.have.status(422);
+                res.body.msg.should.equal("contentId parameter must be a valid ObjectId.");
+                res.should.be.json;
+                // res.body.data.should.be.an('array');
+                done();
+            });
+    }),
+
+    it('should create a comment as a user on /api/Content/createComment POST',function(done){
+        chai.request(server)
+        .post('/api/Content/createComment/'+foundcontent['_id']).send({
+            'body' : 'testcomment',
+            'userid':authenticatedUser['_id'],
+            'contentId' : foundcontent['_id'],
+            'username': 'user'})
+            .end(function(err,res){ 
+                res.should.have.status(201);
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.data.should.not.be.null;
+                done();
+            });
+
+        
+
+    }), 
+
+
+
+    it("should SUCCESS to edit content as an admin on /content/editContent/:contentId PATCH",function(done){
+        chai.request(server).patch('/api/content/editContent/'+foundcontent['_id'])
+        .send({ 'body' : 'testingcontent',
+        'title' : 'testing',
+        'userid':authenticatedAdmin['_id'],
+        'type': 'Post',
+        'tags': 'test'})
+        .end(function(err,res){
+          res.should.have.status(200);
+          res.body.msg.should.equal("content retrieved successfully.");
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.data.should.not.be.null;
+          done();
+        });
+    }),
+
+
+    
+    it("should FAIL to edit content as a user on /content/editContent/:contentId PATCH",function(done){
+        chai.request(server).patch('/api/content/editContent/'+foundcontent['_id'])
+        .send({ 'body' : 'testingcontent',
+        'title' : 'testing',
+        'userid':authenticatedUser['_id'],
+        'type': 'Post',
+        'tags': 'test'})
+        .end(function(err,res){
+          res.should.have.status(422);
+          res.body.msg.should.equal("Unauthorized! You are not an admin.");
+          res.should.be.json;
+          done();
+        });
+    }),
+
+
 
     it('should add a single content as an admin on /api/Content/addContent POST ',function(done){
         chai.request(server)
@@ -143,6 +269,7 @@ describe('Testing Contents',function(){
     });
     afterEach(function(done){
         User.collection.drop();
+        Comment.collection.drop();
         done();
     });
 });

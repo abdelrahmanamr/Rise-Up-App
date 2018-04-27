@@ -12,7 +12,7 @@ dbURI = 'mongodb://localhost:27017/nodejs-test';
 chai.use(chaiHttp);
 
 const registeringUserCredentials = {
-    username: 'user2', 
+    username: 'ranon', 
     password: 'helloworld',
     confirmPassword: 'helloworld',
     // token: '123',
@@ -22,7 +22,7 @@ const registeringUserCredentials = {
   }
 
   const registeringUserLoginCredentials = {
-      username: 'Saleh',
+      username: 'ranon',
       password: 'testingpassword'
   }
 
@@ -36,21 +36,21 @@ const registeringUserCredentials = {
     beforeEach(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
     mongoose.connect('mongodb://localhost:27017/nodejs-test');
         var data = {
-        username: 'Saleh',
+        username: 'ranon',
           securityQ: 'user.secQField',
           securityA : 'user.secAField',
           password: 'testingpassword',
         confirmPassword: 'testingpassword',
         // token : '123',
-          firstname: 'Saleh',
-          lastname: "Elhadidy",
+          firstname: 'ranon',
+          lastname: "talaat",
         tags:"result",
         email: "register@user.com",
         dateOfBirth:"19/1/2018"
     };
     chai.request(server).post('/api/user/register').send(data).end(function(err,res){
         res.should.have.status(201);
-      User.findOne({"username":"Saleh"}).exec(function(err,userfound){
+      User.findOne({"username":"ranon"}).exec(function(err,userfound){
           authenticatedUser2 = userfound;
           done();
           });
@@ -99,7 +99,32 @@ const registeringUserCredentials = {
                 authenticatedUser = payload['user'];
                 done();
             });
-      }),it("FAIL to change a user's password as he didn't type in his new/old password or confirm it /api/user/changePassword/:userId PATCH",function(done){
+      }),
+      it("should check for a unique username and FAIL since this user exists /api/user/checkUsername/",function(done){
+        chai.request(server)
+        .post('/api/user/checkUsername')
+        .send({'username':authenticatedUser2['username']})
+        .end(function(err,res){
+          res.should.have.status(422);
+          res.body.msg.should.equal("user already exists");
+          done();
+        });
+        
+     
+    }),
+    it("should check for a unique username and pass since this is a new user /api/user/checkUsername/",function(done){
+        chai.request(server)
+        .post('/api/user/checkUsername')
+        .send({'username':'UserGedeed'})
+        .end(function(err,res){
+          res.should.have.status(200);
+          res.body.msg.should.equal("user unique");
+          done();
+        });
+        
+     
+    }),
+      it("FAIL to change a user's password as he didn't type in his new/old password or confirm it /api/user/changePassword/:userId PATCH",function(done){
           chai.request(server).patch("/api/user/changePassword/"+authenticatedUser2['_id']).end(function(err,res){
             res.should.have.status(422);
             res.body.msg.should.equal("Wrong input data");
@@ -108,6 +133,7 @@ const registeringUserCredentials = {
           
        
       }),
+
       it("FAIL to change a user's password as a wrong old password was written /api/user/changePassword/:userId PATCH",function(done){
         chai.request(server).patch("/api/user/changePassword/"+authenticatedUser2['_id']).send({oldpassword:"testingpass",newpassword:"newpassword",confirmpassword:"newpassword"}).end(function(err,res){
           res.should.have.status(422);

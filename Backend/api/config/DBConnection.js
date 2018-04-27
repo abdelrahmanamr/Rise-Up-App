@@ -69,4 +69,5 @@ require('../models/Company');
 require('../models/SuggestedContent');
 require('../models/Rating');
 require('../models/Report');
+require('../models/SuggestedCompany');
 

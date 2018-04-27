@@ -142,7 +142,8 @@ this.Contenttype
       {
 
         "Content-Type":'application/json',
-        "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+        "id":JSON.parse(localStorage.getItem("userProps"))["_id"],
+        'authorization':localStorage.getItem('UserDoc')
 
       }
     }

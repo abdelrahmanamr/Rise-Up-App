@@ -290,7 +290,11 @@ export class SearchResultComponent implements OnInit{
         this.nameortype = "";
         this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
             console.log(this.Items);
+            if(localStorage.getItem('userProps')){
             this.contentElasticSearch= this.sortPreferedContent(res['data']);
+            }else{
+                this.contentElasticSearch = res['data'];
+            }
             this.contentElasticSearch.forEach(item => {
                 item.tags=item.tags.split(",");
             });

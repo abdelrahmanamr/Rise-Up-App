@@ -11,12 +11,1025 @@ var contentTest = require('./content-test');
 dbURI = 'mongodb://localhost:27017/nodejs-test';
 
 
+const registeringUser = {
+  username: 'ranon',
+  password: 'testingpassword',
+  confirmpassword: 'testingpassword',
+  email: 'ranon@ranon.com'
+}
+
+const registeringUserLoginCredentials = {
+  username: 'ranon123123',
+  password: 'testingpassword'
+}
+
+var authenticatedUser2 = null;
+var token = null;
+
+
+
 chai.use(chaiHttp);
+describe('Admin testing', function(){
+  beforeEach(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
+  mongoose.connect('mongodb://localhost:27017/nodejs-test');
+      var data = {
+      username: 'ranon123123',
+        securityQ: 'user.secQField',
+        securityA : 'user.secAField',
+        password: 'testingpassword',
+      confirmPassword: 'testingpassword',
+      // token : '123',
+        firstname: 'ranon',
+        lastname: "talaat",
+      tags:"result",
+      email: "register@user.com",
+      dateOfBirth:"19/1/2018"
+  };
+  chai.request(server).post('/api/user/register').send(data).end(function(err,res){
+      res.should.have.status(201);
+    User.findOne({"username":"ranon123123"}).exec(function(err,userfound){
+        authenticatedUser2 = userfound;
+        done();
+        });
+      });
+    });
+
+  it('should login as a user on /api/user/login POST',function(done){
+      chai.request(server)
+          .post('/api/user/login')
+          .send(registeringUserLoginCredentials)
+          .end(function(err,res){
+              // console.log(res);
+              res.should.have.status(200);
+              res.body.data.should.a('string');
+              token = res.body.data;
+              payload = token.split('.')[1];
+              payload = Buffer.from(payload,'base64');
+              payload = JSON.parse(payload);
+              authenticatedUser = payload['user'];
+              done();
+          });
+    })
+
+
+  describe('Add admin test' , function(){
+
+    it('it should register a new Admin  ' , function(done) {
+         var currentadmin  = {
+        'username': 'Dummyadmin',
+        'firstname': 'Dummy',
+        'lastname': 'admin',
+        'email': 'Dummyadminmail@guc.edu.eg',
+        'dateOfBirth': '1997-03-03T00:00:00.000Z',
+        'password':'12345678',
+        'admin' :true
+      };
+      var currentadmintest;
+      User.create(currentadmin, function(err, newUser) {
+        if (err) {
+         
+            }
+            else{
+            currentadmintest =newUser ;
+            var newadmin  = {
+              'username': 'DummyUser',
+              'firstname': 'Dummy',
+              'lastname': 'user',
+              'email': 'Dummymail@guc.edu.eg',
+              'dateOfBirth': '1997-03-03T00:00:00.000Z',
+              'password':'12345678',
+              'admin' :false
+            };
+            var newadmintest;
+            User.create(newadmin, function(err, newUser) {
+              if (err) {
+               
+                  }
+                  else{
+                  newadmintest =newUser ;
+                  console.log(newadmintest['_id']);
+            console.log("hererererer");
+            chai.request(server)
+            .patch('/api/admin/addAdmin/'+newadmintest['_id'])
+            .set('authorization',token)
+            .send({userid:currentadmintest['_id']})
+            .end(function(err ,res) {
+              res.status.should.be.eql(200);
+              res.body.should.have.property('msg');
+              res.body.msg.should.be.eql('User retrieved correctly');
+              res.body.data.should.have.property('username');
+              res.body.data.username.should.equal('dummyuser');
+              res.body.data.should.have.property('firstname');
+              res.body.data.firstname.should.equal('dummy');
+              res.body.data.should.have.property('lastname');
+              res.body.data.lastname.should.equal('user');
+              res.body.data.should.have.property('email');
+              res.body.data.email.should.equal('dummymail@guc.edu.eg');
+              res.body.data.should.have.property('dateOfBirth');
+              res.body.data.should.have.property('admin');
+              res.body.data.admin.should.equal(true);
+              done();
+            });
+            };
+
+            });
+            // t send request lel server w te3mel el method el 3ayezha t check
+
+
+            }
+      });
 
 
 
+    }
 
 
-describe('Testing Admin',function(){
+),
+it('it shouldnt register a new Admin  ' , function(done) {
+  var currentadmin  = {
+ 'username': 'Dummyadmin',
+ 'firstname': 'Dummy',
+ 'lastname': 'admin',
+ 'email': 'Dummyadminmail@guc.edu.eg',
+ 'dateOfBirth': '1997-03-03T00:00:00.000Z',
+ 'password':'12345678',
+ 'admin' :false
+};
+var currentadmintest;
+User.create(currentadmin, function(err, newUser) {
+ if (err) {
+  
+     }
+     else{
+     currentadmintest =newUser ;
+     var newadmin  = {
+       'username': 'DummyUser',
+       'firstname': 'Dummy',
+       'lastname': 'user',
+       'email': 'Dummymail@guc.edu.eg',
+       'dateOfBirth': '1997-03-03T00:00:00.000Z',
+       'password':'12345678',
+       'admin' :false
+     };
+     var newadmintest;
+     User.create(newadmin, function(err, newUser) {
+       if (err) {
+        
+           }
+           else{
+           newadmintest =newUser ;
+           console.log(newadmintest['_id']);
+     console.log("hererererer");
+     chai.request(server)
+     .patch('/api/admin/addAdmin/'+newadmintest['_id'])
+     .set('authorization',token)
+     .send({userid:currentadmintest['_id']})
+     .end(function(err ,res) {
+       res.status.should.be.eql(422);
+       res.body.should.have.property('msg');
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
 
+       done();
+     });
+     };
+
+     });
+     // t send request lel server w te3mel el method el 3ayezha t check
+
+
+     }
+});
+
+
+
+}
+
+
+)
+  }
+);
+
+
+describe('Remove expert test' , function(){
+  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+  it('it should remove the expert  ' , function(done) {
+       var currentadmin  = {
+      'username': 'Dummyadmin',
+      'firstname': 'Dummy',
+      'lastname': 'admin',
+      'email': 'Dummyadminmail@guc.edu.eg',
+      'dateOfBirth': '1997-03-03T00:00:00.000Z',
+      'password':'12345678',
+      'admin' :true
+    };
+    var currentadmintest;
+    User.create(currentadmin, function(err, newUser) {
+      if (err) {
+       
+          }
+          else{
+          currentadmintest =newUser ;
+          var newadmin  = {
+            'username': 'DummyUser',
+            'firstname': 'Dummy',
+            'lastname': 'user',
+            'email': 'Dummymail@guc.edu.eg',
+            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+            'password':'12345678',
+            'expert' :true
+          };
+          var newadmintest;
+          User.create(newadmin, function(err, newUser) {
+            if (err) {
+             
+                }
+                else{
+                newadmintest =newUser ;
+                console.log(newadmintest['_id']);
+          console.log("hererererer");
+          chai.request(server)
+          .patch('/api/admin/removeExpert/'+newadmintest['_id'])
+          .set('authorization',token)
+          .send({userid:currentadmintest['_id']})
+          .end(function(err ,res) {
+            res.status.should.be.eql(200);
+            res.body.should.have.property('msg');
+            res.body.msg.should.be.eql('User retrieved correctly');
+            res.body.data.should.have.property('username');
+            res.body.data.username.should.equal('dummyuser');
+            res.body.data.should.have.property('firstname');
+            res.body.data.firstname.should.equal('dummy');
+            res.body.data.should.have.property('lastname');
+            res.body.data.lastname.should.equal('user');
+            res.body.data.should.have.property('email');
+            res.body.data.email.should.equal('dummymail@guc.edu.eg');
+            res.body.data.should.have.property('dateOfBirth');
+            res.body.data.should.have.property('expert');
+            res.body.data.admin.should.equal(false);
+            done();
+          });
+          };
+
+          });
+          // t send request lel server w te3mel el method el 3ayezha t check
+
+
+          }
+    });
+
+
+
+    describe('Add Expert test' , function(){
+        // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+        it('it should register a new Expert  ' , function(done) {
+                var currentadmin  = {
+                    'username': 'Dummyadmin',
+                    'firstname': 'Dummy',
+                    'lastname': 'admin',
+                    'email': 'Dummyadminmail@guc.edu.eg',
+                    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+                    'password':'12345678',
+                    'admin' :true
+                };
+                var currentadmintest;
+                User.create(currentadmin, function(err, newUser) {
+                    if (err) {
+                        
+                    }
+                    else{
+                        currentadmintest =newUser ;
+                        var newExpert  = {
+                            'username': 'DummyUser',
+                            'firstname': 'Dummy',
+                            'lastname': 'user',
+                            'email': 'Dummymail@guc.edu.eg',
+                            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+                            'password':'12345678',
+                            'expert' :false
+                        };
+                        var newexperttest;
+                        User.create(newExpert, function(err, newUser) {
+                            if (err) {
+                                
+                            }
+                            else{
+                                newexperttest =newUser ;
+                                console.log(newexperttest['_id']);
+                                console.log("HERE");
+                                chai.request(server)
+                                    .patch('/api/admin/addExpert/'+newexperttest['_id'])
+                                    .set('authorization',token)
+                                    .send({userid:currentadmintest['_id']})
+                                    .end(function(err ,res) {
+                                        res.status.should.be.eql(200);
+                                        res.body.should.have.property('msg');
+                                        res.body.msg.should.be.eql('User retrieved correctly');
+                                        res.body.data.should.have.property('username');
+                                        res.body.data.username.should.equal('dummyuser');
+                                        res.body.data.should.have.property('firstname');
+                                        res.body.data.firstname.should.equal('dummy');
+                                        res.body.data.should.have.property('lastname');
+                                        res.body.data.lastname.should.equal('user');
+                                        res.body.data.should.have.property('email');
+                                        res.body.data.email.should.equal('dummymail@guc.edu.eg');
+                                        res.body.data.should.have.property('dateOfBirth');
+                                        res.body.data.should.have.property('expert');
+                                        res.body.data.expert.should.equal(true);
+                                        done();
+                                    });
+                            };
+
+                        });
+
+                    }
+                });
+
+
+
+            }
+
+
+        ),
+            it('it should register a new Expert without the user being admin ' , function(done) {
+                var currentadmin  = {
+                    'username': 'Dummyadmin',
+                    'firstname': 'Dummy',
+                    'lastname': 'admin',
+                    'email': 'Dummyadminmail@guc.edu.eg',
+                    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+                    'password':'12345678',
+                    'admin' :false
+                };
+                var currentadmintest;
+                User.create(currentadmin, function(err, newUser) {
+                    if (err) {
+                        
+                    }
+                    currentadmintest =newUser ;
+                });
+                var newexpert  = {
+                    'username': 'DummyUser',
+                    'firstname': 'Dummy',
+                    'lastname': 'user',
+                    'email': 'Dummymail@guc.edu.eg',
+                    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+                    'password':'12345678',
+                    'expert' :false
+                };
+                var newexperttest;
+                User.create(newexperttest, function(err, newUser) {
+                    if (err) {
+                        
+                    }
+                    newexperttest =newUser ;
+
+                // t send request lel server w te3mel el method el 3ayezha t check
+                chai.request(server)
+                    .patch('/admin/addExpert/'+newexperttest['_id'])
+                    .send({userid:currentadmintest['_id']})
+                    .end(function(err ,res) {
+                        res.status.should.be.eql(201);
+                        res.body.should.have.property('msg');
+                        res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+                        res.body.data.should.have.property('username');
+                        res.body.data.username.should.equal('DummyUser');
+                        res.body.data.should.have.property('firstName');
+                        res.body.data.firstName.should.equal('Dummy');
+                        res.body.data.should.have.property('lastName');
+                        res.body.data.lastName.should.equal('user');
+                        res.body.data.should.have.property('email');
+                        res.body.data.email.should.equal('Dummymail@guc.edu.eg');
+                        res.body.data.should.have.property('dateOfBirth');
+                        res.body.data.dob.should.equal('1997-03-03T00:00:00.000Z');
+                        res.body.data.should.have.property('expert');
+                        res.body.data.dob.should.equal(false);
+                        done();
+                    });
+                  });
+            })
+    }
+);
+
+
+describe('Get Tags test' , function() {
+    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+    it('it should register a new Admin  ' , function(done) {
+        var admin  = {
+            'username': 'DummyUser',
+            'firstName': 'Dummy',
+            'lastName': 'user',
+            'email': 'Dummymail@guc.edu.eg',
+            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+            'password':'12345678'
+        };
+        var testuser;
+        User.create(admin, function(err, newUser) {
+            if (err) {
+                
+            }
+            testuser =newUser ;
+
+        // t send request lel server w te3mel el method el 3ayezha t check
+        chai.request(server)
+            .get('/admin/getTags/'+testuser['_id'])
+            .send(admin)
+            .end(function(err ,res) {
+                res.status.should.be.eql(201);
+                res.body.should.have.property('msg');
+                res.body.msg.should.be.eql('User retrieved successfully.');
+                res.body.data.should.have.property('username');
+                res.body.data.username.should.equal('DummyUser');
+                res.body.data.should.have.property('firstName');
+                res.body.data.firstName.should.equal('Dummy');
+                res.body.data.should.have.property('lastName');
+                res.body.data.lastName.should.equal('user');
+                res.body.data.should.have.property('email');
+                res.body.data.email.should.equal('Dummymail@guc.edu.eg');
+                res.body.data.should.have.property('dateOfBirth');
+                res.body.data.dob.should.equal('1997-03-03T00:00:00.000Z');
+                done();
+            });
+          });
+    });
+});
+
+
+describe('Update Expert Tag test' , function() {
+    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+    it('it should register a new Admin  ' , function(done) {
+        var admin  = {
+            'username': 'DummyUser',
+            'firstName': 'Dummy',
+            'lastName': 'user',
+            'email': 'Dummymail@guc.edu.eg',
+            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+            'password':'12345678'
+        };
+        var testuser;
+        User.create(admin, function(err, newUser) {
+            if (err) {
+                
+            }
+            testuser =newUser ;
+
+        // t send request lel server w te3mel el method el 3ayezha t check
+        chai.request(server)
+            .patch('/admin/UpdateExpertTag/'+testuser['_id'])
+            .send(admin)
+            .end(function(err ,res) {
+                res.status.should.be.eql(201);
+                res.body.should.have.property('msg');
+                res.body.msg.should.be.eql('User retrieved successfully.');
+                res.body.data.should.have.property('username');
+                res.body.data.username.should.equal('DummyUser');
+                res.body.data.should.have.property('firstName');
+                res.body.data.firstName.should.equal('Dummy');
+                res.body.data.should.have.property('lastName');
+                res.body.data.lastName.should.equal('user');
+                res.body.data.should.have.property('email');
+                res.body.data.email.should.equal('Dummymail@guc.edu.eg');
+                res.body.data.should.have.property('dateOfBirth');
+                res.body.data.dob.should.equal('1997-03-03T00:00:00.000Z');
+                done();
+            });
+          });
+    });
+});
+
+
+describe('Remove expert test' , function(){
+    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+    it('it should register a new Admin  ' , function(done) {
+         var currentadmin  = {
+        'username': 'Dummyadmin',
+        'firstname': 'Dummy',
+        'lastname': 'admin',
+        'email': 'Dummyadminmail@guc.edu.eg',
+        'dateOfBirth': '1997-03-03T00:00:00.000Z',
+        'password':'12345678',
+        'admin' :true
+      };
+      var currentadmintest;
+      User.create(currentadmin, function(err, newUser) {
+        if (err) {
+            }
+            currentadmintest =newUser ;
+
+      var newadmin  = {
+        'username': 'DummyUser',
+        'firstname': 'Dummy',
+        'lastname': 'user',
+        'email': 'Dummymail@guc.edu.eg',
+        'dateOfBirth': '1997-03-03T00:00:00.000Z',
+        'password':'12345678',
+        'expert' :true
+      };
+      var newadmintest;
+      User.create(newadmintest, function(err, newUser) {
+        if (err) {
+            }
+            newadmintest =newUser ;
+
+      // t send request lel server w te3mel el method el 3ayezha t check
+      chai.request(server)
+        .patch('/admin/removeExpert/'+newadmintest['_id'])
+        .send({userid:currentadmintest['_id']})
+        .end(function(err ,res) {
+          res.status.should.be.eql(201);
+          res.body.should.have.property('msg');
+          res.body.msg.should.be.eql('User retrieved correctly');
+          res.body.data.should.have.property('username');
+          res.body.data.username.should.equal('DummyUser');
+          res.body.data.should.have.property('firstName');
+          res.body.data.firstName.should.equal('Dummy');
+          res.body.data.should.have.property('lastName');
+          res.body.data.lastName.should.equal('user');
+          res.body.data.should.have.property('email');
+          res.body.data.email.should.equal('Dummymail@guc.edu.eg');
+          res.body.data.should.have.property('dateOfBirth');
+          res.body.data.dob.should.equal('1997-03-03T00:00:00.000Z');
+          res.body.data.should.have.property('expert');
+          res.body.data.dob.should.equal(false);
+          done();
+        });
+      });
+    });
+    })
+
+  }
+
+
+),
+it('it shouldnt remove the expert  ' , function(done) {
+  var currentadmin  = {
+ 'username': 'Dummyadmin',
+ 'firstname': 'Dummy',
+ 'lastname': 'admin',
+ 'email': 'Dummyadminmail@guc.edu.eg',
+ 'dateOfBirth': '1997-03-03T00:00:00.000Z',
+ 'password':'12345678',
+ 'admin' :false
+};
+var currentadmintest;
+User.create(currentadmin, function(err, newUser) {
+ if (err) {
+     }
+     else{
+     currentadmintest =newUser ;
+     var newadmin  = {
+       'username': 'DummyUser',
+       'firstname': 'Dummy',
+       'lastname': 'user',
+       'email': 'Dummymail@guc.edu.eg',
+       'dateOfBirth': '1997-03-03T00:00:00.000Z',
+       'password':'12345678',
+       'expert' :true
+     };
+     var newadmintest;
+     User.create(newadmin, function(err, newUser) {
+       if (err) {
+           }
+           else{
+           newadmintest =newUser ;
+           console.log(newadmintest['_id']);
+     console.log("hererererer");
+     chai.request(server)
+     .patch('/api/admin/removeExpert/'+newadmintest['_id'])
+     .set('authorization',token)
+     .send({userid:currentadmintest['_id']})
+     .end(function(err ,res) {
+       res.status.should.be.eql(422);
+       res.body.should.have.property('msg');
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
+       done();
+     });
+     };
+
+     });
+     // t send request lel server w te3mel el method el 3ayezha t check
+
+
+     }
+});
+
+
+
+}
+
+
+)
+}
+);
+
+
+
+describe('Unblock user test' , function(){
+  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+  it('it Unblock user  ' , function(done) {
+       var currentadmin  = {
+      'username': 'Dummyadmin',
+      'firstname': 'Dummy',
+      'lastname': 'admin',
+      'email': 'Dummyadminmail@guc.edu.eg',
+      'dateOfBirth': '1997-03-03T00:00:00.000Z',
+      'password':'12345678',
+      'admin' :true
+    };
+    var currentadmintest;
+    User.create(currentadmin, function(err, newUser) {
+      if (err) {
+       
+          }
+          else{
+          currentadmintest =newUser ;
+          var newadmin  = {
+            'username': 'DummyUser',
+            'firstname': 'Dummy',
+            'lastname': 'user',
+            'email': 'Dummymail@guc.edu.eg',
+            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+            'password':'12345678',
+            'blocked' :true
+          };
+          var newadmintest;
+          User.create(newadmin, function(err, newUser) {
+            if (err) {
+             
+                }
+                else{
+                newadmintest =newUser ;
+                console.log(newadmintest['_id']);
+          console.log("hererererer");
+          chai.request(server)
+          .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
+          .set('authorization',token)
+          .send({userid:currentadmintest['_id']})
+          .end(function(err ,res) {
+            res.status.should.be.eql(200);
+            res.body.should.have.property('msg');
+            res.body.msg.should.be.eql('User retrieved correctly');
+            res.body.data.should.have.property('username');
+            res.body.data.username.should.equal('dummyuser');
+            res.body.data.should.have.property('firstname');
+            res.body.data.firstname.should.equal('dummy');
+            res.body.data.should.have.property('lastname');
+            res.body.data.lastname.should.equal('user');
+            res.body.data.should.have.property('email');
+            res.body.data.email.should.equal('dummymail@guc.edu.eg');
+            res.body.data.should.have.property('dateOfBirth');
+            res.body.data.should.have.property('blocked');
+            res.body.data.admin.should.equal(false);
+            done();
+          });
+          };
+
+          });
+          // t send request lel server w te3mel el method el 3ayezha t check
+
+
+          }
+    });
+
+
+
+  }
+
+
+),
+it('it shouldnt unblock user without user being admin  ' , function(done) {
+  var currentadmin  = {
+ 'username': 'Dummyadmin',
+ 'firstname': 'Dummy',
+ 'lastname': 'admin',
+ 'email': 'Dummyadminmail@guc.edu.eg',
+ 'dateOfBirth': '1997-03-03T00:00:00.000Z',
+ 'password':'12345678',
+ 'admin' :false
+};
+var currentadmintest;
+User.create(currentadmin, function(err, newUser) {
+ if (err) {
+  
+     }
+     else{
+     currentadmintest =newUser ;
+     var newadmin  = {
+       'username': 'DummyUser',
+       'firstname': 'Dummy',
+       'lastname': 'user',
+       'email': 'Dummymail@guc.edu.eg',
+       'dateOfBirth': '1997-03-03T00:00:00.000Z',
+       'password':'12345678',
+       'blocked' :true
+     };
+     var newadmintest;
+     User.create(newadmin, function(err, newUser) {
+       if (err) {
+        
+           }
+           else{
+           newadmintest =newUser ;
+           console.log(newadmintest['_id']);
+     console.log("hererererer");
+     chai.request(server)
+     .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
+     .set('authorization',token)
+     .send({userid:currentadmintest['_id']})
+     .end(function(err ,res) {
+       res.status.should.be.eql(422);
+       res.body.should.have.property('msg');
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+       done();
+     });
+     };
+
+     });
+     // t send request lel server w te3mel el method el 3ayezha t check
+
+
+     }
+});
+
+
+
+}
+
+
+)
+}
+);
+describe('Remove admin test' , function(){
+  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+  it('it should remove Admin  ' , function(done) {
+       var currentadmin  = {
+      'username': 'Dummyadmin',
+      'firstname': 'Dummy',
+      'lastname': 'admin',
+      'email': 'Dummyadminmail@guc.edu.eg',
+      'dateOfBirth': '1997-03-03T00:00:00.000Z',
+      'password':'12345678',
+      'admin' :true
+    };
+    var currentadmintest;
+    User.create(currentadmin, function(err, newUser) {
+      if (err) {
+       
+          }
+          else{
+          currentadmintest =newUser ;
+          var newadmin  = {
+            'username': 'DummyUser',
+            'firstname': 'Dummy',
+            'lastname': 'user',
+            'email': 'Dummymail@guc.edu.eg',
+            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+            'password':'12345678',
+            'admin' :true
+          };
+          var newadmintest;
+          User.create(newadmin, function(err, newUser) {
+            if (err) {
+             
+                }
+                else{
+                newadmintest =newUser ;
+                console.log(newadmintest['_id']);
+          console.log("hererererer");
+          chai.request(server)
+          .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
+          .set('authorization',token)
+          .send({userid:currentadmintest['_id']})
+          .end(function(err ,res) {
+            res.status.should.be.eql(200);
+            res.body.should.have.property('msg');
+            res.body.msg.should.be.eql('User retrieved correctly');
+            res.body.data.should.have.property('username');
+            res.body.data.username.should.equal('dummyuser');
+            res.body.data.should.have.property('firstname');
+            res.body.data.firstname.should.equal('dummy');
+            res.body.data.should.have.property('lastname');
+            res.body.data.lastname.should.equal('user');
+            res.body.data.should.have.property('email');
+            res.body.data.email.should.equal('dummymail@guc.edu.eg');
+            res.body.data.should.have.property('dateOfBirth');
+            res.body.data.should.have.property('admin');
+            res.body.data.admin.should.equal(false);
+            done();
+          });
+          };
+
+          });
+          // t send request lel server w te3mel el method el 3ayezha t check
+
+
+          }
+    });
+
+
+
+  }
+
+
+),
+it('it shouldnt remove Admin  ' , function(done) {
+  var currentadmin  = {
+ 'username': 'Dummyadmin',
+ 'firstname': 'Dummy',
+ 'lastname': 'admin',
+ 'email': 'Dummyadminmail@guc.edu.eg',
+ 'dateOfBirth': '1997-03-03T00:00:00.000Z',
+ 'password':'12345678',
+ 'admin' :false
+};
+var currentadmintest;
+User.create(currentadmin, function(err, newUser) {
+ if (err) {
+  
+     }
+     else{
+     currentadmintest =newUser ;
+     var newadmin  = {
+       'username': 'DummyUser',
+       'firstname': 'Dummy',
+       'lastname': 'user',
+       'email': 'Dummymail@guc.edu.eg',
+       'dateOfBirth': '1997-03-03T00:00:00.000Z',
+       'password':'12345678',
+       'admin' :true
+     };
+     var newadmintest;
+     User.create(newadmin, function(err, newUser) {
+       if (err) {
+        
+           }
+           else{
+           newadmintest =newUser ;
+           console.log(newadmintest['_id']);
+     console.log("hererererer");
+     chai.request(server)
+     .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
+     .set('authorization',token)
+     .send({userid:currentadmintest['_id']})
+     .end(function(err ,res) {
+       res.status.should.be.eql(422);
+       res.body.should.have.property('msg');
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
+       done();
+     });
+     };
+
+     });
+     // t send request lel server w te3mel el method el 3ayezha t check
+
+
+     }
+});
+
+
+
+}
+
+
+)
+}
+);
+describe('Get user by id test' , function(){
+  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+  it('it should get user  ' , function(done) {
+       var currentadmin  = {
+      'username': 'Dummyadmin',
+      'firstname': 'Dummy',
+      'lastname': 'admin',
+      'email': 'Dummyadminmail@guc.edu.eg',
+      'dateOfBirth': '1997-03-03T00:00:00.000Z',
+      'password':'12345678',
+      'admin' :true
+    };
+    var currentadmintest;
+    User.create(currentadmin, function(err, newUser) {
+      if (err) {
+       
+          }
+          else{
+          currentadmintest =newUser ;
+          var newadmin  = {
+            'username': 'DummyUser',
+            'firstname': 'Dummy',
+            'lastname': 'user',
+            'email': 'Dummymail@guc.edu.eg',
+            'password':'asdasd',
+            'dateOfBirth': '1997-03-03T00:00:00.000Z',
+
+          };
+          var newadmintest;
+          User.create(newadmin, function(err, newUser) {
+            if (err) {
+             console.log(err);
+                }
+                else{
+                newadmintest =newUser ;
+          console.log("hererererer");
+          chai.request(server)
+          .get('/api//admin/getUserById/'+newUser['_id'])
+          .set('authorization',token)
+          .send({userid:currentadmintest['_id']})
+          .end(function(err ,res) {
+            res.status.should.be.eql(200);
+            res.body.should.have.property('msg');
+            res.body.msg.should.be.eql('User retrieved successfully.');
+            res.body.data.should.have.property('username');
+            res.body.data.username.should.equal('dummyuser');
+            res.body.data.should.have.property('firstname');
+            res.body.data.firstname.should.equal('dummy');
+            res.body.data.should.have.property('lastname');
+            res.body.data.lastname.should.equal('user');
+            res.body.data.should.have.property('email');
+            res.body.data.email.should.equal('Dummymail@guc.edu.eg');
+            res.body.data.should.have.property('dateOfBirth');
+
+            done();
+          });
+          };
+
+          });
+          // t send request lel server w te3mel el method el 3ayezha t check
+
+
+          }
+    });
+
+
+
+  }
+
+
+)
+it('it shouldnt get user  ' , function(done) {
+  var currentadmin  = {
+ 'username': 'Dummyadmin',
+ 'firstname': 'Dummy',
+ 'lastname': 'admin',
+ 'email': 'Dummyadminmail@guc.edu.eg',
+ 'dateOfBirth': '1997-03-03T00:00:00.000Z',
+ 'password':'12345678',
+ 'admin' :false
+};
+var currentadmintest;
+User.create(currentadmin, function(err, newUser) {
+ if (err) {
+  
+     }
+     else{
+     currentadmintest =newUser ;
+     var newadmin  = {
+       'username': 'DummyUser',
+       'firstname': 'Dummy',
+       'lastname': 'user',
+       'email': 'Dummymail@guc.edu.eg',
+       'dateOfBirth': '1997-03-03T00:00:00.000Z',
+       'password':'12345678',
+
+     };
+     var newadmintest;
+     User.create(newadmin, function(err, newUser) {
+       if (err) {
+
+           }
+           else{
+           newadmintest =newUser ;
+           console.log(newadmintest['_id']);
+     console.log("hererererer");
+     chai.request(server)
+     .get('/api/admin/getUserById/'+newadmintest['_id'])
+     .set('authorization',token)
+     .send({userid:currentadmintest['_id']})
+     .end(function(err ,res) {
+       res.status.should.be.eql(422);
+       res.body.should.have.property('msg');
+       res.body.msg.should.be.eql('Unauthorized! You are not an admin.');
+
+       done();
+     });
+     };
+
+     });
+     // t send request lel server w te3mel el method el 3ayezha t check
+
+
+     }
+});
+
+
+
+})
+}
+
+)});
+
+afterEach(function(done){
+  User.collection.drop();
+  done();
+});
 });

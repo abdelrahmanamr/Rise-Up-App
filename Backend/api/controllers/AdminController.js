@@ -17,7 +17,7 @@ module.exports.AddExpert=function(req, res, next){
             data: null
         });
     }
-    
+
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
@@ -355,7 +355,7 @@ module.exports.RemoveExpert=function(req, res, next){
         });
     }
 
-    
+
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
@@ -437,7 +437,7 @@ module.exports.UnblockUser=function(req, res, next){
             data: null
           });
         }else{
-    
+
     delete req.body.createdAt;
     req.body.updatedAt = moment().toDate();
 
@@ -485,7 +485,7 @@ module.exports.RemoveAdmin=function(req, res, next){
         });
     }
 
-   
+
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
@@ -612,7 +612,7 @@ module.exports.removeCompany = function(req, res, next) {
 //     delete req.body.createdAt;
 //     delete req.body.updatedAt;
 
-//     Company.create(req.body, function(err, company) {    
+//     Company.create(req.body, function(err, company) {
 //         if (err) {
 //             return next(err);
 //         }
@@ -716,7 +716,7 @@ module.exports.getUsers = function(req, res, next) {
 }
 
 module.exports.getUserById = function(req, res, next) {
-    
+
     if (!Validations.isObjectId(req.params.userId)) {
         return res.status(422).json({
             err: null,

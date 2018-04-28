@@ -83,125 +83,7 @@ var mongoose = require('mongoose'),
     });
   };
 
-  module.exports.rate = function (req, res, next) {
-    Rating.findOne({
-      userid: req.body.userid,
-      contentid: req.body.contentid
-    }).exec(function(err, rating) {
-      if (err) {
-        return next(err);
-      }
-      if(rating){
-        Rating.findByIdAndUpdate(
-          rating._id,
-          {
-            rating: req.body.rating,
-            updatedAt: Date.now()
-          },
-          { new: true }
-        ).exec(function(err, updatedRating) {
-          if (err) {
-            return next(err);
-          }
-          if (!updatedRating) {
-            return res
-              .status(404)
-              .json({ err: null, msg: 'Rating not found.', data: null });
-          }
 
-          Rating.find({
-            contentid: req.body.contentid
-          }, { rating: 1 }).exec(function(err, ratings) {
-            if (err) {
-              return next(err);
-            }
-            var totalRatings = 0;
-            ratings.forEach(rating => {
-              totalRatings += rating.rating
-            });
-            avgRating = totalRatings/ratings.length;
-
-            Content.findByIdAndUpdate(
-              req.body.contentid,
-              {
-                rating: avgRating,
-                updatedAt: Date.now()
-              },
-              { new: true }
-            ).exec(function(err, updatedContent) {
-              if (err) {
-                return next(err);
-              }
-              if (!updatedContent) {
-                return res
-                  .status(404)
-                  .json({ err: null, msg: 'Content not found.', data: null });
-              }
-              res.status(200).json({
-                err: null,
-                msg: 'Content was updated successfully.',
-                data: updatedContent
-              });
-            });
-
-          });
-          
-        });
-      }else{
-        Rating.create({
-          contentid: req.body.contentid,
-          userid: req.body.userid,
-          rating: req.body.rating,
-          createdAt: Date.now(),
-          updatedAt: Date.now()
-        }, function(err, rating) {
-          if (err) {
-            console.log(req.body);
-            return next(err);
-          }
-
-          Rating.find({
-            contentid: req.body.contentid
-          }, { rating: 1 }).exec(function(err, ratings) {
-            if (err) {
-              return next(err);
-            }
-            var totalRatings = 0;
-            ratings.forEach(rating => {
-              totalRatings += rating.rating
-            });
-            avgRating = totalRatings/ratings.length;
-
-            Content.findByIdAndUpdate(
-              req.body.contentid,
-              {
-                rating: req.body.rating,
-                updatedAt: Date.now()
-              },
-              { new: true }
-            ).exec(function(err, updatedContent) {
-              if (err) {
-                return next(err);
-              }
-              if (!updatedContent) {
-                return res
-                  .status(404)
-                  .json({ err: null, msg: 'Content not found.', data: null });
-              }
-              res.status(200).json({
-                err: null,
-                msg: 'Content was updated successfully.',
-                data: updatedContent
-              });
-            });
-
-          });
-          
-        });
-      }
-      
-    });
-  }
   
   module.exports.removeContent = function(req, res, next) {
     req.body.userid = req.params.contentId.split("..")[1];
@@ -335,6 +217,7 @@ User.findById(req.body.userid).exec(function(err,user) {
       req.body.tags &&
       Validations.isString(req.body.tags)
       ;
+
     if (!valid) {
       return res.status(422).json({
         err: null,
@@ -376,63 +259,6 @@ User.findById(req.body.userid).exec(function(err,user) {
     });
   }}}});
 }}
-
-
-module.exports.updaterate = function(req, res, next) {
-  if (!Validations.isObjectId(req.params.contentId)) {
-    return res.status(422).json({
-      err: null,
-      msg: 'productId parameter must be a valid ObjectId.',
-      data: null
-    });
-  }
-  var valid =
-    req.body.rating &&
-    Validations.isNumber(req.body.rating);
-  if (!valid) {
-    return res.status(422).json({
-      err: null,
-      msg: 'name(String) and price(Number) are required fields.',
-      data: null
-    });
-  }
-  
-Content.findById(req.params.contentId).exec(function(err, ratedContents){
-
-  ratedContents.ratingarray.push(req.body.rating);
-   var allratings=0;
-  length=0
-   ratedContents.ratingarray.forEach(ratedContent => {
-     allratings = ratedContent+allratings;
-    length++;
-   });
-   req.body.rating=allratings/length;
-   ratedContents.rating = req.body.rating;
-   ratedContents.save(function(err,ratedContents,num){
-     if(err){
-       return next(err);
-     }else{
-       if(num==0){
-        return   res.status(422).json({
-          err: null,
-          msg: 'Failure in update',
-          data: null
-        });
-       }else{
-        return   res.status(201).json({
-          err: null,
-          msg: 'updated',
-          data: ratedContents
-        });
-       }
-     }
-   });
-
- });
- 
-};
-
-
 
 
 

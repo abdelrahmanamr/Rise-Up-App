@@ -48,7 +48,7 @@ process.on('SIGTERM', function() {
 
 mongoose.connect(dburl, function(err) {
   if (!err) {
-    return console.log('Successfully connected to mongoDB');
+    return console.log('Successfully connected to mongoDB on url '+dburl);
   }
   console.error(err);
   gracefulShutdown(function(err) {

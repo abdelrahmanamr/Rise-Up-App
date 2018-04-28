@@ -59,7 +59,6 @@ router.get('/Company/viewCompanies', CompanyCtrl.viewCompanies);
 //-------------------------------Content Routes-----------------------------------
 router.post('/content/addContent',isAuthenticated,contentCtrl.createContent);
 router.patch('/content/editContent/:contentId',isAuthenticated,contentCtrl.editContent);
-router.put('/content/updateContent', bodyParser, contentCtrl.rate);
 
 
 router.delete('/Content/deleteContent/:contentId',isAuthenticated, contentCtrl.removeContent);

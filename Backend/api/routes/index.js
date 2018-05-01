@@ -144,9 +144,8 @@ router.get('/admin/viewAllReports', isAuthenticated,AdminController.viewAllRepor
 router.get('/admin/getUsers', isAuthenticated,AdminController.getUsers);
 router.get('/admin/getUserById/:userId', isAuthenticated,AdminController.getUserById);
 router.get('/admin/getUserTags/:userId', isAuthenticated,AdminController.getTags);
-router.get('/admin/getActivityReport',AdminController.getActivityReport);
-router.get('/admin/getActivityComment',AdminController.getActivityComment);
-router.get('/admin/viewAllReports',AdminController.viewAllReports);
+router.get('/admin/getActivityReport',isAuthenticated,AdminController.getActivityReport);
+router.get('/admin/getActivityComment',isAuthenticated,AdminController.getActivityComment);
 router.get('/admin/viewCompanies', isAuthenticated,AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId', isAuthenticated,AdminController.RemoveCompany);
 router.patch('/admin/UpdateExpertTag/:userId', isAuthenticated,AdminController.UpdateExpertTags);

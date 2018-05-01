@@ -459,6 +459,7 @@ module.exports.getComments = function(req, res, next) { //getComments method is 
 };
 
 module.exports.deleteComment = function(req,res,next){
+  console.log("da5el el method backend")
   req.body.userid = req.params.commentId.split("..")[1];
   req.params.commentId = req.params.commentId.split("..")[0];
   if (!Validations.isObjectId(req.params.commentId) && !Validations.isObjectId(req.body.userid) ) {
@@ -470,7 +471,6 @@ module.exports.deleteComment = function(req,res,next){
   }else{
       User.findById(req.body.userid).exec(function(err,user) {
         if(err){
-          console.log(err);
           return next(err);
         }
         else {
@@ -500,7 +500,7 @@ module.exports.deleteComment = function(req,res,next){
               if(!removed){
                 return res.status(422).json({
                   err: null,
-                  msg: "Can't remove comment right now",
+                  msg: "Comment already removed",
                   data: null
                 });
               }

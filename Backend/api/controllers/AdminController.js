@@ -73,6 +73,19 @@ module.exports.AddExpert=function(req, res, next){
 }
 
 module.exports.getActivityComment=function(req,res,next){
+    req.body.userid = req["headers"]["id"];
+User.findById(req.body.userid).exec(function(err,user){
+    if(err){
+        return next(err)
+    }else{
+        if(!user){
+            return res.status(422).json({
+                err: null,
+                msg: 'Admin not found.',
+                data: null
+            });
+        }
+        if(user["admin"]){
     var queryDate = new Date();
     queryDate.setDate(queryDate.getDate()-7);
     Comment.find( {"createdAt":{$gt: queryDate}}).exec(function(err, comments) {
@@ -85,9 +98,32 @@ module.exports.getActivityComment=function(req,res,next){
             data: comments
         });
     });
+}
+else{
+    return res.status(422).json({
+        err: null,
+        msg: 'Not an admin',
+        data: null
+    });
+}
+    }
+});
 
 }
 module.exports.getActivityReport=function(req,res,next){
+    req.body.userid = req["headers"]["id"];
+    User.findById(req.body.userid).exec(function(err,user){
+        if(err){
+            return next(err)
+        }else{
+            if(!user){
+                return res.status(422).json({
+                    err: null,
+                    msg: 'Admin not found.',
+                    data: null
+                });
+            }
+            if(user["admin"]){
     var queryDate = new Date();
     queryDate.setDate(queryDate.getDate()-7);
     Report.find( {"createdAt":{$gt: queryDate}}).exec(function(err, reports) {
@@ -99,6 +135,16 @@ module.exports.getActivityReport=function(req,res,next){
             msg: 'Reports retrieved successfully.',
             data: reports
         });
+    });
+}
+else{
+    return res.status(422).json({
+        err: null,
+        msg: 'Not an admin',
+        data: null
+    });
+        }
+    }
     });
 
 }
@@ -643,17 +689,40 @@ module.exports.getCompanies = function(req, res, next) {
     });
 };
 module.exports.viewAllReports = function(req, res, next) {
-
-    Report.find({}).exec(function(err, reports) {
-        if (err) {
-            return next(err);
+req.body.userid = req["headers"]["id"];
+User.findById(req.body.userid).exec(function(err,user){
+    if(err){
+        return next(err)
+    }else{
+        if(!user){
+            return res.status(422).json({
+                err: null,
+                msg: 'Admin not found.',
+                data: null
+            });
         }
-        res.status(200).json({
-            err: null,
-            msg: 'Reports retrieved successfully.',
-            data: reports
-        });
-    });
+        if(user["admin"]){
+            Report.find({}).exec(function(err, reports) {
+                if (err) {
+                    return next(err);
+                }
+                res.status(200).json({
+                    err: null,
+                    msg: 'Reports retrieved successfully.',
+                    data: reports
+                });
+            });
+        }
+        if(!user["admin"]){
+            return res.status(422).json({
+                err: null,
+                msg: 'Admin not found.',
+                data: null
+            });
+        }
+    }
+});
+
 };
 module.exports.getTags = function(req, res, next) {
     if (!Validations.isObjectId(req.params.userId)) {

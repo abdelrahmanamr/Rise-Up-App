@@ -8,6 +8,7 @@ var Content = require("../../Backend/api/models/Content");
 var Company = require("../../Backend/api/models/Company");
 var should = chai.should();
 var contentTest = require('./content-test');
+var Report = require("../../Backend/api/models/Report");
 
 dbURI = 'mongodb://localhost:27017/nodejs-test';
 
@@ -24,7 +25,7 @@ var token = null;
 chai.use(chaiHttp);
 
 describe('Add admin test' , function(){
-  before(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
+  before(function(done){                    // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
   mongoose.connect('mongodb://localhost:27017/nodejs-test');
       var data = {
       username: 'ranon5',
@@ -193,6 +194,544 @@ describe('Add admin test' , function(){
 
 
   });
+});
+describe('Admin comment/reports functionalities',function(){
+  var contentForComments = {
+    title: "Content for comments",
+    body:"we ady ay body ma3ana",
+    tags:"love hate",
+    type:"Post"
+  }
+  var normalCommentingUser = {
+    'username': 'DummyUser',
+    'firstname': 'Dummy',
+    'lastname': 'user',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :false
+  }
+  var AdminUserToDeleteComments = {
+    'username': 'Admin',
+    'firstname': 'Admin',
+    'lastname': 'Admin',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :true
+  }
+  it('admin should be able to remove comments by other people',function(done){
+
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"awel comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdNormal["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,CommentReady){
+                  if(err){
+
+                  }else{
+                    CommentToDel = CommentReady;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      console.log(res)
+                      res.status.should.be.eql(201);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("Comment removed succecfully")
+                      done();
+                    });
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      }
+    });
+  }),
+  it('admin should be able to delete his own comments',function(done){
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"tany comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdAdmin["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,Comment2){
+                  if(err){
+
+                  }else{
+                    CommentToDel = Comment2;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      console.log(res)
+                      res.status.should.be.eql(201);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("Comment removed succecfully")
+                      done();
+                    });
+                  }
+                });
+              }
+            
+            });
+          }
+        });
+      }
+  });
+}),it('admin should be able to delete his own comments',function(done){
+  var createdNormal;
+  var createdContent;
+  var createdAdmin;
+  var CommentToDel;
+  Content.create(contentForComments,function(err,ContentDone){
+    if(err){
+
+    }else{
+      createdContent = ContentDone;
+      User.create(normalCommentingUser,function(err,User1Ready){
+        if(err){
+
+        }else{
+          createdNormal = User1Ready
+          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+            if(err){
+              
+            }else{
+              createdAdmin = AdminReady;
+              Comment1 = {
+                body:"tany comment ma3ana",
+                username:createdNormal["username"],
+                userid:createdAdmin["_id"],
+                contentid:createdContent["_id"],
+              }
+              Comment.create(Comment1,function(err,Comment2){
+                if(err){
+
+                }else{
+                  CommentToDel = Comment2;
+                  Comment.remove({ body:"tany comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdAdmin["_id"],
+                  contentid:createdContent["_id"]},function(err){
+                    if(err){
+
+                    }else{
+                      chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
+                      .set('authorization',token).send().end(function(err,res){
+                        console.log(res)
+                        res.status.should.be.eql(422);
+                        res.body.should.have.property("msg")
+                        res.body.msg.should.be.eql("Comment already removed")
+                        done();
+                      });
+                    }
+                  });
+
+                }
+              });
+            }
+          
+          });
+        }
+      });
+    }
+});
+}),it('admin should be able to view all reports',function(done){
+  var createdNormal;
+  var createdContent;
+  var createdAdmin;
+  var CommentToDel;
+  Content.create(contentForComments,function(err,ContentDone){
+    if(err){
+
+    }else{
+      createdContent = ContentDone;
+      User.create(normalCommentingUser,function(err,User1Ready){
+        if(err){
+
+        }else{
+          createdNormal = User1Ready
+          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+            if(err){
+              
+            }else{
+              createdAdmin = AdminReady;
+              Comment1 = {
+                body:"tany comment ma3ana",
+                username:createdNormal["username"],
+                userid:createdAdmin["_id"],
+                contentid:createdContent["_id"],
+              }
+              Comment.create(Comment1,function(err,Comment2){
+                if(err){
+
+                }else{
+                  CommentToDel = Comment2;
+                  ReportToMake = {
+                    reporterName:createdAdmin["username"],
+                    reporterId:createdAdmin['_id'],
+                    reportedId:createdNormal['_id'],
+                    reportedName:createdNormal["username"],
+                    commentId:CommentToDel['_id'],
+                    commentBody:CommentToDel["body"]
+                  }
+                  Report.create(ReportToMake,function(err){
+                    if(err){
+
+                    }else{
+                      chai.request(server).get("/api/admin/viewAllReports").set("id",createdAdmin["_id"])
+                      .set('authorization',token).send().end(function(err,res){
+                        console.log(res)
+                        res.status.should.be.eql(200);
+                        res.body.should.have.property("data")
+                        res.body.data.should.be.an("array")
+                        done();
+                      });
+                    }
+                  });
+                    }
+                  });
+
+                }
+              });
+            }
+          
+          });
+        }
+      });
+    }),it('Normal user shouldnt be able to view reports',function(done){
+      var createdNormal;
+      var createdContent;
+      var createdAdmin;
+      var CommentToDel;
+      Content.create(contentForComments,function(err,ContentDone){
+        if(err){
+    
+        }else{
+          createdContent = ContentDone;
+          User.create(normalCommentingUser,function(err,User1Ready){
+            if(err){
+    
+            }else{
+              createdNormal = User1Ready
+              User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                if(err){
+                  
+                }else{
+                  createdAdmin = AdminReady;
+                  Comment1 = {
+                    body:"tany comment ma3ana",
+                    username:createdNormal["username"],
+                    userid:createdAdmin["_id"],
+                    contentid:createdContent["_id"],
+                  }
+                  Comment.create(Comment1,function(err,Comment2){
+                    if(err){
+    
+                    }else{
+                      CommentToDel = Comment2;
+                      ReportToMake = {
+                        reporterName:createdAdmin["username"],
+                        reporterId:createdAdmin['_id'],
+                        reportedId:createdNormal['_id'],
+                        reportedName:createdNormal["username"],
+                        commentId:CommentToDel['_id'],
+                        commentBody:CommentToDel["body"]
+                      }
+                      Report.create(ReportToMake,function(err){
+                        if(err){
+    
+                        }else{
+                          chai.request(server).get("/api/admin/viewAllReports").set('id',createdNormal["_id"])
+                          .set('authorization',token).send().end(function(err,res){
+                            console.log(res)
+                            res.status.should.be.eql(422);
+                            res.body.should.have.property("msg")
+                            res.body.msg.should.be.eq("Admin not found.")
+                            done();
+                          });
+                        }
+                      });
+                        }
+                      });
+    
+                    }
+                  });
+                }
+              
+              });
+            }
+          });
+        }),it("admin should be able to view all comments inside his activity tracker for the last 7 days",function(done){
+          var createdNormal;
+          var createdContent;
+          var createdAdmin;
+          var CommentToDel;
+          Content.create(contentForComments,function(err,ContentDone){
+            if(err){
+        
+            }else{
+              createdContent = ContentDone;
+              User.create(normalCommentingUser,function(err,User1Ready){
+                if(err){
+        
+                }else{
+                  createdNormal = User1Ready
+                  User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                    if(err){
+                      
+                    }else{
+                      createdAdmin = AdminReady;
+                      Comment1 = {
+                        body:"tany comment ma3ana",
+                        username:createdNormal["username"],
+                        userid:createdAdmin["_id"],
+                        contentid:createdContent["_id"],
+                      }
+                      Comment.create(Comment1,function(err,Comment2){
+                        if(err){
+        
+                        }else{
+                          CommentToDel = Comment2;
+
+                              chai.request(server).get("/api/admin/getActivityComment").set('id',createdAdmin["_id"])
+                              .set('authorization',token).send().end(function(err,res){
+                                console.log(res)
+                                res.status.should.be.eql(200);
+                                res.body.should.have.property("data")
+                                res.body.data.should.be.an("array")
+                                done();
+                              });
+                            } 
+                          });
+                        
+                            }
+                          });
+        
+                        }
+                      });
+                    }
+                  
+                  });
+                }),it("users shouldn't be able to view all website comment activity",function(done){
+                  var createdNormal;
+                  var createdContent;
+                  var createdAdmin;
+                  var CommentToDel;
+                  Content.create(contentForComments,function(err,ContentDone){
+                    if(err){
+                
+                    }else{
+                      createdContent = ContentDone;
+                      User.create(normalCommentingUser,function(err,User1Ready){
+                        if(err){
+                
+                        }else{
+                          createdNormal = User1Ready
+                          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                            if(err){
+                              
+                            }else{
+                              createdAdmin = AdminReady;
+                              Comment1 = {
+                                body:"tany comment ma3ana",
+                                username:createdNormal["username"],
+                                userid:createdAdmin["_id"],
+                                contentid:createdContent["_id"],
+                              }
+                              Comment.create(Comment1,function(err,Comment2){
+                                if(err){
+                
+                                }else{
+                                  CommentToDel = Comment2;
+        
+                                      chai.request(server).get("/api/admin/getActivityComment").set('id',createdNormal["_id"])
+                                      .set('authorization',token).send().end(function(err,res){
+                                        console.log(res)
+                                        res.status.should.be.eql(422);
+                                        res.body.should.have.property("msg")
+                                        res.body.msg.should.be.eql('Not an admin')
+                                        done();
+                                      });
+                                    } 
+                                  });
+                                
+                                    }
+                                  });
+                
+                                }
+                              });
+                            }
+                          
+                          });
+                }),it("admin should be able to view all reports",function(done){
+                  var createdNormal;
+                  var createdContent;
+                  var createdAdmin;
+                  var CommentToDel;
+                  Content.create(contentForComments,function(err,ContentDone){
+                    if(err){
+                
+                    }else{
+                      createdContent = ContentDone;
+                      User.create(normalCommentingUser,function(err,User1Ready){
+                        if(err){
+                
+                        }else{
+                          createdNormal = User1Ready
+                          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                            if(err){
+                              
+                            }else{
+                              createdAdmin = AdminReady;
+                              Comment1 = {
+                                body:"tany comment ma3ana",
+                                username:createdNormal["username"],
+                                userid:createdAdmin["_id"],
+                                contentid:createdContent["_id"],
+                              }
+                              Comment.create(Comment1,function(err,Comment2){
+                                if(err){
+                
+                                }else{
+                                  CommentToDel = Comment2;
+                                  ReportToMake = {
+                                    reporterName:createdAdmin["username"],
+                                    reporterId:createdAdmin['_id'],
+                                    reportedId:createdNormal['_id'],
+                                    reportedName:createdNormal["username"],
+                                    commentId:CommentToDel['_id'],
+                                    commentBody:CommentToDel["body"]
+                                  }
+                                  Report.create(ReportToMake,function(err){
+                                    if(err){
+                
+                                    }else{
+                                      chai.request(server).get("/api/admin/getActivityReport").set('id',createdAdmin["_id"])
+                                      .set('authorization',token).send().end(function(err,res){
+                                        console.log(res)
+                                        res.status.should.be.eql(200);
+                                        res.body.should.have.property("data")
+                                        res.body.data.should.be.an("array")
+                                        done();
+                                      });
+                                    }
+                                  });
+                                    }
+                                  });
+                
+                                }
+                              });
+                            }
+                          
+                          });
+                        }
+                      });
+                }),it('normal users shouldnt be able to see any reports',function(done){
+                  var createdNormal;
+                  var createdContent;
+                  var createdAdmin;
+                  var CommentToDel;
+                  Content.create(contentForComments,function(err,ContentDone){
+                    if(err){
+                
+                    }else{
+                      createdContent = ContentDone;
+                      User.create(normalCommentingUser,function(err,User1Ready){
+                        if(err){
+                
+                        }else{
+                          createdNormal = User1Ready
+                          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                            if(err){
+                              
+                            }else{
+                              createdAdmin = AdminReady;
+                              Comment1 = {
+                                body:"tany comment ma3ana",
+                                username:createdNormal["username"],
+                                userid:createdAdmin["_id"],
+                                contentid:createdContent["_id"],
+                              }
+                              Comment.create(Comment1,function(err,Comment2){
+                                if(err){
+                
+                                }else{
+                                  CommentToDel = Comment2;
+                                  ReportToMake = {
+                                    reporterName:createdAdmin["username"],
+                                    reporterId:createdAdmin['_id'],
+                                    reportedId:createdNormal['_id'],
+                                    reportedName:createdNormal["username"],
+                                    commentId:CommentToDel['_id'],
+                                    commentBody:CommentToDel["body"]
+                                  }
+                                  Report.create(ReportToMake,function(err){
+                                    if(err){
+                
+                                    }else{
+                                      chai.request(server).get("/api/admin/getActivityReport").set('id',createdNormal["_id"])
+                                      .set('authorization',token).send().end(function(err,res){
+                                        console.log(res)
+                                        res.status.should.be.eql(422);
+                                        res.body.should.have.property("msg")
+                                        res.body.msg.should.be.eq("Not an admin")
+                                        done();
+                                      });
+                                    }
+                                  });
+                                    }
+                                  });
+                
+                                }
+                              });
+                            }
+                          
+                          });
+                        }
+                      });
+                });
+
 });
 
 

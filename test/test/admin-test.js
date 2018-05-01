@@ -54,7 +54,6 @@ describe('Add admin test' , function(){
           .post('/api/user/login')
           .send(registeringUserLoginCredentials)
           .end(function(err,res){
-              // console.log(res);
               res.should.have.status(200);
               res.body.data.should.a('string');
               token = res.body.data;
@@ -101,8 +100,6 @@ describe('Add admin test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/addAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -169,8 +166,6 @@ describe('Add admin test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/addAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -254,7 +249,6 @@ describe('Admin comment/reports functionalities',function(){
                     CommentToDel = CommentReady;
                     chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
                     .set('authorization',token).send().end(function(err,res){
-                      console.log(res)
                       res.status.should.be.eql(201);
                       res.body.should.have.property("msg")
                       res.body.msg.should.be.eql("Comment removed succecfully")
@@ -303,7 +297,6 @@ describe('Admin comment/reports functionalities',function(){
                     CommentToDel = Comment2;
                     chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
                     .set('authorization',token).send().end(function(err,res){
-                      console.log(res)
                       res.status.should.be.eql(201);
                       res.body.should.have.property("msg")
                       res.body.msg.should.be.eql("Comment removed succecfully")
@@ -358,7 +351,6 @@ describe('Admin comment/reports functionalities',function(){
                     }else{
                       chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
                       .set('authorization',token).send().end(function(err,res){
-                        console.log(res)
                         res.status.should.be.eql(422);
                         res.body.should.have.property("msg")
                         res.body.msg.should.be.eql("Comment already removed")
@@ -421,7 +413,6 @@ describe('Admin comment/reports functionalities',function(){
                     }else{
                       chai.request(server).get("/api/admin/viewAllReports").set("id",createdAdmin["_id"])
                       .set('authorization',token).send().end(function(err,res){
-                        console.log(res)
                         res.status.should.be.eql(200);
                         res.body.should.have.property("data")
                         res.body.data.should.be.an("array")
@@ -484,7 +475,6 @@ describe('Admin comment/reports functionalities',function(){
                         }else{
                           chai.request(server).get("/api/admin/viewAllReports").set('id',createdNormal["_id"])
                           .set('authorization',token).send().end(function(err,res){
-                            console.log(res)
                             res.status.should.be.eql(422);
                             res.body.should.have.property("msg")
                             res.body.msg.should.be.eq("Admin not found.")
@@ -536,7 +526,6 @@ describe('Admin comment/reports functionalities',function(){
 
                               chai.request(server).get("/api/admin/getActivityComment").set('id',createdAdmin["_id"])
                               .set('authorization',token).send().end(function(err,res){
-                                console.log(res)
                                 res.status.should.be.eql(200);
                                 res.body.should.have.property("data")
                                 res.body.data.should.be.an("array")
@@ -587,7 +576,6 @@ describe('Admin comment/reports functionalities',function(){
         
                                       chai.request(server).get("/api/admin/getActivityComment").set('id',createdNormal["_id"])
                                       .set('authorization',token).send().end(function(err,res){
-                                        console.log(res)
                                         res.status.should.be.eql(422);
                                         res.body.should.have.property("msg")
                                         res.body.msg.should.be.eql('Not an admin')
@@ -649,7 +637,6 @@ describe('Admin comment/reports functionalities',function(){
                                     }else{
                                       chai.request(server).get("/api/admin/getActivityReport").set('id',createdAdmin["_id"])
                                       .set('authorization',token).send().end(function(err,res){
-                                        console.log(res)
                                         res.status.should.be.eql(200);
                                         res.body.should.have.property("data")
                                         res.body.data.should.be.an("array")
@@ -712,7 +699,6 @@ describe('Admin comment/reports functionalities',function(){
                                     }else{
                                       chai.request(server).get("/api/admin/getActivityReport").set('id',createdNormal["_id"])
                                       .set('authorization',token).send().end(function(err,res){
-                                        console.log(res)
                                         res.status.should.be.eql(422);
                                         res.body.should.have.property("msg")
                                         res.body.msg.should.be.eq("Not an admin")
@@ -732,6 +718,127 @@ describe('Admin comment/reports functionalities',function(){
                       });
                 });
 
+});
+describe('User deletes his own comments only',function(){
+  var contentForComments = {
+    title: "Content for comments",
+    body:"we ady ay body ma3ana",
+    tags:"love hate",
+    type:"Post"
+  }
+  var normalCommentingUser = {
+    'username': 'DummyUser',
+    'firstname': 'Dummy',
+    'lastname': 'user',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :false
+  }
+  var AdminUserToDeleteComments = {
+    'username': 'Admin',
+    'firstname': 'Admin',
+    'lastname': 'Admin',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :true
+  }
+  it("user should be able to delete his own comment",function(done){
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"awel comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdNormal["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,CommentReady){
+                  if(err){
+
+                  }else{
+                    CommentToDel = CommentReady;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdNormal["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      res.status.should.be.eql(201);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("Done")
+                      done();
+                    });
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      }
+    });
+  }),it("user shouldn't be able to delete another user's comment since he is not an admin",function(done){
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"awel comment ma3ana",
+                  username:createdAdmin["username"],
+                  userid:createdAdmin["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,CommentReady){
+                  if(err){
+
+                  }else{
+                    CommentToDel = CommentReady;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdNormal["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      res.status.should.be.eql(422);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("This user didn't comment on this post")
+                      done();
+                    });
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      }
+    });
+  });
 });
 
 
@@ -770,8 +877,6 @@ describe('Remove expert test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/removeExpert/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -840,8 +945,6 @@ describe('Add Expert test' , function(){
           }
           else{
             newexperttest =newUser ;
-            console.log(newexperttest['_id']);
-            console.log("HERE");
             chai.request(server)
             .patch('/api/admin/addExpert/'+newexperttest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -1122,8 +1225,6 @@ describe('Remove expert test' , function(){
             }
             else{
               newadmintest =newUser ;
-              console.log(newadmintest['_id']);
-              console.log("hererererer");
               chai.request(server)
               .patch('/api/admin/removeExpert/'+newadmintest['_id'])
               .send({userid:currentadmintest['_id']})
@@ -1186,8 +1287,6 @@ describe('Remove expert test' , function(){
             }
             else{
               newadmintest =newUser ;
-              console.log(newadmintest['_id']);
-              console.log("hererererer");
               chai.request(server)
               .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
               .send({userid:currentadmintest['_id']})
@@ -1257,8 +1356,6 @@ describe('Remove expert test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -1317,8 +1414,6 @@ describe('Remove admin test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -1388,8 +1483,6 @@ it('it shouldnt remove Admin  ' , function(done) {
         }
         else{
           newadmintest =newUser ;
-          console.log(newadmintest['_id']);
-          console.log("hererererer");
           chai.request(server)
           .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
           .send({userid:currentadmintest['_id']})
@@ -1447,7 +1540,6 @@ describe('Get user by id test' , function(){
           return next(err);
         }
         newadmintest =newUser ;
-        console.log(currentadmintest['_id']);
         chai.request(server)
         .get('/api/admin/getUserById/'+newadmintest['_id'])
         .set('id', currentadmintest['_id'])
@@ -1501,8 +1593,6 @@ describe('Get user by id test' , function(){
           }
           else{
             newadmintest =newUser2 ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .get('/api/admin/getUserById/'+newadmintest['_id'])
             .set('id', currentadmintest['_id'])
@@ -1685,8 +1775,6 @@ describe('Block user test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/BlockUser/'+newadmintest['_id'])
             .set('id', currentadmintest['_id'])
@@ -1756,8 +1844,6 @@ it('it shouldnt block user without user being admin  ' , function(done) {
         }
         else{
           newadmintest =newUser ;
-          console.log(newadmintest['_id']);
-          console.log("hererererer");
           chai.request(server)
           .patch('/api/admin/BlockUser/'+newadmintest['_id'])
           .set('id', currentadmintest['_id'])

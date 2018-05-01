@@ -459,7 +459,6 @@ module.exports.getComments = function(req, res, next) { //getComments method is 
 };
 
 module.exports.deleteComment = function(req,res,next){
-  console.log("da5el el method backend")
   req.body.userid = req.params.commentId.split("..")[1];
   req.params.commentId = req.params.commentId.split("..")[0];
   if (!Validations.isObjectId(req.params.commentId) && !Validations.isObjectId(req.body.userid) ) {

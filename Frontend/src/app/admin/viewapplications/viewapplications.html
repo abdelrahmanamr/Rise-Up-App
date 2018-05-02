@@ -1,0 +1,14 @@
+<div class="container">
+    <div *ngFor="let application of applications">
+        <div class="card" style="padding:10px 15px; padding-bottom:70px; margin-bottom:20px;display: block; ">
+            <div style="float:left;">
+                <b>user id</b>: {{application.userid}}
+                <br>
+        <b>Years of Experience</b>: {{application.previousExperience}}</div>
+             <div style="float:right;">
+                 <Button (click)="Accept(application.userid)" class="btn btn-success"> Accept </Button>
+                 <Button  class="btn btn-danger"> Reject </Button>
+            </div>
+        </div>
+    </div>
+</div>

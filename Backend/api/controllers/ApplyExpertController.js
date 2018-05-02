@@ -52,3 +52,16 @@ var mongoose = require('mongoose'),
   }}});
 }}
 
+module.exports.getApplications = function(req, res, next) {
+  ApplyExpert.find({}).exec(function(err, application) {
+    if (err) {
+      return next(err);
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'applications retrieved successfully.',
+      data: application
+    });
+  });
+};
+

@@ -566,7 +566,7 @@ module.exports.login = function(req,res,next){
                                   },
                                   req.app.get('secret'),
                                   {
-                                      expiresIn: '5m'
+                                      expiresIn: '1h'
                                   }
                             );
                             res.status(200).json({

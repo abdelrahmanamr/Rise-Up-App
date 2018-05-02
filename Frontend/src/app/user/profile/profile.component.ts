@@ -236,6 +236,7 @@ submitTags(){
         this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
             .subscribe((info:any) => {
                 console.log(info);
+                window.location.reload();
 
                 var JSONtoIndex = {
                     "name":info['data']['tags'],

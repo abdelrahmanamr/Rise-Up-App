@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 Content = mongoose.model('Content'),
     Report = mongoose.model('Report'),
 Comment = mongoose.model('Comment');
-
+ApplyExpert =mongoose.model('ApplyExpert');
 
 
 module.exports.AddExpert=function(req, res, next){
@@ -60,11 +60,41 @@ module.exports.AddExpert=function(req, res, next){
             });
         }
 
+else{
+    ApplyExpert.findOne({userid:req.params.userId}).exec(function(err,userfound){
+if(err){
+    return next(err)
+}
+else if(userfound){
+    console.log(userfound["_id"]);
+   ApplyExpert.findByIdAndRemove(userfound["_id"]).exec(function(err,removed){
+       if(err){
+
+    return   res.status(422).json({
+            err:err,
+            msg:'Error removing',
+            data:null
+        });
+       }
+       else{
         res.status(200).json({
             err:null,
             msg:'User retrieved correctly',
             data:updatedUser
         });
+       }
+   });
+}
+else if(!userfound){
+    res.status(200).json({
+        err:null,
+        msg:'User retrieved correctly',
+        data:updatedUser
+    });
+}
+
+    })
+       }
     });
 };
         }

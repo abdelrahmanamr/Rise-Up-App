@@ -135,6 +135,9 @@ router.post('/suggestedcompany/addSuggestedCompany',suggestedCompanyCtrl.addSugg
 //-------------------------------Admin Routes-----------------------------------
 
 router.patch('/admin/addExpert/:userId', isAuthenticated, AdminController.AddExpert);
+router.delete('/admin/RemoveRequest/:userId', isAuthenticated,AdminController.RemoveRequest);
+
+
 router.patch('/admin/removeExpert/:userId', isAuthenticated, AdminController.RemoveExpert);
 router.patch('/admin/blockUser/:userId', isAuthenticated, AdminController.BlockUser);
 router.patch('/admin/unBlockUser/:userId', isAuthenticated, AdminController.UnblockUser);

@@ -7,7 +7,7 @@
         <b>Years of Experience</b>: {{application.previousExperience}}</div>
              <div style="float:right;">
                  <Button (click)="Accept(application.userid)" class="btn btn-success"> Accept </Button>
-                 <Button  class="btn btn-danger"> Reject </Button>
+                 <Button (click)="Reject(application.userid)" class="btn btn-danger"> Reject </Button>
             </div>
         </div>
     </div>

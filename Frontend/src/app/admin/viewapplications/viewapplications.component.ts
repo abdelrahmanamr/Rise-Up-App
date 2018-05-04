@@ -72,4 +72,25 @@ ngOnInit() {
                 }     
               });
     }
+
+    Reject(ID:String){
+
+
+      var config = {
+        headers : {
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
+        }
+    }
+    this.httpClient.delete(environment.apiUrl+'/admin/RemoveRequest/'+ID,config)
+        .subscribe((info:any) => {
+            console.log(info);
+        },err=>{
+            this.toastr.error("",err['error']["msg"]);
+            if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+              localStorage.clear();
+              this.router.navigateByUrl("/search/searchresults")
+            }     
+          });
+    }
 }

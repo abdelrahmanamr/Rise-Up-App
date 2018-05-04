@@ -79,8 +79,8 @@ else if(userfound){
        else{
         res.status(200).json({
             err:null,
-            msg:'User retrieved correctly',
-            data:updatedUser
+            msg:'User removed correctly',
+            data:null
         });
        }
    });
@@ -100,6 +100,40 @@ else if(!userfound){
         }
     }
 });
+}
+
+module.exports.RemoveRequest=function(req,res,next){
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+    ApplyExpert.findOne({userid:req.params.userId}).exec(function(err,userfound){
+        if(err){
+            return next(err)
+        }
+        else if(userfound){
+            console.log(userfound["_id"]);
+           ApplyExpert.findByIdAndRemove(userfound["_id"]).exec(function(err,removed){
+               if(err){
+        
+            return   res.status(422).json({
+                    err:err,
+                    msg:'Error removing',
+                    data:null
+                });
+               }
+               else{
+                res.status(200).json({
+                    err:null,
+                    msg:'User removed correctly',
+                    data:null
+                });
+               }
+           });
+        }});
 }
 
 module.exports.getActivityComment=function(req,res,next){

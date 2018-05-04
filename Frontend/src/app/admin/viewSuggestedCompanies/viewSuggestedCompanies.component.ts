@@ -33,6 +33,7 @@ user = null;
 
     Approve(ident:string)
     {
+      console.log('approve');
       var config = {
         headers : {
             'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ user = null;
 
     Disapprove(ident:string)
     {
-      
+      console.log('disapprove');
       var config = {
         headers : {
             'Content-Type': 'application/json',

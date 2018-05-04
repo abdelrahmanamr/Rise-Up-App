@@ -10,10 +10,7 @@ import {Router} from "@angular/router";
 })
 export class ViewAllExpertsComponent {
 
-  // <tr *ngFor="let expert of experts">
-  //     <td> <span *ngIf="expert.expert"> <a> {{expert.username}} </a>  </span> </td> 
-  //   <td><span *ngIf="expert.expert">  <a> <Button (click)="ViewExpert(expert._id)"> ShowExpert </Button> </a></span></td>  
-  //   </tr>
+
 
 constructor(private httpClient: HttpClient, private router: Router) { }
 

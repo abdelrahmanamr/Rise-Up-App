@@ -62,17 +62,22 @@
     <button *ngIf="data.expert" type="button"
             class="btn btn-danger" (click)="go()">Edit Tags
     </button>
+
     <br />
 <div *ngIf="check" class="editTags">
     <h4> Edit Tags: </h4>
+    <h4> Please press enter after entering each tag </h4>
+
+    
     <hr>
+    
 <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)"
                 ng-controller="MainCtrl" ng-model="tags"  type="text" [(ngModel)]="tags"
                 name="tags"> </tags-input>
 
 
     <button  *ngIf="data.expert" type="button"
-            class="btn btn-danger" (click)="submitTags()">Submit Tags
+            class="btn btn-danger"  (click)="submitTags()">Submit Tags
     </button>
     </div>
 
@@ -80,7 +85,6 @@
         </div>
     </div>
 </div>
-
 
 
 

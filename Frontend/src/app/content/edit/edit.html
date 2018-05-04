@@ -1,14 +1,14 @@
 <link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
 <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
-<div class="container">
+<div class="resultDiv">
     <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)">
         <div *ngIf="this.editContent['type']=='content'">
-            <h3>Editing Content</h3>
+            <h2>Editing Content</h2>
         </div>
 
         <div *ngIf="this.editContent['type']=='suggestion'">
-            <h3>Editing Suggestion</h3>
+            <h2>Editing Suggestion</h2>
         </div>
 
 
@@ -25,7 +25,7 @@
 
         <div [hidden]="post==1">
 
-            <div id="toolbar-container">
+            <div id="toolbar-container" style="width:98%;">
                 <span class="ql-formats">
                     <select class="ql-font"></select>
                     <select class="ql-size"></select>
@@ -71,7 +71,7 @@
                 </span>
             </div>
 
-            <div id="editor" style="height: 500px">
+            <div id="editor" style="height: 500px;width:98%;">
             </div>
         </div>
         <br />

@@ -52,7 +52,8 @@ IframeBody:SafeResourceUrl;
 rating: number;
 contentid: string;
 commentsflag:boolean=false;
-Contenttype:boolean=false;;
+Contenttype:boolean=false;
+owner:string;
 
 comment:any;
   constructor(private httpClient: HttpClient,private router: Router,private activatedRoute: ActivatedRoute,
@@ -72,15 +73,16 @@ ShowPopUp(){
 
     }
     this.GetContent(this.ID) ;
+    this.views(this.ID);
     this.ViewComments();
       }
 
       rate(rate:number){
-        var config ={
-          headers : 
-        {
-      'Content-Type':'application/json'
-        }
+        var config = {
+          headers : {
+              'Content-Type': 'application/json',
+             'authorization':localStorage.getItem('UserDoc')
+          }
       }
   
         var data = JSON.stringify({rating: rate,userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
@@ -90,9 +92,12 @@ ShowPopUp(){
             console.log(res);  
             window.location.reload();
          
-          }, err=>{
-            this.toastr.error("",err.error["msg"]);
-            console.log(err);
+          },err=>{
+            this.toastr.error("",err['error']["msg"]);
+            if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+              localStorage.clear();
+              this.router.navigateByUrl("/search/searchresults")
+            }     
           });
 
       }
@@ -111,6 +116,7 @@ this.Contenttype
         if(res['data']){
           this.contentid = res['data']._id;
           this.rating = res['data'].rating;
+          this.owner = res['data'].userid;
         }
       if(res['data'].type== "Post"){
         this.ViewText(this.ID)
@@ -127,6 +133,26 @@ this.Contenttype
           
       }
     );
+  }
+
+  viewAdder()
+  {
+    var config = {
+      headers:
+      {
+
+        "Content-Type":'application/json',
+        "id":JSON.parse(localStorage.getItem("userProps"))["_id"],
+        'authorization':localStorage.getItem('UserDoc')
+
+      }
+    }
+    this.httpClient.get(environment.apiUrl+'/admin/getUserById/'+this.owner,config).subscribe(
+      res=>{
+        this.router.navigate(["/user/profile/"+res['data'].username]);
+      }
+    )
+    
   }
 
      ViewText(ID:String){
@@ -189,16 +215,24 @@ this.Contenttype
 
  DeleteContent(ident:string)
  {
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
-   this.httpClient.delete('http://localhost:3000/api/Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+  var config = {
+    headers : {
+        'Content-Type': 'application/json',
+       'authorization':localStorage.getItem('UserDoc')
+    }
+}
+this.httpClient.delete(environment.apiUrl+'Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+
    subscribe(res=>{
     this.router.navigateByUrl('/content/viewallcontents');
-   });
+   },err=>{
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
+  }
+  );
 
   
  }
@@ -212,17 +246,23 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
               "contentid":this.ID,
             "username":JSON.parse(localStorage.getItem("userProps"))["username"]};
 
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
+            var config = {
+              headers : {
+                  'Content-Type': 'application/json',
+                 'authorization':localStorage.getItem('UserDoc')
+              }
+          }
 
   this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
     res=>{
     console.log(res["data"]);
         window.location.reload();
+    },err=>{
+      this.toastr.error("",err.error["msg"]);
+      if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+        localStorage.clear();
+        this.router.navigateByUrl("/search/searchresults")
+      }
     }
   );
 
@@ -252,20 +292,46 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
 }
 deleteComment(id: string){
   var config = {
-    headers : 
-    {
-        'Content-Type':'application/json'
+    headers : {
+        'Content-Type': 'application/json',
+       'authorization':localStorage.getItem('UserDoc')
     }
 }
-  this.httpClient.delete('http://localhost:3000/api/Content/deleteComment/'+id+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
+  this.httpClient.delete(environment.apiUrl +'Content/deleteComment/'+id+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
    subscribe(res=>{
 
     window.location.reload();
    },err=>{
-    this.toastr.error("",err.error["msg"]);
-    console.log(err);
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
   });
 }
+reportComment(id: string){
+  var config = {
+    headers : {
+        'Content-Type': 'application/json',
+       'authorization':localStorage.getItem('UserDoc')
+    }
+}
+var body = {
+  userid:this.userID,
+  name:JSON.parse(localStorage.getItem('userProps'))['username']
+}
+  this.httpClient.post(environment.apiUrl +'Content/makeReport/'+id,body,config).
+   subscribe(res=>{
+    this.toastr.success("","Reported");
+  },err=>{
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
+  });
+}
+
 
 toggle() //this method is responsible for showing/hiding comments, the function toggles every time it is clicked
 {
@@ -273,5 +339,36 @@ toggle() //this method is responsible for showing/hiding comments, the function 
  }
 
 
+ EditContent(ID:string){
+  var editContent = {
+    "id":ID,
+    "type":"content"
+  }
+  console.log(ID);
+  localStorage.setItem("editContent",JSON.stringify(editContent));
+  this.router.navigateByUrl('/content/edit');
 
 }
+
+
+ views(ID: string){ // this method calls a patch request to the method "views" in the ContentController in the backend 
+   
+ var config = {
+   headers : 
+   {
+       'Content-Type':'application/json'
+   }
+}
+
+this.httpClient.patch(environment.apiUrl +'/Content/views/'+ID,config).subscribe(
+res=>{
+ console.log(res['data']);
+}
+)
+
+
+}
+
+}
+
+

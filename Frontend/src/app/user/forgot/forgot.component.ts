@@ -44,13 +44,14 @@ errorView = "";
 onSubmit = function(user){
   var data = JSON.stringify({email:user.email})
 
-var config = {
+  var config = {
     headers : {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization':localStorage.getItem('UserDoc')
     }
 }
 
-this.http.post('http://localhost:3000/api/user/forgetPassword', data, config)
+this.http.post(environment.apiUrl+'user/forgetPassword', data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
     let message = res["msg"];

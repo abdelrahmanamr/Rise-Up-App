@@ -16,7 +16,8 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-content-create',
-  templateUrl: 'create.html'
+  templateUrl: 'create.html',
+  styleUrls: ['style.css']
 })
 export class CreateComponent implements OnInit{
 
@@ -141,7 +142,8 @@ export class CreateComponent implements OnInit{
     }
     var config = {
         headers : {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+           'authorization':localStorage.getItem('UserDoc')
         }
     }
 
@@ -159,13 +161,27 @@ export class CreateComponent implements OnInit{
          console.log(JSONtoIndex);
          this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoIndex,config)
          .subscribe(res =>{console.log(res);
-                 this.router.navigate(["/content/viewallcontents"])
+                 var JSONtoContentIndex = {
+                     "name": content.title,
+                     "object":object,
+                     "type": "Content"
+                 }
+                 this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoContentIndex,config).subscribe(
+                     res => {
+                         console.log(res);
+                         this.router.navigateByUrl("/search/searchResult?key=viewallcontent");
+                     }
+            )
+
         },
         err=>
         console.log("error adding to index"));
     },err=>{
       this.toastr.error("",err['error']["msg"]);
-      this.errorHandle = err['error']['msg'];
+      if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+        localStorage.clear();
+        this.router.navigateByUrl("/search/searchresults")
+      }     
     });
   }
   else{
@@ -175,8 +191,10 @@ export class CreateComponent implements OnInit{
       this.router.navigate(["/suggestedcontent/viewSuggestedContents/"])
     },err=>{
       this.toastr.error("",err['error']["msg"]);
-      this.errorHandle = err['error']['msg'];
-    });
+      if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+        localStorage.clear();
+        this.router.navigateByUrl("/search/searchresults")
+      }         });
   }
 
     }

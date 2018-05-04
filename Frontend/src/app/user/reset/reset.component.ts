@@ -55,7 +55,7 @@ export class ResetComponent implements OnInit {
             }
         }
 
-        this.http.get('http://localhost:3000/api/user/expire/'+ this.final , config)
+        this.http.get(environment.apiUrl+'user/expire/'+ this.final , config)
             .subscribe(res=>{
                     //console.log(res["data"]);
                     this.message = res["msg"];
@@ -85,7 +85,7 @@ var config = {
     }
 }
 
-this.http.patch('http://localhost:3000/api/user/reset/'+ this.final , data, config)
+this.http.patch(environment.apiUrl+'user/reset/'+ this.final , data, config)
 .subscribe(res=>{
   //console.log(res["data"]);
     let message = res["msg"];

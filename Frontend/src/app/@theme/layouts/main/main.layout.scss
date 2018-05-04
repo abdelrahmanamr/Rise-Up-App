@@ -79,7 +79,7 @@
         padding-left:30px;
         padding-bottom:10px;
         margin: 0 auto;
-        margin-top:10px;
+        margin-top:30px;
         margin-bottom:40px;
     }
 
@@ -125,10 +125,17 @@
       height:100px;
       overflow: hidden;
     }
+
+    /deep/ .resultDiv .card .coverImage img{
+      margin-top:0px;
+    }
+
     /deep/ .resultDiv h4{
       color: #D00018;
       font-weight:900;
     }
+
+
 
     /deep/ .resultDiv .card:hover h4{
       color: #FFE302;

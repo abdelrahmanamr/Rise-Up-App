@@ -1,0 +1,20 @@
+<div class="container">
+   <div *ngFor="let report of reports">
+      <div class="card">
+         <span style="float:left;">
+            <h4><img src="assets/profile1.png" alt="" /> {{report.reportedName}}</h4>
+            <br>
+            <br>
+            <h2  style="color:  #d00018;margin-left: 40px">COMMENT: </h2>
+            <h4 style="color:  #260004;margin-left: 300px">{{report.commentBody}}</h4>
+            <br>
+            <br>
+             <h2 style="color:  #d00018;margin-left: 40px">Reported by: </h2>
+             <h4 style="color:  #260004;margin-left: 300px">{{report.reporterName}}</h4>
+         <span style="float:right;">
+            <Button (click)="deleteComment(report.commentId)" class="btn btn-danger btn-sm" >Delete Comment</Button>
+            <Button (click)="viewProfile(report.reportedName)" class="btn btn-danger btn-sm" >View Profile</Button>
+             </span>
+      </span>
+   </div>
+</div>

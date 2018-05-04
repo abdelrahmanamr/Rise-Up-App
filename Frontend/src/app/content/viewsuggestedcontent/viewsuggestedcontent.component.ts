@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-content-viewsuggestedcontent',
@@ -23,7 +24,8 @@ user = null;
 
 
 
-  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
+  constructor(private httpClient: HttpClient,private router: Router,
+    private toastr: ToastrService,private domSanitizer: DomSanitizer) { }
 
 
   ngOnInit() { 
@@ -45,11 +47,11 @@ user = null;
     }
 
   GetContent(ID:string){
-        var config ={
-      headers : 
-    {
-  'Content-Type':'application/json'
-    }
+    var config = {
+      headers : {
+          'Content-Type': 'application/json',
+          'authorization':localStorage.getItem('UserDoc')
+      }
   }
     this.httpClient.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
       res=>{  
@@ -70,11 +72,11 @@ user = null;
  }
 
      ViewText(ID:String){
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
+      var config = {
+        headers : {
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
+        }
     }
       this.httpClient.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
         res=>{  
@@ -86,11 +88,11 @@ user = null;
      }
      
      ViewLink(ID:string){
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
+      var config = {
+        headers : {
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
+        }
     }
       this.httpClient.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
         res=>{  
@@ -103,11 +105,11 @@ user = null;
      }
 
      ViewImage(ID:string){
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
+      var config = {
+        headers : {
+            'Content-Type': 'application/json',
+            'authorization':localStorage.getItem('UserDoc')
+        }
     }
       this.httpClient.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
         res=>{  
@@ -120,13 +122,15 @@ user = null;
 
  DeleteContent(ident:string)
  {
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
-   this.httpClient.delete('http://localhost:3000/api/suggestedcontent/deleteSuggestedContent/'+ident,config).
+
+  var config = {
+    headers : {
+        'Content-Type': 'application/json',
+        'authorization':localStorage.getItem('UserDoc')
+    }
+}
+this.httpClient.delete(environment.apiUrl+'suggestedcontent/deleteSuggestedContent/'+ident,config).
+
    subscribe(res=>{
     this.router.navigateByUrl('/content/suggestedcontent');
    });
@@ -135,12 +139,12 @@ user = null;
  }
  AddContent(ident:string)
  {
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
+  var config = {
+    headers : {
+        'Content-Type': 'application/json',
+        'authorization':localStorage.getItem('UserDoc')
+    }
+}
    this.httpClient.get(environment.apiUrl+'/suggestedcontent/viewSuggestedContent/'+ident,config).
     subscribe(res=>{
     this.contents = res['data'];
@@ -160,9 +164,9 @@ user = null;
  DisapproveContent(ident:string)
  {
   var config = {
-    headers : 
-    {
-        'Content-Type':'application/json'
+    headers : {
+        'Content-Type': 'application/json',
+        'authorization':localStorage.getItem('UserDoc')
     }
 }
 this.httpClient.get(environment.apiUrl+'/suggestedcontent/viewSuggestedContent/'+ident,config).
@@ -173,6 +177,12 @@ this.contents['userid'] = this.user['_id'];
 this.contents['status'] = -1;
 this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
   this.router.navigateByUrl('/content/viewallcontents');
+},err=>{
+  this.toastr.error("",err['error']["msg"]);
+  if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+    localStorage.clear();
+    this.router.navigateByUrl("/search/searchresults")
+  }     
 });
 });
 

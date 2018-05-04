@@ -47,8 +47,8 @@ import { ToastrService } from 'ngx-toastr';
  <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px; ">
  </div>
       <div>
-
-          <input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register"style=" margin-top:100px;margin-left:150px;background-color:#DC0C18 ;">
+<br />
+          <input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register">
 
       </div>
       </div>
@@ -163,7 +163,7 @@ var config = {
         'Content-Type': 'application/json'
     }
 };
-    this.http.post('http://localhost:3000/api/user/register', data, config)
+    this.http.post(environment.apiUrl+'user/register', data, config)
         .subscribe(res=>{
             console.log("ta7t deh el response");
             console.log(res);
@@ -196,7 +196,7 @@ checkUsername = function(username){
   'Content-Type' : 'application/json'
   }
   };
-  this.http.post('http://localhost:3000/api/user/checkUsername', data, config).subscribe( res =>{
+  this.http.post(environment.apiUrl+'user/checkUsername', data, config).subscribe( res =>{
   console.log(res);
   this.errorhandle = "";
   },

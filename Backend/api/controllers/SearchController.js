@@ -22,7 +22,7 @@ client.ping({
     body: 'hello JavaSampleApproach!'
 });
 
-    module.exports.getCompanyByNameOrType = function ( req, res, next) {
+    module.exports.getCompanyByNameOrType = function ( req, res, next) {            //tested
         if(!Validations.isString(req.params.name)){
             return res.status(422).json({
                 err:null,
@@ -34,7 +34,7 @@ client.ping({
         }
         Company.find(
             {$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.name)}}]}
-        ).exec(function (err,companies) {
+        ).sort([['date', -1]]).exec(function (err,companies) {
             if(err){
                 return next(err);
             }
@@ -46,7 +46,7 @@ client.ping({
         });
     };
 
-module.exports.getCompanyByName = function ( req, res, next) {
+module.exports.getCompanyByName = function ( req, res, next) {              //tested
     if(!Validations.isString(req.params.name)){
         return res.status(422).json({
             err:null,
@@ -71,7 +71,7 @@ module.exports.getCompanyByName = function ( req, res, next) {
     });
 };
 
-module.exports.getCompanyByType = function ( req, res, next) {
+module.exports.getCompanyByType = function ( req, res, next) {              //tested
 
     if(!Validations.isString(req.params.type)){
         return res.status(422).json({
@@ -122,7 +122,7 @@ module.exports.getCompanyTags= function ( req, res, next) {
         });
     });
 };
-module.exports.getExpertTags= function ( req, res, next) {
+module.exports.getExpertTags= function ( req, res, next) {  //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -148,7 +148,7 @@ module.exports.getExpertTags= function ( req, res, next) {
     });
 };
 
-module.exports.getContentTags= function ( req, res, next) {
+module.exports.getContentTags= function ( req, res, next) {  //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -198,7 +198,7 @@ module.exports.getCompanyTagsOrName= function ( req, res, next) {
     });
 };
 
-module.exports.getCompanyTagsOrType= function ( req, res, next) {
+module.exports.getCompanyTagsOrType= function ( req, res, next) {      //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({
@@ -223,7 +223,7 @@ module.exports.getCompanyTagsOrType= function ( req, res, next) {
     });
 };
 
-module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) {
+module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) { //tested
 
     if(!Validations.isString(req.params.tags)){
         return res.status(422).json({

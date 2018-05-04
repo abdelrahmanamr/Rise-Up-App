@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
+import { environment } from '../../../environments/environment';
+
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-items',
@@ -20,18 +23,27 @@ import {Router} from "@angular/router";
 })
 export class ViewUsersComponent {
   data =[];
-  constructor(private http: HttpClient,private router: Router){}
+  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){}
   ngOnInit() 
   {
     var config = {
       headers : 
       {
           'Content-Type':'application/json',
-          "id":JSON.parse(localStorage.getItem("userProps"))["_id"]
+          "id":JSON.parse(localStorage.getItem("userProps"))["_id"],
+          'authorization':localStorage.getItem('UserDoc')
       }
   }
-        this.http.get('http://localhost:3000/api/admin/getUsers',config).
-       subscribe(res =>{this.data=res["data"]});     
+        this.http.get(environment.apiUrl+'admin/getUsers',config).
+       subscribe(res =>{this.data=res["data"]}
+       ,err=>{
+        this.toastr.error("",err.error["msg"]);
+        if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+            localStorage.clear();
+            this.router.navigateByUrl("/search/searchresults")
+          }     
+           }
+        );     
   }
 
   goToUser(username:string)

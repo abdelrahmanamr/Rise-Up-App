@@ -21,7 +21,7 @@ user = null;
 
     ngOnInit()
     {
-      this.httpClient.get(environment.apiUrl +'Company/viewCompanies').subscribe(
+      this.httpClient.get(environment.apiUrl +'suggestedcompany/getSuggestedCompanies').subscribe(
         res=>{  
           this.suggestedCompanies=res['data'];
           this.suggestedCompanies.forEach(suggestedCompanies => {
@@ -36,15 +36,16 @@ user = null;
       var config = {
         headers : {
             'Content-Type': 'application/json',
-            'authorization':localStorage.getItem('UserDoc')
+            'authorization':localStorage.getItem('UserDoc'),
         }
     }
        this.httpClient.get(environment.apiUrl+'suggestedcompany/viewSuggestedCompany/'+ident,config).
         subscribe(res=>{
         this.suggestedcompany = res['data'];
+        console.log(this.suggestedCompanies);
         this.user = JSON.parse(localStorage.getItem("userProps"));
         this.suggestedcompany['userid'] = this.user['_id'];
-        this.httpClient.post(environment.apiUrl+'suggestedcompany/addSuggestedCompany',this.suggestedcompany,config).subscribe(res=>{
+        this.httpClient.post(environment.apiUrl+'company/createCompany',this.suggestedcompany,config).subscribe(res=>{
       
         });
         this.suggestedcompany['status'] = 1;
@@ -70,9 +71,6 @@ user = null;
         this.suggestedcompany = res['data'];
         this.user = JSON.parse(localStorage.getItem("userProps"));
         this.suggestedcompany['userid'] = this.user['_id'];
-        this.httpClient.post(environment.apiUrl+'suggestedcompany/addSuggestedCompany',this.suggestedcompany,config).subscribe(res=>{
-      
-        });
         this.suggestedcompany['status'] = -1;
         this.httpClient.patch(environment.apiUrl+'suggestedcompany/updateSuggestedCompany/'+ident,this.suggestedcompany,config).subscribe(res=>{
           this.router.navigateByUrl('/admin/viewSuggestedCompanies');

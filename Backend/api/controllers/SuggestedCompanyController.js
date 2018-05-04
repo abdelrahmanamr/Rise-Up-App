@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
 
   module.exports.addSuggestedCompany = function(req, res, next) {
 
-    console.log(req.body);
   var valid =
 
       req.body.name &&
@@ -63,7 +62,7 @@ var mongoose = require('mongoose'),
 };
 
 module.exports.getSuggestedCompanies = function(req, res, next) {
-    SuggestedCompany.find({}).exec(function(err, suggestedCompanies) {
+    SuggestedCompany.find({'status':0}).exec(function(err, suggestedCompanies) {
         if (err) {
             return next(err);
         }

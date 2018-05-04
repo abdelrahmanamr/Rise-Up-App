@@ -10,7 +10,7 @@
     <img src="/assets/company.png" style="float:left;margin-right:10px;">
   
     <h4>{{company.name}}</h4>
-    Tags: <span class="tags-input__tag" *ngFor="let tag of company.tags;">{{tag}}</span>
+        Tags: <span class="tags-input__tag" *ngFor="let tag of company.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span>
     </div>
     <div style="float:right;"> <br> <Button (click)="ViewCompany(company._id)" class="btn btn-danger btn-sm"> see more </Button>
     </div>

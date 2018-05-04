@@ -48,7 +48,7 @@
                         <h4 class="text-uppercase">{{item.title}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                         <h4 class="text-uppercase">{{item.name}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                         <h4 class="text-uppercase">{{item.firstname}} {{item.lastname}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>

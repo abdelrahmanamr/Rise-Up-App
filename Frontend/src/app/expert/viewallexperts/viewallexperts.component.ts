@@ -40,7 +40,7 @@ ngOnInit() {
   ViewExpert(ID: string){
 
     localStorage.setItem("expertID",ID);
-    this.router.navigate(['/expert/viewexpert']);
+    this.router.navigate(["/user/profile/"+ID]);
 
 
   }

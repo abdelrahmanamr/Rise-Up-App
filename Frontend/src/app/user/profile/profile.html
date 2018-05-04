@@ -34,7 +34,7 @@
 
     <h4>Interests:</h4>
     <hr>
-    <div><p><span class="tags-input__tag" *ngFor="let tag of data.tags;">{{tag}}</span></p></div>
+        <div><p><span class="tags-input__tag" *ngFor="let tag of data.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></p></div>
  
 
     <h4> Admin Controls </h4>

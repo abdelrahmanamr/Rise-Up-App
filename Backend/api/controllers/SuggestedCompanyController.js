@@ -6,7 +6,6 @@ var mongoose = require('mongoose'),
 
   module.exports.addSuggestedCompany = function(req, res, next) {
 
-    console.log(req.body);
   var valid =
 
       req.body.name &&

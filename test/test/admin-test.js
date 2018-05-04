@@ -215,7 +215,7 @@ describe('Admin comment/reports functionalities',function(){
     'password':'12345678',
     'admin' :true
   }
-  it('admin should be able to remove comments by other people',function(done){
+  it('admin should be able to remove comments by other people',function(done){  // Saleh
 
     var createdNormal;
     var createdContent;
@@ -264,7 +264,7 @@ describe('Admin comment/reports functionalities',function(){
       }
     });
   }),
-  it('admin should be able to delete his own comments',function(done){
+  it('admin should be able to delete his own comments',function(done){  // Saleh
     var createdNormal;
     var createdContent;
     var createdAdmin;
@@ -311,7 +311,7 @@ describe('Admin comment/reports functionalities',function(){
         });
       }
   });
-}),it('admin should be able to delete his own comments',function(done){
+}),it('admin shouldnt  be able to delete already removed comments',function(done){ // Saleh
   var createdNormal;
   var createdContent;
   var createdAdmin;
@@ -368,7 +368,7 @@ describe('Admin comment/reports functionalities',function(){
       });
     }
 });
-}),it('admin should be able to view all reports',function(done){
+}),it('admin should be able to view all reports',function(done){ // Saleh
   var createdNormal;
   var createdContent;
   var createdAdmin;
@@ -430,7 +430,7 @@ describe('Admin comment/reports functionalities',function(){
           });
         }
       });
-    }),it('Normal user shouldnt be able to view reports',function(done){
+    }),it('Normal user shouldnt be able to view reports',function(done){ // Saleh
       var createdNormal;
       var createdContent;
       var createdAdmin;
@@ -492,7 +492,7 @@ describe('Admin comment/reports functionalities',function(){
               });
             }
           });
-        }),it("admin should be able to view all comments inside his activity tracker for the last 7 days",function(done){
+        }),it("admin should be able to view all comments inside his activity tracker for the last 7 days",function(done){  // Saleh
           var createdNormal;
           var createdContent;
           var createdAdmin;
@@ -542,7 +542,7 @@ describe('Admin comment/reports functionalities',function(){
                     }
                   
                   });
-                }),it("users shouldn't be able to view all website comment activity",function(done){
+                }),it("users shouldn't be able to view all website comment activity",function(done){ // Saleh
                   var createdNormal;
                   var createdContent;
                   var createdAdmin;
@@ -592,7 +592,7 @@ describe('Admin comment/reports functionalities',function(){
                             }
                           
                           });
-                }),it("admin should be able to view all reports",function(done){
+                }),it("admin should be able to view all reports",function(done){ // Saleh
                   var createdNormal;
                   var createdContent;
                   var createdAdmin;
@@ -654,7 +654,7 @@ describe('Admin comment/reports functionalities',function(){
                           });
                         }
                       });
-                }),it('normal users shouldnt be able to see any reports',function(done){
+                }),it('normal users shouldnt be able to see any reports',function(done){ // Saleh
                   var createdNormal;
                   var createdContent;
                   var createdAdmin;
@@ -719,7 +719,7 @@ describe('Admin comment/reports functionalities',function(){
                 });
 
 });
-describe('User deletes his own comments only',function(){
+describe('User deletes his own comments only',function(){  // Loai Testing
   var contentForComments = {
     title: "Content for comments",
     body:"we ady ay body ma3ana",

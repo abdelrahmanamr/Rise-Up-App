@@ -25,7 +25,6 @@ var mongoose = require('mongoose'),
       { new: true }
    
     ).exec(function(err, updatedcontent) {
-      console.log("req.params.views")
       if (err) {
         return next(err);
       }
@@ -288,10 +287,8 @@ if (!valid) {
     }
     else{
       if(ratingFound){
-        console.log("update")
         ratingFound.rating = req.body.rating;
         ratingFound.updatedAt = Date.now();
-        console.log("here")
         ratingFound.save(function(err,ratingFound,num){
             if(err){
               return res.status(422).json({
@@ -301,7 +298,6 @@ if (!valid) {
               });
             }
             else{
-              console.log(num)
               if(num==0){
                 return res.status(422).json({
                   err: null,
@@ -322,7 +318,6 @@ if (!valid) {
               totalRatings += EachRating.rating
             });
             avgRating = totalRatings/AllRatings.length;
-            console.log(avgRating);
             Content.findByIdAndUpdate(req.params.contentId,{ $set: { rating: avgRating }}).exec(function(err,content){
               if(err){
                 return res.status(422).json({
@@ -345,7 +340,6 @@ if (!valid) {
             }
         });
       }else{
-        console.log("create")
         Rating.create({
           contentid: req.params.contentId,
           userid: req.body.userid,
@@ -353,7 +347,6 @@ if (!valid) {
           createdAt: Date.now(),
         }, function(err, rating) {
           if (err) {
-            console.log(req.body);
             return next(err);
           }else{
             Rating.find({
@@ -441,7 +434,6 @@ module.exports.getComments = function(req, res, next) { //getComments method is 
     });
   }
   Comment.find({contentid:req.params.contentId}).exec(function(err, comments) {
-    console.log(req.body.contentId)
     if (err) {
       return next(err);
     }
@@ -574,7 +566,6 @@ module.exports.makeReport = function(req,res,next){
   }else{
     Report.findOne({reporterId:req.body.userid,commentId:req.params.commentId}).exec(function(err,AlreadyReported){
       if(err){
-        console.log("awel error aho");
         return res.status(422).json({
           err: null,
           msg: "Can't access database right now",
@@ -624,7 +615,6 @@ module.exports.makeReport = function(req,res,next){
                         });
                       }
                       else{
-                          console.log("hena");
                           return res.status(201).json({
                             err: null,
                             msg: "Comment reported",

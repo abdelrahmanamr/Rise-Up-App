@@ -127,6 +127,10 @@ router.patch('/company/CompanyViews/:ID', CompanyCtrl.IncrementViews);
 //---------------------------SuggestedCompany Routes------------------------------
 
 router.post('/suggestedcompany/addSuggestedCompany',suggestedCompanyCtrl.addSuggestedCompany);
+router.get('/suggestedcompany/getSuggestedCompanies',suggestedCompanyCtrl.getSuggestedCompanies);
+router.get('/suggestedcompany/viewSuggestedCompany/:companyId', isAuthenticated, suggestedCompanyCtrl.viewSuggestedCompany);
+router.patch('/suggestedcompany/updateSuggestedCompany/:companyId', isAuthenticated, suggestedCompanyCtrl.updateSuggestedCompany);
+
 
 
 //-------------------------------Admin Routes-----------------------------------

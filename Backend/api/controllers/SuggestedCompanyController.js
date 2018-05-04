@@ -60,4 +60,75 @@ var mongoose = require('mongoose'),
       }
     }
 );
-}
+};
+
+module.exports.getSuggestedCompanies = function(req, res, next) {
+    SuggestedCompany.find({}).exec(function(err, suggestedCompanies) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'Suggested Companies retrieved successfully.',
+            data: suggestedCompanies
+        });
+    });
+};
+
+module.exports.viewSuggestedCompany = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.companyId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'companyId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+    SuggestedCompany.findById(req.params.companyId).exec(function(err, company) {
+      if (err) {
+        return next(err);
+      }
+      if (!company) {
+        return res
+          .status(404)
+          .json({ err: null, msg: 'Suggestedcompany not found.', data: null });
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'SuggestedCompany retrieved successfully.',
+        data: company
+      });
+    });
+  };
+
+  module.exports.updateSuggestedCompany = function(req, res, next) {
+    if (!Validations.isObjectId(req.params.companyId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'companyId parameter must be a valid ObjectId.',
+        data: null
+      });
+    }
+
+  
+    SuggestedCompany.findByIdAndUpdate(
+      req.params.companyId,
+      {
+        $set: req.body
+      },
+      { new: true }
+    ).exec(function(err, updatedCompany) {
+      if (err) {
+        return next(err);
+      }
+      if (!updatedCompany) {
+        return res
+          .status(404)
+          .json({ err: null, msg: 'SuggestedCompany not found.', data: null });
+      }
+      res.status(200).json({
+        err: null,
+        msg: 'SuggestedCompany was updated successfully.',
+        data: updatedCompany
+      });
+    });
+  };

@@ -50,15 +50,13 @@ user = null;
         });
         this.suggestedcompany['status'] = 1;
         this.httpClient.patch(environment.apiUrl+'suggestedcompany/updateSuggestedCompany/'+ident,this.suggestedcompany,config).subscribe(res=>{
-          this.router.navigateByUrl('/admin/viewSuggestedCompanies');
+          this.ngOnInit();
         });
        });
     }
 
     Disapprove(ident:string)
     {
-      console.log("frontend");
-      console.log(ident);
       
       var config = {
         headers : {
@@ -73,7 +71,7 @@ user = null;
         this.suggestedcompany['userid'] = this.user['_id'];
         this.suggestedcompany['status'] = -1;
         this.httpClient.patch(environment.apiUrl+'suggestedcompany/updateSuggestedCompany/'+ident,this.suggestedcompany,config).subscribe(res=>{
-          this.router.navigateByUrl('/admin/viewSuggestedCompanies');
+          this.ngOnInit();
         });
        });
     }

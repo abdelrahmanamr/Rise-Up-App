@@ -1,7 +1,7 @@
 <div class="leftbg">
     <!-- Upper Div containing the search bar, filter button and search button -->
     <div class="searchDiv">
-        <span><input class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()" ngModel></span>
+        <span><input id="srch" class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()" ngModel></span>
         <span><img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px"></span>
         <span><img src="/assets/search.svg" (click)="search()" width="30px" height="30px"></span><br>
     </div>
@@ -126,3 +126,9 @@
         
     </div> <!-- End Search result BG -->
 </div> <!-- End leftbg -->
+<style>
+     #srch:focus {
+    outline: none !important;
+    border:5px solid #DB0C18;
+}
+</style>

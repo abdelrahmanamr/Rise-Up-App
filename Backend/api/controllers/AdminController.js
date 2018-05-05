@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 Content = mongoose.model('Content'),
     Report = mongoose.model('Report'),
 Comment = mongoose.model('Comment');
-
+ApplyExpert =mongoose.model('ApplyExpert');
 
 
 module.exports.AddExpert=function(req, res, next){ // Gives a user an expert status after checking tat the user making the request is an admin
@@ -60,17 +60,83 @@ module.exports.AddExpert=function(req, res, next){ // Gives a user an expert sta
             });
         }
 
+else{
+    ApplyExpert.findOne({userid:req.params.userId}).exec(function(err,userfound){
+if(err){
+    return next(err)
+}
+else if(userfound){
+    console.log(userfound["_id"]);
+   ApplyExpert.findByIdAndRemove(userfound["_id"]).exec(function(err,removed){
+       if(err){
+
+    return   res.status(422).json({
+            err:err,
+            msg:'Error removing',
+            data:null
+        });
+       }
+       else{
         res.status(200).json({
             err:null,
-            msg:'User retrieved correctly',
-            data:updatedUser
+            msg:'User removed correctly',
+            data:null
         });
+       }
+   });
+}
+else if(!userfound){
+    res.status(200).json({
+        err:null,
+        msg:'User retrieved correctly',
+        data:updatedUser
+    });
+}
+
+    })
+       }
     });
 };
         }
     }
 });
 }
+
+
+module.exports.RemoveRequest=function(req,res,next){   //this method remove the request of a user who applied to be an expert
+    if(!Validations.isObjectId(req.params.userId)){
+        return res.status(422).json({
+            err: null,
+            msg: 'userId parameter must be a valid ObjectId',
+            data: null
+        });
+    }
+    ApplyExpert.findOne({userid:req.params.userId}).exec(function(err,userfound){
+        if(err){
+            return next(err)
+        }
+        else if(userfound){
+            console.log(userfound["_id"]);
+           ApplyExpert.findByIdAndRemove(userfound["_id"]).exec(function(err,removed){
+               if(err){
+        
+            return   res.status(422).json({
+                    err:err,
+                    msg:'Error removing',
+                    data:null
+                });
+               }
+               else{
+                res.status(200).json({
+                    err:null,
+                    msg:'User removed correctly',
+                    data:null
+                });
+               }
+           });
+        }});
+}
+
 
 module.exports.getActivityComment=function(req,res,next){ // Returns all user activity(comments) after checking that the user making this request is an admin
     req.body.userid = req["headers"]["id"];

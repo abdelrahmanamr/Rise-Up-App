@@ -43,7 +43,7 @@ var mongoose = require('mongoose'),
 
 
 
-  module.exports.viewContents = function(req, res, next) {
+  module.exports.viewContents = function(req, res, next) { //this is a method that retrieves all contents in the database
     Content.find({}).exec(function(err, contents) {
       if (err) {
         return next(err);
@@ -57,7 +57,7 @@ var mongoose = require('mongoose'),
   };
 
 
-  module.exports.viewContent = function(req, res, next) {
+  module.exports.viewContent = function(req, res, next) { //this is a method that retrieve a certain content in the database
     if (!Validations.isObjectId(req.params.contentId)) {
       return res.status(422).json({
         err: null,

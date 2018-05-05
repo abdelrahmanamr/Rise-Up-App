@@ -86,7 +86,7 @@ const registeringUserCredentials = {
                 done();
             });
       }),
-      it("should check for a unique username and FAIL since this user exists /api/user/checkUsername/",function(done){
+     it("should check for a unique username and FAIL since this user exists /api/user/checkUsername/",function(done){ // Rana Talaat
         chai.request(server)
         .post('/api/user/checkUsername')
         .send({'username':authenticatedUser2['username']})
@@ -98,7 +98,7 @@ const registeringUserCredentials = {
         
      
     }),
-    it("should check for a unique username and pass since this is a new user /api/user/checkUsername/",function(done){
+    it("should check for a unique username and pass since this is a new user /api/user/checkUsername/",function(done){ // Rana Talaat
         chai.request(server)
         .post('/api/user/checkUsername')
         .send({'username':'UserGedeed'})

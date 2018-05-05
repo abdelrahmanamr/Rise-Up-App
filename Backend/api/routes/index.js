@@ -13,6 +13,8 @@ var express = require('express'),
   jwt = require('jsonwebtoken');
 
   var isAuthenticated = function(req, res, next) {
+
+
     // Check that the request has the JWT in the authorization header
     var token = req.headers['authorization'];
     if (!token) {
@@ -73,6 +75,7 @@ router.post('/Content/makeReport/:commentId',isAuthenticated,contentCtrl.makeRep
 
 router.post('/applyExpert/createApplyExpert', applyExpertCtrl.createApplyExpert);
 
+router.get('/applyExpert/getApplications', applyExpertCtrl.getApplications);
 
 //-------------------------------SuggestedContent Routes-----------------------------------
 router.post('/suggestedcontent/addSuggestedContent', isAuthenticated,suggestedContentCtrl.createSuggestedContent);
@@ -140,6 +143,9 @@ router.patch('/suggestedcompany/updateSuggestedCompany/:companyId', isAuthentica
 //-------------------------------Admin Routes-----------------------------------
 
 router.patch('/admin/addExpert/:userId', isAuthenticated, AdminController.AddExpert);
+router.delete('/admin/RemoveRequest/:userId', isAuthenticated,AdminController.RemoveRequest);
+
+
 router.patch('/admin/removeExpert/:userId', isAuthenticated, AdminController.RemoveExpert);
 router.patch('/admin/blockUser/:userId', isAuthenticated, AdminController.BlockUser);
 router.patch('/admin/unBlockUser/:userId', isAuthenticated, AdminController.UnblockUser);

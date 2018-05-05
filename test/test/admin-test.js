@@ -1780,6 +1780,7 @@ describe('Block user test' , function(){
             .patch('/api/admin/BlockUser/'+newadmintest['_id'])
             .set('id', currentadmintest['_id'])
             .set('authorization',token)
+            .send({userid:currentadmintest["_id"]})
             .end(function(err ,res) {
               res.status.should.be.eql(200);
               res.body.should.have.property('msg');
@@ -1849,6 +1850,7 @@ it('it shouldnt block user without user being admin  ' , function(done) {
           .patch('/api/admin/BlockUser/'+newadmintest['_id'])
           .set('id', currentadmintest['_id'])
           .set('authorization',token)
+          .send({userid:currentadmintest["_id"]})
           .end(function(err ,res) {
             res.status.should.be.eql(422);
             res.body.should.have.property('msg');

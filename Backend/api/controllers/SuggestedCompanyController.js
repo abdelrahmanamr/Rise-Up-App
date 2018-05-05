@@ -3,8 +3,9 @@ var mongoose = require('mongoose'),
 moment = require('moment'),
 Validations = require('../utils/Validations'),
 SuggestedCompany = mongoose.model('SuggestedCompany');
-
-
+/* Methods : addSuggestedCompany,getSuggestedCompanies,viewSuggestedCompany,updateSuggestedCompany
+Date Edited :  5/5/2018
+*/
 module.exports.addSuggestedCompany = function(req, res, next) { // Adds suggested company by id  to the database
 
 	var valid =
@@ -58,8 +59,8 @@ module.exports.addSuggestedCompany = function(req, res, next) { // Adds suggeste
 				});
 			};
 		}
-	}
-			);
+	});
+			
 };
 
 module.exports.getSuggestedCompanies = function(req, res, next) { // retrieves all the companies in the database

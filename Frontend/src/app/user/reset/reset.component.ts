@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Router,ActivatedRoute} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/*  Contributers : Saleh Elhadidy,Loai Alaa
+    Methods : ngOnInit,onSubmit
+    Date Edited : 5/5/2018
+*/
 @Component({
   selector: 'app-user-login',
     styles:

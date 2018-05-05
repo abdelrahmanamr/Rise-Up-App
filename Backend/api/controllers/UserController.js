@@ -9,9 +9,9 @@ var nodemailer = require('nodemailer');
 var randomToken = require('random-token');
 var smtpTransport = require('nodemailer-smtp-transport');
 
-
-
-
+/* Methods : Edit,ViewUsers,ChangePassword,Expire,ResetPassword,forgetPassword,ViewUser,GetUserByUserName,Register,CheckUserName,Login
+Date Edited : 5/5/2018
+*/
 module.exports.edit = function(req, res, next) { // this method edits attributes of the user in the backend
 	if (!Validations.isObjectId(req.params.id)) {
 		return res.status(422).json({
@@ -60,7 +60,7 @@ module.exports.viewUsers = function(req, res, next) { // this method views all u
 	});
 };
 
-module.exports.expire = function(req,res,next){
+module.exports.expire = function(req,res,next){  // Checks if the password reset token before letting the user reset his password after pressing on the link in his  mail
 
 
 

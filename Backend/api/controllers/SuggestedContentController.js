@@ -4,8 +4,9 @@ moment = require('moment'),
 Validations = require('../utils/Validations'),
 SuggestedContent = mongoose.model('SuggestedContent');
 User = mongoose.model('User');
-
-
+/* Methods : viewSuggestedContents,viewSuggestedContent,updateSuggestedContent,removeSuggestedContent,createSuggestedContent
+Date Edited : 5/5/2018
+*/
 module.exports.viewSuggestedContents = function(req, res, next) { // This method retrieves all suggested contents 
 	SuggestedContent.find({}).exec(function(err, contents) {
 		if (err) {

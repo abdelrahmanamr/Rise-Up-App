@@ -21,7 +21,7 @@
     <br>
     <div><b>Views:</b> {{Company.views}}</div>
     <br>
-    <div><b>Tag:</b> <span class="tags-input__tag" *ngFor="let tag of Company.tags;">{{tag}}</span></div>
+        <div><b>Tag:</b> <span class="tags-input__tag" *ngFor="let tag of Company.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
     <br>
     
     

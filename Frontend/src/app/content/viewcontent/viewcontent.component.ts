@@ -102,7 +102,7 @@ ShowPopUp(){
       }
 
 
-  GetContent(ID:string){
+  GetContent(ID:string){   //this method show any type of content according to type of the data entered
         var config ={
       headers : 
     {
@@ -173,7 +173,7 @@ this.Contenttype
       );
      }
      
-     ViewLink(ID:string){
+     ViewLink(ID:string){ //this method views the content of the link in a mini browser when pressing the button view Link
       var config ={
         headers : 
       {

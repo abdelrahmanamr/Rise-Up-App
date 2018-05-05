@@ -1,3 +1,6 @@
+//Contributers : khaled abo el naga
+//Methods:Add Suggested Company
+//Data modified:5/5/2018
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
@@ -23,7 +26,7 @@ tags:any=[];
         }).join(',');
 
 var my = JSON.stringify
-({  
+({
     // userid:localStorage.getItem("user"),
     name:companyForm.companyname,
     email:companyForm.companyemail,
@@ -46,7 +49,7 @@ var my = JSON.stringify
     ,err=>{
         this.errorHandle = err['error']['msg'];
       });
-        
+
 
     }
 
@@ -61,5 +64,5 @@ var my = JSON.stringify
             ]),
             companytags:new FormControl(null, Validators.required),
             companytype: new FormControl(null, Validators.required)});
-        
+
 }}

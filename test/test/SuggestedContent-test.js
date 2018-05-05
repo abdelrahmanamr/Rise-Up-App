@@ -48,7 +48,7 @@ const adminCredentials = {
 
 describe('Testing SuggestedContent', () => 
 {
-    before(function(done){ 
+    before(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
   mongoose.connect('mongodb://localhost:27017/nodejs-test');
       var data = {
       username: 'ranon2',
@@ -56,7 +56,7 @@ describe('Testing SuggestedContent', () =>
         securityA : 'user.secAField',
         password: 'testingpassword',
       confirmPassword: 'testingpassword',
-
+      // token : '123',
         firstname: 'ranon',
         lastname: "talaat",
       tags:"result",
@@ -111,7 +111,7 @@ describe('Testing SuggestedContent', () =>
         });
     
     });
-
+    //////////////#1
     describe('GET /api/suggestedContent/viewSuggestedContents', () => {
     it('should retrieve all the content successfully on /api/suggestedContent/viewSuggestedContents GET', (done) => {
     chai.request(server)
@@ -122,7 +122,7 @@ describe('Testing SuggestedContent', () =>
     res.body.msg.should.equal("contents retrieved successfully.");
     done();
     });});});
-
+    /////////////////#2 it doesnt see what is the suggested content
     describe('/GET/:id /api/suggestedContent/viewSuggestedContent', () => {
     it('it should GET a suggestedContent by the given id' , (done) => {
         let suggestedContentTest = 
@@ -159,7 +159,7 @@ describe('Testing SuggestedContent', () =>
                 res.body.msg.should.equal("contentId parameter must be a valid ObjectId.");
                 done(); });
         });});});
-
+    ///////////////////////#3//add a user and add his id in the bidy of the request
     it('it should POST SuggestedContent ', (done) => 
     {
         let newUser = 
@@ -256,7 +256,7 @@ describe('Testing SuggestedContent', () =>
         res.body.should.have.property('msg').eql('test' ); 
         done();
     });});
-
+    /////////////////////////#4 it doesnt see what is the suggested content
     describe('DELETE/:id /api/suggestedContent/deleteSuggestedContent', () => {
     it('it should DELETE a suggestedContent given the id' , (done) => {
         let suggestedContentTest = new SuggestedContent(
@@ -286,7 +286,7 @@ describe('Testing SuggestedContent', () =>
         res.should.have.status(422);
         res.body.should.have.property('msg').eql('ContentId parameter must be a valid ObjectId.'); 
     done();});});});});
-
+   ////////////////////////////#5 THE Patch method
    describe('/PATCH/:id /api/suggestedContent/updateSuggestedContent', () => {
    it('it should UPDATE a suggestedContent given the id' , (done) => {
     let suggestedContentTest = new SuggestedContent

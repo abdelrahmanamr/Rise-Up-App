@@ -43,8 +43,6 @@ export class ViewCompanyComponent {
 
 	}
 
-
-
 	DeleteCompany()
 	{
 
@@ -59,7 +57,9 @@ export class ViewCompanyComponent {
 		}
 		this.httpClient.delete(environment.apiUrl+'admin/removeCompany/'+this.ID,config).
 		subscribe(res=>{
-			this.router.navigateByUrl('/company/viewallcompanies');
+            this.httpClient.delete(environment.apiUrl+"/search/deleteCompanyFromCompanyIndex/"+this.ID).subscribe(res=>{
+                this.router.navigateByUrl('/company/viewallcompanies');
+            })
 		}       ,err=>{
 			this.toastr.error("",err.error["msg"]);
 			if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){

@@ -11,7 +11,6 @@ import { ToastrService } from 'ngx-toastr';
 
 })
 export class ViewSuggestedContentComponent {
-
 	ID:string=localStorage.getItem("contentID");
 Content : any;
 Title:any
@@ -119,24 +118,24 @@ ViewImage(ID:string){
 			}
 			);
 }
-
 DeleteContent(ident:string)
-{
+    {
 
-	var config = {
-			headers : {
-		'Content-Type': 'application/json',
-		'authorization':localStorage.getItem('UserDoc')
-	}
-	}
-	this.httpClient.delete(environment.apiUrl+'suggestedcontent/deleteSuggestedContent/'+ident,config).
+        var config = {
+            headers : {
+                'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
+            }
+        }
+        this.httpClient.delete(environment.apiUrl+'suggestedcontent/deleteSuggestedContent/'+ident,config).
 
-	subscribe(res=>{
-		this.router.navigateByUrl('/content/suggestedcontent');
-	});
+        subscribe(res=>{
+            this.router.navigateByUrl('/content/suggestedcontent');
+        });
 
 
-}
+    }
+
 AddContent(ident:string)
 {
 	var config = {
@@ -145,21 +144,29 @@ AddContent(ident:string)
 		'authorization':localStorage.getItem('UserDoc')
 	}
 	}
-	this.httpClient.get(environment.apiUrl+'/suggestedcontent/viewSuggestedContent/'+ident,config).
-	subscribe(res=>{
-		this.contents = res['data'];
-		this.user = JSON.parse(localStorage.getItem("userProps"));
-		this.contents['userid'] = this.user['_id'];
-		this.httpClient.post(environment.apiUrl+'content/addContent',this.contents,config).subscribe(res=>{
+    this.httpClient.get(environment.apiUrl+'/suggestedcontent/viewSuggestedContent/'+ident,config).
+    subscribe(res=>{
+        this.contents = res['data'];
+        this.user = JSON.parse(localStorage.getItem("userProps"));
+        this.contents['userid'] = this.user['_id'];
+        this.httpClient.post(environment.apiUrl+'content/addContent',this.contents,config).subscribe(res=>{
+            var JSONtoIndex = {
+                "tags":res['data']['tags'],
+                "objectId":res["data"]._id,
+                "title":res['data'].title
+            }
+            this.httpClient.post(environment.apiUrl+'search/addToContentIndex',JSONtoIndex,config)
+                .subscribe(res =>
+                {
+                    console.log(res);
+                    this.contents['status'] = 1;
+                    this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
+                        this.router.navigateByUrl('/content/viewallcontents');
+                    });
 
-		});
-		this.contents['status'] = 1;
-		this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
-			this.router.navigateByUrl('/content/viewallcontents');
-		});
-	});
-
-
+                })
+        });
+    });
 }
 DisapproveContent(ident:string)
 {

@@ -222,7 +222,9 @@ this.Contenttype
 this.httpClient.delete(environment.apiUrl+'Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
 
    subscribe(res=>{
-    this.router.navigateByUrl('/content/viewallcontents');
+       this.httpClient.delete(environment.apiUrl+'/search/deleteContentFromContentIndex/'+ident).subscribe(res=>{
+           this.router.navigateByUrl('/content/viewallcontents');
+       })
    },err=>{
     this.toastr.error("",err['error']["msg"]);
     if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){

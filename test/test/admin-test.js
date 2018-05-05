@@ -995,7 +995,7 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
       return next(err);
     }
     currentadmintest =newUser ;
-  });
+
   var newexpert  = {
     'username': 'DummyUser',
     'firstname': 'Dummy',
@@ -1024,6 +1024,7 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
       done();
     });
   });
+});
 });
 });
 

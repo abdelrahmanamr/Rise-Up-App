@@ -24,7 +24,8 @@ tags:any=[];
         }).join(',');
 
 
-var my = JSON.stringify
+console.log(result);
+var newCompany = JSON.stringify
 ({  
     // userid:localStorage.getItem("user"),
     name:companyForm.companyname,
@@ -35,6 +36,7 @@ var my = JSON.stringify
     userid:JSON.parse(localStorage.getItem("userProps"))["_id"]
 });
 
+console.log(newCompany);
         var config = {
             headers : {
                 'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ var my = JSON.stringify
             }
         }
 
-        this.http.post(environment.apiUrl+'admin/addCompany',my, config)
+        this.http.post(environment.apiUrl+'admin/addCompany',newCompany, config)
         .subscribe(res => {console.log(res)
          var tags =   res["data"]["tags"];
          var JSONtoIndex = {

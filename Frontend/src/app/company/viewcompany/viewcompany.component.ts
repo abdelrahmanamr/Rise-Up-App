@@ -21,7 +21,6 @@ export class ViewCompanyComponent {
   constructor(private toastr: ToastrService,private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { 
     this.Url=window.location.href;
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
-    console.log(this.ID);
 
   }
 

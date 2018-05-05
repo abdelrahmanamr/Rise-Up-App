@@ -33,7 +33,6 @@ user = null;
 
     Approve(ident:string)
     {
-      console.log('approve');
       var config = {
         headers : {
             'Content-Type': 'application/json',
@@ -43,7 +42,6 @@ user = null;
        this.httpClient.get(environment.apiUrl+'suggestedcompany/viewSuggestedCompany/'+ident,config).
         subscribe(res=>{
         this.suggestedcompany = res['data'];
-        console.log(this.suggestedCompanies);
         this.user = JSON.parse(localStorage.getItem("userProps"));
         this.suggestedcompany['userid'] = this.user['_id'];
         this.httpClient.post(environment.apiUrl+'company/createCompany',this.suggestedcompany,config).subscribe(res=>{
@@ -58,7 +56,6 @@ user = null;
 
     Disapprove(ident:string)
     {
-      console.log('disapprove');
       var config = {
         headers : {
             'Content-Type': 'application/json',

@@ -26,7 +26,6 @@ export class ProfileComponent {
   constructor(private http: HttpClient,private router: Router, private toastr: ToastrService){
     this.Url=window.location.href
     this.username = this.Url.substr(this.Url.lastIndexOf('/') + 1);
-    console.log(this.username);
   }
 
 
@@ -41,7 +40,6 @@ export class ProfileComponent {
 
     this.http.get(environment.apiUrl+'user/getUserByUsername/'+this.username,config).
     subscribe(res =>{
-        // console.log(res['data']);
         this.data = res['data'];
         this.currentPerson = res['data'];
         this.ID = this.data['_id'];
@@ -54,7 +52,6 @@ export class ProfileComponent {
         // this.tags = res['data'].tags.split(",");
         res['data'].tags.split(",").forEach(element => {
             var el = JSON.parse(JSON.stringify({"displayValue":element}));
-            console.log(el);
             this.tags.push(el);
         });
 
@@ -83,7 +80,6 @@ export class ProfileComponent {
     var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
     this.http.patch(environment.apiUrl+'/admin/blockUser/'+this.ID,data,config)
     .subscribe((info:any) => {
-        console.log(info);
         window.location.reload();
     },err=>{
         this.toastr.error("",err['error']["msg"]);
@@ -135,7 +131,6 @@ submitTags(){
     var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
     this.http.patch(environment.apiUrl+'/admin/UnblockUser/'+this.ID,data,config)
     .subscribe((info:any) => {
-        console.log(info);
         window.location.reload();
     },err=>{
         this.toastr.error("",err['error']["msg"]);
@@ -157,7 +152,7 @@ submitTags(){
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/RemoveAdmin/'+this.ID,data,config)
             .subscribe((info:any) =>
-            {console.log(info);
+            {
             window.location.reload();
             },err=>{
                 this.toastr.error("",err['error']["msg"]);
@@ -180,7 +175,7 @@ submitTags(){
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/RemoveExpert/'+this.ID,data,config)
             .subscribe((info:any) => {
-                console.log(info);
+                
                 window.location.reload();
             },err=>{
                 this.toastr.error("",err['error']["msg"]);
@@ -204,7 +199,7 @@ submitTags(){
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/AddAdmin/'+this.ID,data,config)
             .subscribe((info:any) => {
-                console.log(info);
+                
                 window.location.reload();
             },err=>{
                 this.toastr.error("",err['error']["msg"]);
@@ -235,7 +230,7 @@ submitTags(){
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.http.patch(environment.apiUrl+'/admin/AddExpert/'+this.ID,data,config)
             .subscribe((info:any) => {
-                console.log(info);
+                
                 window.location.reload();
 
                 var JSONtoIndex = {
@@ -244,7 +239,6 @@ submitTags(){
                     "type":"User"
                 }
                 this.http.post(environment.apiUrl+'/search/addToIndex',JSONtoIndex,config).subscribe(res=>{
-                    console.log(res);
                     window.location.reload();
                 })
             },err=>{

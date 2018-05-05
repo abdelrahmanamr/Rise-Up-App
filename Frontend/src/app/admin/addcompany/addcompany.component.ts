@@ -24,7 +24,6 @@ tags:any=[];
         }).join(',');
 
 
-console.log(result);
 var newCompany = JSON.stringify
 ({  
     // userid:localStorage.getItem("user"),
@@ -36,7 +35,6 @@ var newCompany = JSON.stringify
     userid:JSON.parse(localStorage.getItem("userProps"))["_id"]
 });
 
-console.log(newCompany);
         var config = {
             headers : {
                 'Content-Type': 'application/json',
@@ -45,7 +43,7 @@ console.log(newCompany);
         }
 
         this.http.post(environment.apiUrl+'admin/addCompany',newCompany, config)
-        .subscribe(res => {console.log(res)
+        .subscribe(res => {
          var tags =   res["data"]["tags"];
          var JSONtoIndex = {
              "tags":tags,
@@ -53,11 +51,11 @@ console.log(newCompany);
              "name":res["data"]["name"]
          }
          this.http.post(environment.apiUrl+'search/addToCompanyIndex',JSONtoIndex,config)
-         .subscribe(res =>{console.log(res)
+         .subscribe(res =>{
             this.router.navigate(['/admin']);
 
         },
-        err=>console.log("error adding to index"));
+        err=>{});
         }
     ,err=>{
             this.toastr.error("",err.error["msg"]);

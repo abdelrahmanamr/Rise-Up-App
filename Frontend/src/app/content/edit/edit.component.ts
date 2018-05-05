@@ -77,7 +77,6 @@ if(this.editContent['type']=='suggestion'){
 this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,config).subscribe(
   res=>{  
 
-    console.log(res['data']);
     
     this.title = res['data'].title;
 
@@ -98,7 +97,6 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
   this.http.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
     res=>{  
   
-      console.log(res['data']);
       
       this.title = res['data'].title;
       this.typeToSet = res['data'].type;
@@ -138,7 +136,6 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
     });
     this.GetContent(this.editContent['id']);
     this.user = JSON.parse(localStorage.getItem("userProps"));
-    console.log(this.user);
     if(this.user==null ){
       this.router.navigate(["/user"]);
     }
@@ -154,9 +151,7 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
   }
 
   onSubmit = function(content){
-    console.log(this.user);
-    console.log(this.user['_id']);
-    console.log();
+
     var data:any;
     var result = this.tags.map(function(val) {
       return val.displayValue;
@@ -181,7 +176,6 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
       if(this.editContent['type']=='suggestion'){
         this.http.patch(environment.apiUrl+'/suggestedcontent/updateSuggestedContent/'+this.editContent['id'], data, config)
         .subscribe(res=>{
-        console.log(res);
           this.router.navigate(["/content/suggestedcontent"]);
         },err=>{
           this.toastr.error("",err['error']["msg"]);
@@ -192,7 +186,6 @@ this.http.get(environment.apiUrl +'/suggestedcontent/viewSuggestedContent/'+ID,c
       }else if(this.editContent['type']=='content'){
         this.http.patch(environment.apiUrl+'/content/editContent/'+this.editContent['id'], data, config)
         .subscribe(res=>{
-          console.log(res);
           this.router.navigate(["/content/viewallcontents"]);
       },err=>{
         this.toastr.error("",err['error']["msg"]);

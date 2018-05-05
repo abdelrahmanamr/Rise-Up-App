@@ -66,7 +66,6 @@ if(err){
     return next(err)
 }
 else if(userfound){
-    console.log(userfound["_id"]);
    ApplyExpert.findByIdAndRemove(userfound["_id"]).exec(function(err,removed){
        if(err){
 
@@ -116,7 +115,6 @@ module.exports.RemoveRequest=function(req,res,next){   //this method remove the 
             return next(err)
         }
         else if(userfound){
-            console.log(userfound["_id"]);
            ApplyExpert.findByIdAndRemove(userfound["_id"]).exec(function(err,removed){
                if(err){
         

@@ -62,7 +62,6 @@ export class ViewActivityComponent {
         this.httpClient.get(environment.apiUrl +'admin/getActivityComment',config).subscribe(
             res=>{
                 this.comm = res['data'];
-                console.log(this.comm);
             }, err=>{
                 this.toastr.error("",err.error["msg"]);
                 if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){

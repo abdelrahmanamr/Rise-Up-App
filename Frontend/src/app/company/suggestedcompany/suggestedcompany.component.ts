@@ -40,7 +40,7 @@ var my = JSON.stringify
         }
 
         this.http.post(environment.apiUrl+'suggestedcompany/addSuggestedCompany',my, config)
-        .subscribe(res => {console.log(res)
+        .subscribe(res => {
             this.router.navigateByUrl('/');
         }
     ,err=>{
@@ -52,7 +52,6 @@ var my = JSON.stringify
 
 
     ngOnInit() {
-        console.log("form");
         this.myForm = new FormGroup({
             companyname: new FormControl(null, Validators.required),
             companywebsite: new FormControl(null, Validators.required),

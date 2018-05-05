@@ -13,7 +13,6 @@ expert = "";
   constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { }
 
   ngOnInit() { 
-    console.log(this.ID);
     this.ViewExpert(this.ID) ;
       }
 

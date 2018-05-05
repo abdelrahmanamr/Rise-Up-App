@@ -27,7 +27,6 @@ var express = require('express'),
     else{// Verify that the JWT is created using our server secret and that it hasn't expired yet
     jwt.verify(token, req.app.get('secret'), function(err, decodedToken) {
       if (err) {
-        console.log(err);
         return res.status(401).json({
           error: err,
           msg: 'Login timed out, please login again.',

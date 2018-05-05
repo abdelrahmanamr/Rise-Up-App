@@ -108,8 +108,7 @@ export class RegisterComponent implements OnInit{
 
     onTagsChanged($event){
 
-        console.log(this.tags);
-        console.log( (JSON.stringify(this.tags)));
+         
 
     }
 
@@ -165,10 +164,7 @@ var config = {
 };
     this.http.post(environment.apiUrl+'user/register', data, config)
         .subscribe(res=>{
-            console.log("ta7t deh el response");
-            console.log(res);
             let message = res["msg"];
-            console.log(message);
             var JSONtoIndex = {
                 "tags":res["data"]["tags"],
                 "objectId":res["data"]["_id"],
@@ -176,11 +172,9 @@ var config = {
             }
             this.errorhandle = "Register successful";
             this.http.post(environment.apiUrl+'search/addToUserIndex',JSONtoIndex,config).subscribe(res=>{
-                console.log(res);
                 this.router.navigateByUrl("/user/login");
             });
         },err=>{
-            console.log(err);
             this.toastr.error("",err['error']['msg']);
             this.errorhandle = err['error']['msg'];
         });
@@ -197,12 +191,10 @@ checkUsername = function(username){
   }
   };
   this.http.post(environment.apiUrl+'user/checkUsername', data, config).subscribe( res =>{
-  console.log(res);
   this.errorhandle = "";
   },
 err=>{
     this.toastr.error("",err['error']['msg']);
-  console.log(err);
   this.errorhandle = "username already exists";
 }
   )

@@ -204,18 +204,7 @@ describe('Testing SuggestedContent', () =>
         done();
     });});
 
-    it("incrementing the views by one on /content/views/:contentId PATCH",function(done){
-        chai.request(server).patch('/api/content/views/'+foundcontent['_id'])
-       
-        .end(function(err,res){
-          res.should.have.status(200);
-          res.body.msg.should.equal("content was updated successfully.");
-          res.should.be.json;
-          res.body.should.be.a('object');
-          res.body.data.should.not.be.null;
-          done();
-        });
-    }),
+
 
 
 

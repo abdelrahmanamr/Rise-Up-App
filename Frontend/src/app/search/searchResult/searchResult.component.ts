@@ -265,9 +265,9 @@ export class SearchResultComponent implements OnInit{
                     }
                     
                 });
-
+                this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
             }
-            this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
+
 
 
 

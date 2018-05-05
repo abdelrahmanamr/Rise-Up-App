@@ -151,11 +151,22 @@ this.httpClient.delete(environment.apiUrl+'suggestedcontent/deleteSuggestedConte
     this.user = JSON.parse(localStorage.getItem("userProps"));
     this.contents['userid'] = this.user['_id'];
     this.httpClient.post(environment.apiUrl+'content/addContent',this.contents,config).subscribe(res=>{
-  
-    });
-    this.contents['status'] = 1;
-    this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
-      this.router.navigateByUrl('/content/viewallcontents');
+     console.log(res['data']);
+        var JSONtoIndex = {
+            "tags":res['data']['tags'],
+            "objectId":res["data"]._id,
+            "title":res['data'].title
+        }
+        this.httpClient.post(environment.apiUrl+'search/addToContentIndex',JSONtoIndex,config)
+            .subscribe(res =>
+            {
+                console.log(res);
+                this.contents['status'] = 1;
+                this.httpClient.patch(environment.apiUrl+'suggestedcontent/updateSuggestedContent/'+ident,this.contents,config).subscribe(res=>{
+                 this.router.navigateByUrl('/content/viewallcontents');
+                });
+
+            })
     });
    });
 

@@ -58,9 +58,11 @@ export class ViewCompanyComponent {
         'authorization':localStorage.getItem('UserDoc')
     }
 }
-    this.httpClient.delete(environment.apiUrl+'api/admin/removeCompany/'+ident,config).
+    this.httpClient.delete(environment.apiUrl+'admin/removeCompany/'+ident,config).
    subscribe(res=>{
-    this.router.navigateByUrl('/company/viewallcompanies');
+       this.httpClient.delete(environment.apiUrl+"/search/deleteCompanyFromCompanyIndex/"+ident).subscribe(res=>{
+           this.router.navigateByUrl('/company/viewallcompanies');
+       })
    }       ,err=>{
     this.toastr.error("",err.error["msg"]);
     if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){

@@ -1,22 +1,18 @@
 // Names : Ahmed Akram , Youssef khayat
 var mongoose = require('mongoose'),
-moment = require('moment'),
-Validations = require('../utils/Validations'),
-Company = mongoose.model('Company');
+    moment = require('moment'),
+    Validations = require('../utils/Validations'),
+    Company = mongoose.model('Company');
 /* Methods : getCompanyById,IncrementViews,getCompanies,getCompanies,createCompany,deleteCompany,viewCompanies,viewCompany
 Date Edited : 5/5/2018
 */
-module.exports.getCompanyById = function(req, res, next) { // Views a specific company after checking the ID then making a mongoose query
-if (!Validations.isObjectId(req.params.companyId)) {
-    return res.status(422).json({
-        err: null,
-        msg: 'companyId parameter must be a valid ObjectId.',
-        data: null
-    });
-}
-Company.findById(req.params.companyId).exec(function(err, company) {
-    if (err) {
-        return next(err);
+module.exports.getCompanyById = function (req, res, next) { // Views a specific company after checking the ID then making a mongoose query
+    if (!Validations.isObjectId(req.params.companyId)) {
+        return res.status(422).json({
+            err: null,
+            msg: 'companyId parameter must be a valid ObjectId.',
+            data: null
+        });
     }
     Company.findById(req.params.companyId).exec(function (err, company) {
         if (err) {

@@ -336,15 +336,19 @@ module.exports.BlockUser=function(req, res, next){ // Blocks the user from loggi
             data: null
         });
     }
+    console.log("REQ BODY USERID: " + req.body.userid);
     User.findById(req.body.userid).exec(function(err,user) {
         if(err){
           return next(err);
         }
         else {
+            
+            
           if(!user){
+              console.log("ASD");
           return res
           .status(404)
-          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
+          .json({ err: null, msg: 'User not found,so you are un-authorizedA', data: null });
         }else{
         if(!user['admin']){
           return res.status(422).json({
@@ -915,82 +919,6 @@ module.exports.viewCompanies = function(req, res, next) {  // Returning all comp
   });
 };
 
-
-
-module.exports.BlockUser=function(req, res, next){  // Blocks the user from logging in again, checks input ID and user is an admin then block
-
-  if(!Validations.isObjectId(req.params.userId)){
-      return res.status(422).json({
-          err: null,
-          msg: 'userId parameter must be a valid ObjectId',
-          data: null
-      });
-  }
-
-  var valid=req.body.blocked &&
-  Validations.isBoolean(req.body.block);
-
-  if(valid){
-      return res.status(422).json({
-          err:null,
-          msg:'blocked (Boolean) is required field. ',
-          data:null
-      });
-  }
-  req.body.userid = req["headers"]["id"];
-    User.findById(req.body.userid).exec(function(err,user) {
-        if(err){
-          return next(err);
-        }
-        else {
-          if(!user){
-          return res
-          .status(404)
-          .json({ err: null, msg: 'User not found,so you are un-authorized', data: null });
-        }else{
-        if(!user['admin']){
-          return res.status(422).json({
-            err: null,
-            msg: 'Unauthorized! You are not an admin.',
-            data: null
-          });
-        }else{
-  delete req.body.createdAt;
-  req.body.updatedAt = moment().toDate();
-
-  req.body.blocked=true;
-
-  User.findByIdAndUpdate(
-      req.params.userId,
-      {
-          $set:req.body
-      },
-      {
-          new:true
-      }
-  ).exec(function(err, updatedUser){
-      if(err){
-          return next(err);
-      }
-      if(!updatedUser){
-          return res.status(404).json({
-              err:null,
-              msg:'User not found',
-              data:null
-          });
-      }
-
-      res.status(200).json({
-          err:null,
-          msg:'User retrieved correctly',
-          data:updatedUser
-      });
-  });
-};
-        }
-    }
-});
-}
 module.exports.RemoveCompany = function(req, res, next) { // Removing a company by checking ID first then checking if the user is an admin then removing to DB
     if (!Validations.isObjectId(req.params.companyId)) {
         return res.status(422).json({

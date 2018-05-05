@@ -8,6 +8,9 @@
     flex: 0.15 !important;
   }
 
+  /deep/ .tags-input__tag a{
+    color:white;
+  }
 
   /deep/ .leftbg{
     background: linear-gradient(to right, 

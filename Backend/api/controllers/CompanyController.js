@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     Validations = require('../utils/Validations'),
     Company = mongoose.model('Company');
 
-module.exports.getCompanyById = function(req, res, next) {
+module.exports.getCompanyById = function(req, res, next) { // Views a specific company after checking the ID then making a mongoose query
     if (!Validations.isObjectId(req.params.companyId)) {
         return res.status(422).json({
             err: null,
@@ -28,7 +28,7 @@ module.exports.getCompanyById = function(req, res, next) {
         });
     });
 };
-module.exports.IncrementViews = function(req,res,next){
+module.exports.IncrementViews = function(req,res,next){ // Increase the views of companies by 1 each time a company is visited
 var valid = req.params.ID && Validations.isObjectId(req.params.ID) 
 if(!valid){
     return res
@@ -57,7 +57,7 @@ else{
 }
 
 
-module.exports.getCompanies = function(req, res, next) {
+module.exports.getCompanies = function(req, res, next) { // View a list of companies that is availble to all users by issung a mongoose find request
     Company.find({}).exec(function(err, companies) {
         if (err) {
             return next(err);
@@ -70,7 +70,7 @@ module.exports.getCompanies = function(req, res, next) {
     });
 };
 
-module.exports.createCompany = function(req, res, next) {
+module.exports.createCompany = function(req, res, next) { // Check all input fields required to make a company then issue a mongoose create to add to the company table
     var valid =
         req.body.userid &&
         Validations.isObjectId(req.body.userid) &&
@@ -108,7 +108,7 @@ module.exports.createCompany = function(req, res, next) {
     });
 };
 
-module.exports.deleteCompany = function(req, res, next) {
+module.exports.deleteCompany = function(req, res, next) { // Remove a company from the company table after checking the ID is a valid ID
     if (!Validations.isObjectId(req.params.companyId)) {
         return res.status(422).json({
             err: null,
@@ -136,7 +136,7 @@ module.exports.deleteCompany = function(req, res, next) {
     });
 };
 
-  module.exports.viewCompanies = function(req, res, next) {
+  module.exports.viewCompanies = function(req, res, next) { // View a list of companies that is availble to all users by issung a mongoose find request
     Company.find({}).exec(function(err, Companys) {
       if (err) {
         return next(err);
@@ -150,7 +150,7 @@ module.exports.deleteCompany = function(req, res, next) {
   };
 
 
-  module.exports.viewCompany = function(req, res, next) {
+  module.exports.viewCompany = function(req, res, next) { // Views a specific company after checking the ID then making a mongoose query
     if (!Validations.isObjectId(req.params.companyId)) {
       return res.status(422).json({
         err: null,

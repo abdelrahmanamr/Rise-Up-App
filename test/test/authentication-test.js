@@ -110,6 +110,39 @@ const registeringUserCredentials = {
         
      
     }),
+
+    it('should view all users /api/User/viewUsers GET',function(done){
+      // Content.find({'contentId':content['_id']}).exec(function(err,content){
+
+      chai.request(server)
+          .get('/api/User/viewUsers')
+          .end(function(err,res){
+              res.should.have.status(200);
+              
+              res.should.be.json;
+           
+              done();
+          });
+      // });
+  }),
+
+
+    it('should show a user on /api/User/viewUser/:userId GET',function(done){
+      // Content.find({'contentId':content['_id']}).exec(function(err,content){
+
+      chai.request(server)
+          .get('/api/User/viewUser/:userId')
+          .end(function(err,res){
+              res.should.have.status(422);
+              
+              res.should.be.json;
+           
+              done();
+          });
+      // });
+  }),
+
+
       it("FAIL to change a user's password as he didn't type in his new/old password or confirm it /api/user/changePassword/:userId PATCH",function(done){
           chai.request(server)
           .patch("/api/user/changePassword/"+authenticatedUser2['_id'])

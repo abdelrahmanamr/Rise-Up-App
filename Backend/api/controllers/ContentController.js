@@ -491,7 +491,7 @@ module.exports.deleteComment = function(req,res,next){
               if(!removed){
                 return res.status(422).json({
                   err: null,
-                  msg: "Can't remove comment right now",
+                  msg: "Comment already removed",
                   data: null
                 });
               }

@@ -114,8 +114,12 @@ router.get('/search/getCompanyTagsOrNameOrType/:tags', searchCtrl.getCompanyTags
 router.get('/search/getCompanyTagsOrType/:tags', searchCtrl.getCompanyTagsOrType);
 router.get('/search/getCompanyTagsOrName/:tags', searchCtrl.getCompanyTagsOrName);
 router.get('/search/getSynonyms/:keyword',searchCtrl.getSynonyms);
-
-
+router.delete('/search/deleteContentFromContentIndex/:contentId',searchCtrl.deleteContentFromContentIndex);
+router.delete('/search/deleteUserFromUserIndex/:userId',searchCtrl.deleteUserFromUserIndex);
+router.delete('/search/deleteCompanyFromCompanyIndex/:companyId',searchCtrl.deleteCompanyFromCompanyIndex);
+router.patch('/search/updateContentInContentIndex',searchCtrl.updateContentInContentIndex);
+router.patch('/search/updateCompanyInCompanyIndex',searchCtrl.updateCompanyInCompanyIndex);
+router.patch('/search/updateUserInUserIndex',searchCtrl.updateUserInUserIndex);
 
 
 //-----------------------------Company Routes--------------------------------------
@@ -130,6 +134,10 @@ router.patch('/company/CompanyViews/:ID', CompanyCtrl.IncrementViews);
 //---------------------------SuggestedCompany Routes------------------------------
 
 router.post('/suggestedcompany/addSuggestedCompany',suggestedCompanyCtrl.addSuggestedCompany);
+router.get('/suggestedcompany/getSuggestedCompanies',suggestedCompanyCtrl.getSuggestedCompanies);
+router.get('/suggestedcompany/viewSuggestedCompany/:companyId', isAuthenticated, suggestedCompanyCtrl.viewSuggestedCompany);
+router.patch('/suggestedcompany/updateSuggestedCompany/:companyId', isAuthenticated, suggestedCompanyCtrl.updateSuggestedCompany);
+
 
 
 //-------------------------------Admin Routes-----------------------------------
@@ -150,9 +158,8 @@ router.get('/admin/viewAllReports', isAuthenticated,AdminController.viewAllRepor
 router.get('/admin/getUsers', isAuthenticated,AdminController.getUsers);
 router.get('/admin/getUserById/:userId', isAuthenticated,AdminController.getUserById);
 router.get('/admin/getUserTags/:userId', isAuthenticated,AdminController.getTags);
-router.get('/admin/getActivityReport',AdminController.getActivityReport);
-router.get('/admin/getActivityComment',AdminController.getActivityComment);
-router.get('/admin/viewAllReports',AdminController.viewAllReports);
+router.get('/admin/getActivityReport',isAuthenticated,AdminController.getActivityReport);
+router.get('/admin/getActivityComment',isAuthenticated,AdminController.getActivityComment);
 router.get('/admin/viewCompanies', isAuthenticated,AdminController.viewCompanies);
 router.delete('/admin/removeCompany/:companyId', isAuthenticated,AdminController.RemoveCompany);
 router.patch('/admin/UpdateExpertTag/:userId', isAuthenticated,AdminController.UpdateExpertTags);

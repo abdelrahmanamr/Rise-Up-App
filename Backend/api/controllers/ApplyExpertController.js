@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
   
 
 
-  module.exports.createApplyExpert = function(req, res, next) {
+  module.exports.createApplyExpert = function(req, res, next) {  // Adding a user that wants to be an expert to applied list to be reviewd by admins by checking input IDs
     var valid =
       Validations.isObjectId(req.body.userid)&&
       req.body.previousExperience &&

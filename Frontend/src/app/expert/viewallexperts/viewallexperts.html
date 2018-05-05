@@ -7,8 +7,8 @@
 
         <h4>{{expert.firstname}} {{expert.lastname}}</h4>
         Email: {{expert.email}}<br />
-        Tags: <span class="tags-input__tag" *ngFor="let tag of expert.tags;">{{tag}}</span></div>
-        <div style="float:right;"><Button (click)="ViewExpert(expert._id)" class="btn btn-danger btn-sm"> View Expert </Button><br />
+            Tags: <span class="tags-input__tag" *ngFor="let tag of expert.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
+        <div style="float:right;"><Button (click)="ViewExpert(expert.username)" class="btn btn-danger btn-sm"> View Expert </Button><br />
 
         </div>
     </div>

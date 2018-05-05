@@ -33,8 +33,14 @@ const routes: Routes = [
                 loadChildren: './viewActivity/viewActivity.module#ViewActivityModule'
             },
             {
+
                 path: 'viewapplications',
                 loadChildren: './viewapplications/viewapplications.module#ViewApplicationsModule'
+            },
+            {
+                path: 'viewSuggestedCompanies',
+                loadChildren:'./viewSuggestedCompanies/viewSuggestedCompanies.module#ViewSuggestedCompaniesModule'
+
             },
             {
                 path: '',

@@ -1,3 +1,5 @@
+//Salma Osama
+
 import { Component, OnInit } from '@angular/core';
 
 import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
@@ -5,7 +7,7 @@ import { Slider } from 'ngx-slider';
 
 @Component({
   selector: 'app-home',
-  
+
   template: `
   <ngx-main-layout >
   <router-outlet>
@@ -75,7 +77,7 @@ iframe{
 })
 export class HomeComponent implements OnInit {
   public slider = new Slider();
- 
+
   constructor() {
     this.slider.config.loop = true;
     this.slider.config.showPreview = false;
@@ -102,8 +104,8 @@ export class HomeComponent implements OnInit {
       { src: '/assets/rise6.png' },
       { src: '/assets/rise16.png' }
     ];
- 
+
     this.slider.items = slideItems;
   }
-  
+
 }

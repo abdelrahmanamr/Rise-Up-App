@@ -6,8 +6,8 @@ import { ViewReportsRoutingModule } from './viewActivity-routing.module';
 import { ViewActivityComponent } from './viewActivity.component';
 
 @NgModule({
-  imports: [ThemeModule,ViewReportsRoutingModule],
+  imports: [ThemeModule, ViewReportsRoutingModule],
   declarations: [ViewActivityComponent],
   providers: []
 })
-export class ViewActivityModule {}
+export class ViewActivityModule { }

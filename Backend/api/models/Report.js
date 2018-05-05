@@ -13,7 +13,7 @@ var reportSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    reportedName:{
+    reportedName: {
         type: String,
         required: true
     },
@@ -31,4 +31,4 @@ var reportSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-module.exports = mongoose.model('Report',reportSchema);
+module.exports = mongoose.model('Report', reportSchema);

@@ -10,4 +10,4 @@ import { ViewUsersComponent } from './viewusers.component';
   declarations: [ViewUsersComponent],
   providers: []
 })
-export class ViewUsersModule {}
+export class ViewUsersModule { }

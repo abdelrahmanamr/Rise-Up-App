@@ -6,8 +6,8 @@ import { ViewReportsRoutingModule } from './viewreports-routing.module';
 import { ViewReportsComponent } from './viewreports.component';
 
 @NgModule({
-  imports: [ThemeModule,ViewReportsRoutingModule],
+  imports: [ThemeModule, ViewReportsRoutingModule],
   declarations: [ViewReportsComponent],
   providers: []
 })
-export class ViewReportsModule {}
+export class ViewReportsModule { }

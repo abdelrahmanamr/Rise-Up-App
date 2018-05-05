@@ -39,7 +39,7 @@ const routes: Routes = [
             },
             {
                 path: 'viewSuggestedCompanies',
-                loadChildren:'./viewSuggestedCompanies/viewSuggestedCompanies.module#ViewSuggestedCompaniesModule'
+                loadChildren: './viewSuggestedCompanies/viewSuggestedCompanies.module#ViewSuggestedCompaniesModule'
 
             },
             {
@@ -47,7 +47,7 @@ const routes: Routes = [
                 redirectTo: 'controlpanel',
                 pathMatch: 'full'
             }
-            
+
 
         ]
     }
@@ -58,4 +58,4 @@ const routes: Routes = [
     exports: [RouterModule],
     providers: []
 })
-export class AdminRoutingModule {}
+export class AdminRoutingModule { }

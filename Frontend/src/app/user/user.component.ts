@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 
 
@@ -9,7 +9,7 @@ import { Component} from '@angular/core';
     <router-outlet></router-outlet>
   </ngx-main-layout>
 `
-  
+
 })
 export class UserComponent {
 

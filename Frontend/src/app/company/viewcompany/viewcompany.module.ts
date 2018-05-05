@@ -10,4 +10,4 @@ import { ViewCompanyComponent } from './viewcompany.component';
   declarations: [ViewCompanyComponent],
   providers: []
 })
-export class ViewCompanyModule {}
+export class ViewCompanyModule { }

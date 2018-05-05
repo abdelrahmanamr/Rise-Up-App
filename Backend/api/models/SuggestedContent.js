@@ -7,7 +7,7 @@ var suggestedContentSchema = mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ["Post","Link","Image"],
+        enum: ["Post", "Link", "Image"],
         default: "Post"
     },
     body: {
@@ -20,19 +20,19 @@ var suggestedContentSchema = mongoose.Schema({
     },
     views: {
         type: Number,
-        default:0
+        default: 0
     },
     rating: {
         type: Number,
-        default:0
+        default: 0
     },
     shares: {
         type: Number,
-        default:0
-    }, 
+        default: 0
+    },
     status: {
         type: Number,
-        default:0
+        default: 0
     },
     boost: {
         type: Boolean,
@@ -42,7 +42,7 @@ var suggestedContentSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    comments : [{
+    comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
     }],

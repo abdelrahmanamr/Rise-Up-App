@@ -1,3 +1,6 @@
+/* Contributers : Salma Osama
+   Date Edited : 5/5/2018
+ */
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from '@angular/common/http';

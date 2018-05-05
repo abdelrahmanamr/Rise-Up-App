@@ -1,3 +1,6 @@
+/* Contributers : Salma Osama,Mohamed Ashraf Lotfy
+   Date Edited : 5/5/2018
+ */
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ChangeDetectorRef } from '@angular/core';
 
-
 @Component({
     selector: 'app-search-searchResult',
     templateUrl: `searchResult.html`,
@@ -368,7 +367,7 @@ export class SearchResultComponent implements OnInit {
             return 0;
         });
     }
-
+    //Aly Amr
     sortHighestRating() {
         this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
             if (obj1.rating < obj2.rating) {

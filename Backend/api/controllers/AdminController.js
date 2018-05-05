@@ -102,7 +102,7 @@ else if(!userfound){
 });
 }
 
-module.exports.RemoveRequest=function(req,res,next){
+module.exports.RemoveRequest=function(req,res,next){   //this method remove the request of a user who applied to be an expert
     if(!Validations.isObjectId(req.params.userId)){
         return res.status(422).json({
             err: null,

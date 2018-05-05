@@ -50,7 +50,6 @@ views(ID: string){ // this method calls a patch request to the method "views" in
   
 this.httpClient.patch(environment.apiUrl +'/Content/views/'+ID,config).subscribe(
   res=>{
-    console.log(res['data']);
   }
 )
   
@@ -70,7 +69,6 @@ ViewContent(ID: string){
       "id":ID,
       "type":"content"
     }
-    console.log(ID);
     localStorage.setItem("editContent",JSON.stringify(editContent));
     this.router.navigateByUrl('/content/edit');
 

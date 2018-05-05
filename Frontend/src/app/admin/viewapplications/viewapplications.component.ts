@@ -17,7 +17,7 @@ export class ViewApplicationsComponent {
 ngOnInit() {
   this.ViewApplications();
   }
-  ViewApplications(){
+  ViewApplications(){     //this method views all applications of users to be an experts
     var config = {
       headers : {
           'Content-Type': 'application/json',
@@ -32,7 +32,6 @@ ngOnInit() {
             this.applications.push(res['data'][i]);
           }
         }
-       console.log(this.applications) 
       },err=>{
         this.toastr.error("",err['error']["msg"]);
         if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
@@ -42,7 +41,7 @@ ngOnInit() {
     );
   }
 
-  Accept(ID:string){
+  Accept(ID:string){    //this method accepts the user application as an expert
 
         var config = {
             headers : {
@@ -53,7 +52,6 @@ ngOnInit() {
         var data = JSON.stringify({userid:JSON.parse(localStorage.getItem("userProps"))["_id"]});
         this.httpClient.patch(environment.apiUrl+'/admin/AddExpert/'+ID,data,config)
             .subscribe((info:any) => {
-                console.log(info);
 
                 var JSONtoIndex = {
                     "name":info['data']['tags'],
@@ -61,7 +59,6 @@ ngOnInit() {
                     "type":"User"
                 }
                 this.httpClient.post(environment.apiUrl+'/search/addToIndex',JSONtoIndex,config).subscribe(res=>{
-                    console.log(res);
                     window.location.reload();
                 })
             },err=>{
@@ -73,7 +70,7 @@ ngOnInit() {
               });
     }
 
-    Reject(ID:String){
+    Reject(ID:String){    //this method reject the user application as an expert
 
 
       var config = {
@@ -84,7 +81,7 @@ ngOnInit() {
     }
     this.httpClient.delete(environment.apiUrl+'/admin/RemoveRequest/'+ID,config)
         .subscribe((info:any) => {
-            console.log(info);
+            window.location.reload();
         },err=>{
             this.toastr.error("",err['error']["msg"]);
             if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){

@@ -53,22 +53,23 @@ confirmpassword:user.confirmpassword,oldpassword:user.oldpassword});
 var id = JSON.parse(localStorage.getItem("userProps"))["_id"];
 
 var config = {
-    headers : {
-        'Content-Type': 'application/json'
-    }
+  headers : {
+      'Content-Type': 'application/json',
+      'authorization':localStorage.getItem('UserDoc')
+  }
 }
 
 this.http.patch(environment.apiUrl+'user/ChangePassword/'+id, data, config)
 .subscribe(res=>{
-  console.log(res["data"]);
-
         this.router.navigateByUrl("/");
 
 
   },err=>{
-    this.toastr.error("",err.error["msg"]) 
-    this.errorView = err.error["msg"];
-    console.log(err.error["msg"]);
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
   }
 );
 

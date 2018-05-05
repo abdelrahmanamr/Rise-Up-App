@@ -1,0 +1,26 @@
+<div class="container" style="margin-top:20px;margin-bottom:100px">
+      <h2>User Tracking</h2>
+      <h4>Reports</h4>
+   <div *ngFor="let report of reports">
+      <div class="card">
+         <span style="float:left;">
+            <img src="assets/profile1.png" alt="" /> <a href="#/user/profile/{{report.reportedName}}">{{report.reportedName}}</a> was reported by <a href="#/user/profile/{{report.reporterName}}">{{report.reporterName}}</a> for commenting "{{report.commentBody}}" 
+            <br>
+            <br>
+
+
+      </span>
+   </div>
+   </div>
+      <h4>Comments</h4>
+      <div *ngFor="let comment of comm">
+         <div class="card">
+         <span style="float:left;">
+            <img src="assets/profile1.png" alt="" /> <a href="#/user/profile/{{comment.username}}">{{comment.username}}</a> commented "{{comment.body}}" on this <a href="#/content/viewcontent/{{comment.contentid}}">post</a>
+            <br>
+            <br>
+
+      </span>
+         </div>
+
+</div>

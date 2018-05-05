@@ -1,0 +1,34 @@
+
+
+  <div class="container">
+    <h1 stylr="margin-bottom: -20px" > Startups </h1>
+    <Button style="float:right;" *ngIf="adminStatus" (click)="AddCompany()" class="btn btn-danger btn-sm"> Add Startup </Button>
+    <br>
+    <br>
+    <br>
+    <div *ngFor="let company of suggestedCompanies">
+    <div class="card" style="padding:10px 15px; padding-bottom:100px; margin-bottom:20px;display: block; ">
+    <div style="float:left; width:600px;">
+    <img src="/assets/company.png" style="float:left;margin-right:10px;">
+  
+    <h4>{{company.name}}</h4>
+    
+    Tags: <span class="tags-input__tag" *ngFor="let tag of company.tags;">{{tag}}</span>
+    </div>
+    <div style="float:right;"> <br> <Button (click)="Approve(company._id)" class="btn btn-danger btn-sm"> Approve</Button>
+    </div>
+    <div style="float:right;"> <br> <Button (click)="Disapprove(company._id)" class="btn btn-danger btn-sm"> Disaprrove</Button>
+    </div>
+   
+  
+    </div>
+  
+  </div>
+   
+    
+  
+  
+  
+  
+    </div>
+  

@@ -4,11 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
   selector: 'app-company-viewcompany',
-  templateUrl: `viewcompany.html`
+  templateUrl: `viewcompany.html`,
+  styleUrls: ['style.css']
 })
 export class ViewCompanyComponent {
   Company="";
@@ -16,7 +18,7 @@ export class ViewCompanyComponent {
   adminStatus : boolean = false;
   Url = "";
 
-  constructor(private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { 
+  constructor(private toastr: ToastrService,private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { 
     this.Url=window.location.href;
     this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
     console.log(this.ID);
@@ -46,16 +48,26 @@ export class ViewCompanyComponent {
 
  DeleteCompany(ident:string)
  {
-   var config = {
-                 headers : 
-                 {
-                     'Content-Type':'application/json'
-                 }
-             }
-   this.httpClient.delete(environment.apiUrl+'api/admin/removeCompany/'+ident,config).
+
+
+  var config = {
+    headers : 
+    {
+        'Content-Type':'application/json',
+        "id":JSON.parse(localStorage.getItem("userProps"))["_id"],
+        'authorization':localStorage.getItem('UserDoc')
+    }
+}
+    this.httpClient.delete(environment.apiUrl+'api/admin/removeCompany/'+ident,config).
    subscribe(res=>{
     this.router.navigateByUrl('/company/viewallcompanies');
-   });
+   }       ,err=>{
+    this.toastr.error("",err.error["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+        localStorage.clear();
+        this.router.navigateByUrl("/search/searchresults")
+      }     
+       });
 
 
  }

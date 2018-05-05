@@ -11,7 +11,8 @@ var commentSchema = mongoose.Schema({
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required:true
     },
     contentid: {
         type: mongoose.Schema.Types.ObjectId,
@@ -28,4 +29,4 @@ var commentSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-mongoose.model('Comment',commentSchema);
+module.exports = mongoose.model('Comment',commentSchema);

@@ -3,7 +3,7 @@
     <div class="searchDiv">
         <span><input id="srch" class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()" ngModel></span>
         <span><img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px"></span>
-        <span><img src="/assets/search.svg" (click)="search()" width="30px" height="30px"></span><br>
+        <span><img src="/assets/search.svg" (click)="searchByButton()" width="30px" height="30px"></span><br>
     </div>
     <!-- Filter Div containing the drop downs -->
    <div class="filter">
@@ -35,20 +35,25 @@
 
         <!-- Content div. Only shows content -->
         <div class="resultDiv" *ngIf="this.contentElasticSearch.length>0">
-            <h2>Content</h2>
+            <h2 style="display:inline-block">Content</h2>
+            <span style="float:right; margin-right:20px;">Sort: <select name="contentSort" #type="ngModel" [(ngModel)]="contentSortToSet" (ngModelChange)="sortContent(contentSortToSet)" required>
+                <option *ngFor="let option of contentSortOptions" [value]="option" class="selectOption">{{option}}
+                </option>
+            </select></span><br />
             <!-- Each content card is shown here -->
             <div class="card" *ngFor="let item of this.contentElasticSearch">
                 <div class="contentToFade">
                     <div class="coverImage">
-                        <img *ngIf='item.coverImage!=null' src="{{item.coverImage}}" width=100%>
+                        <img *ngIf="item.coverImage!=null && item.coverImage!=''" src="{{item.coverImage}}" width=100%>
                         <img *ngIf="item.coverImage==null || item.coverImage==''" src="/assets/defaultContentCover.jpg" width=100%>
                     </div>
+                    <span *ngIf="item.boost" class="boostedContent">Editor's Pick</span>
                     <br />
                     <div class="content">
                         <h4 class="text-uppercase">{{item.title}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +83,7 @@
                         <h4 class="text-uppercase">{{item.name}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -96,7 +101,7 @@
 
         <!-- Experts div -->
         <div class="resultDiv" *ngIf="this.userElasticSearch.length>0">
-            <h2>Experts</h2>
+            <h2>Users</h2>
             <div class="card" *ngFor="let item of this.userElasticSearch">
                 <div class="contentToFade">
                     <div class="coverImage">
@@ -108,7 +113,7 @@
                         <h4 class="text-uppercase">{{item.firstname}} {{item.lastname}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>

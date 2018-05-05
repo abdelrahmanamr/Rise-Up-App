@@ -44,9 +44,10 @@ errorView = "";
 onSubmit = function(user){
   var data = JSON.stringify({email:user.email})
 
-var config = {
+  var config = {
     headers : {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'authorization':localStorage.getItem('UserDoc')
     }
 }
 

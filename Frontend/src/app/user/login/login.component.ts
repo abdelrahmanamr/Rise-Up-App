@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {ActivatedRoute, Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
-import {Buffer} from 'buffer';
 import * as JWT from 'jwt-decode';
 
 @Component({
@@ -37,7 +36,7 @@ import * as JWT from 'jwt-decode';
           
           
           <div id="right">
-  <input class="btn btn-success" type = "submit" value = "Login" style="background-color:#DC0C18">   {{errorView}}  
+  <input class="btn btn-success" type = "submit" value = "Login" >   {{errorView}}  
       </div>
       
   </form>
@@ -77,8 +76,11 @@ this.http.post(environment.apiUrl+'user/login', data, config)
 
         this.error = "Login successful";
         localStorage.setItem("UserDoc",token);
+        console.log(localStorage.getItem("UserDoc"));
+        payload = token.split('.')[1];
         temp = JWT(token);
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
+
         this.router.navigate(["/search"]);
     }
   },err=>{

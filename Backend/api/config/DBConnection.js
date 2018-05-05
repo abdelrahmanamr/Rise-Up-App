@@ -48,7 +48,7 @@ process.on('SIGTERM', function() {
 
 mongoose.connect(dburl, function(err) {
   if (!err) {
-    return console.log('Successfully connected to mongoDB');
+    return console.log('Successfully connected to mongoDB on url '+dburl);
   }
   console.error(err);
   gracefulShutdown(function(err) {
@@ -61,11 +61,14 @@ mongoose.connect(dburl, function(err) {
   });
 });
 
-require('../models/Product');
 require('../models/Content');
 require('../models/Comment');
 require('../models/User');
 require('../models/Company');
 require('../models/SuggestedContent');
 require('../models/Rating');
+require('../models/Report');
+require('../models/ApplyExpert');
+require('../models/SuggestedCompany');
+
 

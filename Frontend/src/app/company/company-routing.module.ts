@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: './viewcompany/viewcompany.module#ViewCompanyModule'
       },
       {
+        path: 'suggest',
+        loadChildren: './suggestedcompany/suggestedcompany.module#SuggestedCompanyModule'
+      },
+      {
         path: '',
         redirectTo: 'viewallcompanies'
       }

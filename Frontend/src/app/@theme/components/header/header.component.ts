@@ -37,7 +37,8 @@ export class HeaderComponent implements OnInit {
       this.loggedin = false;
     }
     
-    this.userMenu = [{title:"Edit Profile"},{title:"Change password"},{ title: 'Logout' }];
+
+    this.userMenu = [{title:"Edit Profile"},{title:"Change password"},{title:"Apply to be an Expert"},{title:"Suggest Company"},{ title: 'Logout' }];
     this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');
 
@@ -66,7 +67,13 @@ export class HeaderComponent implements OnInit {
         window.location.reload();
       }else if (bag.item.title === 'Edit Profile'){
         this.router.navigateByUrl('/user/editProfile');
+      }else if (bag.item.title === 'Apply to be an Expert') {
+          this.router.navigateByUrl("/user/applyExpert");
+      }else if (bag.item.title === 'Suggest Company') {
+        this.router.navigateByUrl("/company/suggest");
       }
+      
+     
     });
   }
 

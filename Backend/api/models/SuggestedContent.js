@@ -53,4 +53,4 @@ var suggestedContentSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-mongoose.model('SuggestedContent', suggestedContentSchema);
+module.exports = mongoose.model('SuggestedContent', suggestedContentSchema);

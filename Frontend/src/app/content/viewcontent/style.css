@@ -27,6 +27,16 @@
     left: 20px;
     transform: translate(0, -50%);
 }
+button[id="trash"] 
+{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color:red;
+}
 
 h4{
     color: #FFF;

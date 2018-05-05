@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
 import {Router} from "@angular/router";
 import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-items-addcompany',
@@ -14,7 +15,7 @@ tags:any=[];
 
 
     myForm: FormGroup;
-    constructor(private http: HttpClient,private router: Router){}
+    constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){}
 
 
     onSubmit(companyForm){
@@ -39,6 +40,7 @@ console.log(newCompany);
         var config = {
             headers : {
                 'Content-Type': 'application/json',
+                'authorization':localStorage.getItem('UserDoc')
             }
         }
 
@@ -46,11 +48,11 @@ console.log(newCompany);
         .subscribe(res => {console.log(res)
          var tags =   res["data"]["tags"];
          var JSONtoIndex = {
-             "name":tags,
-             "object":res["data"],
-             "type":"Company"
+             "tags":tags,
+             "objectId":res["data"]["_id"],
+             "name":res["data"]["name"]
          }
-         this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
+         this.http.post(environment.apiUrl+'search/addToCompanyIndex',JSONtoIndex,config)
          .subscribe(res =>{console.log(res)
             this.router.navigate(['/admin']);
 
@@ -58,8 +60,13 @@ console.log(newCompany);
         err=>console.log("error adding to index"));
         }
     ,err=>{
-        this.errorHandle = err['error']['msg'];
-      });
+            this.toastr.error("",err.error["msg"]);
+            if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+              localStorage.clear();
+              this.router.navigateByUrl("/search/searchresults")
+            }
+          }
+      );
         
 
     }

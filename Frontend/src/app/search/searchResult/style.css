@@ -13,4 +13,43 @@
      border: 3px solid #D00018;
  }
 
+ .card{
+     overflow: hidden;
+ }
+
+.boostedContent{
+    color:white;
+}
+
+ .boostedContent {
+    top: 1em;
+    left: -6em;
+    color: #fff;
+    display: block;
+    position:absolute;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: .06em;
+    background-color: #A00;
+    padding: 0.5em 5em 0.4em 5em;
+    box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    font: bold 13px/1.2em Sans-Serif;
+    text-transform: uppercase;
+    -webkit-box-shadow: 0 0 0.5em rgba(0,0,0,0.5);
+    -webkit-transform: rotate(-30deg) scale(0.75,1);
+    z-index:10;
+}
+.boostedContent:before {
+    content: '';
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin: -0.3em -5em;
+    transform: scale(0.7);
+    -webkit-transform: scale(0.7);
+    color:white;
+}
+
  

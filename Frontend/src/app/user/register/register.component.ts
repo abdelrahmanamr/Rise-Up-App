@@ -1,4 +1,5 @@
 
+
 import {Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -46,8 +47,8 @@ import { ToastrService } from 'ngx-toastr';
  <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px; ">
  </div>
       <div>
-
-          <input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register"style=" margin-top:100px;margin-left:150px;background-color:#DC0C18 ;">
+<br />
+          <input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register">
 
       </div>
       </div>
@@ -164,11 +165,20 @@ var config = {
 };
     this.http.post(environment.apiUrl+'user/register', data, config)
         .subscribe(res=>{
+            console.log("ta7t deh el response");
             console.log(res);
             let message = res["msg"];
             console.log(message);
+            var JSONtoIndex = {
+                "tags":res["data"]["tags"],
+                "objectId":res["data"]["_id"],
+                "username":res["data"]["username"]
+            }
             this.errorhandle = "Register successful";
-            this.router.navigateByUrl("/user/login");
+            this.http.post(environment.apiUrl+'search/addToUserIndex',JSONtoIndex,config).subscribe(res=>{
+                console.log(res);
+                this.router.navigateByUrl("/user/login");
+            });
         },err=>{
             console.log(err);
             this.toastr.error("",err['error']['msg']);
@@ -191,6 +201,7 @@ checkUsername = function(username){
   this.errorhandle = "";
   },
 err=>{
+    this.toastr.error("",err['error']['msg']);
   console.log(err);
   this.errorhandle = "username already exists";
 }

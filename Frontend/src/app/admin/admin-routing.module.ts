@@ -33,6 +33,10 @@ const routes: Routes = [
                 loadChildren: './viewActivity/viewActivity.module#ViewActivityModule'
             },
             {
+                path: 'viewSuggestedCompanies',
+                loadChildren:'./viewSuggestedCompanies/viewSuggestedCompanies.module#ViewSuggestedCompaniesModule'
+            },
+            {
                 path: '',
                 redirectTo: 'controlpanel',
                 pathMatch: 'full'

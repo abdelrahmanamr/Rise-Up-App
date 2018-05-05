@@ -263,8 +263,9 @@ export class SearchResultComponent implements OnInit{
                             item.tags = item.tags.split(",");
                         });
                     }
-                    this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
+                    
                 });
+                this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
 
             }
 

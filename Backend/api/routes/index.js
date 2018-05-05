@@ -111,8 +111,12 @@ router.get('/search/getCompanyTagsOrNameOrType/:tags', searchCtrl.getCompanyTags
 router.get('/search/getCompanyTagsOrType/:tags', searchCtrl.getCompanyTagsOrType);
 router.get('/search/getCompanyTagsOrName/:tags', searchCtrl.getCompanyTagsOrName);
 router.get('/search/getSynonyms/:keyword',searchCtrl.getSynonyms);
-
-
+router.delete('/search/deleteContentFromContentIndex/:contentId',searchCtrl.deleteContentFromContentIndex);
+router.delete('/search/deleteUserFromUserIndex/:userId',searchCtrl.deleteUserFromUserIndex);
+router.delete('/search/deleteCompanyFromCompanyIndex/:companyId',searchCtrl.deleteCompanyFromCompanyIndex);
+router.patch('/search/updateContentInContentIndex',searchCtrl.updateContentInContentIndex);
+router.patch('/search/updateCompanyInCompanyIndex',searchCtrl.updateCompanyInCompanyIndex);
+router.patch('/search/updateUserInUserIndex',searchCtrl.updateUserInUserIndex);
 
 
 //-----------------------------Company Routes--------------------------------------
@@ -127,6 +131,10 @@ router.patch('/company/CompanyViews/:ID', CompanyCtrl.IncrementViews);
 //---------------------------SuggestedCompany Routes------------------------------
 
 router.post('/suggestedcompany/addSuggestedCompany',suggestedCompanyCtrl.addSuggestedCompany);
+router.get('/suggestedcompany/getSuggestedCompanies',suggestedCompanyCtrl.getSuggestedCompanies);
+router.get('/suggestedcompany/viewSuggestedCompany/:companyId', isAuthenticated, suggestedCompanyCtrl.viewSuggestedCompany);
+router.patch('/suggestedcompany/updateSuggestedCompany/:companyId', isAuthenticated, suggestedCompanyCtrl.updateSuggestedCompany);
+
 
 
 //-------------------------------Admin Routes-----------------------------------

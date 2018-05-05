@@ -25,48 +25,48 @@ var token = null;
 chai.use(chaiHttp);
 
 describe('Add admin test' , function(){
-  before(function(done){                    // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
-  mongoose.connect('mongodb://localhost:27017/nodejs-test');
-      var data = {
+  before(function(done){
+    mongoose.connect('mongodb://localhost:27017/nodejs-test');
+    var data = {
       username: 'ranon5',
-        securityQ: 'user.secQField',
-        securityA : 'user.secAField',
-        password: 'testingpassword',
+      securityQ: 'user.secQField',
+      securityA : 'user.secAField',
+      password: 'testingpassword',
       confirmPassword: 'testingpassword',
-      // token : '123',
-        firstname: 'ranon',
-        lastname: "talaat",
+      firstname: 'ranon',
+      lastname: "talaat",
       tags:"result",
       email: "registe5r@user.com",
       dateOfBirth:"19/1/2018"
-  };
-  chai.request(server).post('/api/user/register').send(data).end(function(err,res){
+    };
+    chai.request(server).post('/api/user/register').send(data).end(function(err,res){
       res.should.have.status(201);
-    User.findOne({"username":"ranon5"}).exec(function(err,userfound){
+      User.findOne({"username":"ranon5"}).exec(function(err,userfound){
         authenticatedUser2 = userfound;
         done();
-        });
       });
     });
+  });
 
   it('should login as a user on /api/user/login POST',function(done){
-      chai.request(server)
-          .post('/api/user/login')
-          .send(registeringUserLoginCredentials)
-          .end(function(err,res){
-              res.should.have.status(200);
-              res.body.data.should.a('string');
-              token = res.body.data;
-              payload = token.split('.')[1];
-              payload = Buffer.from(payload,'base64');
-              payload = JSON.parse(payload);
-              authenticatedUser = payload['user'];
-              done();
-          });
-    })
+    chai.request(server)
+    .post('/api/user/login')
+    .send(registeringUserLoginCredentials)
+    .end(function(err,res){
+
+      res.should.have.status(200);
+      res.body.data.should.a('string');
+      token = res.body.data;
+      payload = token.split('.')[1];
+      payload = Buffer.from(payload,'base64');
+      payload = JSON.parse(payload);
+      authenticatedUser = payload['user'];
+      done();
+    });
+  })
 
 
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should register a new Admin  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -124,7 +124,7 @@ describe('Add admin test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -180,7 +180,7 @@ describe('Add admin test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -843,7 +843,7 @@ describe('User deletes his own comments only',function(){  // Loai Testing
 
 
 describe('Remove expert test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should remove the expert  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -901,7 +901,7 @@ describe('Remove expert test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -911,7 +911,7 @@ describe('Remove expert test' , function(){
   });
 });
 describe('Add Expert test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should register a new Expert  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -1012,7 +1012,7 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
     }
     newexperttest =newUser ;
 
-    // t send request lel server w te3mel el method el 3ayezha t check
+
     chai.request(server)
     .patch('/api/admin/addExpert/'+newexperttest['_id'])
     .send({userid:currentadmintest['_id']})
@@ -1030,7 +1030,7 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
 
 
 describe('Get Tags test' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should get tags of user ' , function(done) {
     var admin  = {
       'username': 'Dummyadmin',
@@ -1048,7 +1048,7 @@ describe('Get Tags test' , function() {
       }
       testuser =newUser ;
 
-      // t send request lel server w te3mel el method el 3ayezha t check
+
       chai.request(server)
       .get('/api/admin/getUserTags/'+testuser['_id'])
       .set('authorization',token)
@@ -1098,19 +1098,19 @@ describe('Update Expert Tag test' , function() {
         }
         newadmintest =newUser ;
 
-      chai.request(server)
-      .patch('/api/admin/UpdateExpertTag/'+newadmintest['_id'])
-      .send({tags:'ay kalam',userid:currentadmintest['_id']})
-      .set('authorization',token)
-      .end(function(err ,res) {
-        res.status.should.be.eql(200);
-        res.body.should.have.property('msg');
-        res.body.msg.should.be.eql('User retrieved correctly');
-        done();
+        chai.request(server)
+        .patch('/api/admin/UpdateExpertTag/'+newadmintest['_id'])
+        .send({tags:'ay kalam',userid:currentadmintest['_id']})
+        .set('authorization',token)
+        .end(function(err ,res) {
+          res.status.should.be.eql(200);
+          res.body.should.have.property('msg');
+          res.body.msg.should.be.eql('User retrieved correctly');
+          done();
+        });
       });
     });
   });
-});
 });
 describe('Get Users test' , function() {
   it('Get Users : should get users correctly' , function(done) {
@@ -1146,7 +1146,7 @@ describe('Get Users test' , function() {
 });
 
 describe('Remove expert test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should remove expert  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -1180,7 +1180,7 @@ describe('Remove expert test' , function(){
         }
         newadmintest =newUser ;
 
-        // t send request lel server w te3mel el method el 3ayezha t check
+
         chai.request(server)
         .patch('/api/admin/removeExpert/'+newadmintest['_id'])
         .send({userid:currentadmintest['_id']})
@@ -1240,7 +1240,7 @@ describe('Remove expert test' , function(){
             };
 
           });
-          // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
         }
@@ -1254,7 +1254,7 @@ describe('Remove expert test' , function(){
 
 
   describe('Unblock user test' , function(){
-    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
     it('it Unblock user  ' , function(done) {
       var currentadmin  = {
         'username': 'Dummyadmin',
@@ -1312,7 +1312,7 @@ describe('Remove expert test' , function(){
             };
 
           });
-          // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
         }
@@ -1370,7 +1370,7 @@ describe('Remove expert test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -1381,7 +1381,7 @@ describe('Remove expert test' , function(){
   });
 });
 describe('Remove admin test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should remove Admin  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -1439,7 +1439,7 @@ describe('Remove admin test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -1498,7 +1498,7 @@ it('it shouldnt remove Admin  ' , function(done) {
         };
 
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
     }
@@ -1509,7 +1509,7 @@ it('it shouldnt remove Admin  ' , function(done) {
 });
 });
 describe('Get user by id test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should get user  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -1613,7 +1613,7 @@ describe('Get user by id test' , function(){
   });
 });
 describe('Testing View Companies' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('View Companies : should get companies correctly' , function(done) {
     this.timeout(10000);
     chai.request(server)
@@ -1630,7 +1630,7 @@ describe('Testing View Companies' , function() {
 });
 
 describe('Testing get Companies' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Get Companies : should get companies correctly' , function(done) {
     this.timeout(10000);
     chai.request(server)
@@ -1648,7 +1648,7 @@ describe('Testing get Companies' , function() {
 
 
 describe('Testing delete company' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Delete Company :it should delete company when valid company id' , function(done) {
     this.timeout(10000);
     var usertestid;
@@ -1691,7 +1691,7 @@ describe('Testing delete company' , function() {
           done();
         });
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
+
     });
   });
 
@@ -1725,7 +1725,7 @@ describe('Testing delete company' , function() {
 });
 
 describe('Testing get Companies' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Get Companies : should get companies correctly' , function(done) {
     this.timeout(10000);
     chai.request(server)
@@ -1742,7 +1742,7 @@ describe('Testing get Companies' , function() {
 });
 
 describe('Block user test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it Blocks user  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -1801,7 +1801,7 @@ describe('Block user test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -1860,7 +1860,7 @@ it('it shouldnt block user without user being admin  ' , function(done) {
         };
 
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
     }
@@ -1877,7 +1877,7 @@ it('it shouldnt block user without user being admin  ' , function(done) {
 
 
 describe('Testing Adding a Company' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Add Company : it should add a company succesfully when correct attributes are given' , function(done) {
     this.timeout(100000);
     var admintestid;
@@ -1915,7 +1915,7 @@ describe('Testing Adding a Company' , function() {
         done();
       });
 
-      // t send request lel server w te3mel el method el 3ayezha t check
+
     });
   });
 
@@ -1955,7 +1955,7 @@ describe('Testing Adding a Company' , function() {
         done();
       });
 
-      // t send request lel server w te3mel el method el 3ayezha t check
+
     });
   });
 });

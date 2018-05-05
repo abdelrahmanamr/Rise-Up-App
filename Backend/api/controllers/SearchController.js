@@ -122,51 +122,53 @@ module.exports.getCompanyTags= function ( req, res, next) {
 };
 module.exports.getExpertTags= function ( req, res, next) {  //tested
 
-    if(!Validations.isString(req.params.tags)){
-        return res.status(422).json({
-            err:null,
-            msg: 'tag parameter must be a valid string.',
-            data:null
+  if(!Validations.isString(req.params.tags)){
+    return res.status(422).json({
+      err:null,
+      msg: 'tag parameter must be a valid string.',
+      data:null
 
-        });
-    }
-    User.find({
-        expert:true,
-        tags:{$regex:new RegExp(req.params.tags)}
-    }).exec(function (err,users) {
-        if(err){
-            return next(err);
-        }
-        return res.status(200).json({
-            err:null,
-            msg:'All experts containing this tag'+req.params.tags+'retrieved successfully',
-            data:users
-        });
     });
+  }
+  User.find({
+    expert:true,
+    tags:{$regex:new RegExp(req.params.tags)}
+  }).exec(function (err,users) {
+    if(err){
+      console.log(err);
+      return next(err);
+    }
+    return res.status(200).json({
+      err:null,
+      msg:'All experts containing this tag'+req.params.tags+'retrieved successfully',
+      data:users
+    });
+  });
 };
 
 module.exports.getContentTags= function ( req, res, next) {  //tested
 
-    if(!Validations.isString(req.params.tags)){
-        return res.status(422).json({
-            err:null,
-            msg: 'tag parameter must be a valid string.',
-            data:null
+  if(!Validations.isString(req.params.tags)){
+    return res.status(422).json({
+      err:null,
+      msg: 'tag parameter must be a valid string.',
+      data:null
 
-        });
-    }
-    Content.find({
-        $or:[{tags:{$regex:new RegExp(req.params.tags)}},{title:{$regex:new RegExp(req.params.tags)}}]
-}).exec(function (err,content) {
-        if(err){
-            return next(err);
-        }
-        return res.status(200).json({
-            err:null,
-            msg:'All Content containg this tag  '+req.params.tags+' retrieved successfully',
-            data:content
-        });
     });
+  }
+  Content.find({
+    // search for Content with title or tags matching the search query or the query is a substring of it
+    $or:[{tags:{$regex:new RegExp(req.params.tags)}},{title:{$regex:new RegExp(req.params.tags)}}]
+  }).exec(function (err,content) {
+    if(err){
+      return next(err);
+    }
+    return res.status(200).json({
+      err:null,
+      msg:'All Content containg this tag  '+req.params.tags+' retrieved successfully',
+      data:content
+    });
+  });
 };
 
 module.exports.getCompanyTagsOrName= function ( req, res, next) {
@@ -780,4 +782,3 @@ function updateRecord()  // to delete all documents in the an index
     //    .then(createElasticSearchIndex)
     //   .then(createMappingtitle)
   //.then(deleteRecord)
-

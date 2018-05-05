@@ -16,14 +16,14 @@ var mongoose = require('mongoose'),
         data: null
       });
     }
-  
+
     Content.findByIdAndUpdate(
       req.params.contentId,
       {
         $inc: {views : 1}
       },
       { new: true }
-   
+
     ).exec(function(err, updatedcontent) {
       if (err) {
         return next(err);
@@ -83,17 +83,16 @@ var mongoose = require('mongoose'),
   };
 
 
-  
+
   module.exports.removeContent = function(req, res, next) {
     req.body.userid = req.params.contentId.split("..")[1];
     req.params.contentId = req.params.contentId.split("..")[0];
-    if (!Validations.isObjectId(req.params.contentId)
-    ) {
-        return res.status(422).json({
-            err: null,
-            msg: 'ContentId parameter must be a valid ObjectId.',
-            data: null
-        });
+    if (!Validations.isObjectId(req.params.contentId)) {
+      return res.status(422).json({
+        err: null,
+        msg: 'ContentId parameter must be a valid ObjectId.',
+        data: null
+      });
     }
     else{
       User.findById(req.body.userid).exec(function(err,user) {
@@ -102,47 +101,47 @@ var mongoose = require('mongoose'),
         }
         else {
           if(!user){
-          return res
-          .status(404)
-          .json({ err: null, msg: 'User not found.', data: null });
-        }else{
-        if(!user['admin']){
-          return res.status(422).json({
-            err: null,
-            msg: 'Unauthorized! You are not an admin.',
-            data: null
-          });
-        }else{
-    Content.findByIdAndRemove(req.params.contentId).exec(function(
-        err,
-        deletedContent
-    ) {
-        if (err) {
-            return next(err);
-        }
-        if (!deletedContent) {
             return res
-                .status(404)
-                .json({ err: null, msg: 'Content not found.', data: null });
-        }
-        res.status(200).json({
-            err: null,
-            msg: 'Content was deleted successfully.',
-            data: deletedContent
-        });
-    });
-};
+            .status(404)
+            .json({ err: null, msg: 'User not found.', data: null });
+          }else{
+            if(!user['admin']){
+              return res.status(422).json({
+                err: null,
+                msg: 'Unauthorized! You are not an admin.',
+                data: null
+              });
+            }else{
+              Content.findByIdAndRemove(req.params.contentId).exec(function(
+                err,
+                deletedContent
+              ) {
+                if (err) {
+                  return next(err);
+                }
+                if (!deletedContent) {
+                  return res
+                  .status(404)
+                  .json({ err: null, msg: 'Content not found.', data: null });
+                }
+                res.status(200).json({
+                  err: null,
+                  msg: 'Content was deleted successfully.',
+                  data: deletedContent
+                });
+              });
+            };
+          };
         };
-      };
-    });
+      });
+    }
   }
-}
 
 module.exports.editContent = function(req, res, next) {
   var valid = req.body.userid &&
   Validations.isObjectId(req.body.userid)&&
   req.body.tags &&
-  Validations.isString(req.body.tags) && 
+  Validations.isString(req.body.tags) &&
     req.body.title &&
   Validations.isString(req.body.title)
   ;
@@ -173,10 +172,10 @@ User.findById(req.body.userid).exec(function(err,user) {
 
   delete req.body.createdAt;
   req.body.updatedAt = moment().toDate();
- 
+
   Content.findByIdAndUpdate(
     req.params.contentId,
-    
+
     {
       $set: req.body
     },
@@ -240,12 +239,12 @@ User.findById(req.body.userid).exec(function(err,user) {
           data: null
         });
       }else{
-    
+
 
     // Security Check
     delete req.body.createdAt;
     delete req.body.updatedAt;
-  
+
     Content.create(req.body, function(err, content) {
       if (err) {
         return next(err);
@@ -335,7 +334,7 @@ if (!valid) {
             });
                   }
                 });
-                
+
               }
             }
         });
@@ -380,7 +379,7 @@ if (!valid) {
             });
           }
       });
-      
+
     }
   };
 });
@@ -391,12 +390,12 @@ if (!valid) {
 
 
 module.exports.createComment = function(req, res, next) { //method createComment which accesses the database and inserts the comment written in the textfield with the contentId of the post the user is seeing
-  
-  var valid = req.params.contentId && 
-  Validations.isObjectId(req.params.contentId) && 
-  req.body.body &&  
-  Validations.isString(req.body.body) && 
-  req.body.userid && 
+
+  var valid = req.params.contentId &&
+  Validations.isObjectId(req.params.contentId) &&
+  req.body.body &&
+  Validations.isString(req.body.body) &&
+  req.body.userid &&
   Validations.isObjectId(req.body.userid);
 
   if (!valid) {
@@ -406,7 +405,7 @@ module.exports.createComment = function(req, res, next) { //method createComment
       data: null
     });
   }else{
-  
+
 
   Comment.create(req.body, function(err, comments) {
     if (err) {
@@ -506,7 +505,7 @@ module.exports.deleteComment = function(req,res,next){
           });
             }
         });
-          
+
         }
         else{
           Comment.findOne({
@@ -620,7 +619,7 @@ module.exports.makeReport = function(req,res,next){
                             msg: "Comment reported",
                             data: createdReport
                           });
-                        
+
                       }
                     };
                   }
@@ -632,16 +631,3 @@ module.exports.makeReport = function(req,res,next){
     });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

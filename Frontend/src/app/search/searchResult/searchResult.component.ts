@@ -39,8 +39,7 @@ export class SearchResultComponent implements OnInit{
             this.key = params['key'];
             this.filter1 = params['filter1'];
             this.filter2 = params['filter2'];
-            console.log(this.key);
-            console.log(this.filter1);
+ 
             if(this.key!=undefined)
             {
                 if (this.key.toLowerCase() == "allcontent")
@@ -61,8 +60,7 @@ export class SearchResultComponent implements OnInit{
                         if(this.filter1 == undefined) {
                             this.filterToSet = "All";
                             this.companyFilterOn = false;
-                            console.log("et8ayar")
-                            console.log(this.filterToSet);
+
                         }
                         else{
                             this.filterToSet = this.filter1;
@@ -99,7 +97,7 @@ export class SearchResultComponent implements OnInit{
       }
 
       changeCompanyFilter(select){
-        console.log(this.companyFilterToSet);
+  
       }
 
     hide(){
@@ -130,14 +128,11 @@ export class SearchResultComponent implements OnInit{
         this.companyElasticSearch = [];
         this.userElasticSearch = [];
         //this.filter = "all";
-        console.log(this.key);
-        console.log(this.filterToSet);
         if (this.filterToSet.toLowerCase() == "all" ) {
 
             this.http.get(environment.apiUrl + '/search/getSynonyms/' + this.key).subscribe(
                 res => {
-                    console.log("HELLO World");
-                    console.log(res['err']);
+
                     if (res['err'] == 'empty') {
                         this.keySynonyms = [this.key];
                     }
@@ -150,13 +145,10 @@ export class SearchResultComponent implements OnInit{
                             this.keySynonyms.splice(i, 1);
                         }
                     }
-                    console.log(this.keySynonyms);
                     this.synonymResult = this.keySynonyms.join(',');
-                    console.log(this.synonymResult);
 
                     this.http.get(environment.apiUrl + '/search/getContentByElasticSearch/' + this.synonymResult).subscribe
                     (res => {
-                        console.log(res['data']);
                         res['data'].forEach(element => {
                             element.tags = element.tags.split(",");
                             this.contentElasticSearch.push(element);
@@ -175,8 +167,6 @@ export class SearchResultComponent implements OnInit{
                                 res['data'].forEach(element => {
                                         element.tags = element.tags.split(",");
                                         this.userElasticSearch.push(element);
-                                        console.log("param is :" + this.key);
-                                        console.log("filter is" + this.filter1);
 
                                     })
                                 this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
@@ -189,7 +179,6 @@ export class SearchResultComponent implements OnInit{
             {
                 if (this.filterToSet.toLowerCase() == "company" && this.companyFilterToSet.toLowerCase() == "all") {
 
-                    console.log("entered");
                     this.http.get(environment.apiUrl + '/search/getCompanyTagsOrNameOrType/' + this.key).subscribe(res => {
                         if (this.companyElasticSearch = []) {
                             this.companyElasticSearch = res['data'];
@@ -197,12 +186,10 @@ export class SearchResultComponent implements OnInit{
                                 item.tags = item.tags.split(",");
                             });
                         }
-                        console.log(res['data']);
                         this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
                 if (this.filterToSet.toLowerCase() == "company" && this.companyFilterToSet.toLowerCase() == "name") {
-                    console.log("entered name");
                     this.http.get(environment.apiUrl + '/search/getCompanyByName/' + this.key).subscribe(res => {
                         if (this.companyElasticSearch = []) {
                             this.companyElasticSearch = res['data'];
@@ -210,7 +197,6 @@ export class SearchResultComponent implements OnInit{
                                 item.tags = item.tags.split(",");
                             });
                         }
-                        console.log(res['data']);
                         this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
@@ -222,7 +208,6 @@ export class SearchResultComponent implements OnInit{
                                 item.tags = item.tags.split(",");
                             });
                         }
-                        console.log(res['data']);
                         this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
@@ -234,7 +219,6 @@ export class SearchResultComponent implements OnInit{
                                 item.tags = item.tags.split(",");
                             });
                         }
-                        console.log(res['data']);
                         this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet+"&filter2="+ this.companyFilterToSet);
                     });
                 }
@@ -289,7 +273,6 @@ export class SearchResultComponent implements OnInit{
         this.userElasticSearch = [];
         this.nameortype = "";
         this.http.get(environment.apiUrl+"Content/viewContents").subscribe(res =>{
-            console.log(this.Items);
             if(localStorage.getItem('userProps')){
             this.contentElasticSearch= this.sortPreferedContent(res['data']);
             }else{
@@ -318,7 +301,6 @@ export class SearchResultComponent implements OnInit{
             this.searchResult=true;
             this.filterOn = false;
             this.router.navigateByUrl("/search/searchResult?key=" + "AllCompanies");
-            console.log(this.companyElasticSearch);
         });
     }
     viewAllExperts(){
@@ -335,12 +317,10 @@ export class SearchResultComponent implements OnInit{
             this.filterToSet = "All";
             this.filterOn = false;
             this.router.navigateByUrl("/search/searchResult?key=" + "Allexperts");
-            console.log(this.userElasticSearch);
 
         });
     }
     sortPreferedContent(contentResult:any[]){
-        console.log(JSON.parse(localStorage.getItem('userProps'))['tags']);
         var userTags = (JSON.parse(localStorage.getItem('userProps'))['tags']).split(',');
         var counterContent;
         var counterUserTags;
@@ -366,7 +346,6 @@ export class SearchResultComponent implements OnInit{
 
 
     sortContent(sortMethod){
-        console.log(sortMethod);
         switch(sortMethod){
             case "Newest":
                 this.sortNewest();
@@ -443,7 +422,6 @@ export class SearchResultComponent implements OnInit{
     }
 
     sortBoosted(){
-        console.log("boost");
         this.contentElasticSearch = this.contentElasticSearch.sort((obj1, obj2) => {
             if (obj1.boost < obj2.boost) {
                 return 1;

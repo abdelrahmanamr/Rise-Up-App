@@ -22,8 +22,6 @@ tags:any=[];
             return val.displayValue;
         }).join(',');
 
-
-console.log(result);
 var my = JSON.stringify
 ({  
     // userid:localStorage.getItem("user"),
@@ -35,7 +33,6 @@ var my = JSON.stringify
     userid:JSON.parse(localStorage.getItem("userProps"))["_id"]
 });
 
-console.log(my);
         var config = {
             headers : {
                 'Content-Type': 'application/json',
@@ -43,13 +40,8 @@ console.log(my);
         }
 
         this.http.post(environment.apiUrl+'suggestedcompany/addSuggestedCompany',my, config)
-        .subscribe(res => {console.log(res)
-         /*this.http.post(environment.apiUrl+'search/addToIndex',JSONtoIndex,config)
-         .subscribe(res =>{console.log(res)
-            this.router.navigate(['/admin']);
-
-        },
-        err=>console.log("error adding to index"));*/
+        .subscribe(res => {
+            this.router.navigateByUrl('/');
         }
     ,err=>{
         this.errorHandle = err['error']['msg'];
@@ -60,7 +52,6 @@ console.log(my);
 
 
     ngOnInit() {
-        console.log("form");
         this.myForm = new FormGroup({
             companyname: new FormControl(null, Validators.required),
             companywebsite: new FormControl(null, Validators.required),

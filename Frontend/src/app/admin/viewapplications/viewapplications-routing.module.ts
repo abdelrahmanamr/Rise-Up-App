@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ViewExpertComponent } from './viewexpert.component';
+import { ViewApplicationsComponent } from './viewapplications.component';
 
 const routes: Routes = [
-  { path: '', component: ViewExpertComponent, pathMatch: 'full' }
+  { path: '', component: ViewApplicationsComponent, pathMatch: 'full' }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ViewExpertRoutingModule {}
+export class ViewApplicationsRoutingModule {}

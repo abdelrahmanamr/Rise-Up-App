@@ -35,7 +35,7 @@ import { Slider } from 'ngx-slider';
 <h1>SNEAK PEEK OF OUR EVENTS</h1>
 
 
-<div style="height: 400px">
+<div style="height: 400px;width:80%">
   <ngx-slider [init]="slider" ></ngx-slider>
 </div>
 <div>
@@ -57,7 +57,7 @@ h1 {
    font-family: helvetica;
    font-size: 35;
    position: relative;
-    left: 320px;
+    left: 16.2%;
 }
 iframe{
   position: relative;

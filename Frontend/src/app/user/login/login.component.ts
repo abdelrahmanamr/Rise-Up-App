@@ -51,7 +51,6 @@ errorView = "";
     private toastr: ToastrService){
       this.url = this.router.url;
       this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
-      console.log(this.final);
   }
 
 onSubmit = function(user){
@@ -65,7 +64,6 @@ var config = {
 
 this.http.post(environment.apiUrl+'user/login', data, config)
 .subscribe(res=>{
-  //console.log(res["data"]);
   let token = res["data"];
   var payload = null
   var temp = null
@@ -76,7 +74,6 @@ this.http.post(environment.apiUrl+'user/login', data, config)
 
         this.error = "Login successful";
         localStorage.setItem("UserDoc",token);
-        console.log(localStorage.getItem("UserDoc"));
         payload = token.split('.')[1];
         temp = JWT(token);
         localStorage.setItem('userProps', JSON.stringify(temp["user"]));
@@ -86,7 +83,6 @@ this.http.post(environment.apiUrl+'user/login', data, config)
   },err=>{
     this.errorView = err.error["msg"];
     this.toastr.error("",err.error["msg"]);
-        console.log(err.error["msg"]);
   }
 );
 

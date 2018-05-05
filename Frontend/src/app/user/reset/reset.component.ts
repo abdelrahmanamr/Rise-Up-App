@@ -48,7 +48,6 @@ export class ResetComponent implements OnInit {
     ngOnInit(){
         this.url = this.router.url;
         this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
-        console.log(this.final);
         var config = {
             headers : {
                 'Content-Type': 'application/json'
@@ -57,13 +56,11 @@ export class ResetComponent implements OnInit {
 
         this.http.get(environment.apiUrl+'user/expire/'+ this.final , config)
             .subscribe(res=>{
-                    //console.log(res["data"]);
                     this.message = res["msg"];
 
                 },err=>{
 
                     this.errorView = err.error["msg"];
-                    console.log(err.error["msg"]);
                 }
             );
 
@@ -73,7 +70,6 @@ export class ResetComponent implements OnInit {
               private activatedRoute: ActivatedRoute,private toastr: ToastrService){
       this.url = this.router.url;
       this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
-      console.log(this.final);
   }
 
 onSubmit = function(user){
@@ -87,7 +83,6 @@ var config = {
 
 this.http.patch(environment.apiUrl+'user/reset/'+ this.final , data, config)
 .subscribe(res=>{
-  //console.log(res["data"]);
     let message = res["msg"];
     if(message == "Success"){
 
@@ -99,7 +94,6 @@ this.http.patch(environment.apiUrl+'user/reset/'+ this.final , data, config)
   },err=>{
       this.toastr.error("",err.error["msg"]);
     this.errorView = err.error["msg"];
-    console.log(err.error["msg"]);
   }
 );
 

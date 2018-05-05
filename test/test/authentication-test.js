@@ -86,7 +86,7 @@ const registeringUserCredentials = {
                 done();
             });
       }),
-      it("should check for a unique username and FAIL since this user exists /api/user/checkUsername/",function(done){
+     it("should check for a unique username and FAIL since this user exists /api/user/checkUsername/",function(done){ // Rana Talaat
         chai.request(server)
         .post('/api/user/checkUsername')
         .send({'username':authenticatedUser2['username']})
@@ -98,7 +98,7 @@ const registeringUserCredentials = {
         
      
     }),
-    it("should check for a unique username and pass since this is a new user /api/user/checkUsername/",function(done){
+    it("should check for a unique username and pass since this is a new user /api/user/checkUsername/",function(done){ // Rana Talaat
         chai.request(server)
         .post('/api/user/checkUsername')
         .send({'username':'UserGedeed'})
@@ -110,6 +110,39 @@ const registeringUserCredentials = {
         
      
     }),
+
+    it('should view all users /api/User/viewUsers GET',function(done){
+      // Content.find({'contentId':content['_id']}).exec(function(err,content){
+
+      chai.request(server)
+          .get('/api/User/viewUsers')
+          .end(function(err,res){
+              res.should.have.status(200);
+              
+              res.should.be.json;
+           
+              done();
+          });
+      // });
+  }),
+
+
+    it('should show a user on /api/User/viewUser/:userId GET',function(done){
+      // Content.find({'contentId':content['_id']}).exec(function(err,content){
+
+      chai.request(server)
+          .get('/api/User/viewUser/:userId')
+          .end(function(err,res){
+              res.should.have.status(422);
+              
+              res.should.be.json;
+           
+              done();
+          });
+      // });
+  }),
+
+
       it("FAIL to change a user's password as he didn't type in his new/old password or confirm it /api/user/changePassword/:userId PATCH",function(done){
           chai.request(server)
           .patch("/api/user/changePassword/"+authenticatedUser2['_id'])

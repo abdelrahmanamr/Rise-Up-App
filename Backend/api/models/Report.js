@@ -31,4 +31,4 @@ var reportSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-mongoose.model('Report',reportSchema);
+module.exports = mongoose.model('Report',reportSchema);

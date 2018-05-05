@@ -8,6 +8,7 @@ var Content = require("../../Backend/api/models/Content");
 var Company = require("../../Backend/api/models/Company");
 var should = chai.should();
 var contentTest = require('./content-test');
+var Report = require("../../Backend/api/models/Report");
 
 dbURI = 'mongodb://localhost:27017/nodejs-test';
 
@@ -24,49 +25,48 @@ var token = null;
 chai.use(chaiHttp);
 
 describe('Add admin test' , function(){
-  before(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
-  mongoose.connect('mongodb://localhost:27017/nodejs-test');
-      var data = {
+  before(function(done){
+    mongoose.connect('mongodb://localhost:27017/nodejs-test');
+    var data = {
       username: 'ranon5',
-        securityQ: 'user.secQField',
-        securityA : 'user.secAField',
-        password: 'testingpassword',
+      securityQ: 'user.secQField',
+      securityA : 'user.secAField',
+      password: 'testingpassword',
       confirmPassword: 'testingpassword',
-      // token : '123',
-        firstname: 'ranon',
-        lastname: "talaat",
+      firstname: 'ranon',
+      lastname: "talaat",
       tags:"result",
       email: "registe5r@user.com",
       dateOfBirth:"19/1/2018"
-  };
-  chai.request(server).post('/api/user/register').send(data).end(function(err,res){
+    };
+    chai.request(server).post('/api/user/register').send(data).end(function(err,res){
       res.should.have.status(201);
-    User.findOne({"username":"ranon5"}).exec(function(err,userfound){
+      User.findOne({"username":"ranon5"}).exec(function(err,userfound){
         authenticatedUser2 = userfound;
         done();
-        });
       });
     });
+  });
 
   it('should login as a user on /api/user/login POST',function(done){
-      chai.request(server)
-          .post('/api/user/login')
-          .send(registeringUserLoginCredentials)
-          .end(function(err,res){
-              // console.log(res);
-              res.should.have.status(200);
-              res.body.data.should.a('string');
-              token = res.body.data;
-              payload = token.split('.')[1];
-              payload = Buffer.from(payload,'base64');
-              payload = JSON.parse(payload);
-              authenticatedUser = payload['user'];
-              done();
-          });
-    })
+    chai.request(server)
+    .post('/api/user/login')
+    .send(registeringUserLoginCredentials)
+    .end(function(err,res){
+
+      res.should.have.status(200);
+      res.body.data.should.a('string');
+      token = res.body.data;
+      payload = token.split('.')[1];
+      payload = Buffer.from(payload,'base64');
+      payload = JSON.parse(payload);
+      authenticatedUser = payload['user'];
+      done();
+    });
+  })
 
 
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should register a new Admin  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -100,8 +100,6 @@ describe('Add admin test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/addAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -126,7 +124,7 @@ describe('Add admin test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -168,8 +166,6 @@ describe('Add admin test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/addAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -184,7 +180,7 @@ describe('Add admin test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -194,10 +190,660 @@ describe('Add admin test' , function(){
 
   });
 });
+describe('Admin comment/reports functionalities',function(){
+  var contentForComments = {
+    title: "Content for comments",
+    body:"we ady ay body ma3ana",
+    tags:"love hate",
+    type:"Post"
+  }
+  var normalCommentingUser = {
+    'username': 'DummyUser',
+    'firstname': 'Dummy',
+    'lastname': 'user',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :false
+  }
+  var AdminUserToDeleteComments = {
+    'username': 'Admin',
+    'firstname': 'Admin',
+    'lastname': 'Admin',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :true
+  }
+  it('admin should be able to remove comments by other people',function(done){  // Saleh
+
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"awel comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdNormal["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,CommentReady){
+                  if(err){
+
+                  }else{
+                    CommentToDel = CommentReady;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      res.status.should.be.eql(201);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("Comment removed succecfully")
+                      done();
+                    });
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      }
+    });
+  }),
+  it('admin should be able to delete his own comments',function(done){  // Saleh
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"tany comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdAdmin["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,Comment2){
+                  if(err){
+
+                  }else{
+                    CommentToDel = Comment2;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      res.status.should.be.eql(201);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("Comment removed succecfully")
+                      done();
+                    });
+                  }
+                });
+              }
+            
+            });
+          }
+        });
+      }
+  });
+}),it('admin shouldnt  be able to delete already removed comments',function(done){ // Saleh
+  var createdNormal;
+  var createdContent;
+  var createdAdmin;
+  var CommentToDel;
+  Content.create(contentForComments,function(err,ContentDone){
+    if(err){
+
+    }else{
+      createdContent = ContentDone;
+      User.create(normalCommentingUser,function(err,User1Ready){
+        if(err){
+
+        }else{
+          createdNormal = User1Ready
+          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+            if(err){
+              
+            }else{
+              createdAdmin = AdminReady;
+              Comment1 = {
+                body:"tany comment ma3ana",
+                username:createdNormal["username"],
+                userid:createdAdmin["_id"],
+                contentid:createdContent["_id"],
+              }
+              Comment.create(Comment1,function(err,Comment2){
+                if(err){
+
+                }else{
+                  CommentToDel = Comment2;
+                  Comment.remove({ body:"tany comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdAdmin["_id"],
+                  contentid:createdContent["_id"]},function(err){
+                    if(err){
+
+                    }else{
+                      chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdAdmin["_id"])
+                      .set('authorization',token).send().end(function(err,res){
+                        res.status.should.be.eql(422);
+                        res.body.should.have.property("msg")
+                        res.body.msg.should.be.eql("Comment already removed")
+                        done();
+                      });
+                    }
+                  });
+
+                }
+              });
+            }
+          
+          });
+        }
+      });
+    }
+});
+}),it('admin should be able to view all reports',function(done){ // Saleh
+  var createdNormal;
+  var createdContent;
+  var createdAdmin;
+  var CommentToDel;
+  Content.create(contentForComments,function(err,ContentDone){
+    if(err){
+
+    }else{
+      createdContent = ContentDone;
+      User.create(normalCommentingUser,function(err,User1Ready){
+        if(err){
+
+        }else{
+          createdNormal = User1Ready
+          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+            if(err){
+              
+            }else{
+              createdAdmin = AdminReady;
+              Comment1 = {
+                body:"tany comment ma3ana",
+                username:createdNormal["username"],
+                userid:createdAdmin["_id"],
+                contentid:createdContent["_id"],
+              }
+              Comment.create(Comment1,function(err,Comment2){
+                if(err){
+
+                }else{
+                  CommentToDel = Comment2;
+                  ReportToMake = {
+                    reporterName:createdAdmin["username"],
+                    reporterId:createdAdmin['_id'],
+                    reportedId:createdNormal['_id'],
+                    reportedName:createdNormal["username"],
+                    commentId:CommentToDel['_id'],
+                    commentBody:CommentToDel["body"]
+                  }
+                  Report.create(ReportToMake,function(err){
+                    if(err){
+
+                    }else{
+                      chai.request(server).get("/api/admin/viewAllReports").set("id",createdAdmin["_id"])
+                      .set('authorization',token).send().end(function(err,res){
+                        res.status.should.be.eql(200);
+                        res.body.should.have.property("data")
+                        res.body.data.should.be.an("array")
+                        done();
+                      });
+                    }
+                  });
+                    }
+                  });
+
+                }
+              });
+            }
+          
+          });
+        }
+      });
+    }),it('Normal user shouldnt be able to view reports',function(done){ // Saleh
+      var createdNormal;
+      var createdContent;
+      var createdAdmin;
+      var CommentToDel;
+      Content.create(contentForComments,function(err,ContentDone){
+        if(err){
+    
+        }else{
+          createdContent = ContentDone;
+          User.create(normalCommentingUser,function(err,User1Ready){
+            if(err){
+    
+            }else{
+              createdNormal = User1Ready
+              User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                if(err){
+                  
+                }else{
+                  createdAdmin = AdminReady;
+                  Comment1 = {
+                    body:"tany comment ma3ana",
+                    username:createdNormal["username"],
+                    userid:createdAdmin["_id"],
+                    contentid:createdContent["_id"],
+                  }
+                  Comment.create(Comment1,function(err,Comment2){
+                    if(err){
+    
+                    }else{
+                      CommentToDel = Comment2;
+                      ReportToMake = {
+                        reporterName:createdAdmin["username"],
+                        reporterId:createdAdmin['_id'],
+                        reportedId:createdNormal['_id'],
+                        reportedName:createdNormal["username"],
+                        commentId:CommentToDel['_id'],
+                        commentBody:CommentToDel["body"]
+                      }
+                      Report.create(ReportToMake,function(err){
+                        if(err){
+    
+                        }else{
+                          chai.request(server).get("/api/admin/viewAllReports").set('id',createdNormal["_id"])
+                          .set('authorization',token).send().end(function(err,res){
+                            res.status.should.be.eql(422);
+                            res.body.should.have.property("msg")
+                            res.body.msg.should.be.eq("Admin not found.")
+                            done();
+                          });
+                        }
+                      });
+                        }
+                      });
+    
+                    }
+                  });
+                }
+              
+              });
+            }
+          });
+        }),it("admin should be able to view all comments inside his activity tracker for the last 7 days",function(done){  // Saleh
+          var createdNormal;
+          var createdContent;
+          var createdAdmin;
+          var CommentToDel;
+          Content.create(contentForComments,function(err,ContentDone){
+            if(err){
+        
+            }else{
+              createdContent = ContentDone;
+              User.create(normalCommentingUser,function(err,User1Ready){
+                if(err){
+        
+                }else{
+                  createdNormal = User1Ready
+                  User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                    if(err){
+                      
+                    }else{
+                      createdAdmin = AdminReady;
+                      Comment1 = {
+                        body:"tany comment ma3ana",
+                        username:createdNormal["username"],
+                        userid:createdAdmin["_id"],
+                        contentid:createdContent["_id"],
+                      }
+                      Comment.create(Comment1,function(err,Comment2){
+                        if(err){
+        
+                        }else{
+                          CommentToDel = Comment2;
+
+                              chai.request(server).get("/api/admin/getActivityComment").set('id',createdAdmin["_id"])
+                              .set('authorization',token).send().end(function(err,res){
+                                res.status.should.be.eql(200);
+                                res.body.should.have.property("data")
+                                res.body.data.should.be.an("array")
+                                done();
+                              });
+                            } 
+                          });
+                        
+                            }
+                          });
+        
+                        }
+                      });
+                    }
+                  
+                  });
+                }),it("users shouldn't be able to view all website comment activity",function(done){ // Saleh
+                  var createdNormal;
+                  var createdContent;
+                  var createdAdmin;
+                  var CommentToDel;
+                  Content.create(contentForComments,function(err,ContentDone){
+                    if(err){
+                
+                    }else{
+                      createdContent = ContentDone;
+                      User.create(normalCommentingUser,function(err,User1Ready){
+                        if(err){
+                
+                        }else{
+                          createdNormal = User1Ready
+                          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                            if(err){
+                              
+                            }else{
+                              createdAdmin = AdminReady;
+                              Comment1 = {
+                                body:"tany comment ma3ana",
+                                username:createdNormal["username"],
+                                userid:createdAdmin["_id"],
+                                contentid:createdContent["_id"],
+                              }
+                              Comment.create(Comment1,function(err,Comment2){
+                                if(err){
+                
+                                }else{
+                                  CommentToDel = Comment2;
+        
+                                      chai.request(server).get("/api/admin/getActivityComment").set('id',createdNormal["_id"])
+                                      .set('authorization',token).send().end(function(err,res){
+                                        res.status.should.be.eql(422);
+                                        res.body.should.have.property("msg")
+                                        res.body.msg.should.be.eql('Not an admin')
+                                        done();
+                                      });
+                                    } 
+                                  });
+                                
+                                    }
+                                  });
+                
+                                }
+                              });
+                            }
+                          
+                          });
+                }),it("admin should be able to view all reports",function(done){ // Saleh
+                  var createdNormal;
+                  var createdContent;
+                  var createdAdmin;
+                  var CommentToDel;
+                  Content.create(contentForComments,function(err,ContentDone){
+                    if(err){
+                
+                    }else{
+                      createdContent = ContentDone;
+                      User.create(normalCommentingUser,function(err,User1Ready){
+                        if(err){
+                
+                        }else{
+                          createdNormal = User1Ready
+                          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                            if(err){
+                              
+                            }else{
+                              createdAdmin = AdminReady;
+                              Comment1 = {
+                                body:"tany comment ma3ana",
+                                username:createdNormal["username"],
+                                userid:createdAdmin["_id"],
+                                contentid:createdContent["_id"],
+                              }
+                              Comment.create(Comment1,function(err,Comment2){
+                                if(err){
+                
+                                }else{
+                                  CommentToDel = Comment2;
+                                  ReportToMake = {
+                                    reporterName:createdAdmin["username"],
+                                    reporterId:createdAdmin['_id'],
+                                    reportedId:createdNormal['_id'],
+                                    reportedName:createdNormal["username"],
+                                    commentId:CommentToDel['_id'],
+                                    commentBody:CommentToDel["body"]
+                                  }
+                                  Report.create(ReportToMake,function(err){
+                                    if(err){
+                
+                                    }else{
+                                      chai.request(server).get("/api/admin/getActivityReport").set('id',createdAdmin["_id"])
+                                      .set('authorization',token).send().end(function(err,res){
+                                        res.status.should.be.eql(200);
+                                        res.body.should.have.property("data")
+                                        res.body.data.should.be.an("array")
+                                        done();
+                                      });
+                                    }
+                                  });
+                                    }
+                                  });
+                
+                                }
+                              });
+                            }
+                          
+                          });
+                        }
+                      });
+                }),it('normal users shouldnt be able to see any reports',function(done){ // Saleh
+                  var createdNormal;
+                  var createdContent;
+                  var createdAdmin;
+                  var CommentToDel;
+                  Content.create(contentForComments,function(err,ContentDone){
+                    if(err){
+                
+                    }else{
+                      createdContent = ContentDone;
+                      User.create(normalCommentingUser,function(err,User1Ready){
+                        if(err){
+                
+                        }else{
+                          createdNormal = User1Ready
+                          User.create(AdminUserToDeleteComments,function(err,AdminReady){
+                            if(err){
+                              
+                            }else{
+                              createdAdmin = AdminReady;
+                              Comment1 = {
+                                body:"tany comment ma3ana",
+                                username:createdNormal["username"],
+                                userid:createdAdmin["_id"],
+                                contentid:createdContent["_id"],
+                              }
+                              Comment.create(Comment1,function(err,Comment2){
+                                if(err){
+                
+                                }else{
+                                  CommentToDel = Comment2;
+                                  ReportToMake = {
+                                    reporterName:createdAdmin["username"],
+                                    reporterId:createdAdmin['_id'],
+                                    reportedId:createdNormal['_id'],
+                                    reportedName:createdNormal["username"],
+                                    commentId:CommentToDel['_id'],
+                                    commentBody:CommentToDel["body"]
+                                  }
+                                  Report.create(ReportToMake,function(err){
+                                    if(err){
+                
+                                    }else{
+                                      chai.request(server).get("/api/admin/getActivityReport").set('id',createdNormal["_id"])
+                                      .set('authorization',token).send().end(function(err,res){
+                                        res.status.should.be.eql(422);
+                                        res.body.should.have.property("msg")
+                                        res.body.msg.should.be.eq("Not an admin")
+                                        done();
+                                      });
+                                    }
+                                  });
+                                    }
+                                  });
+                
+                                }
+                              });
+                            }
+                          
+                          });
+                        }
+                      });
+                });
+
+});
+describe('User deletes his own comments only',function(){  // Loai Testing
+  var contentForComments = {
+    title: "Content for comments",
+    body:"we ady ay body ma3ana",
+    tags:"love hate",
+    type:"Post"
+  }
+  var normalCommentingUser = {
+    'username': 'DummyUser',
+    'firstname': 'Dummy',
+    'lastname': 'user',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :false
+  }
+  var AdminUserToDeleteComments = {
+    'username': 'Admin',
+    'firstname': 'Admin',
+    'lastname': 'Admin',
+    'email': 'Dummymail@guc.edu.eg',
+    'dateOfBirth': '1997-03-03T00:00:00.000Z',
+    'password':'12345678',
+    'admin' :true
+  }
+  it("user should be able to delete his own comment",function(done){
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"awel comment ma3ana",
+                  username:createdNormal["username"],
+                  userid:createdNormal["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,CommentReady){
+                  if(err){
+
+                  }else{
+                    CommentToDel = CommentReady;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdNormal["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      res.status.should.be.eql(201);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("Done")
+                      done();
+                    });
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      }
+    });
+  }),it("user shouldn't be able to delete another user's comment since he is not an admin",function(done){
+    var createdNormal;
+    var createdContent;
+    var createdAdmin;
+    var CommentToDel;
+    Content.create(contentForComments,function(err,ContentDone){
+      if(err){
+
+      }else{
+        createdContent = ContentDone;
+        User.create(normalCommentingUser,function(err,User1Ready){
+          if(err){
+
+          }else{
+            createdNormal = User1Ready
+            User.create(AdminUserToDeleteComments,function(err,AdminReady){
+              if(err){
+                
+              }else{
+                createdAdmin = AdminReady;
+                Comment1 = {
+                  body:"awel comment ma3ana",
+                  username:createdAdmin["username"],
+                  userid:createdAdmin["_id"],
+                  contentid:createdContent["_id"],
+                }
+                Comment.create(Comment1,function(err,CommentReady){
+                  if(err){
+
+                  }else{
+                    CommentToDel = CommentReady;
+                    chai.request(server).delete("/api/Content/deleteComment/"+CommentToDel["_id"]+".."+createdNormal["_id"])
+                    .set('authorization',token).send().end(function(err,res){
+                      res.status.should.be.eql(422);
+                      res.body.should.have.property("msg")
+                      res.body.msg.should.be.eql("This user didn't comment on this post")
+                      done();
+                    });
+                  }
+                });
+
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+});
 
 
 describe('Remove expert test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should remove the expert  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -231,8 +877,6 @@ describe('Remove expert test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/removeExpert/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -257,7 +901,7 @@ describe('Remove expert test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -267,7 +911,7 @@ describe('Remove expert test' , function(){
   });
 });
 describe('Add Expert test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should register a new Expert  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -301,8 +945,6 @@ describe('Add Expert test' , function(){
           }
           else{
             newexperttest =newUser ;
-            console.log(newexperttest['_id']);
-            console.log("HERE");
             chai.request(server)
             .patch('/api/admin/addExpert/'+newexperttest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -353,7 +995,7 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
       return next(err);
     }
     currentadmintest =newUser ;
-  });
+
   var newexpert  = {
     'username': 'DummyUser',
     'firstname': 'Dummy',
@@ -370,7 +1012,7 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
     }
     newexperttest =newUser ;
 
-    // t send request lel server w te3mel el method el 3ayezha t check
+
     chai.request(server)
     .patch('/api/admin/addExpert/'+newexperttest['_id'])
     .send({userid:currentadmintest['_id']})
@@ -384,10 +1026,11 @@ it('it shouldnt register a new Expert without the user being admin ' , function(
   });
 });
 });
+});
 
 
 describe('Get Tags test' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should get tags of user ' , function(done) {
     var admin  = {
       'username': 'Dummyadmin',
@@ -405,7 +1048,7 @@ describe('Get Tags test' , function() {
       }
       testuser =newUser ;
 
-      // t send request lel server w te3mel el method el 3ayezha t check
+
       chai.request(server)
       .get('/api/admin/getUserTags/'+testuser['_id'])
       .set('authorization',token)
@@ -455,19 +1098,19 @@ describe('Update Expert Tag test' , function() {
         }
         newadmintest =newUser ;
 
-      chai.request(server)
-      .patch('/api/admin/UpdateExpertTag/'+newadmintest['_id'])
-      .send({tags:'ay kalam',userid:currentadmintest['_id']})
-      .set('authorization',token)
-      .end(function(err ,res) {
-        res.status.should.be.eql(200);
-        res.body.should.have.property('msg');
-        res.body.msg.should.be.eql('User retrieved correctly');
-        done();
+        chai.request(server)
+        .patch('/api/admin/UpdateExpertTag/'+newadmintest['_id'])
+        .send({tags:'ay kalam',userid:currentadmintest['_id']})
+        .set('authorization',token)
+        .end(function(err ,res) {
+          res.status.should.be.eql(200);
+          res.body.should.have.property('msg');
+          res.body.msg.should.be.eql('User retrieved correctly');
+          done();
+        });
       });
     });
   });
-});
 });
 describe('Get Users test' , function() {
   it('Get Users : should get users correctly' , function(done) {
@@ -503,7 +1146,7 @@ describe('Get Users test' , function() {
 });
 
 describe('Remove expert test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should remove expert  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -537,7 +1180,7 @@ describe('Remove expert test' , function(){
         }
         newadmintest =newUser ;
 
-        // t send request lel server w te3mel el method el 3ayezha t check
+
         chai.request(server)
         .patch('/api/admin/removeExpert/'+newadmintest['_id'])
         .send({userid:currentadmintest['_id']})
@@ -583,8 +1226,6 @@ describe('Remove expert test' , function(){
             }
             else{
               newadmintest =newUser ;
-              console.log(newadmintest['_id']);
-              console.log("hererererer");
               chai.request(server)
               .patch('/api/admin/removeExpert/'+newadmintest['_id'])
               .send({userid:currentadmintest['_id']})
@@ -599,7 +1240,7 @@ describe('Remove expert test' , function(){
             };
 
           });
-          // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
         }
@@ -613,7 +1254,7 @@ describe('Remove expert test' , function(){
 
 
   describe('Unblock user test' , function(){
-    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
     it('it Unblock user  ' , function(done) {
       var currentadmin  = {
         'username': 'Dummyadmin',
@@ -647,8 +1288,6 @@ describe('Remove expert test' , function(){
             }
             else{
               newadmintest =newUser ;
-              console.log(newadmintest['_id']);
-              console.log("hererererer");
               chai.request(server)
               .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
               .send({userid:currentadmintest['_id']})
@@ -673,7 +1312,7 @@ describe('Remove expert test' , function(){
             };
 
           });
-          // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
         }
@@ -718,8 +1357,6 @@ describe('Remove expert test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/unBlockUser/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -733,7 +1370,7 @@ describe('Remove expert test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -744,7 +1381,7 @@ describe('Remove expert test' , function(){
   });
 });
 describe('Remove admin test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should remove Admin  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -778,8 +1415,6 @@ describe('Remove admin test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
             .send({userid:currentadmintest['_id']})
@@ -804,7 +1439,7 @@ describe('Remove admin test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -849,8 +1484,6 @@ it('it shouldnt remove Admin  ' , function(done) {
         }
         else{
           newadmintest =newUser ;
-          console.log(newadmintest['_id']);
-          console.log("hererererer");
           chai.request(server)
           .patch('/api/admin/removeAdmin/'+newadmintest['_id'])
           .send({userid:currentadmintest['_id']})
@@ -865,7 +1498,7 @@ it('it shouldnt remove Admin  ' , function(done) {
         };
 
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
     }
@@ -876,7 +1509,7 @@ it('it shouldnt remove Admin  ' , function(done) {
 });
 });
 describe('Get user by id test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it should get user  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -908,7 +1541,6 @@ describe('Get user by id test' , function(){
           return next(err);
         }
         newadmintest =newUser ;
-        console.log(currentadmintest['_id']);
         chai.request(server)
         .get('/api/admin/getUserById/'+newadmintest['_id'])
         .set('id', currentadmintest['_id'])
@@ -962,8 +1594,6 @@ describe('Get user by id test' , function(){
           }
           else{
             newadmintest =newUser2 ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .get('/api/admin/getUserById/'+newadmintest['_id'])
             .set('id', currentadmintest['_id'])
@@ -983,7 +1613,7 @@ describe('Get user by id test' , function(){
   });
 });
 describe('Testing View Companies' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('View Companies : should get companies correctly' , function(done) {
     this.timeout(10000);
     chai.request(server)
@@ -1000,7 +1630,7 @@ describe('Testing View Companies' , function() {
 });
 
 describe('Testing get Companies' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Get Companies : should get companies correctly' , function(done) {
     this.timeout(10000);
     chai.request(server)
@@ -1018,7 +1648,7 @@ describe('Testing get Companies' , function() {
 
 
 describe('Testing delete company' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Delete Company :it should delete company when valid company id' , function(done) {
     this.timeout(10000);
     var usertestid;
@@ -1061,7 +1691,7 @@ describe('Testing delete company' , function() {
           done();
         });
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
+
     });
   });
 
@@ -1095,7 +1725,7 @@ describe('Testing delete company' , function() {
 });
 
 describe('Testing get Companies' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Get Companies : should get companies correctly' , function(done) {
     this.timeout(10000);
     chai.request(server)
@@ -1112,7 +1742,7 @@ describe('Testing get Companies' , function() {
 });
 
 describe('Block user test' , function(){
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('it Blocks user  ' , function(done) {
     var currentadmin  = {
       'username': 'Dummyadmin',
@@ -1146,12 +1776,11 @@ describe('Block user test' , function(){
           }
           else{
             newadmintest =newUser ;
-            console.log(newadmintest['_id']);
-            console.log("hererererer");
             chai.request(server)
             .patch('/api/admin/BlockUser/'+newadmintest['_id'])
             .set('id', currentadmintest['_id'])
             .set('authorization',token)
+            .send({userid:currentadmintest["_id"]})
             .end(function(err ,res) {
               res.status.should.be.eql(200);
               res.body.should.have.property('msg');
@@ -1172,7 +1801,7 @@ describe('Block user test' , function(){
           };
 
         });
-        // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
       }
@@ -1217,12 +1846,11 @@ it('it shouldnt block user without user being admin  ' , function(done) {
         }
         else{
           newadmintest =newUser ;
-          console.log(newadmintest['_id']);
-          console.log("hererererer");
           chai.request(server)
           .patch('/api/admin/BlockUser/'+newadmintest['_id'])
           .set('id', currentadmintest['_id'])
           .set('authorization',token)
+          .send({userid:currentadmintest["_id"]})
           .end(function(err ,res) {
             res.status.should.be.eql(422);
             res.body.should.have.property('msg');
@@ -1232,7 +1860,7 @@ it('it shouldnt block user without user being admin  ' , function(done) {
         };
 
       });
-      // t send request lel server w te3mel el method el 3ayezha t check
+
 
 
     }
@@ -1249,7 +1877,7 @@ it('it shouldnt block user without user being admin  ' , function(done) {
 
 
 describe('Testing Adding a Company' , function() {
-  // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
+
   it('Add Company : it should add a company succesfully when correct attributes are given' , function(done) {
     this.timeout(100000);
     var admintestid;
@@ -1287,7 +1915,7 @@ describe('Testing Adding a Company' , function() {
         done();
       });
 
-      // t send request lel server w te3mel el method el 3ayezha t check
+
     });
   });
 
@@ -1327,7 +1955,7 @@ describe('Testing Adding a Company' , function() {
         done();
       });
 
-      // t send request lel server w te3mel el method el 3ayezha t check
+
     });
   });
 });

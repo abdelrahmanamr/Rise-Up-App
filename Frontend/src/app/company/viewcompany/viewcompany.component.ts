@@ -1,3 +1,6 @@
+//Contributers : ahmed akram , youssef khayat,omar tarek
+//Methods:View Company ,remove Company
+//Data modified:5/5/2018
 import { Component, OnInit , ViewChild } from '@angular/core';
 import {Router} from "@angular/router";
 import { HttpClient } from '@angular/common/http';
@@ -18,7 +21,7 @@ export class ViewCompanyComponent {
 	adminStatus : boolean = false;
 	Url = "";
 
-	constructor(private toastr: ToastrService,private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) { 
+	constructor(private toastr: ToastrService,private httpClient: HttpClient,private router: Router,private domSanitizer: DomSanitizer) {
 		this.Url=window.location.href;
 		this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
 
@@ -30,14 +33,14 @@ export class ViewCompanyComponent {
 			this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
 		}
 		var config ={
-				headers : 
+				headers :
 				{
 			'Content-Type':'application/json'
 				}
 		}
 		this.httpClient.get(environment.apiUrl +'/Company/viewCompany/'+this.ID,config).subscribe(
-				res=>{  
-					this.Company = res['data'];  
+				res=>{
+					this.Company = res['data'];
 					this.Company['tags']= this.Company['tags'].split(",");
 				});
 
@@ -48,7 +51,7 @@ export class ViewCompanyComponent {
 
 
 		var config = {
-				headers : 
+				headers :
 				{
 			'Content-Type':'application/json',
 			"id":JSON.parse(localStorage.getItem("userProps"))["_id"],
@@ -65,7 +68,7 @@ export class ViewCompanyComponent {
 			if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
 				localStorage.clear();
 				this.router.navigateByUrl("/search/searchresults")
-			}     
+			}
 		});
 
 

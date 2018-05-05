@@ -1,3 +1,6 @@
+//Contributers : ahmed akram, youssef khayat
+//Methods:View Companies ,Company Views
+//Data modified:5/5/2018
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -25,7 +28,7 @@ ngOnInit() {
 
 ViewCompanies(){
 	this.httpClient.get(environment.apiUrl +'Company/viewCompanies').subscribe(
-			res=>{  
+			res=>{
 				this.companies=res['data'];
 				this.companies.forEach(company => {
 					company.tags=company.tags.split(",");
@@ -39,13 +42,13 @@ ViewCompanies(){
 
 ViewCompany(ID: string){
 	var config = {
-			headers : 
+			headers :
 			{
 		'Content-Type':'application/json'
 			}
 	}
 	this.httpClient.patch(environment.apiUrl+"company/CompanyViews/"+ID,config).subscribe(
-			res=>{  
+			res=>{
 				this.companies=res['data']
 			}
 			);

@@ -441,6 +441,7 @@ module.exports.createComment = function(req, res, next) { //method createComment
 			});
 		});
 	}}
+}
 
 
 
@@ -654,5 +655,4 @@ module.exports.makeReport = function(req,res,next){ // This method allow the use
 			}
 		});
 	}
-
 }

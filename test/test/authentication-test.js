@@ -12,7 +12,7 @@ dbURI = 'mongodb://localhost:27017/nodejs-test';
 chai.use(chaiHttp);
 
 const registeringUserCredentials = {
-    username: 'ranon1', 
+    username: 'ranon0', 
     password: 'helloworld',
     confirmPassword: 'helloworld',
     // token: '123',
@@ -22,7 +22,7 @@ const registeringUserCredentials = {
   }
 
   const registeringUserLoginCredentials = {
-      username: 'ranon',
+      username: 'ranon1',
       password: 'testingpassword'
   }
 
@@ -34,10 +34,10 @@ const registeringUserCredentials = {
 
 
   describe('Testing Authentication',function(){
-    beforeEach(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
+    before(function(done){                   // Registering a user to use in further tests before running, cant use the above hardcoded one as it doesn't test hashing
     mongoose.connect('mongodb://localhost:27017/nodejs-test');
         var data = {
-        username: 'ranon',
+        username: 'ranon1',
           securityQ: 'user.secQField',
           securityA : 'user.secAField',
           password: 'testingpassword',
@@ -46,12 +46,12 @@ const registeringUserCredentials = {
           firstname: 'ranon',
           lastname: "talaat",
         tags:"result",
-        email: "register@user.com",
+        email: "register1@user.com",
         dateOfBirth:"19/1/2018"
     };
     chai.request(server).post('/api/user/register').send(data).end(function(err,res){
         res.should.have.status(201);
-      User.findOne({"username":"ranon"}).exec(function(err,userfound){
+      User.findOne({"username":"ranon1"}).exec(function(err,userfound){
           authenticatedUser2 = userfound;
           done();
           });
@@ -145,9 +145,6 @@ const registeringUserCredentials = {
           done();
         });
     });
-    afterEach(function(done){
-        User.collection.drop();
-        done();
-    });
+
   });
 

@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/* Contributers : Shehab El Shennawy , Abdelrahman Ashraf
+   Methods : ngOnInit(),onSubmit()
+   Date Edited : 5/5/2018
+ */
 @Component({
   selector: 'app-user-login',
   styles:
@@ -14,9 +18,9 @@ import { ToastrService } from 'ngx-toastr';
   <label  style="font-size: 50px;;font-weight: bold;">
       Change Your Password!
 
-  </label>
-  <input type = "password" class="form-control" name = "oldpassword" placeholder = "Enter your current password" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
-  <br>
+</label>
+<input type = "password" class="form-control" name = "oldpassword" placeholder = "Enter your current password" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
+<br>
 <input type = "password" class="form-control" name = "newpassword" placeholder = "Enter your new password" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "ngModel>
 <br>
 <label  style="font-size: 25px;;font-weight: bold;">
@@ -24,11 +28,11 @@ Password Must Atleast be 6 characters long
 </label>
 <input type = "password" class="form-control" name = "confirmpassword" placeholder = "Confirm your new password" style="width: 250px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top: 10px;" ngModel>
 <br>
-  <div id="left">
-  </div>
-  
-  
-  <div id="right">
+<div id="left">
+</div>
+
+
+<div id="right">
 <input class="btn btn-success" type = "submit" value = "Confirm" style="background-color:#DC0C18">   {{errorView}}  
 </div>
 
@@ -74,9 +78,5 @@ export class ChangePasswordComponent implements OnInit {
         }
       }
       );
-
-
   }
-
-
 }

@@ -8,7 +8,11 @@ import { ViewEncapsulation, ElementRef, PipeTransform, Pipe } from '@angular/cor
 import { ValueTransformer } from '@angular/compiler/src/util';
 import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 import { ToastrService } from 'ngx-toastr';
-
+/*  Contributers : Saleh Elhadidy , Ahmed Akram , Mohamed Elgabry , Rana Talaat ,  Youssef Yasser , Bassant Hossam , Khayat
+    Methods : ShowPopUp , ngOnInit , rate , GetContent , viewAdder , ViewText , ViewLink , ViewImage , DeleteContent , createComment , ViewComments
+    , deleteComment , reportComment , toggle , EditContent , views
+    Date Edited : 5/5/2018
+*/
 
 //a pipe to implement secure embeding of any external link
 @Pipe({ name: 'safe' })
@@ -227,8 +231,6 @@ export class ViewContentComponent {
         }
       }
       );
-
-
   }
 
   createComment(ID: String, comment: string) //this method is called on clicking on button "Comment" once the user finished his comment, and the method calls post httprequest createComment method in the backend

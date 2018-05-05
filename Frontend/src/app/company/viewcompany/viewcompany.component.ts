@@ -5,7 +5,9 @@ import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-
+//Contributers : ahmed akram , youssef khayat,omar tarek
+//Methods:View Company ,remove Company
+//Data modified:5/5/2018
 
 @Component({
 	selector: 'app-company-viewcompany',
@@ -20,6 +22,7 @@ export class ViewCompanyComponent {
 
 	constructor(private toastr: ToastrService, private httpClient: HttpClient, private router: Router, private domSanitizer: DomSanitizer) {
 		this.Url = window.location.href;
+
 		this.ID = this.Url.substr(this.Url.lastIndexOf('/') + 1);
 
 	}
@@ -31,6 +34,7 @@ export class ViewCompanyComponent {
 		}
 		var config = {
 			headers:
+
 				{
 					'Content-Type': 'application/json'
 				}
@@ -50,6 +54,7 @@ export class ViewCompanyComponent {
 
 		var config = {
 			headers:
+
 				{
 					'Content-Type': 'application/json',
 					"id": JSON.parse(localStorage.getItem("userProps"))["_id"],
@@ -66,6 +71,7 @@ export class ViewCompanyComponent {
 					this.router.navigateByUrl("/search/searchresults")
 				}
 			});
+
 
 
 	}

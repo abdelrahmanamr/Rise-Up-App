@@ -4,12 +4,13 @@ import { Router } from "@angular/router";
 import { environment } from '../../../environments/environment';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from 'ngx-toastr';
-
+/* Contributers : Karim Elghandour,Loai Alaa
+   Methods : ngOnInit(),OnTagsChanged()
+   Date Edited : 5/5/2018
+ */
 @Component({
     selector: 'app-user-edit',
     templateUrl: `edit.html`
-
-
 })
 export class EditComponent {
     data = {};

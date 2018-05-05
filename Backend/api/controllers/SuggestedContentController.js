@@ -5,9 +5,13 @@ var mongoose = require('mongoose'),
 	SuggestedContent = mongoose.model('SuggestedContent');
 User = mongoose.model('User');
 
-
 module.exports.viewSuggestedContents = function (req, res, next) { // This method retrieves all suggested contents 
 	SuggestedContent.find({}).exec(function (err, contents) {
+
+/* Methods : viewSuggestedContents,viewSuggestedContent,updateSuggestedContent,removeSuggestedContent,createSuggestedContent
+Date Edited : 5/5/2018
+*/
+
 		if (err) {
 			return next(err);
 		}

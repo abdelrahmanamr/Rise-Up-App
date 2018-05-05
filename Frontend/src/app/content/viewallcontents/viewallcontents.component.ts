@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/*  Contributers : Ahmed Akram
+    Methods : ngOnInit ,  ViewContents , views , ViewContent , EditContent
+    Date Edited : 5/5/2018
+*/
 @Component({
   selector: 'app-dashboard-items',
   templateUrl: `viewallcontents.html`

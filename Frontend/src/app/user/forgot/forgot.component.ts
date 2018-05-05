@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/* Contributers : Saleh Elhadidy , Loai Alaa
+   Methods : onSubmit(user),ngOnInit
+   Date Edited : 5/5/2018
+ */
 @Component({
   selector: 'app-user-login',
   styles:
@@ -58,6 +62,12 @@ export class ForgotComponent implements OnInit {
 
           this.router.navigate(["/search"]);
 
+				var config = {
+						headers : {
+			'Content-Type': 'application/json',
+			'authorization':localStorage.getItem('UserDoc')
+		}
+		}
 
         }
 
@@ -69,6 +79,4 @@ export class ForgotComponent implements OnInit {
 
 
   }
-
-
 }

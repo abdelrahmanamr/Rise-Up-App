@@ -11,13 +11,14 @@ import * as QuillNamespace from 'quill';
 let Quill: any = QuillNamespace;
 import BlotFormatter from 'quill-blot-formatter';
 Quill.register('modules/blotFormatter', BlotFormatter);
-
-
-
+/*  Contributers : Karim Elghandour , Khaled Aboelnaga , Ahmed Hossam , Ali Amr
+    Methods : onTagsChanged , ChangeType , ngOnInit , uploadImage , onSelectFile , setFocus , onSubmit
+    Date Edited : 5/5/2018
+ */
 @Component({
-  selector: 'app-content-create',
-  templateUrl: 'create.html',
-  styleUrls: ['style.css']
+	selector: 'app-content-create',
+	templateUrl: 'create.html',
+	styleUrls: ['style.css']
 })
 export class CreateComponent implements OnInit {
 
@@ -192,6 +193,4 @@ export class CreateComponent implements OnInit {
 
     }
   }
-
-
 }

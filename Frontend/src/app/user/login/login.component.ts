@@ -4,7 +4,10 @@ import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 import * as JWT from 'jwt-decode';
-
+/* Contributers : Saleh Elhadidy , Loai Alaa
+Methods : OnSubmit(User);
+Date Edited : 5/5/2018
+ */
 @Component({
     selector: 'app-user-login',
     styles:
@@ -86,8 +89,10 @@ export class LoginComponent {
             }
             );
 
-
+				var config = {
+						headers : {
+			'Content-Type': 'application/json'
+		}
+		}
     }
-
-
 }

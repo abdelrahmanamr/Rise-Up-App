@@ -245,10 +245,6 @@ export class SearchResultComponent implements OnInit {
             this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);
 
         }
-
-
-
-
     }
     viewCompany(id: string) {
         this.router.navigateByUrl('/company/viewcompany/' + id);

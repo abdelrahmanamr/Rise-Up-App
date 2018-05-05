@@ -4,6 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/*  Contributers : Mohamed Ashraf , Karim Elghandour , Ahmed Hossam
+    Methods : ngOnInit , ViewContents , ViewContent
+    Date Edited : 5/5/2018
+*/
 @Component({
   selector: 'app-content-suggestedcontent',
   templateUrl: 'suggestedcontent.html'

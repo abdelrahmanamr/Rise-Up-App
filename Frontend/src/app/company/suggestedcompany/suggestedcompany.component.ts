@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { environment } from '../../../environments/environment';
+//Contributers : khaled abo el naga
+//Methods:Add Suggested Company
+//Data modified:5/5/2018
 
 @Component({
     selector: 'app-dashboard-items-addcompany',
@@ -32,7 +35,6 @@ export class SuggestedcompanyComponent implements OnInit {
                 type: companyForm.companytype,
                 userid: JSON.parse(localStorage.getItem("userProps"))["_id"]
             });
-
         var config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -46,8 +48,6 @@ export class SuggestedcompanyComponent implements OnInit {
                 , err => {
                     this.errorHandle = err['error']['msg'];
                 });
-
-
     }
 
 

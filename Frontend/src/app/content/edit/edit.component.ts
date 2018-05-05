@@ -10,13 +10,16 @@ import { ToastrService } from 'ngx-toastr';
 let Quill: any = QuillNamespace;
 import BlotFormatter from 'quill-blot-formatter';
 Quill.register('modules/blotFormatter', BlotFormatter);
+/*  Contributers : Omar Elzamarany , Ahmed Hossam  
+    Methods : onTagsChanged , changeType , GetContent , ngOnInit , onSubmit , setFocus , 
 
-
+ */
 
 @Component({
   selector: 'app-content-create',
   templateUrl: `edit.html`,
   styleUrls: ['style.css']
+
 })
 export class EditComponent implements OnInit {
 
@@ -203,6 +206,4 @@ export class EditComponent implements OnInit {
 
     }
   }
-
-
 }

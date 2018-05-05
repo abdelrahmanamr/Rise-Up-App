@@ -9,16 +9,19 @@ var mongoose = require('mongoose'),
 	Comment = mongoose.model('Comment');
 ApplyExpert = mongoose.model('ApplyExpert');
 
-//Amr Abulfadl
-// Gives a user an expert status after checking that the user making the request is an admin
-module.exports.AddExpert = function (req, res, next) { // Gives a user an expert status after checking tat the user making the request is an admin
-	if (!Validations.isObjectId(req.params.userId)) {
-		return res.status(422).json
-			({
-				err: null,
-				msg: 'userId parameter must be a valid ObjectId',
-				data: null
-			});
+/* Methods : AddExpert,RemoveRequest,getActivityComment,getActivityReport,deleteComment,UpdateExpertTags,BlockUser,AddAdmin,RemoveExpert,
+UnblockUser,RemoveAdmin,removeCompany,getCompanies,viewAllReports,getTags,getUsers,getUserById,addCompany,viewCompanies
+Date Edited : 5/5/2018
+*/
+//Amr AbulFadl
+module.exports.AddExpert=function(req, res, next){ // Gives a user an expert status after checking tat the user making the request is an admin
+	if(!Validations.isObjectId(req.params.userId)){
+		return res.status(422).json({
+			err: null,
+			msg: 'userId parameter must be a valid ObjectId',
+			data: null
+		});
+
 	}
 
 	User.findById(req.body.userid).exec(function (err, user) {

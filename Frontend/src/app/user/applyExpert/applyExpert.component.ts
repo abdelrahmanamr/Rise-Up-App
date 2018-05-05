@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/* Contributer : Ahmed Hossam,KarimElghandour
+   Methods :onSubmit();
+   Date Edited : 5/5/2018
+ */
 @Component({
   selector: 'app-user-applyExpert',
   styles:
@@ -36,7 +40,7 @@ export class ApplyExpertComponent implements OnInit {
   }
   ngOnInit() {
 
-  }
+	}
 
   onSubmit = function (user) {
     var id = JSON.parse(localStorage.getItem("userProps"))["_id"];
@@ -50,11 +54,7 @@ export class ApplyExpertComponent implements OnInit {
     }
 
     this.http.post('http://localhost:3000/api/applyExpert/createApplyExpert', data, config)
-      .subscribe(res => {
-
-        this.router.navigateByUrl("/");
-
-
+      .subscribe(res => {this.router.navigateByUrl("/");
       }, err => {
         this.toastr.error("", err.error["msg"])
         this.errorView = err.error["msg"];
@@ -63,6 +63,4 @@ export class ApplyExpertComponent implements OnInit {
 
 
   }
-
-
 }

@@ -1,3 +1,6 @@
+//Contributers : ahmed akram, youssef khayat
+//Methods:View Companies ,Company Views
+//Data modified:5/5/2018
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -23,10 +26,12 @@ export class ViewAllCompaniesComponent {
 		this.ViewCompanies();
 	}
 
+
 	ViewCompanies() {
 		this.httpClient.get(environment.apiUrl + 'Company/viewCompanies').subscribe(
 			res => {
 				this.companies = res['data'];
+
 				this.companies.forEach(company => {
 					company.tags = company.tags.split(",");
 				});
@@ -47,6 +52,7 @@ export class ViewAllCompaniesComponent {
 		this.httpClient.patch(environment.apiUrl + "company/CompanyViews/" + ID, config).subscribe(
 			res => {
 				this.companies = res['data']
+
 			}
 		);
 		this.router.navigateByUrl('/company/viewcompany/' + ID);
@@ -58,3 +64,4 @@ export class ViewAllCompaniesComponent {
 		this.router.navigate(["/admin/addcompany"]);
 	}
 }
+

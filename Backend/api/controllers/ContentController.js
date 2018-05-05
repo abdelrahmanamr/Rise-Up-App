@@ -10,8 +10,10 @@ User = mongoose.model('User');
 Rating = mongoose.model('Rating');
 Report = mongoose.model('Report');
 
-
-module.exports.views = function (req, res, next) { //the views method increment the views count by one every time it is called
+/* Methods : views,viewContents,viewContent,removeContent,editContent,createContent,rateNew,createComment,getComments,deleteComment,makeReport
+Date Edited : 5/5/2018
+*/
+module.exports.views = function(req, res, next) { //the views method increment the views count by one every time it is called
 	if (!Validations.isObjectId(req.params.contentId)) {
 		return res.status(422).json({
 			err: null,
@@ -264,6 +266,7 @@ module.exports.createContent = function (req, res, next) { //This method creates
 				}
 			}
 		});
+
 	}
 }
 

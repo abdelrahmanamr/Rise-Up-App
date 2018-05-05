@@ -4,6 +4,10 @@ import { environment } from '../../../environments/environment';
 import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from 'ngx-toastr';
+/* Contributers : Ali Amr, Omar Elzamarany, Loai Alaa , Saleh Elhadidy , Shehab El Shennawy , Abdelrahman Ashraf
+   Methods : ngOnInit,onTagsChanged,checkUsername,onSubmit
+   Date Edited : 5/5/2018
+ */
 @Component({
     selector: 'app-user-register',
     styles:
@@ -13,90 +17,91 @@ import { ToastrService } from 'ngx-toastr';
     ,
     template: ` <form [formGroup]="myForm"class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
 
-  <label for="wrapper"  style="font-size: 55px;;font-weight: bold;">
-      Register!
 
-  </label>
+<label for="wrapper"  style="font-size: 55px;;font-weight: bold;">
+Register!
 
-      <div class="form-group" id="wrapper">
-      <div id = "right">
+</label>
+
+<div class="form-group" id="wrapper">
+<div id = "right">
 <div>
 
 
-    <label for="usertags">Please write your tag and press "Enter" to add it,or press "Backspace" to edit it.</label>
-    <tags-input class="form-control input-lg" formControlName="usertags" style=" color:#000000; width: 300px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" type="text" placeholder="Tags"
-                (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
-    
-    
+<label for="usertags">Please write your tag and press "Enter" to add it,or press "Backspace" to edit it.</label>
+<tags-input class="form-control input-lg" formControlName="usertags" style=" color:#000000; width: 300px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" type="text" placeholder="Tags"
+(onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+
+
 </div>
-      <div>
+<div>
 
-          <input placeholder= "Security Question" type="text" id="SQ" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1; margin-top:15px;" class="form-control"
-                 formControlName="secQField" ngModel></div>
+<input placeholder= "Security Question" type="text" id="SQ" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1; margin-top:15px;" class="form-control"
+formControlName="secQField" ngModel></div>
 
 
-      <div>
+<div>
 
-          <input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
-                 formControlName="secAField" ngModel></div>
-    <div>
-    <label for="bdate"  style="margin-top:10px; "> Birthdate: </label>
+<input placeholder= "Security Answer" type="text" id="SA"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px;  " class="form-control"
+formControlName="secAField" ngModel></div>
+<div>
+<label for="bdate"  style="margin-top:10px; "> Birthdate: </label>
 
- <input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px; ">
- </div>
-      <div>
+<input placeholder="Birthdate" formControlName="bDateField" type="date" id="bdate" name="bday" max="1979-12-31" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:15px; ">
+</div>
+<div>
 <br />
-          <input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register">
+<input  class="btn btn-danger"type = "submit" [disabled]="! myForm.valid" value = "Register">
 
-      </div>
-      </div>
-     <div id="left">
-
-
-          <div>
-
-              <input placeholder= "Username" type="text" id="uname" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1; margin-top:10px;" class="form-control"
-                     formControlName="userNameField" (blur) = "checkUsername(userForm.value.userNameField)" ngModel></div>
+</div>
+</div>
+<div id="left">
 
 
-          <div>
+<div>
 
-              <input placeholder= "First Name" type="text" id="fname"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;  " class="form-control"
-                     formControlName="firstNameField" ngModel></div>
+<input placeholder= "Username" type="text" id="uname" style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1; margin-top:10px;" class="form-control"
+formControlName="userNameField" (blur) = "checkUsername(userForm.value.userNameField)" ngModel></div>
 
-          <div>
 
-              <input placeholder= "Last Name" type="text" id="lname"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
-                     formControlName="lastNameField" ngModel>
-          </div>
+<div>
 
-          <div>
+<input placeholder= "First Name" type="text" id="fname"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;  " class="form-control"
+formControlName="firstNameField" ngModel></div>
 
-              <input placeholder= "Password" type="password" id="pass"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
-                     formControlName="passwordField" ngModel>
+<div>
 
-          </div>
-          <div>
+<input placeholder= "Last Name" type="text" id="lname"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+formControlName="lastNameField" ngModel>
+</div>
 
-              <input placeholder= "Repeat Password" type="password" id="pass2"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
-                     formControlName="passwordField2" ngModel>
+<div>
+
+<input placeholder= "Password" type="password" id="pass"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+formControlName="passwordField" ngModel>
+
+</div>
+<div>
+
+<input placeholder= "Repeat Password" type="password" id="pass2"style="width: 200px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+formControlName="passwordField2" ngModel>
 <label for="pass2" style="margin-top:10px;"> Password must atleast be 8 characters long </label>
-          </div>
-          <div>
+</div>
+<div>
 
-              <input placeholder = "Email" type="text" id="email"style="width: 300px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
-                     formControlName="emailField" ngModel>
-          </div>
+<input placeholder = "Email" type="text" id="email"style="width: 300px;padding: 10px;  border: 3px solid black;line-height: 1;margin-top:10px;" class="form-control"
+formControlName="emailField" ngModel>
+</div>
 
 <div >
- </div>
 </div>
-           </div>
-           {{errorhandle}}
-  </form>
+</div>
+</div>
+{{errorhandle}}
+</form>
 
 
-  `
+`
 })
 export class RegisterComponent implements OnInit {
 
@@ -107,9 +112,7 @@ export class RegisterComponent implements OnInit {
 
     onTagsChanged($event) {
 
-
-
-    }
+}
 
 
     ngOnInit() {

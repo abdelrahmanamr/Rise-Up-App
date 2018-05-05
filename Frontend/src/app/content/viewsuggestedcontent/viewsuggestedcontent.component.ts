@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { ToastrService } from 'ngx-toastr';
-
+/*	Contributers : Karim Elghanour , Ahmed Hossam 
+	Methods : ngOnInit , EditContent , GetContent , ViewText , ViewLink , ViewImage , DeleteContent , AddContent , DisapproveContent
+	Date Edited : 5/5/2018
+ */
 @Component({
 	selector: 'app-content-viewsuggestedcontent',
 	templateUrl: `viewsuggestedcontent.html`
@@ -21,8 +24,6 @@ export class ViewSuggestedContentComponent {
 	adminStatus: boolean = false;
 	public contents: any[] = [];
 	user = null;
-
-
 
 	constructor(private httpClient: HttpClient, private router: Router,
 		private toastr: ToastrService, private domSanitizer: DomSanitizer) { }
@@ -121,7 +122,6 @@ export class ViewSuggestedContentComponent {
 	}
 
 	DeleteContent(ident: string) {
-
 		var config = {
 			headers: {
 				'Content-Type': 'application/json',
@@ -129,12 +129,9 @@ export class ViewSuggestedContentComponent {
 			}
 		}
 		this.httpClient.delete(environment.apiUrl + 'suggestedcontent/deleteSuggestedContent/' + ident, config).
-
 			subscribe(res => {
 				this.router.navigateByUrl('/content/suggestedcontent');
 			});
-
-
 	}
 	AddContent(ident: string) {
 		var config = {

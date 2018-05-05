@@ -6,6 +6,13 @@ var mongoose = require('mongoose'),
 
 
 module.exports.addSuggestedCompany = function (req, res, next) { // Adds suggested company by id  to the database
+moment = require('moment'),
+Validations = require('../utils/Validations'),
+SuggestedCompany = mongoose.model('SuggestedCompany');
+/* Methods : addSuggestedCompany,getSuggestedCompanies,viewSuggestedCompany,updateSuggestedCompany
+Date Edited :  5/5/2018
+*/
+
 
 	var valid =
 

@@ -59,7 +59,6 @@
 //                             authenticatedAdmin = user1found;
 //                             User.findOne({"username":"user"}).exec(function(err,userfound){
 //                                 authenticatedUser = userfound;
-//                              console.log(userfound['_id'] + "  ahpwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
 //                                 const content = {
 //                                     title: 'testing',
 //                                       type: 'Post',
@@ -77,7 +76,7 @@
 //                                 .end(function(err,res){
 //                                 token = res.body.data;
 //                                 chai.request(server).post('/api/content/addContent').send(content).end(function(err,res){
-//                                     //console.log(res['data'] + " ahooowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+//                                    
 //                                     res.should.have.status(201);
 //                                     Content.findOne({"title":"testing"}).sort([['date', -1]]).exec(function(err,contentfound){
 //                                     foundcontent = contentfound;
@@ -134,9 +133,8 @@
 //         });
     
 //     });
-//     it('should list ALL comments on /api/Content/getComments GET',function(done){
+//     it('should list ALL comments on /api/Content/getComments GET',function(done){ // Youssef Yasser
 //         // Content.find({'contentId':content['_id']}).exec(function(err,content){
-// console.log(foundcontent + " " + "ahooooooooooooooooooooooooooooooooooooooooooooooooooo");
 //         chai.request(server)
 //             .get('/api/Content/getComments/'+foundcontent['_id'])
 //             .end(function(err,res){
@@ -210,7 +208,7 @@
 //             });
 //     }),
 
-//     it('should create a comment as a user on /api/Content/createComment POST',function(done){
+//     it('should create a comment as a user on /api/Content/createComment POST',function(done){ // Youssef Yasser
 //         chai.request(server)
 //         .post('/api/Content/createComment/'+foundcontent['_id']).send({
 //             'body' : 'testcomment',
@@ -231,7 +229,7 @@
 
 
 
-//     it("should SUCCESS to edit content as an admin on /content/editContent/:contentId PATCH",function(done){
+//     it("should SUCCESS to edit content as an admin on /content/editContent/:contentId PATCH",function(done){ // Youssef Yasser
 //         chai.request(server).patch('/api/content/editContent/'+foundcontent['_id'])
 //         .send({ 'body' : 'testingcontent',
 //         'title' : 'testing',
@@ -336,9 +334,9 @@
 //             });
 //         });
 //     }),
-//     it('should rate a content on /api/Content/updateContent/:contentId',function(done){
+//     it('should rate a content on /api/Content/updateContent/:contentId',function(done){ // Rana Talaat
 //         Content.findOne({'title':'testing'}).exec(function(err,content){
-//             console.log(content+"here");
+//            
 //             chai.request(server)
 //             .patch('/api/Content/updateContent/'+content['_id'])
 //             .send({
@@ -355,7 +353,7 @@
 //             });
 //         });
 //     }),
-//     it('should delete a single content on /api/Content/deleteContent/:contentId',function(done){
+//     it('should delete a single content on /api/Content/deleteContent/:contentId',function(done){ 
 //         Content.findOne({'title':'test post'}).exec(function(err,content){
 //             chai.request(server)
 //             .delete('/api/Content/deleteContent/'+content['_id']+".."+authenticatedAdmin["_id"])

@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer } from '@angular/platform-browser'
 import { ToastrService } from 'ngx-toastr';
-
+/*	Contributers : Karim Elghanour , Ahmed Hossam 
+	Methods : ngOnInit , EditContent , GetContent , ViewText , ViewLink , ViewImage , DeleteContent , AddContent , DisapproveContent
+	Date Edited : 5/5/2018
+ */
 @Component({
 	selector: 'app-content-viewsuggestedcontent',
 	templateUrl: `viewsuggestedcontent.html`

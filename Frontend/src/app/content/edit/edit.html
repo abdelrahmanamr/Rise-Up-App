@@ -2,7 +2,7 @@
 <link href="https://cdn.quilljs.com/1.2.2/quill.bubble.css" rel="stylesheet">
 
 <div class="resultDiv">
-    <form #contentForm="ngForm" (ngSubmit) = "onSubmit(contentForm.value)">
+    <form #contentForm="ngForm" (ngSubmit)="onSubmit(contentForm.value)">
         <div *ngIf="this.editContent['type']=='content'">
             <h2>Editing Content</h2>
         </div>
@@ -12,16 +12,18 @@
         </div>
 
 
-        <input type = "text" class="form-control" name = "title" [(ngModel)]="title" placeholder = "Title Here" ngModel><br />
+        <input type="text" class="form-control" name="title" [(ngModel)]="title" placeholder="Title Here" ngModel>
+        <br />
 
-        <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>     <br />
+        <select class="form-control" name="type" #type="ngModel" [(ngModel)]="typeToSet" (ngModelChange)="changeType(this)" required>
+            <br />
             <option [value]="'Post'">Choose type (Default: Post)</option>
-                <option *ngFor="let type of types" [value]="type">{{type}}
+            <option *ngFor="let type of types" [value]="type">{{type}}
             </option>
         </select>
         <br />
 
-        <input type = "text" class="form-control" name = "link" [(ngModel)]="link" placeholder = "Enter your Link" *ngIf="post==1" ngModel>
+        <input type="text" class="form-control" name="link" [(ngModel)]="link" placeholder="Enter your Link" *ngIf="post==1" ngModel>
 
         <div [hidden]="post==1">
 
@@ -76,11 +78,10 @@
         </div>
         <br />
 
-        <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
+        <tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
 
-        <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
+        <input class="btn btn-danger" (click)="onSubmit(contentForm.value)" value="submit"> {{errorHandle}}
 
-        <br />
-    {{text}}
+        <br /> {{text}}
     </form>
 </div>

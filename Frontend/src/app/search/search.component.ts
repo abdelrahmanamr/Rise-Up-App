@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from  '../../environments/environment.prod';
+import { environment } from '../../environments/environment.prod';
 import { MENU_ITEMS } from './search-menu';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
 @Component({
     selector: 'app-search',
@@ -13,12 +13,12 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
     </ngx-main-layout>
 
   `,
-  
+
 })
 export class SearchComponent {
     menu: NbMenuItem[];
 
-    constructor(private http:HttpClient){
+    constructor(private http: HttpClient) {
 
     }
 

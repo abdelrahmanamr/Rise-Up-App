@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { SuggestedContentComponent } from './suggestedcontent.component';
 
 const routes: Routes = [
@@ -11,4 +10,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SuggestedContentRoutingModule {}
+export class SuggestedContentRoutingModule { }

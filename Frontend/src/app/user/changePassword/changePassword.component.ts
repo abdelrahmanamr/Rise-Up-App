@@ -1,14 +1,14 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Router} from "@angular/router";
+import { environment } from '../../../environments/environment';
+import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-login',
-    styles:
-        ['#left {  float: left; width: 40%;overflow: hidden; }',
-            '#right {  float: right; width: 60%;overflow: hidden; }'
-        ],
+  styles:
+    ['#left {  float: left; width: 40%;overflow: hidden; }',
+      '#right {  float: right; width: 60%;overflow: hidden; }'
+    ],
   template: `
   <form class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
   <label  style="font-size: 50px;;font-weight: bold;">
@@ -36,45 +36,47 @@ Password Must Atleast be 6 characters long
 <br /> 
 `
 })
-export class ChangePasswordComponent implements OnInit{
-errorView = "";
-  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
+export class ChangePasswordComponent implements OnInit {
+  errorView = "";
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
 
   }
-  ngOnInit(){
-    if(localStorage.getItem('userProps')==null){
+  ngOnInit() {
+    if (localStorage.getItem('userProps') == null) {
       this.router.navigateByUrl("/");
     }
   }
 
-onSubmit = function(user){
-  var data = JSON.stringify({newpassword:user.newpassword,
-confirmpassword:user.confirmpassword,oldpassword:user.oldpassword});
-var id = JSON.parse(localStorage.getItem("userProps"))["_id"];
+  onSubmit = function (user) {
+    var data = JSON.stringify({
+      newpassword: user.newpassword,
+      confirmpassword: user.confirmpassword, oldpassword: user.oldpassword
+    });
+    var id = JSON.parse(localStorage.getItem("userProps"))["_id"];
 
-var config = {
-  headers : {
-      'Content-Type': 'application/json',
-      'authorization':localStorage.getItem('UserDoc')
-  }
-}
+    var config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': localStorage.getItem('UserDoc')
+      }
+    }
 
-this.http.patch(environment.apiUrl+'user/ChangePassword/'+id, data, config)
-.subscribe(res=>{
+    this.http.patch(environment.apiUrl + 'user/ChangePassword/' + id, data, config)
+      .subscribe(res => {
         this.router.navigateByUrl("/");
 
 
-  },err=>{
-    this.toastr.error("",err['error']["msg"]);
-    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
-      localStorage.clear();
-      this.router.navigateByUrl("/search/searchresults")
-    }     
+      }, err => {
+        this.toastr.error("", err['error']["msg"]);
+        if (err.error["msg"] == "Login timed out, please login again." || err.error["msg"] == 'You have to login first before you can access this URL.') {
+          localStorage.clear();
+          this.router.navigateByUrl("/search/searchresults")
+        }
+      }
+      );
+
+
   }
-);
-
-
-}
 
 
 }

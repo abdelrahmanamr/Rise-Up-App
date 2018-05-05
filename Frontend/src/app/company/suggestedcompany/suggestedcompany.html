@@ -3,7 +3,8 @@
     <form class="container" [formGroup]="myForm" #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm.value)">
 
 
-        <label for="companyname">Company Name</label><br/>
+        <label for="companyname">Company Name</label>
+        <br/>
         <input type="text" class="form-control" formControlName="companyname" name="companyname" ngModel>
         <br>
 
@@ -17,17 +18,14 @@
         <br>
 
         <label for="companytags">Company Tags</label>
-        <tags-input class="form-control input-lg" formControlName="companytags" type="text"
-                    [(ngModel)]="tags" name="tags"></tags-input>
+        <tags-input class="form-control input-lg" formControlName="companytags" type="text" [(ngModel)]="tags" name="tags"></tags-input>
         <br>
 
         <label for="companytype">Company Type</label>
         <input type="text" class="form-control" formControlName="companytype" name="companytype" ngModel>
         <br>
 
-        <input class="btn btn-success" [disabled]="! myForm.valid" STYLE="background-color: #ff4c6a" type="submit"
-               value="Suggest Company">
-        {{errorHandle}}
+        <input class="btn btn-success" [disabled]="! myForm.valid" STYLE="background-color: #ff4c6a" type="submit" value="Suggest Company"> {{errorHandle}}
     </form>
 
     <br/>

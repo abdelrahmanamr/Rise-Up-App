@@ -1,19 +1,17 @@
-
-
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Router} from "@angular/router";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { environment } from '../../../environments/environment';
+import { Router } from "@angular/router";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from 'ngx-toastr';
 @Component({
-  selector: 'app-user-register',
-  styles:
-   ['#left {  float: left; width: 40%;overflow: hidden; }',
-   '#right {  float: right; width: 60%;overflow: hidden; }'
- ]
-,
-  template: ` <form [formGroup]="myForm"class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
+    selector: 'app-user-register',
+    styles:
+        ['#left {  float: left; width: 40%;overflow: hidden; }',
+            '#right {  float: right; width: 60%;overflow: hidden; }'
+        ]
+    ,
+    template: ` <form [formGroup]="myForm"class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
 
   <label for="wrapper"  style="font-size: 55px;;font-weight: bold;">
       Register!
@@ -100,104 +98,104 @@ import { ToastrService } from 'ngx-toastr';
 
   `
 })
-export class RegisterComponent implements OnInit{
+export class RegisterComponent implements OnInit {
 
 
     myForm: FormGroup;
-    tags:any=[];
-    errorhandle="";
+    tags: any = [];
+    errorhandle = "";
 
-    onTagsChanged($event){
+    onTagsChanged($event) {
 
-         
+
 
     }
 
 
-    ngOnInit(){
+    ngOnInit() {
 
-    this.myForm = new FormGroup({
-        userNameField: new FormControl(null, Validators.required),
-        firstNameField: new FormControl(null, Validators.required),
-        lastNameField: new FormControl(null, Validators.required),
-        emailField: new FormControl(null, [
-            Validators.required,
-            Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-        ]),
-          passwordField: new FormControl(null, Validators.required),
-          passwordField2: new FormControl(null, Validators.required),
-          secAField: new FormControl(null, Validators.required),
-          secQField: new FormControl(null, Validators.required),
-          bDateField: new FormControl(null, Validators.required),
-          usertags : new FormControl(null, Validators.required)
+        this.myForm = new FormGroup({
+            userNameField: new FormControl(null, Validators.required),
+            firstNameField: new FormControl(null, Validators.required),
+            lastNameField: new FormControl(null, Validators.required),
+            emailField: new FormControl(null, [
+                Validators.required,
+                Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+            ]),
+            passwordField: new FormControl(null, Validators.required),
+            passwordField2: new FormControl(null, Validators.required),
+            secAField: new FormControl(null, Validators.required),
+            secQField: new FormControl(null, Validators.required),
+            bDateField: new FormControl(null, Validators.required),
+            usertags: new FormControl(null, Validators.required)
 
 
 
-});
-}
-  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
+        });
+    }
+    constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
 
-  }
+    }
 
-onSubmit = function(user){
-    var result = this.tags.map(function(val) {
-        return val.displayValue;
-    }).join(',');
+    onSubmit = function (user) {
+        var result = this.tags.map(function (val) {
+            return val.displayValue;
+        }).join(',');
 
-    var data = JSON.stringify({
-        username: user.userNameField,
-          securityQ: user.secQField,
-          securityA : user.secAField,
-          password: user.passwordField,
+        var data = JSON.stringify({
+            username: user.userNameField,
+            securityQ: user.secQField,
+            securityA: user.secAField,
+            password: user.passwordField,
             confirmPassword: user.passwordField2,
-          firstname: user.firstNameField,
-          lastname: user.lastNameField,
-        tags:result,
-        email: user.emailField,
-        dateOfBirth:(user.bDateField)
-      });
-
-
-var config = {
-    headers : {
-        'Content-Type': 'application/json'
-    }
-};
-    this.http.post(environment.apiUrl+'user/register', data, config)
-        .subscribe(res=>{
-            let message = res["msg"];
-            var JSONtoIndex = {
-                "tags":res["data"]["tags"],
-                "objectId":res["data"]["_id"],
-                "username":res["data"]["username"]
-            }
-            this.errorhandle = "Register successful";
-            this.http.post(environment.apiUrl+'search/addToUserIndex',JSONtoIndex,config).subscribe(res=>{
-                this.router.navigateByUrl("/user/login");
-            });
-        },err=>{
-            this.toastr.error("",err['error']['msg']);
-            this.errorhandle = err['error']['msg'];
+            firstname: user.firstNameField,
+            lastname: user.lastNameField,
+            tags: result,
+            email: user.emailField,
+            dateOfBirth: (user.bDateField)
         });
 
 
-}
-checkUsername = function(username){
-  var data = JSON.stringify({
-  username: username
-  });
-  var config = {
-  headers: {
-  'Content-Type' : 'application/json'
-  }
-  };
-  this.http.post(environment.apiUrl+'user/checkUsername', data, config).subscribe( res =>{
-  this.errorhandle = "";
-  },
-err=>{
-    this.toastr.error("",err['error']['msg']);
-  this.errorhandle = "username already exists";
-}
-  )
-}
+        var config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        this.http.post(environment.apiUrl + 'user/register', data, config)
+            .subscribe(res => {
+                let message = res["msg"];
+                var JSONtoIndex = {
+                    "tags": res["data"]["tags"],
+                    "objectId": res["data"]["_id"],
+                    "username": res["data"]["username"]
+                }
+                this.errorhandle = "Register successful";
+                this.http.post(environment.apiUrl + 'search/addToUserIndex', JSONtoIndex, config).subscribe(res => {
+                    this.router.navigateByUrl("/user/login");
+                });
+            }, err => {
+                this.toastr.error("", err['error']['msg']);
+                this.errorhandle = err['error']['msg'];
+            });
+
+
+    }
+    checkUsername = function (username) {
+        var data = JSON.stringify({
+            username: username
+        });
+        var config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        this.http.post(environment.apiUrl + 'user/checkUsername', data, config).subscribe(res => {
+            this.errorhandle = "";
+        },
+            err => {
+                this.toastr.error("", err['error']['msg']);
+                this.errorhandle = "username already exists";
+            }
+        )
+    }
 }

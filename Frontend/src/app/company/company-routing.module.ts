@@ -24,7 +24,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'viewallcompanies'
       }
-      
+
     ]
   }
 ];
@@ -34,4 +34,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class CompanyRoutingModule {}
+export class CompanyRoutingModule { }

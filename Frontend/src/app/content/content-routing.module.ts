@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { ContentComponent } from './content.component';
 
 const routes: Routes = [
@@ -37,7 +36,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'viewallcontents'
       }
-      
+
     ]
   }
 ];
@@ -47,4 +46,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class ContentRoutingModule {}
+export class ContentRoutingModule { }

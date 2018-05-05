@@ -1,14 +1,14 @@
-import { Component,OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Router} from "@angular/router";
+import { environment } from '../../../environments/environment';
+import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-applyExpert',
-    styles:
-        ['#left {  float: left; width: 40%;overflow: hidden; }',
-            '#right {  float: right; width: 60%;overflow: hidden; }'
-        ],
+  styles:
+    ['#left {  float: left; width: 40%;overflow: hidden; }',
+      '#right {  float: right; width: 60%;overflow: hidden; }'
+    ],
   template: `
   <form class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
   <label  style="font-size: 50px;;font-weight: bold;">
@@ -29,40 +29,40 @@ import { ToastrService } from 'ngx-toastr';
 <br /> 
 `
 })
-export class ApplyExpertComponent implements OnInit{
-errorView = "";
-  constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
+export class ApplyExpertComponent implements OnInit {
+  errorView = "";
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
 
   }
-  ngOnInit(){
+  ngOnInit() {
 
   }
 
-onSubmit = function(user){
-  var id = JSON.parse(localStorage.getItem("userProps"))["_id"];
+  onSubmit = function (user) {
+    var id = JSON.parse(localStorage.getItem("userProps"))["_id"];
 
-  var data = JSON.stringify({previousExperience:user.previousExperience , userid : id});
+    var data = JSON.stringify({ previousExperience: user.previousExperience, userid: id });
 
-var config = {
-    headers : {
+    var config = {
+      headers: {
         'Content-Type': 'application/json'
+      }
     }
-}
 
-this.http.post('http://localhost:3000/api/applyExpert/createApplyExpert', data, config)
-.subscribe(res=>{
+    this.http.post('http://localhost:3000/api/applyExpert/createApplyExpert', data, config)
+      .subscribe(res => {
 
         this.router.navigateByUrl("/");
 
 
-  },err=>{
-    this.toastr.error("",err.error["msg"]) 
-    this.errorView = err.error["msg"];
+      }, err => {
+        this.toastr.error("", err.error["msg"])
+        this.errorView = err.error["msg"];
+      }
+      );
+
+
   }
-);
-
-
-}
 
 
 }

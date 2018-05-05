@@ -7,8 +7,8 @@ import { ForgotComponent } from './forgot.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [ThemeModule, ForgotRoutingModule,FormsModule],
+    imports: [ThemeModule, ForgotRoutingModule, FormsModule],
     declarations: [ForgotComponent],
     providers: []
 })
-export class ForgotModule {}
+export class ForgotModule { }

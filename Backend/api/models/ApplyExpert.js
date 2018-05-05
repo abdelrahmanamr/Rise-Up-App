@@ -7,11 +7,11 @@ var applyExpertSchema = mongoose.Schema({
     },
     status: {
         type: Number,
-        default:0
+        default: 0
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
-        required :true ,
+        required: true,
         ref: 'User'
     },
     createdAt: {

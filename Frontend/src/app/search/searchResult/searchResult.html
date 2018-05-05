@@ -1,34 +1,43 @@
 <div class="leftbg">
     <!-- Upper Div containing the search bar, filter button and search button -->
     <div class="searchDiv">
-        <span><input id="srch" class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()" ngModel></span>
-        <span><img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px"></span>
-        <span><img src="/assets/search.svg" (click)="searchByButton()" width="30px" height="30px"></span><br>
+        <span>
+            <input id="srch" class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()"
+                ngModel>
+        </span>
+        <span>
+            <img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px">
+        </span>
+        <span>
+            <img src="/assets/search.svg" (click)="searchByButton()" width="30px" height="30px">
+        </span>
+        <br>
     </div>
     <!-- Filter Div containing the drop downs -->
-   <div class="filter">
-   <span *ngIf="filterOn">
-        <select class="form-control" name="filter" #type="ngModel" [(ngModel)]="filterToSet" (ngModelChange)="changeType(this)" required>
-            <option [value]="'All'" class="selectOption">All</option>
+    <div class="filter">
+        <span *ngIf="filterOn">
+            <select class="form-control" name="filter" #type="ngModel" [(ngModel)]="filterToSet" (ngModelChange)="changeType(this)" required>
+                <option [value]="'All'" class="selectOption">All</option>
                 <option *ngFor="let filter of filters" [value]="filter" class="selectOption">{{filter}}
-            </option>
-        </select>
-    </span>
-    <span *ngIf="companyFilterOn&&filterOn">
-            <select class="form-control" name="companyFilter" #type="ngModel" [(ngModel)]="companyFilterToSet" (ngModelChange)="changeCompanyFilter(this)" required>
+                </option>
+            </select>
+        </span>
+        <span *ngIf="companyFilterOn&&filterOn">
+            <select class="form-control" name="companyFilter" #type="ngModel" [(ngModel)]="companyFilterToSet" (ngModelChange)="changeCompanyFilter(this)"
+                required>
                 <option [value]="'All'" class="selectOption">All</option>
                 <option *ngFor="let filter of companyFilters" [value]="filter" class="selectOption">{{filter}}</option>
             </select>
-    </span>
+        </span>
     </div>
 
     <!-- Buttons div containing the view all buttons -->
     <div style="text-align:center;">
         <button class="btn btn-danger" (click)="viewAllContent()"> View All Content </button>
-        <button class="btn btn-danger"  (click)="viewAllCompanies()"> View All Companies </button>
+        <button class="btn btn-danger" (click)="viewAllCompanies()"> View All Companies </button>
         <button class="btn btn-danger" (click)="viewAllExperts()"> View All Experts </button>
     </div>
-  
+
 
     <!-- Results div. Only shown when a search query is done -->
     <div *ngIf="this.searchResult">
@@ -36,10 +45,14 @@
         <!-- Content div. Only shows content -->
         <div class="resultDiv" *ngIf="this.contentElasticSearch.length>0">
             <h2 style="display:inline-block">Content</h2>
-            <span style="float:right; margin-right:20px;">Sort: <select name="contentSort" #type="ngModel" [(ngModel)]="contentSortToSet" (ngModelChange)="sortContent(contentSortToSet)" required>
-                <option *ngFor="let option of contentSortOptions" [value]="option" class="selectOption">{{option}}
-                </option>
-            </select></span><br />
+            <span style="float:right; margin-right:20px;">Sort:
+                <select name="contentSort" #type="ngModel" [(ngModel)]="contentSortToSet" (ngModelChange)="sortContent(contentSortToSet)"
+                    required>
+                    <option *ngFor="let option of contentSortOptions" [value]="option" class="selectOption">{{option}}
+                    </option>
+                </select>
+            </span>
+            <br />
             <!-- Each content card is shown here -->
             <div class="card" *ngFor="let item of this.contentElasticSearch">
                 <div class="contentToFade">
@@ -53,19 +66,25 @@
                         <h4 class="text-uppercase">{{item.title}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
+                            <div>Tags:
+                                <span class="tags-input__tag" *ngFor="let tag of item.tags;">
+                                    <a href="#/search/searchResult?key={{tag}}">{{tag}}</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="middle">
                     <div class="text">
-                        Rating {{item.rating}}/5<br />
-                        <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}<br />
+                        Rating {{item.rating}}/5
+                        <br />
+                        <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}
+                        <br />
                         <button class="btn btn-danger" (click)="viewContent(item._id)">
-                        View Content
+                            View Content
                         </button>
-                    </div>                      
-                </div>          
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -83,21 +102,27 @@
                         <h4 class="text-uppercase">{{item.name}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
+                            <div>Tags:
+                                <span class="tags-input__tag" *ngFor="let tag of item.tags;">
+                                    <a href="#/search/searchResult?key={{tag}}">{{tag}}</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="middle">
                     <div class="text">
-                        Rating {{item.rating}}/5<br />
-                        <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}<br />
+                        Rating {{item.rating}}/5
+                        <br />
+                        <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}
+                        <br />
                         <button class="btn btn-danger" (click)="viewCompany(item._id)">
-                                View Company
+                            View Company
                         </button>
-                    </div>                      
-                </div>          
+                    </div>
+                </div>
             </div>
-        </div>   
+        </div>
 
         <!-- Experts div -->
         <div class="resultDiv" *ngIf="this.userElasticSearch.length>0">
@@ -113,27 +138,35 @@
                         <h4 class="text-uppercase">{{item.firstname}} {{item.lastname}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
+                            <div>Tags:
+                                <span class="tags-input__tag" *ngFor="let tag of item.tags;">
+                                    <a href="#/search/searchResult?key={{tag}}">{{tag}}</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="middle">
                     <div class="text">
-                        Rating {{item.rating}}/5<br />
-                        <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}<br />
+                        Rating {{item.rating}}/5
+                        <br />
+                        <i class="fa fa-eye" style="font-size:25px;padding-right:10px;"></i> {{item.views}}
+                        <br />
                         <button class="btn btn-danger" (click)="viewExpert(item.username)">
-                                View Expert
+                            View Expert
                         </button>
-                    </div>                      
-                </div>    
+                    </div>
+                </div>
             </div>
         </div>
-        
-    </div> <!-- End Search result BG -->
-</div> <!-- End leftbg -->
+
+    </div>
+    <!-- End Search result BG -->
+</div>
+<!-- End leftbg -->
 <style>
-     #srch:focus {
-    outline: none !important;
-    border:5px solid #DB0C18;
-}
+    #srch:focus {
+        outline: none !important;
+        border: 5px solid #DB0C18;
+    }
 </style>

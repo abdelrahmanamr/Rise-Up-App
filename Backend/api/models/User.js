@@ -2,87 +2,87 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
     username: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true
     },
     email: {
-      type: String,
-      required: true,
-      trim: true,
-    lowercase: true
-    },
-    dateOfBirth:{
-        type:String,
-        required: false,
-    },
-    firstname:{
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    securityQ:{
-      type:String,
-
+    dateOfBirth: {
+        type: String,
+        required: false,
     },
-    securityA:{
-        type:String,
-
-      },
-    lastname:{
+    firstname: {
         type: String,
         required: true,
         trim: true,
         lowercase: true
     },
-    password:{
+    securityQ: {
+        type: String,
+
+    },
+    securityA: {
+        type: String,
+
+    },
+    lastname: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true
+    },
+    password: {
         type: String,
         required: true,
         trim: true,
     },
-    tags:{
+    tags: {
         type: String,
         required: false,
     },
-    admin:{
+    admin: {
         type: Boolean,
-        default:false
+        default: false
     },
-    expert:{
+    expert: {
         type: Boolean,
-        default:false
+        default: false
     },
-    blocked:{
+    blocked: {
         type: Boolean,
-        default:false
+        default: false
     },
-    biography:{
-        type:String
+    biography: {
+        type: String
     },
-    imageURL:{
-        type:String,
-        required:false
+    imageURL: {
+        type: String,
+        required: false
     },
     createdAt: {
-      type: Date,
-      default: Date.now
+        type: Date,
+        default: Date.now
     },
     updatedAt: Date,
     resetPasswordToken: String,
-  resetPasswordExpires: Date
-    
-  });
-  
-  if (!userSchema.options.toObject) {
+    resetPasswordExpires: Date
+
+});
+
+if (!userSchema.options.toObject) {
     userSchema.options.toObject = {};
-  }
-  userSchema.options.toObject.transform = (document, transformedDocument) => {
+}
+userSchema.options.toObject.transform = (document, transformedDocument) => {
     delete transformedDocument.password;
     delete transformedDocument.securityA;
     return transformedDocument;
-  };
+};
 
 
-  module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);

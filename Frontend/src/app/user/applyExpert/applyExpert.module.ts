@@ -7,8 +7,8 @@ import { ApplyExpertComponent } from './applyExpert.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-    imports: [ThemeModule, ApplyExpertRoutingModule,FormsModule],
+    imports: [ThemeModule, ApplyExpertRoutingModule, FormsModule],
     declarations: [ApplyExpertComponent],
     providers: []
 })
-export class ApplyExpertModule {}
+export class ApplyExpertModule { }

@@ -6,8 +6,8 @@ import { ViewAllCompaniesRoutingModule } from './viewallcompanies-routing.module
 import { ViewAllCompaniesComponent } from './viewallcompanies.component';
 
 @NgModule({
-  imports: [ThemeModule,ViewAllCompaniesRoutingModule],
+  imports: [ThemeModule, ViewAllCompaniesRoutingModule],
   declarations: [ViewAllCompaniesComponent],
   providers: []
 })
-export class ViewAllCompaniesModule {}
+export class ViewAllCompaniesModule { }

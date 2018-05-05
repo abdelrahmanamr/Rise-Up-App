@@ -108,7 +108,7 @@ module.exports.removeSuggestedContent = function (req, res, next) { // this meth
 	});
 };
 
-//Khaled ElSayed
+//Khaled Aboelnaga
 module.exports.createSuggestedContent = function (req, res, next) {// This method creates a suggested content and adds it to the database
 	var valid =
 		req.body.title &&

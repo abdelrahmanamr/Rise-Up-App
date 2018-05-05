@@ -183,6 +183,8 @@ export class RegisterComponent implements OnInit {
 
 
     }
+    //Aly Amr
+    //Checks whether username exists or not
     checkUsername = function (username) {
         var data = JSON.stringify({
             username: username

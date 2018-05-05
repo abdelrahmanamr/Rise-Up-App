@@ -58,7 +58,7 @@ this.ViewContents();
                     'authorization':localStorage.getItem('UserDoc')
                 }
         }
-        this.httpClient.delete(environment.apiUrl+'/admin/deleteComment/'+id,config).
+        this.httpClient.delete(environment.apiUrl+'/Content/deleteComment/'+id,config).
         subscribe(res=>{
 
             window.location.reload();

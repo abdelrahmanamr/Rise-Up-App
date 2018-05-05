@@ -33,6 +33,7 @@ export class CreateComponent implements OnInit{
   editor_text = "";
   quill: any;
   tags:any=[];
+  text= "";
 
 
   
@@ -50,8 +51,7 @@ export class CreateComponent implements OnInit{
   }
   onTagsChanged($event){
 
-    console.log(this.tags);
-       console.log( (JSON.stringify(this.tags)));
+
 
     }
   changeType(select){
@@ -77,7 +77,6 @@ export class CreateComponent implements OnInit{
       
     });
     this.user = JSON.parse(localStorage.getItem("userProps"));
-    console.log(this.user);
     if(this.user==null ){
       this.router.navigate(["/user"]);
     }
@@ -122,14 +121,11 @@ export class CreateComponent implements OnInit{
   }
 
   onSubmit = function(content){
-    console.log(this.user);
-    console.log(this.user['_id']);
-    console.log();
+
     var data:any;
     var result = this.tags.map(function(val) {
         return val.displayValue;
     }).join(',');
-    console.log(result);
 
     if(this.post==2 && this.url==""){
       this.text = "Please add a photo";
@@ -150,7 +146,6 @@ export class CreateComponent implements OnInit{
     if(this.user['admin']){
     this.http.post(environment.apiUrl+'/content/addContent', data, config)
     .subscribe(res=>{
-    console.log(res);
     var tags =   res["data"]["tags"];
          var object = res["data"];
          var JSONtoIndex = {
@@ -158,9 +153,8 @@ export class CreateComponent implements OnInit{
              "objectId":res["data"]._id,
              "title":res['data'].title
          }
-         console.log(JSONtoIndex);
          this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoIndex,config)
-         .subscribe(res =>{console.log(res);
+         .subscribe(res =>{
                  var JSONtoContentIndex = {
                      "name": content.title,
                      "object":object,
@@ -168,14 +162,12 @@ export class CreateComponent implements OnInit{
                  }
                  this.http.post(environment.apiUrl+'search/addToContentIndex',JSONtoContentIndex,config).subscribe(
                      res => {
-                         console.log(res);
                          this.router.navigateByUrl("/search/searchResult?key=viewallcontent");
                      }
             )
 
         },
-        err=>
-        console.log("error adding to index"));
+        err=>{});
     },err=>{
       this.toastr.error("",err['error']["msg"]);
       if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
@@ -187,7 +179,6 @@ export class CreateComponent implements OnInit{
   else{
     this.http.post(environment.apiUrl+'/suggestedcontent/addSuggestedContent',data,config)
     .subscribe(res=>{
-      console.log(res);
       this.router.navigate(["/suggestedcontent/viewSuggestedContents/"])
     },err=>{
       this.toastr.error("",err['error']["msg"]);

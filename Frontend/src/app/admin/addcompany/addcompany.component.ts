@@ -24,7 +24,7 @@ tags:any=[];
         }).join(',');
 
 
-var my = JSON.stringify
+var newCompany = JSON.stringify
 ({  
     // userid:localStorage.getItem("user"),
     name:companyForm.companyname,
@@ -42,8 +42,8 @@ var my = JSON.stringify
             }
         }
 
-        this.http.post(environment.apiUrl+'admin/addCompany',my, config)
-        .subscribe(res => {console.log(res)
+        this.http.post(environment.apiUrl+'admin/addCompany',newCompany, config)
+        .subscribe(res => {
          var tags =   res["data"]["tags"];
          var JSONtoIndex = {
              "tags":tags,
@@ -51,11 +51,11 @@ var my = JSON.stringify
              "name":res["data"]["name"]
          }
          this.http.post(environment.apiUrl+'search/addToCompanyIndex',JSONtoIndex,config)
-         .subscribe(res =>{console.log(res)
+         .subscribe(res =>{
             this.router.navigate(['/admin']);
 
         },
-        err=>console.log("error adding to index"));
+        err=>{});
         }
     ,err=>{
             this.toastr.error("",err.error["msg"]);

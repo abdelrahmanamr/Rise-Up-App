@@ -13,10 +13,6 @@ const routes: Routes = [
         loadChildren: './viewallexperts/viewallexperts.module#ViewAllExpertsModule'
       },
       {
-        path: 'viewexpert/:id',
-        loadChildren: './viewexpert/viewexpert.module#ViewExpertModule'
-      },
-      {
         path: '',
         redirectTo: 'viewallexperts'
       }

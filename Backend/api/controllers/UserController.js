@@ -408,10 +408,8 @@ module.exports.register = function(req,res,next){
                     data: null
                   });
             }else{
-                console.log("passwords match");
                 User.findOne({$or:[{email: req.body.email.trim().toLowerCase()},{username:req.body.username.trim().toLowerCase()}]}).exec(function(err,user){
                     if(err){
-                        console.log("error");
                         return next(err);
                     }
                     else{
@@ -476,7 +474,6 @@ module.exports.checkUsername = function(req, res, next){
         toCheck = req.body.username.trim().toLowerCase();
          User.findOne({username:toCheck}).exec(function(err,userfound){
             if(err){
-                console.log("found an error");
                 return next(err);
             }
             else {
@@ -566,7 +563,7 @@ module.exports.login = function(req,res,next){
                                   },
                                   req.app.get('secret'),
                                   {
-                                      expiresIn: '5m'
+                                      expiresIn: '1h'
                                   }
                             );
                             res.status(200).json({

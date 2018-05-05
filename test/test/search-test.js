@@ -93,7 +93,7 @@ beforeEach(function(done){
     })
 
 
-
+//Ahmed Akram
 it('should get a company by name or type on  /api/search/getCompanyByNameOrType/:name GET ',function(done){
     chai.request(server)
         .get('/api/search/getCompanyByNameOrType/'+foundcompany['name'])
@@ -105,7 +105,7 @@ it('should get a company by name or type on  /api/search/getCompanyByNameOrType/
             done();
         });
 }),
-
+//Ahmed Akram
 it('should get a company name on /search/getCompanyByName/ GET ',function(done){
     chai.request(server)
         .get('/api/search/getCompanyByName/'+foundcompany['name'])
@@ -117,7 +117,7 @@ it('should get a company name on /search/getCompanyByName/ GET ',function(done){
             done();
         });
 }),
-
+//Ahmed Akram
 it('should get a company type on /search/getCompanyByType/ GET ',function(done){
     chai.request(server)
         .get('/api/search/getCompanyByType/'+foundcompany['type'])
@@ -129,7 +129,7 @@ it('should get a company type on /search/getCompanyByType/ GET ',function(done){
             done();
         });
 }),
-
+//Ahmed Akram
 it('should get a company by tags on /search/getCompanyTags/ GET ',function(done){
     chai.request(server)
         .get('/api/search/getCompanyTags/'+foundcompany['tags'])
@@ -141,6 +141,7 @@ it('should get a company by tags on /search/getCompanyTags/ GET ',function(done)
             done();
         });
 }),
+//Ahmed Akram
 it('should get an expert by tags on /search/getExpertTags/ GET ',function(done){
     chai.request(server)
         .get('/api/search/getExpertTags/'+authenticatedUser['tags'])

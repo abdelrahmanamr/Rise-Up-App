@@ -33,6 +33,10 @@ type:{
     type:Number,
      default:0
  },
+ status:{
+    type:Number,
+    default:0
+},
  createdAt:{
      type: Date,
      default: Date.now

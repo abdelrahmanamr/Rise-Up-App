@@ -8,12 +8,59 @@ var Company = require("../../Backend/api/models/Company");
 var should = chai.should();
 
 dbURI = 'mongodb://localhost:27017/nodejs-test';
+const registeringUserLoginCredentials = {
+  username: 'ranon12',
+  password: 'testingpassword'
+}
 
+var authenticatedAdmin = null;
+var authenticatedUser = null;
+var token = null;
 
 chai.use(chaiHttp);
 
 
 describe('Testing Get Company By ID' , function() {
+  before(function(done){
+    mongoose.connect('mongodb://localhost:27017/nodejs-test');
+    var data = {
+      username: 'ranon12',
+      securityQ: 'user.secQField',
+      securityA : 'user.secAField',
+      password: 'testingpassword',
+      confirmPassword: 'testingpassword',
+      firstname: 'ranon',
+      lastname: "talaat",
+      tags:"result",
+      email: "register12@user.com",
+      dateOfBirth:"19/1/2018"
+    };
+    chai.request(server).post('/api/user/register').send(data).end(function(err,res){
+      res.should.have.status(201);
+      User.findOne({"username":"ranon12"}).exec(function(err,userfound){
+        authenticatedUser2 = userfound;
+        done();
+      });
+    });
+  });
+
+  it('should login as a user on /api/user/login POST',function(done){
+    chai.request(server)
+    .post('/api/user/login')
+    .send(registeringUserLoginCredentials)
+    .end(function(err,res){
+
+      res.should.have.status(200);
+      res.body.data.should.a('string');
+      token = res.body.data;
+      payload = token.split('.')[1];
+      payload = Buffer.from(payload,'base64');
+      payload = JSON.parse(payload);
+      authenticatedUser = payload['user'];
+      done();
+    });
+  })
+
   it('get Company : it should return company by ID when correct ID is given' , function(done) {
     this.timeout(10000);
     var usertestid;
@@ -48,6 +95,7 @@ describe('Testing Get Company By ID' , function() {
         chai.request(server)
         .get('/api/company/getCompany/'+comp['_id'])
         .send()
+        
         .end(function(err ,res) {
           res.status.should.be.eql(200);
           res.body.should.have.property('msg');
@@ -216,6 +264,7 @@ describe('Testing Increment Views' , function() {
         chai.request(server)
         .patch('/api/company/CompanyViews/'+comp['_id'])
         .send()
+        .set('authorization',token)
         .end(function(err ,res) {
           res.status.should.be.eql(201);
           res.body.should.have.property('msg');
@@ -244,6 +293,7 @@ describe('Testing Increment Views' , function() {
     chai.request(server)
     .patch('/api/company/CompanyViews/'+'5ae1d95a386ecd46e7d4c89f')
     .send()
+    .set('authorization',token)
     .end(function(err ,res) {
       res.status.should.be.eql(404);
       res.body.should.have.property('msg');
@@ -313,6 +363,7 @@ describe('Testing Create Company' , function() {
       chai.request(server)
       .post('/api/company/createCompany')
       .send(companytest)
+      .set('authorization',token)
       .end(function(err ,res) {
         res.status.should.be.eql(201);
         res.body.should.have.property('msg');
@@ -350,6 +401,7 @@ describe('Testing Create Company' , function() {
       chai.request(server)
       .post('/api/company/createCompany')
       .send(companytest)
+      .set('authorization',token)
       .end(function(err ,res) {
         res.status.should.be.eql(422);
         res.body.should.have.property('msg');
@@ -396,6 +448,7 @@ describe('Testing delete company' , function() {
         chai.request(server)
         .delete('/api/company/deleteCompany/'+comp['_id'])
         .send()
+        .set('authorization',token)
         .end(function(err ,res) {
           res.status.should.be.eql(200);
           res.body.should.have.property('msg');
@@ -411,6 +464,7 @@ describe('Testing delete company' , function() {
     chai.request(server)
     .delete('/api/company/deleteCompany/'+'notid')
     .send()
+    .set('authorization',token)
     .end(function(err ,res) {
       res.status.should.be.eql(422);
       res.body.should.have.property('msg');
@@ -424,6 +478,7 @@ describe('Testing delete company' , function() {
     chai.request(server)
     .delete('/api/company/deleteCompany/'+'5ae1d95a386ecd46e7d4c89f')
     .send()
+    .set('authorization',token)
     .end(function(err ,res) {
       res.status.should.be.eql(404);
       res.body.should.have.property('msg');

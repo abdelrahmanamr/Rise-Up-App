@@ -1,7 +1,7 @@
 <div class="leftbg">
     <!-- Upper Div containing the search bar, filter button and search button -->
     <div class="searchDiv">
-        <span><input class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()" ngModel></span>
+        <span><input id="srch" class="srch1" type="text" [(ngModel)]="nameortype" placeholder="Search.." (keyup.enter)="search()" ngModel></span>
         <span><img src="/assets/filter.svg" (click)="showFilter()" width="30px" height="30px"></span>
         <span><img src="/assets/search.svg" (click)="searchByButton()" width="30px" height="30px"></span><br>
     </div>
@@ -53,7 +53,7 @@
                         <h4 class="text-uppercase">{{item.title}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                         <h4 class="text-uppercase">{{item.name}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         <h4 class="text-uppercase">{{item.firstname}} {{item.lastname}}</h4>
                         <span class="intro">{{item.intro}}</span>
                         <div class="cardBottom">
-                        <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;">{{tag}}</span></div>
+                            <div>Tags: <span class="tags-input__tag" *ngFor="let tag of item.tags;"><a href="#/search/searchResult?key={{tag}}">{{tag}}</a></span></div>
                         </div>
                     </div>
                 </div>
@@ -131,3 +131,9 @@
         
     </div> <!-- End Search result BG -->
 </div> <!-- End leftbg -->
+<style>
+     #srch:focus {
+    outline: none !important;
+    border:5px solid #DB0C18;
+}
+</style>

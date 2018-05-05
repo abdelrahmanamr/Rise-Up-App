@@ -28,20 +28,47 @@ export class ViewActivityComponent {
     }
 
     ViewReport(){
+        var config = {
+            headers : 
+            {
+                'Content-Type':'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"],
+                'authorization':localStorage.getItem('UserDoc')
+            }
+        }
 
-        this.httpClient.get(environment.apiUrl +'admin/getActivityReport').subscribe(
+        this.httpClient.get(environment.apiUrl +'admin/getActivityReport',config).subscribe(
             res=>{
                 this.reports = res['data'];
-            }
+            }, err=>{
+                this.toastr.error("",err.error["msg"]);
+                if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+                  localStorage.clear();
+                  this.router.navigateByUrl("/search/searchresults")
+                }
+              }
         );
     }
     ViewComment(){
+        var config = {
+            headers : 
+            {
+                'Content-Type':'application/json',
+                "id":JSON.parse(localStorage.getItem("userProps"))["_id"],
+                'authorization':localStorage.getItem('UserDoc')
+            }
+        }
 
-        this.httpClient.get(environment.apiUrl +'admin/getActivityComment').subscribe(
+        this.httpClient.get(environment.apiUrl +'admin/getActivityComment',config).subscribe(
             res=>{
                 this.comm = res['data'];
-                console.log(this.comm);
-            }
+            }, err=>{
+                this.toastr.error("",err.error["msg"]);
+                if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+                  localStorage.clear();
+                  this.router.navigateByUrl("/search/searchresults")
+                }
+              }
         );
     }
 

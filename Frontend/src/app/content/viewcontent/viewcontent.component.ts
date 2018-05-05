@@ -89,7 +89,6 @@ ShowPopUp(){
 
         this.httpClient.patch(environment.apiUrl +'/Content/updateContent/'+this.ID,data,config).subscribe(
           res=>{  
-            console.log(res);  
             window.location.reload();
          
           },err=>{
@@ -188,7 +187,6 @@ this.Contenttype
           this.PostTitle = res['data'].title;
 
           this.Body = res['data'].body;
-          console.log(this.Body);
           this.checkLink=true;
                     
         }
@@ -255,7 +253,6 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
 
   this.httpClient.post(environment.apiUrl +'Content/createComment/'+this.ID , data,config).subscribe(
     res=>{
-    console.log(res["data"]);
         window.location.reload();
     },err=>{
       this.toastr.error("",err.error["msg"]);
@@ -285,7 +282,6 @@ createComment(ID:String, comment:string) //this method is called on clicking on 
   this.httpClient.get(environment.apiUrl +'Content/getComments/'+this.ID,config).subscribe(
     res=>{  
     this.comments=(res['data']);  
-    console.log(res['data']);
     }
   );
 
@@ -344,7 +340,6 @@ toggle() //this method is responsible for showing/hiding comments, the function 
     "id":ID,
     "type":"content"
   }
-  console.log(ID);
   localStorage.setItem("editContent",JSON.stringify(editContent));
   this.router.navigateByUrl('/content/edit');
 
@@ -362,7 +357,6 @@ toggle() //this method is responsible for showing/hiding comments, the function 
 
 this.httpClient.patch(environment.apiUrl +'/Content/views/'+ID,config).subscribe(
 res=>{
- console.log(res['data']);
 }
 )
 

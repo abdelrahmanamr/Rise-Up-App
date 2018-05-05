@@ -53,7 +53,6 @@ onSubmit = function(user){
 
 this.http.post(environment.apiUrl+'user/forgetPassword', data, config)
 .subscribe(res=>{
-  //console.log(res["data"]);
     let message = res["msg"];
     if(message == "Success"){
 
@@ -65,7 +64,6 @@ this.http.post(environment.apiUrl+'user/forgetPassword', data, config)
   },err=>{
     this.toastr.error("",err.error["msg"])
     this.errorView = err.error["msg"];
-    console.log(err.error["msg"]);
   }
 );
 

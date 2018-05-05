@@ -51,7 +51,6 @@ var config = {
 
 this.http.post('http://localhost:3000/api/applyExpert/createApplyExpert', data, config)
 .subscribe(res=>{
-  console.log(res["data"]);
 
         this.router.navigateByUrl("/");
 
@@ -59,7 +58,6 @@ this.http.post('http://localhost:3000/api/applyExpert/createApplyExpert', data, 
   },err=>{
     this.toastr.error("",err.error["msg"]) 
     this.errorView = err.error["msg"];
-    console.log(err.error["msg"]);
   }
 );
 

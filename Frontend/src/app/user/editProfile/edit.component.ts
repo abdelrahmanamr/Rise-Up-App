@@ -19,7 +19,6 @@ export class EditComponent {
     url:any;
   constructor(private http: HttpClient,private router: Router,private toastr: ToastrService){
     this.ID=JSON.parse(localStorage.getItem("userProps"))["_id"];
-    console.log(this.ID);
   }
 
 
@@ -34,15 +33,12 @@ export class EditComponent {
 
     this.http.get(environment.apiUrl+'User/viewUser/'+this.ID,config).
     subscribe(res =>{
-        // console.log(res['data']);
         this.data = res['data'];
         this.ID = this.data['_id'];
         this.biography=this.data['biography'];
         if(res['data'].tags!=null){
-        // this.tags = res['data'].tags.split(",");
         res['data'].tags.split(",").forEach(element => {
             var el = JSON.parse(JSON.stringify({"displayValue":element}));
-            console.log(el);
             this.tags.push(el);
         });
 
@@ -75,7 +71,6 @@ submitTags(){
         });
 
 
-    // this.flag = true;
 
 
 

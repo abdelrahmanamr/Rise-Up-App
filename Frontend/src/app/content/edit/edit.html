@@ -76,7 +76,7 @@
         </div>
         <br />
 
-        <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [removeLastOnBackspace]="removeLastOnBackspace" [(ngModel)]="tags" name="tags"></tags-input>
+        <tags-input  class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></tags-input>
 
         <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" value = "submit"> {{errorHandle}}
 

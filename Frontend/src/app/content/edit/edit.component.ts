@@ -37,6 +37,7 @@ export class EditComponent implements OnInit{
   title = "";
   link = "";
   tags:any=[];
+  text = "";
 
   
 

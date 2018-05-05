@@ -33,6 +33,7 @@ export class CreateComponent implements OnInit{
   editor_text = "";
   quill: any;
   tags:any=[];
+  text= "";
 
 
   

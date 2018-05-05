@@ -105,6 +105,7 @@ export class RegisterComponent implements OnInit{
 
     myForm: FormGroup;
     tags:any=[];
+    errorhandle="";
 
     onTagsChanged($event){
 

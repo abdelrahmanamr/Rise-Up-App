@@ -15,6 +15,7 @@ export class ViewSuggestedCompaniesComponent implements OnInit
 
 suggestedcompany : any;
 user = null;
+adminStatus = false;
 
   constructor(private httpClient: HttpClient, private router: Router) { }
   public suggestedCompanies:any[]=[];

@@ -122,16 +122,24 @@ this.Contenttype
           this.owner = res['data'].userid;
         }
       if(res['data'].type== "Post"){
-        this.ViewText(this.ID)
+        this.Content = this.sanitizer.bypassSecurityTrustHtml(res['data'].body); 
+          this.data = res['data'];
+          this.PostTitle = res['data'].title;
         this.Contenttype=true;
 
       }   
       
       if(res['data'].type == "Image"){
-        this.ViewImage(this.ID)
+        this.ImagePath =(res['data'].body);  
+         this.PostTitle = res['data'].title;
+    
       }  
       if(res['data'].type == "Link"){
-        this.ViewLink(this.ID)
+        this.Title= res['data'].title;
+        this.PostTitle = res['data'].title;
+        this.Body = res['data'].body;
+        this.checkLink=true;
+                  
       }  
           
       }
@@ -158,62 +166,7 @@ this.Contenttype
     
   }
 
-     ViewText(ID:String){
-      var config ={
-        headers : 
-      {
-        'Content-Type':'application/json'
-      }
-    }
-      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
-        res=>{  
-          this.Content = this.sanitizer.bypassSecurityTrustHtml(res['data'].body); 
-          this.data = res['data'];
-          this.PostTitle = res['data'].title;
-            this.array.push("comment1");
-            this.array.push("comment2");
-
-          }
-      );
-     }
-     
-     ViewLink(ID:string){ //this method views the content of the link in a mini browser when pressing the button view Link
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
-    }
-      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
-        res=>{  
-
-          this.Title= res['data'].title;
-          this.PostTitle = res['data'].title;
-
-          this.Body = res['data'].body;
-          this.checkLink=true;
-                    
-        }
-      );
-    }
-
     
-
-     ViewImage(ID:string){
-      var config ={
-        headers : 
-      {
-    'Content-Type':'application/json'
-      }
-    }
-      this.httpClient.get(environment.apiUrl +'/Content/viewContent/'+ID,config).subscribe(
-        res=>{  
-         this.ImagePath =(res['data'].body);  
-         this.PostTitle = res['data'].title;
-    
-        }
-      );
- }
 
  DeleteContent(ident:string)
  {

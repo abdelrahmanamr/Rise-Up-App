@@ -14,7 +14,6 @@ chai.use(chaiHttp);
 
 
   describe('Testing Get Company By ID' , function() {
-    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('get Company : it should return company by ID when correct ID is given' , function(done) {
       this.timeout(10000);
       var usertestid;
@@ -67,7 +66,6 @@ chai.use(chaiHttp);
                       done();
                     });
               });
-              // t send request lel server w te3mel el method el 3ayezha t check
             });
     });
 
@@ -101,7 +99,6 @@ chai.use(chaiHttp);
   });
 
   describe('Testing View Company' , function() {
-    // el it de goz2 ml test momken yekoon fe kaza it heya 3obara 3an goz2 ml test bos el ta7t de example
     it('View Company :it should return company by ID when correct ID is given' , function(done) {
       this.timeout(10000);
       var usertestid;
@@ -154,7 +151,6 @@ chai.use(chaiHttp);
                       done();
                     });
               });
-              // t send request lel server w te3mel el method el 3ayezha t check
             });
     });
 

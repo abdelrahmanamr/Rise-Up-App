@@ -124,28 +124,28 @@ module.exports.getCompanyTags= function ( req, res, next) {
 };
 module.exports.getExpertTags= function ( req, res, next) {  //tested
 
-    if(!Validations.isString(req.params.tags)){
-        return res.status(422).json({
-            err:null,
-            msg: 'tag parameter must be a valid string.',
-            data:null
+  if(!Validations.isString(req.params.tags)){
+    return res.status(422).json({
+      err:null,
+      msg: 'tag parameter must be a valid string.',
+      data:null
 
-        });
-    }
-    User.find({
-        expert:true,
-        tags:{$regex:new RegExp(req.params.tags)}
-    }).exec(function (err,users) {
-        if(err){
-            console.log(err);
-            return next(err);
-        }
-        return res.status(200).json({
-            err:null,
-            msg:'All experts containing this tag'+req.params.tags+'retrieved successfully',
-            data:users
-        });
     });
+  }
+  User.find({
+    expert:true,
+    tags:{$regex:new RegExp(req.params.tags)}
+  }).exec(function (err,users) {
+    if(err){
+      console.log(err);
+      return next(err);
+    }
+    return res.status(200).json({
+      err:null,
+      msg:'All experts containing this tag'+req.params.tags+'retrieved successfully',
+      data:users
+    });
+  });
 };
 
 module.exports.getContentTags= function ( req, res, next) {  //tested

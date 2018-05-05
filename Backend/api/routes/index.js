@@ -160,7 +160,6 @@ router.get('/admin/getUserTags/:userId', isAuthenticated,AdminController.getTags
 router.get('/admin/getActivityReport',isAuthenticated,AdminController.getActivityReport);
 router.get('/admin/getActivityComment',isAuthenticated,AdminController.getActivityComment);
 router.get('/admin/viewCompanies', isAuthenticated,AdminController.viewCompanies);
-router.delete('/admin/removeCompany/:companyId', isAuthenticated,AdminController.RemoveCompany);
 router.patch('/admin/UpdateExpertTag/:userId', isAuthenticated,AdminController.UpdateExpertTags);
 router.delete('/admin/deleteComment/:commentId', isAuthenticated,AdminController.deleteComment);
 module.exports = router;

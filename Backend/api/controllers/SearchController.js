@@ -1,4 +1,4 @@
-//Names : Abdelrahamn amr , amr abo el fadl , mariam el ziady , youssef haitham , ahmed yacout 
+//Names : Abdelrahamn amr , amr abo el fadl , mariam el ziady , youssef haitham , ahmed yacout , Karim Elghandour , Ali Amr , Ahmed Mahdy , Mohamed Ashraf , Omar Tarek , Ziyad Khaled
 var mongoose = require('mongoose'),
 moment = require('moment'),
 Validations = require('../utils/Validations'),
@@ -121,6 +121,7 @@ module.exports.getCompanyTags= function ( req, res, next) { // This method searc
 		});
 	});
 };
+
 module.exports.getExpertTags= function ( req, res, next) {  // This method searches expert for company by tags
 
 	if(!Validations.isString(req.params.tags)){
@@ -766,7 +767,6 @@ function updateRecord()  // to delete all documents in the an index
 	}
 	});
 }
-
 
 Promise.resolve() //these methods to be run once
 // .then(createCompanysearchIndex)

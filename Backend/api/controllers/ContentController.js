@@ -1,4 +1,5 @@
-//names: Bassant hossam , ahmed akram , youssef yasser , youssef el khayat , rana talaat  
+//names: Bassant hossam , ahmed akram , youssef yasser , youssef el khayat , rana talaat  ,ziyad, AmrAbouElFadl, Khaled AbouElnaga, Ahmed Mahdy, Youssef Haitham , Ahmed Hossam  
+// Karim El Ghandour, Ali Amr , Omar Elzamarany , Abdelrahman Ashraf , Mohamed Elgabry
 
 var mongoose = require('mongoose'),
 moment = require('moment'),
@@ -42,6 +43,7 @@ module.exports.views = function(req, res, next) { //the views method increment t
 				});
 			});
 };
+
 
 
 
@@ -205,7 +207,6 @@ module.exports.editContent = function(req, res, next) { //This method allows the
 		});
 	}
 }
-
 
 module.exports.createContent = function(req, res, next) { //This method creates content in the backend
 	var valid =
@@ -387,12 +388,14 @@ module.exports.rateNew = function(req,res,next){ // This method adds rates to th
 			};
 		});
 	}
+
 }
 
 
 
 
 module.exports.createComment = function(req, res, next) { //method createComment which accesses the database and inserts the comment written in the textfield with the contentId of the post the user is seeing
+
 
 	var valid = req.params.contentId && 
 			Validations.isObjectId(req.params.contentId) && 
@@ -408,6 +411,23 @@ module.exports.createComment = function(req, res, next) { //method createComment
 			data: null
 		});
 	}else{
+
+
+  var valid = req.params.contentId &&
+  Validations.isObjectId(req.params.contentId) &&
+  req.body.body &&
+  Validations.isString(req.body.body) &&
+  req.body.userid &&
+  Validations.isObjectId(req.body.userid);
+
+  if (!valid) {
+    return res.status(422).json({
+      err: null,
+      msg: 'body(String) and userid(ObjectId) and contentid are required fields.',
+      data: null
+    });
+  }else{
+
 
 
 		Comment.create(req.body, function(err, comments) {
@@ -451,6 +471,7 @@ module.exports.getComments = function(req, res, next) { //getComments method is 
 		});
 	});
 };
+
 
 module.exports.deleteComment = function(req,res,next){ // This method deletes a certain comment
 	req.body.userid = req.params.commentId.split("..")[1];
@@ -633,17 +654,5 @@ module.exports.makeReport = function(req,res,next){ // This method allow the use
 			}
 		});
 	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

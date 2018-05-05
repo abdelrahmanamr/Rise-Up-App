@@ -8,8 +8,10 @@ Content = mongoose.model('Content'),
 Report = mongoose.model('Report'),
 Comment = mongoose.model('Comment');
 ApplyExpert =mongoose.model('ApplyExpert');
-
-
+/* Methods : AddExpert,RemoveRequest,getActivityComment,getActivityReport,deleteComment,UpdateExpertTags,BlockUser,AddAdmin,RemoveExpert,
+UnblockUser,RemoveAdmin,removeCompany,getCompanies,viewAllReports,getTags,getUsers,getUserById,addCompany,viewCompanies
+Date Edited : 5/5/2018
+*/
 module.exports.AddExpert=function(req, res, next){ // Gives a user an expert status after checking tat the user making the request is an admin
 	if(!Validations.isObjectId(req.params.userId)){
 		return res.status(422).json({

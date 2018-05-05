@@ -5,10 +5,9 @@ Validations = require('../utils/Validations'),
 ApplyExpert = mongoose.model('ApplyExpert');
 User = mongoose.model('User');
 
-
-
-
-
+/* Methods : createApplyExpert,getApplications
+Date Edited : 5/5/2018
+*/
 
 
 

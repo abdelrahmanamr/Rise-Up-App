@@ -9,9 +9,12 @@ regex = require("regex"),
 elasticsearch = require('elasticsearch'),
 Promise = require('bluebird'),
 synonyms = require("synonyms");
-
-
-
+/* Methods : getCompanyByNameOrType,getCompanyByName,getCompanyByType,getCompanyTags,getExpertTags,getContentTags,getCompanyTagsOrName,getCompanyTagsOrType,
+getSynonyms,createContentsearchIndex,createMappingContent,getContentByElasticSearch,addToContentIndex,deleteContentFromContentIndex,updateContentInContentIndex,
+createCompanysearchIndex,createMappingCompany,getCompanyByElasticSearch,addToCompanyIndex,deleteCompanyFromCompanyIndex,updateCompanyInCompanyIndex,createUsersearchIndex,
+createMappingUser,getUserByElasticSearch,addToUserIndex,deleteUserFromUserIndex,updateUserInUserIndex,addToUserIndex,dropIndex,deleteRecord,updateRecord
+Date Edited : 5/5/2018
+*/
 var client = new elasticsearch.Client({
 	host: 'localhost:9200',
 	log: 'trace',

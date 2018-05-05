@@ -85,7 +85,6 @@ module.exports.getCompanyByType = function ( req, res, next) {              //te
         type:{$regex:new RegExp(req.params.type)}
     }).exec(function (err,companies) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -112,7 +111,6 @@ module.exports.getCompanyTags= function ( req, res, next) {
         tags:{$regex:new RegExp(req.params.tags)}
     }).exec(function (err,companies) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -137,7 +135,6 @@ module.exports.getExpertTags= function ( req, res, next) {  //tested
         tags:{$regex:new RegExp(req.params.tags)}
     }).exec(function (err,users) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -162,7 +159,6 @@ module.exports.getContentTags= function ( req, res, next) {  //tested
         $or:[{tags:{$regex:new RegExp(req.params.tags)}},{title:{$regex:new RegExp(req.params.tags)}}]
 }).exec(function (err,content) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -187,7 +183,6 @@ module.exports.getCompanyTagsOrName= function ( req, res, next) {
         $or:[{tags:{$regex:new RegExp(req.params.tags)}},{name:{$regex:new RegExp(req.params.tags)}}]
     }).exec(function (err,companies) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -212,7 +207,6 @@ module.exports.getCompanyTagsOrType= function ( req, res, next) {      //tested
         $or:[{tags:{$regex:new RegExp(req.params.tags)}},{type:{$regex:new RegExp(req.params.tags)}}]
     }).exec(function (err,companies) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -237,7 +231,6 @@ module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) { //tested
         $or:[{tags:{$regex:new RegExp(req.params.tags)}},{type:{$regex:new RegExp(req.params.tags)}},{name:{$regex:new RegExp(req.params.tags)}}]
     }).exec(function (err,companies) {
         if(err){
-            console.log(err);
             return next(err);
         }
         return res.status(200).json({
@@ -314,10 +307,8 @@ function createContentsearchIndex() {           // to be run once for the databa
         index: 'contentelasticsearch'
     }, function (err, res, status) {
         if (err) {
-            console.log(err);
         }
         else {
-            console.log("create", res);
         }
     })
 };
@@ -340,10 +331,8 @@ function createMappingContent() {        // to be run once for the database to c
         }
     }, function (err, resp, status) {
         if (err) {
-            console.log(err);
         }
         else {
-            console.log(resp);
         }
     })
 };
@@ -456,10 +445,8 @@ function createCompanysearchIndex() {           // to be run once for the databa
         index: 'companyelasticsearch'
     }, function (err, res, status) {
         if (err) {
-            console.log(err);
         }
         else {
-            console.log("create", res);
         }
     })
 };
@@ -481,10 +468,8 @@ function createMappingCompany() {        // to be run once for the database to c
         }
     }, function (err, resp, status) {
         if (err) {
-            console.log(err);
         }
         else {
-            console.log(resp);
         }
     })
 };
@@ -596,10 +581,8 @@ function createUsersearchIndex() {           // to be run once for the database 
         index: 'userelasticsearch'
     }, function (err, res, status) {
         if (err) {
-            console.log(err);
         }
         else {
-            console.log("create", res);
         }
     })
 };
@@ -622,10 +605,8 @@ function createMappingUser() {        // to be run once for the database to crea
         }
     }, function (err, resp, status) {
         if (err) {
-            console.log(err);
         }
         else {
-            console.log(resp);
         }
     })
 };
@@ -647,7 +628,6 @@ module.exports.getUserByElasticSearch =function(req, res, next) {
             }
         }
     }).then(function (hit,err) {
-        console.log(hit.hits.hits.length==0);
         if(hit.hits.hits.length==0) {
             return res
                 .status(200)
@@ -657,8 +637,6 @@ module.exports.getUserByElasticSearch =function(req, res, next) {
         var i;
         var users =[];
             var lastElement = hits[hits.length - 1]._source['objectId'];
-            console.log("wasal");
-            console.log(lastElement);
             for (i = 0; i < hits.length; i++) {
                 var currentElement = hits[i]._source['objectId'];
                 User.findById(currentElement).exec(function (err, user) {
@@ -752,6 +730,7 @@ function addToUserIndex () {
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------//
+
 function dropIndex() {                  // method to delete an index in elastic search
     return client.indices.delete({
         index: 'contentelasticsearch',

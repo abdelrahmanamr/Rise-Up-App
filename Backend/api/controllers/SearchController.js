@@ -412,6 +412,44 @@ module.exports.addToContentIndex = function (req,res,next){
         data:null
     });
 }
+module.exports.deleteContentFromContentIndex= function(req,res,next)  // to delete all documents in the an index
+{
+    client.deleteByQuery({
+        index: 'contentelasticsearch',  //index name
+        type: 'contents',  // type name
+        body: {
+            'query': {
+                "match" : {"objectId":req.params.contentId}
+            }
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Removed from Content Index',
+        data:null
+    })
+}
+module.exports.updateContentInContentIndex=function (req,res,next)  // to delete all documents in the an index
+{
+    client.updateByQuery({
+        index: 'contentelasticsearch',  //index name
+        type: 'contents',  // type name
+        body: {
+            "script": {
+                "inline": "ctx._source['title'] = '"+req.body.title+"'"+";" +"ctx._source['tags'] = '"+req.body.tags+"'"+";"
+            },
+            'query': {
+                "match" : {"objectId":req.body.objectId}
+            }
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Content Updated in Content Index Successfully',
+        data:null
+    })
+
+}
 //---------------------------------------------------------------------Company Elastic Search-----------------------------------//
 function createCompanysearchIndex() {           // to be run once for the database to create the index
     client.indices.create({
@@ -512,6 +550,45 @@ module.exports.addToCompanyIndex = function (req,res,next){
         msg:'Added to Companies index',
         data:null
     });
+}
+module.exports.deleteCompanyFromCompanyIndex= function (req,res,next)  // to delete all documents in the an index
+{
+    client.deleteByQuery({
+        index: 'companyelasticsearch',  //index name
+        type: 'companies',  // type name
+        body: {
+            'query': {
+                "match" : {"objectId":req.params.companyId}
+            }
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Removed from Company Index',
+        data:null
+    })
+}
+
+module.exports.updateCompanyInCompanyIndex=function (req,res,next)  // to delete all documents in the an index
+{
+    client.updateByQuery({
+        index: 'companyelasticsearch',  //index name
+        type: 'companies',  // type name
+        body: {
+            "script": {
+                "inline": "ctx._source['name'] = '"+req.body.name+"'"+";" +"ctx._source['tags'] = '"+req.body.tags+"'"+";"
+            },
+            'query': {
+                "match" : {"objectId":req.body.objectId}
+            }
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Company Updated in Company Index Successfully',
+        data:null
+    })
+
 }
 //---------------------------------------------------------------------User Elastic Search-----------------------------------//
 function createUsersearchIndex() {           // to be run once for the database to create the index
@@ -621,18 +698,59 @@ module.exports.addToUserIndex = function (req,res,next){
     });
 }
 
-// function addToUserIndex () {
-//     client.index({
-//         index: 'userelasticsearch',
-//         type: 'users',
-//         body: {
-//             username: "abdelrahman salem",
-//             tags: "sleeping,waking",
-//             objectId: "5a983005fe9fa10467be1324"
-//         }
-//     });
-//
-// }
+module.exports.deleteUserFromUserIndex= function (req,res,next)  // to delete all documents in the an index
+{
+    client.deleteByQuery({
+        index: 'userelasticsearch',  //index name
+        type: 'users',  // type name
+        body: {
+            'query': {
+                "match" : {"objectId":req.params.userId}
+            }
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'Removed from User Index',
+        data:null
+    })
+}
+
+module.exports.updateUserInUserIndex=function (req,res,next)  // to delete all documents in the an index
+{
+    client.updateByQuery({
+        index: 'userelasticsearch',  //index name
+        type: 'users',  // type name
+        body: {
+            "script": {
+                "inline": "ctx._source['username'] = '"+req.body.username+"'"+";" +"ctx._source['tags'] = '"+req.body.tags+"'"+";"
+            },
+            'query': {
+                "match" : {"objectId":req.body.objectId}
+            }
+        }
+    });
+    return res.status(200).json({
+        err:null,
+        msg:'User Updated in User Index Successfully',
+        data:null
+    })
+
+}
+
+function addToUserIndex () {
+    client.index({
+        index: 'userelasticsearch',
+        type: 'users',
+        body: {
+            username: "loai alaa",
+            tags: "swimming,diving",
+            objectId: "5a983005fe9fa10467be1324"
+        }
+    });
+
+}
+
 //--------------------------------------------------------------------------------------------------------------------------------//
 function dropIndex() {                  // method to delete an index in elastic search
     return client.indices.delete({
@@ -648,11 +766,26 @@ function dropIndex() {                  // method to delete an index in elastic 
          type: 'users',  // type name
          body: {
              'query': {
-                 "match_all" : {}
+                 "match" : {"objectId":"5a983005fe9fa10467be1324"}
              }
          }
      });
  }
+function updateRecord()  // to delete all documents in the an index
+{
+    client.updateByQuery({
+        index: 'userelasticsearch',  //index name
+        type: 'users',  // type name
+        body: {
+            "script": {
+                "inline": "ctx._source['username'] = '"+"Abdelrahman Amr Salem"+"'"+";" +"ctx._source['tags'] = '"+"Waking,sleeping"+"'"+";"
+            },
+            'query': {
+                "match" : {"objectId":"5a983005fe9fa10467be132"}
+            }
+        }
+    });
+}
 
 
    Promise.resolve()
@@ -663,7 +796,7 @@ function dropIndex() {                  // method to delete an index in elastic 
        //.then(createMappingContent)
        //.then(dropIndex);
       //.then(addToUserIndex);
-
+       //.then(updateRecord);
        //.then(createMappingUser);
     //    .then(createElasticSearchIndex)
     //   .then(createMappingtitle)

@@ -4,8 +4,8 @@ import { Router } from "@angular/router";
 import { environment } from '../../../environments/environment';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from 'ngx-toastr';
-/* Contributers : KarimElghanour , Loai Alaa
-   Methods : ngOnInit,Block,UnBlock,submitTags,RemoveAdmin,RemoveExpert,AddAdmin,go,AddExpert
+/* Contributers : KarimElghanour , Loai Alaa, Salma Osama, Mariam El Zaiady
+   Methods : ngOnInit,Block,UnBlock,submitTags,RemoveAdmin,RemoveExpert,AddAdmin,changeFlag,AddExpert
    Date Edited : 5/5/2018
  */
 @Component({
@@ -91,7 +91,8 @@ export class ProfileComponent {
 
     }
     onTagsChanged($event) { }
-
+    //Submit Expert Tags after they get changed
+    //Salma Osama & Mariam El Zaiady
     submitTags() {
 
         var result = this.tags.map(function (val) {
@@ -209,8 +210,8 @@ export class ProfileComponent {
     }
 
 
-
-    go() {
+//Change the flag to make the textbox containing the tags appear
+    changeFlag() {
         this.check = !this.check;
     }
 

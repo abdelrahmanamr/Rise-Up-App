@@ -1,5 +1,6 @@
-//Salma Osama
-
+/* Contributers : Salma Osama
+   Date Edited : 5/5/2018
+ */
 import { Component, OnInit } from '@angular/core';
 
 import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';

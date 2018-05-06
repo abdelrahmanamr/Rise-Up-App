@@ -116,7 +116,9 @@ export class RegisterComponent implements OnInit {
 
 
     ngOnInit() {
-
+        if(localStorage.getItem('userProps')){
+            this.router.navigateByUrl('/');
+        }
         this.myForm = new FormGroup({
             userNameField: new FormControl(null, Validators.required),
             firstNameField: new FormControl(null, Validators.required),

@@ -1,3 +1,8 @@
+/* 
+Name: Saleh Mohamed
+Date Created : 13/3/2018
+*/
+
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({

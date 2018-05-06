@@ -1,3 +1,8 @@
+/* 
+Name: Khaled Abou El Naga
+Date Created : 20/4/2018
+*/
+
 var mongoose = require('mongoose');
 
 var suggestedCompanySchema = mongoose.Schema({

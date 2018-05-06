@@ -1,3 +1,8 @@
+/* 
+Name: Youssef Yasser
+Date Created : 2/4/2018
+*/
+
 var mongoose = require('mongoose');
 
 var commentSchema = mongoose.Schema({

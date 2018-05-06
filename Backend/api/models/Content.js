@@ -1,3 +1,8 @@
+/* 
+Name: Karim ElGhandour
+Date Created : 13/3/2018
+*/
+
 var mongoose = require('mongoose');
 
 var contentSchema = mongoose.Schema({

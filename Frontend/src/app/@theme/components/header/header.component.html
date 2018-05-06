@@ -14,9 +14,18 @@
     <a href="#/home/"><span >Home</span></a>
     <a href="#/search/"><span >Search</span></a>
     <a *ngIf="adminStatus==true" href="#/admin/"><span >Admin System</span></a>
-    <a *ngIf="adminStatus==true" href="#/content/suggestedcontent"><span >Suggested</span></a>
     <a *ngIf="loggedin==true" href="#/content/create"><span ><button class="btn btn-warning btn-sm">Add Content</button></span></a>
-    <nb-user *ngIf="loggedin==true" [nbContextMenu]="userMenu" [name]="user" (menuClick)="onMenuClick($event)"></nb-user>
+    <!-- <nb-user *ngIf="loggedin==true" [nbContextMenu]="userMenu" [name]="user" (menuClick)="onMenuClick($event)"></nb-user> -->
+    <div *ngIf="loggedin==true" class="dropdown">
+      <button class="dropbtn">{{user['username']}}</button>
+      <div class="dropdown-content">
+        <a href="#/user/editProfile">Edit Profile</a>
+        <a href="#/user/changePassword">Change password</a>
+        <a *ngIf="user['expert']==false&&user['admin']==false" href="#/user/applyExpert">Apply to be an Expert</a>
+        <a *ngIf="user['admin']==false" href="#/company/suggest">Suggest Company</a>
+        <a (click)="logOut()">Logout</a>
+      </div>
+    </div>
     <span><a *ngIf="loggedin==false" href="#/user/login" style="padding-right:5px">Login</a>  <a *ngIf="loggedin==false" href="#/user/register" style="padding-right:5px">Register</a></span>
   </nb-action>
 </nb-actions>

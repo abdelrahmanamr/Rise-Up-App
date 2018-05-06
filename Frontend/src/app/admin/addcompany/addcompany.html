@@ -25,7 +25,7 @@
 
         <br>
 
-        <input class="btn btn-success" [disabled]="! myForm.valid" STYLE="background-color: #DB0C18" type="submit" value="ADD STARTUP"> {{errorHandle}}
+        <input class="btn btn-success" [disabled]="! myForm.valid || isSubmitted" [readonly]="true"  STYLE="background-color: #DB0C18" (click)="onSubmit(companyForm.value)"  value="ADD STARTUP"> {{errorHandle}}
 
     </form>
 

@@ -15,13 +15,14 @@ import { ToastrService } from 'ngx-toastr';
 export class AddcompanyComponent implements OnInit {
     errorHandle = "";
     tags: any = [];
-
+    isSubmitted = false;
 
     myForm: FormGroup;
     constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 
 
     onSubmit(companyForm) {
+        this.isSubmitted = true;
         var result = this.tags.map(function (val) {
             return val.displayValue;
         }).join(',');

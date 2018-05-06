@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class SuggestedContentComponent {
   public contents: any[] = [];
 
+
   constructor(private httpClient: HttpClient, private router: Router,
     private toastr: ToastrService) { }
 

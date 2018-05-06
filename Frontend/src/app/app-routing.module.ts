@@ -3,7 +3,7 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
- 
+
   {
 
     path: 'content',
@@ -22,13 +22,13 @@ const routes: Routes = [
     loadChildren: './user/user.module#UserModule'
   },
   {
-        path: 'reset/:id',
-        loadChildren: './user/reset/reset.module#ResetModule'
-    },
-    {
-      path: 'home',
-      loadChildren: './home/home.module#HomeModule'
-    },
+    path: 'reset/:id',
+    loadChildren: './user/reset/reset.module#ResetModule'
+  },
+  {
+    path: 'home',
+    loadChildren: './home/home.module#HomeModule'
+  },
   {
     path: 'search',
     loadChildren: './search/search.module#SearchModule'
@@ -51,4 +51,4 @@ const config: ExtraOptions = {
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

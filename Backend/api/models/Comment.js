@@ -7,12 +7,12 @@ var commentSchema = mongoose.Schema({
     },
     username: {
         type: String,
-         required:true
+        required: true
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required:true
+        required: true
     },
     contentid: {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,4 +29,4 @@ var commentSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-module.exports = mongoose.model('Comment',commentSchema);
+module.exports = mongoose.model('Comment', commentSchema);

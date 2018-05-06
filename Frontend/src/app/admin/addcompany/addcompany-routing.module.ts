@@ -1,3 +1,4 @@
+//Names: Salma Osama
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -11,4 +12,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AddcompanyRoutingModule {}
+export class AddcompanyRoutingModule { }

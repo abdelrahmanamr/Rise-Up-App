@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { ExpertComponent } from './expert.component';
 
 const routes: Routes = [
@@ -16,7 +15,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'viewallexperts'
       }
-      
+
     ]
   }
 ];
@@ -26,4 +25,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class ExpertRoutingModule {}
+export class ExpertRoutingModule { }

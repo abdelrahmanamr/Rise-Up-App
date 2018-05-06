@@ -1,102 +1,119 @@
 <!-- <div class="container" style="background-color:rgb(255, 233, 107)" > -->
-    <div class="rightbg">
+<div class="rightbg">
 
-     <div class="cardHeader">
-         <div *ngIf="data">
-         <div class="coverImage">
-            <img *ngIf="data.coverImage!=null" src="{{data.coverImage}}" width=100%>
-            <img *ngIf="data.coverImage==null || data.coverImage==''" src="/assets/defaultContentCover.jpg" width=100%>
-            <div class="overlay"></div>
-            <div class="leftText"><h4>{{PostTitle}}</h4></div>
-        </div>
+    <div class="cardHeader">
+        <div *ngIf="data">
+            <div class="coverImage">
+                <img *ngIf="data.coverImage!=null" src="{{data.coverImage}}" width=100%>
+                <img *ngIf="data.coverImage==null || data.coverImage==''" src="/assets/defaultContentCover.jpg" width=100%>
+                <div class="overlay"></div>
+                <div class="leftText">
+                    <h4>{{PostTitle}}</h4>
+                </div>
+            </div>
         </div>
     </div>
-    
-    
 
-        
+
+
+
 
     <div class="contentDiv">
-    <td *ngIf="this.viewlink==false"><button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true" >show link</button></td>
-    <div><img   src={{ImagePath}} >  </div>  
+        <td *ngIf="this.viewlink==false">
+            <button type="button" *ngIf="checkLink" class="btn btn-danger btn-sm" (click)="this.viewlink=true">show link</button>
+        </td>
+        <div>
+            <img src={{ImagePath}}> </div>
 
-    <div style="color:rgb(0, 0, 0)" [innerHTML]="Content"></div>
-    <br />
-    <br />    
-    <span  *ngIf="viewlink"> <iframe width="100%" height="1000" [src]="Body | safe" ></iframe> </span>
-    <br>
-    <hr>
-    <span *ngIf="Contenttype==false"> <b style="color:rgb(0, 0, 0)"> Source: </b> <a style="color:#D00018" href="{{ Body }}"> {{ Body }} </a> </span>
-
-
-    <br />
-    <br /> 
-
-    <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="EditContent(ID)" class="btn btn-danger btn-sm"> Edit </Button>
-    <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="viewAdder()" class="btn btn-danger btn-sm"> view content adder </Button>
-        <div   style="float:right; margin-top: -28px"> 
-        <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]= "isCopied1" type="button" ngxClipboard [cbContent]=Url (cbOnSuccess)="isCopied1 = true" >share content</button>
-    <br>
-
-    <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
-
-    </div>
-    
-    </div>
-
-        <br><br>
-    <style>
-    
-    
-    
-    
-
-    </style>
-    
-    <div class="resultDiv">
-    <h2 style="color:#D00018">Rate this content !</h2>
-    <div class="rating">
-    <a (click)="rate(1)"><span class="fa fa-star" id="minStar1" [class.checked]="rating >= 1"></span></a>
-    <a (click)="rate(2)"><span class="fa fa-star" id="minStar2" [class.checked]="rating >= 2"></span></a>
-    <a (click)="rate(3)"><span class="fa fa-star" id="minStar3" [class.checked]="rating >= 3"></span></a>
-    <a (click)="rate(4)"><span class="fa fa-star" id="minStar4" [class.checked]="rating >= 4"></span></a>
-    <a (click)="rate(5)"><span class="fa fa-star" id="minStar5" [class.checked]="rating >= 5"></span></a>
-    </div>  <br />
-    <Button (click)="toggle()" class="btn btn-success btn-sm" style="background-color:#D00018"> View comments </Button>
-    <br>
-    <br>
-    <div *ngIf="commentsflag">
-        <div *ngFor="let comment of comments">
-        <div class="container" >
-      
-       <span class="commenter">{{comment.username}}:</span> <i>{{comment.createdAt | date }}</i>
-       <button *ngIf="comment.userid!=this.userID" (click) = "reportComment(comment._id)" class="fa fa-flag"  aria-hidden="true"  id="trash" style="float:right;"> </button>
+        <div style="color:rgb(0, 0, 0)" [innerHTML]="Content"></div>
+        <br />
+        <br />
+        <span *ngIf="viewlink">
+            <iframe width="100%" height="1000" [src]="Body | safe"></iframe>
+        </span>
+        <br>
         <hr>
-          <span class="commentbody">{{comment.body}}</span>
-          <button *ngIf="comment.userid==this.userID || this.adminStatus ==true" (click) = "deleteComment(comment._id)" class="fa fa-trash" aria-hidden="true"  id="trash" style="float:right;"> </button>
-      
-        <!-- </div> -->
-      </div>
-    </div>
+        <span *ngIf="Contenttype==false">
+            <b style="color:rgb(0, 0, 0)"> Source: </b>
+            <a style="color:#D00018" href="{{ Body }}"> {{ Body }} </a>
+        </span>
+
+
+        <br />
+        <br />
+
+        <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="EditContent(ID)" class="btn btn-danger btn-sm"> Edit </Button>
+        <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="viewAdder()" class="btn btn-danger btn-sm"> view content adder </Button>
+        <div style="float:right; margin-top: -28px">
+            <button class="btn btn-danger btn-sm" (click)="ShowPopUp()" [class.btn-success]="isCopied1" type="button" ngxClipboard [cbContent]=Url
+                (cbOnSuccess)="isCopied1 = true">share content</button>
+            <br>
+
+            <Button style="margin-bottom: -34px;" *ngIf="adminStatus" (click)="DeleteContent(ID)" class="btn btn-danger btn-sm"> Delete </Button>
+
+        </div>
+
     </div>
 
-<br>
-      <form #userForm="ngForm" (ngSubmit) = "createComment(ID,userForm.value)">
-      <textarea style="height:100px; width:98%;" class="form-control" name = "comment" placeholder = "Enter your Comment" cols="30" rows="5" ngModel></textarea>
-<br />
+    <br>
+    <br>
+    <style>
+    </style>
 
-      <input class="btn btn-success btn-sm" type = "submit" id="btnid" value = "Comment" style="background-color:#D00018"> 
-      </form>
-      <br />
+    <div class="resultDiv">
+        <h2 style="color:#D00018">Rate this content !</h2>
+        <div class="rating">
+            <a (click)="rate(1)">
+                <span class="fa fa-star" id="minStar1" [class.checked]="rating >= 1"></span>
+            </a>
+            <a (click)="rate(2)">
+                <span class="fa fa-star" id="minStar2" [class.checked]="rating >= 2"></span>
+            </a>
+            <a (click)="rate(3)">
+                <span class="fa fa-star" id="minStar3" [class.checked]="rating >= 3"></span>
+            </a>
+            <a (click)="rate(4)">
+                <span class="fa fa-star" id="minStar4" [class.checked]="rating >= 4"></span>
+            </a>
+            <a (click)="rate(5)">
+                <span class="fa fa-star" id="minStar5" [class.checked]="rating >= 5"></span>
+            </a>
+        </div>
+        <br />
+        <Button (click)="toggle()" class="btn btn-success btn-sm" style="background-color:#D00018"> View comments </Button>
+        <br>
+        <br>
+        <div *ngIf="commentsflag">
+            <div *ngFor="let comment of comments">
+                <div class="container">
+
+                    <span class="commenter">{{comment.username}}:</span>
+                    <i>{{comment.createdAt | date }}</i>
+                    <button *ngIf="comment.userid!=this.userID" (click)="reportComment(comment._id)" class="fa fa-flag" aria-hidden="true" id="trash"
+                        style="float:right;"> </button>
+                    <hr>
+                    <span class="commentbody">{{comment.body}}</span>
+                    <button *ngIf="comment.userid==this.userID || this.adminStatus ==true" (click)="deleteComment(comment._id)" class="fa fa-trash"
+                        aria-hidden="true" id="trash" style="float:right;"> </button>
+
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <form #userForm="ngForm" (ngSubmit)="createComment(ID,userForm.value)">
+            <textarea style="height:100px; width:98%;" class="form-control" name="comment" placeholder="Enter your Comment" cols="30"
+                rows="5" ngModel></textarea>
+            <br />
+
+            <input class="btn btn-success btn-sm" type="submit" id="btnid" value="Comment" style="background-color:#D00018">
+        </form>
+        <br />
     </div>
-    </div>
+</div>
 
-    
-     
-      
-      <!-- </div> -->
-      
-     
 
- 
-	
+
+
+<!-- </div> -->

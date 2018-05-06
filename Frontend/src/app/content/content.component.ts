@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MENU_ITEMS } from './content-menu';
 import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
 
@@ -12,13 +12,13 @@ import { NbMenuItem } from '@nebular/theme/components/menu/menu.service';
   `
 })
 export class ContentComponent implements OnInit {
- 
+
   menu: NbMenuItem[];
   ngOnInit() {
     this.menu = MENU_ITEMS;
   }
 
-  
+
 
 
 }

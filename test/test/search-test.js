@@ -102,6 +102,7 @@ it('should get a company by name or type on  /api/search/getCompanyByNameOrType/
            res.should.be.json;
            res.body.should.be.a('object');
            res.body.data.should.not.be.null;
+           JSON.parse(res.text)["data"][0].name.should.be.eql('testcompany');
             done();
         });
 }),
@@ -114,6 +115,7 @@ it('should get a company name on /search/getCompanyByName/ GET ',function(done){
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.data.should.not.be.null;
+            JSON.parse(res.text)["data"][0].name.should.be.eql('testcompany');
             done();
         });
 }),
@@ -126,6 +128,7 @@ it('should get a company type on /search/getCompanyByType/ GET ',function(done){
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.data.should.not.be.null;
+            JSON.parse(res.text)["data"][0].type.should.be.eql('test');
             done();
         });
 }),
@@ -138,6 +141,7 @@ it('should get a company by tags on /search/getCompanyTags/ GET ',function(done)
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.data.should.not.be.null;
+           // JSON.parse(res.text)["data"][0].should.include('test');
             done();
         });
 }),
@@ -150,6 +154,7 @@ it('should get an expert by tags on /search/getExpertTags/ GET ',function(done){
             res.should.be.json;
             res.body.should.be.a('object');
             res.body.data.should.not.be.null;
+            
             done();
         });
 }),
@@ -193,17 +198,6 @@ it('should get company by its type or tags /search/getCompanyTagsOrType/ GET ',f
         });
 }),
             
-it('should get company by its name ,type or tags /search/getCompanyTagsOrNameOrType/ GET ',function(done){
-    chai.request(server)
-        .get('/api/search/getCompanyTagsOrNameOrType/'+foundcompany['tags'])
-        .end(function(err,res){
-            res.should.have.status(200);
-            res.should.be.json;
-            res.body.should.be.a('object');
-            res.body.data.should.not.be.null;
-            done();
-        });
-}),
 it('should get company by its name ,type or tags /search/getCompanyTagsOrNameOrType/ GET ',function(done){
     chai.request(server)
         .get('/api/search/getCompanyTagsOrNameOrType/'+foundcompany['tags'])

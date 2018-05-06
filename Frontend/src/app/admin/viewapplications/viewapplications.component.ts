@@ -58,21 +58,7 @@ export class ViewApplicationsComponent {
 		var data = JSON.stringify({ userid: JSON.parse(localStorage.getItem("userProps"))["_id"] });
 		this.httpClient.patch(environment.apiUrl + '/admin/AddExpert/' + ID, data, config)
 			.subscribe(res => {
-				if(res['data']['tags']){
-					var JSONtoIndex = {
-						"name": res['data']['tags'],
-						"object": res['data'],
-						"type": "User"
-					}
-				
-
-
-				this.httpClient.post(environment.apiUrl + '/search/addToUserIndex', JSONtoIndex, config).subscribe(res => {
-					window.location.reload();
-				})
-				}else{
-					window.location.reload();
-				}
+				window.location.reload();
 			}, err => {
 				this.toastr.error("", err['error']["msg"]);
 				if (err.error["msg"] == "Login timed out, please login again." || err.error["msg"] == 'You have to login first before you can access this URL.') {

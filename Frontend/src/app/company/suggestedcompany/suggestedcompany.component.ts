@@ -14,13 +14,14 @@ import { environment } from '../../../environments/environment';
 export class SuggestedcompanyComponent implements OnInit {
     errorHandle = "";
     tags: any = [];
-
+    isSubmitted = false;
 
     myForm: FormGroup;
     constructor(private http: HttpClient, private router: Router) { }
 
 
     onSubmit(companyForm) {
+        this.isSubmitted = true;
         var result = this.tags.map(function (val) {
             return val.displayValue;
         }).join(',');

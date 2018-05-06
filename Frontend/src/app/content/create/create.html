@@ -84,6 +84,7 @@
         <input type='file' (change)="onSelectFile($event)">
         <br />
         <input class="btn btn-danger" [disabled]="isSubmitted" [readonly]="true" (click)="onSubmit(contentForm.value)" value="submit"> {{errorHandle}}
+
         <br /> {{text}}
     </form>
 </div>

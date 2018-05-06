@@ -147,7 +147,7 @@ export class CreateComponent implements OnInit {
         }
       }
 
-      if (this.user['admin']) {
+      if (this.user['admin']) {//if this user is an admin content will be added
         this.http.post(environment.apiUrl + '/content/addContent', data, config)
           .subscribe(res => {
             var tags = res["data"]["tags"];
@@ -180,7 +180,7 @@ export class CreateComponent implements OnInit {
             }
           });
       }
-      else {
+      else {// If this user is not an admin the content will be suggested not added,calling add suggeted content in the backend
         this.http.post(environment.apiUrl + '/suggestedcontent/addSuggestedContent', data, config)
           .subscribe(res => {
             this.router.navigate(["/suggestedcontent/viewSuggestedContents/"])

@@ -83,7 +83,7 @@
         <br> Cover Photo (Optional):
         <input type='file' (change)="onSelectFile($event)">
         <br />
-        <input class="btn btn-danger" (click)="onSubmit(contentForm.value)" value="submit"> {{errorHandle}}
+        <input class="btn btn-danger" [disabled]="isSubmitted" [readonly]="true" (click)="onSubmit(contentForm.value)" value="submit"> {{errorHandle}}
         <br /> {{text}}
     </form>
 </div>

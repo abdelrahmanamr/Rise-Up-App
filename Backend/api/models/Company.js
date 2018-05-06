@@ -1,3 +1,8 @@
+/* 
+Name: Salma Ossama
+Date Created : 14/3/2018
+*/
+
 var mongoose = require('mongoose');
 
 var companySchema = mongoose.Schema({

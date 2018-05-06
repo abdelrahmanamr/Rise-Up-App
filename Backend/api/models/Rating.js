@@ -1,3 +1,8 @@
+/* 
+Name: Rana Talaat
+Date Created : 13/3/2018
+*/
+
 var mongoose = require('mongoose');
 
 var ratingSchema = mongoose.Schema({

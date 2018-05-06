@@ -119,19 +119,28 @@ export class ViewContentComponent {
           this.rating = res['data'].rating;
           this.owner = res['data'].userid;
         }
-        if (res['data'].type == "Post") {
-          this.ViewText(this.ID)
-          this.Contenttype = true;
 
-        }
+      if(res['data'].type== "Post"){
+        this.Content = this.sanitizer.bypassSecurityTrustHtml(res['data'].body); 
+          this.data = res['data'];
+          this.PostTitle = res['data'].title;
+        this.Contenttype=true;
 
-        if (res['data'].type == "Image") {
-          this.ViewImage(this.ID)
-        }
-        if (res['data'].type == "Link") {
-          this.ViewLink(this.ID)
-        }
-
+      }   
+      
+      if(res['data'].type == "Image"){
+        this.ImagePath =(res['data'].body);  
+         this.PostTitle = res['data'].title;
+    
+      }  
+      if(res['data'].type == "Link"){
+        this.Title= res['data'].title;
+        this.PostTitle = res['data'].title;
+        this.Body = res['data'].body;
+        this.checkLink=true;
+                  
+      }  
+          
       }
     );
   }
@@ -155,82 +164,29 @@ export class ViewContentComponent {
 
   }
 
-  ViewText(ID: String) {
-    var config = {
-      headers:
-        {
-          'Content-Type': 'application/json'
-        }
-    }
-    this.httpClient.get(environment.apiUrl + '/Content/viewContent/' + ID, config).subscribe(
-      res => {
-        this.Content = this.sanitizer.bypassSecurityTrustHtml(res['data'].body);
-        this.data = res['data'];
-        this.PostTitle = res['data'].title;
-        this.array.push("comment1");
-        this.array.push("comment2");
+    
 
-      }
-    );
-  }
-
-  ViewLink(ID: string) { //this method views the content of the link in a mini browser when pressing the button view Link
-    var config = {
-      headers:
-        {
-          'Content-Type': 'application/json'
-        }
-    }
-    this.httpClient.get(environment.apiUrl + '/Content/viewContent/' + ID, config).subscribe(
-      res => {
-
-        this.Title = res['data'].title;
-        this.PostTitle = res['data'].title;
-
-        this.Body = res['data'].body;
-        this.checkLink = true;
-
-      }
-    );
-  }
-
-
-
-  ViewImage(ID: string) {
-    var config = {
-      headers:
-        {
-          'Content-Type': 'application/json'
-        }
-    }
-    this.httpClient.get(environment.apiUrl + '/Content/viewContent/' + ID, config).subscribe(
-      res => {
-        this.ImagePath = (res['data'].body);
-        this.PostTitle = res['data'].title;
-
-      }
-    );
-  }
-
-  DeleteContent(ident: string) {
-    var config = {
-      headers: {
+ DeleteContent(ident:string)
+ {
+  var config = {
+    headers : {
         'Content-Type': 'application/json',
-        'authorization': localStorage.getItem('UserDoc')
-      }
+       'authorization':localStorage.getItem('UserDoc')
     }
-    this.httpClient.delete(environment.apiUrl + 'Content/deleteContent/' + ident + ".." + JSON.parse(localStorage.getItem("userProps"))["_id"], config).
+}
+this.httpClient.delete(environment.apiUrl+'Content/deleteContent/'+ident+".."+JSON.parse(localStorage.getItem("userProps"))["_id"],config).
 
-      subscribe(res => {
-        this.router.navigateByUrl('/content/viewallcontents');
-      }, err => {
-        this.toastr.error("", err['error']["msg"]);
-        if (err.error["msg"] == "Login timed out, please login again." || err.error["msg"] == 'You have to login first before you can access this URL.') {
-          localStorage.clear();
-          this.router.navigateByUrl("/search/searchresults")
-        }
-      }
-      );
+   subscribe(res=>{
+       this.httpClient.delete(environment.apiUrl+'/search/deleteContentFromContentIndex/'+ident).subscribe(res=>{
+           this.router.navigateByUrl('/content/viewallcontents');
+       })
+   },err=>{
+    this.toastr.error("",err['error']["msg"]);
+    if(err.error["msg"]=="Login timed out, please login again." ||err.error["msg"]=='You have to login first before you can access this URL.' ){
+      localStorage.clear();
+      this.router.navigateByUrl("/search/searchresults")
+    }     
+
   }
 
   createComment(ID: String, comment: string) //this method is called on clicking on button "Comment" once the user finished his comment, and the method calls post httprequest createComment method in the backend

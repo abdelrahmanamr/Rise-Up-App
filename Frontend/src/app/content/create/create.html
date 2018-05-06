@@ -78,12 +78,13 @@
             </div>
         </div>
         <br />
-        <tags-input class="form-control input-lg" type="text" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"
-            placeholder="Enter your tags here"></tags-input>
-        <br> Cover Photo (Optional):
-        <input type='file' (change)="onSelectFile($event)">
-        <br />
-        <input class="btn btn-danger" (click)="onSubmit(contentForm.value)" value="submit"> {{errorHandle}}
+
+        <tags-input class="form-control input-lg" type="text"
+        (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags" placeholder="Enter your tags here"></tags-input>
+        <br>
+        Cover Photo (Optional): <input type='file' (change)="onSelectFile($event)"><br />
+        <input class="btn btn-danger" (click) = "onSubmit(contentForm.value)" type = "submit" value = "submit"> {{errorHandle}}
+
         <br /> {{text}}
     </form>
 </div>

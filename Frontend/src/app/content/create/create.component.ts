@@ -35,6 +35,7 @@ export class CreateComponent implements OnInit {
   quill: any;
   tags: any = [];
   text = "";
+  isSubmitted = false;
 
 
 
@@ -125,6 +126,7 @@ export class CreateComponent implements OnInit {
   onSubmit = function (content) {
 
     var data: any;
+    this.isSubmitted = true;
     var result = this.tags.map(function (val) {
       return val.displayValue;
     }).join(',');
@@ -164,7 +166,7 @@ export class CreateComponent implements OnInit {
                 }
                 this.http.post(environment.apiUrl + 'search/addToContentIndex', JSONtoContentIndex, config).subscribe(
                   res => {
-                    this.router.navigateByUrl("/search/searchResult?key=viewallcontent");
+                    this.router.navigateByUrl("/search/searchResult?key=AllContent");
                   }
                 )
 

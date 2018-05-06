@@ -50,6 +50,9 @@ export class ResetComponent implements OnInit {
     message = ""
     expire: boolean = false;
     ngOnInit() {
+        if(localStorage.getItem('userProps')){
+            this.router.navigateByUrl('/');
+        }
         this.url = this.router.url;
         this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
         var config = {

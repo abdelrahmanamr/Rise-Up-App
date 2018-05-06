@@ -52,9 +52,12 @@ export class LoginComponent {
     final = "";
     constructor(private http: HttpClient, private router: Router, private activatedRoute: ActivatedRoute,
         private toastr: ToastrService) {
-        this.url = this.router.url;
-        this.final = this.url.substr(this.url.lastIndexOf('/') + 1)
+        if(localStorage.getItem('userProps')){
+            this.router.navigateByUrl('/');
+        }
     }
+
+    
 
     onSubmit = function (user) {
         var data = JSON.stringify({ username: user.username, password: user.password })

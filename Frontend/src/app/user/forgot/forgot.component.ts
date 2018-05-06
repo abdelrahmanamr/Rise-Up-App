@@ -46,12 +46,11 @@ export class ForgotComponent implements OnInit {
   }
 
   onSubmit = function (user) {
-    var data = JSON.stringify({ email: user.email })
+    var data = {email:user.email};
 
     var config = {
       headers: {
         'Content-Type': 'application/json',
-        'authorization': localStorage.getItem('UserDoc')
       }
     }
 
@@ -61,13 +60,6 @@ export class ForgotComponent implements OnInit {
         if (message == "Success") {
 
           this.router.navigate(["/search"]);
-
-				var config = {
-						headers : {
-			'Content-Type': 'application/json',
-			'authorization':localStorage.getItem('UserDoc')
-		}
-		}
 
         }
 

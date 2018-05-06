@@ -23,6 +23,7 @@ export class ProfileComponent {
     Url: String
     ID: any;
     tagFinalA: any;
+    user:any;
     username: String;
     permitted = true;
     constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
@@ -32,10 +33,10 @@ export class ProfileComponent {
 
 
     ngOnInit() {
+        this.user=JSON.parse(localStorage.getItem("userProps"));
         var config = {
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': localStorage.getItem('UserDoc')
             }
         }
 

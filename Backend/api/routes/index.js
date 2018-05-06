@@ -94,7 +94,7 @@ router.post('/user/forgetPassword',userController.forgetPassword);
 router.patch('/user/reset/:token',userController.reset);
 router.patch('/user/changePassword/:userId', isAuthenticated,userController.ChangePassword);
 router.get('/user/expire/:token',userController.expire);
-router.get('/user/getUserByUsername/:username',isAuthenticated,userController.getUserByUsername);
+router.get('/user/getUserByUsername/:username',userController.getUserByUsername);
 router.patch('/user/edit/:id',isAuthenticated,userController.edit);
 
 

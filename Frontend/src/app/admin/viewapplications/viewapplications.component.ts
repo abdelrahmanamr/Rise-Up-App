@@ -58,7 +58,6 @@ export class ViewApplicationsComponent {
 		var data = JSON.stringify({ userid: JSON.parse(localStorage.getItem("userProps"))["_id"] });
 		this.httpClient.patch(environment.apiUrl + '/admin/AddExpert/' + ID, data, config)
 			.subscribe(res => {
-				console.log(res);
 				if(res['data']['tags']){
 					var JSONtoIndex = {
 						"name": res['data']['tags'],

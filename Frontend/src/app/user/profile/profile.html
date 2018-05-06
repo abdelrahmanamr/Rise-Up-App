@@ -45,7 +45,7 @@
                                 </p>
                         </div>
 
-
+                        <span *ngIf="user&&user['admin']">
                         <h4> Admin Controls </h4>
                         <hr>
 
@@ -81,7 +81,7 @@
                                 <button *ngIf="data.expert" type="button" class="btn btn-danger" (click)="submitTags()">Submit Tags
                                 </button>
                         </div>
-
+                        </span>
 
                 </div>
         </div>

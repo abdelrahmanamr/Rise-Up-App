@@ -1,0 +1,22 @@
+<div class="container" *ngIf="alreadyApplied==true">
+    <h4>Sorry you have already applied as an expert or you are already one</h4>
+</div>
+
+<form class="container" *ngIf="alreadyApplied==false" #userForm="ngForm" (ngSubmit)="onSubmit(userForm.value)">
+    <label style="font-size: 50px;;font-weight: bold;">
+        Enter your previous Experience!
+
+    </label>
+    <input type="exp" class="form-control" name="previousExperience" placeholder="Enter your previous experience" style="width: 300px;padding: 10px;font-family: Georgia; border: 3px solid black;line-height: 1;margin-top:10px;  "
+        ngModel>
+    <br>
+    <div id="left">
+    </div>
+
+
+    <div id="right">
+        <input class="btn btn-success" [readonly]="true" [disabled]="applying" type="submit" value="Confirm" style="background-color:#DC0C18"> {{errorView}}
+    </div>
+
+</form>
+<br />

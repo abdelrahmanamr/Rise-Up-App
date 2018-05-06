@@ -65,7 +65,7 @@ describe('Testing SuggestedContent', () =>
   };
   chai.request(server).post('/api/user/register').send(data).end(function(err,res){
       res.should.have.status(201);
-    User.findOne({"username":"ranon123123"}).exec(function(err,userfound){
+    User.findOne({"username":"ranon2"}).exec(function(err,userfound){
         authenticatedUser2 = userfound;
         done();
         });

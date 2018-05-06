@@ -18,6 +18,7 @@ export class ControlPanelComponent {
 	data = [];
 	constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 	ngOnInit() {
+		if(localStorage.getItem("userProps")){
 		var config =
 			{
 				headers:
@@ -37,6 +38,9 @@ export class ControlPanelComponent {
 						this.router.navigateByUrl("/search/searchresults")
 					}
 				});
+		}else{
+			this.router.navigateByUrl("/search/searchresults")
+		}
 
 	}
 

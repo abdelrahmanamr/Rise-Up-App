@@ -15,7 +15,11 @@ export class ViewApplicationsComponent {
 		private toastr: ToastrService) { }
 
 	ngOnInit() {
-		this.ViewApplications();
+		if(localStorage.getItem("userProps")){
+			this.ViewApplications();
+		}else{
+			this.router.navigateByUrl('/');
+		}
 	}
 	ViewApplications() {     //this method views all applications of users to be an experts
 		var config = {
@@ -26,10 +30,11 @@ export class ViewApplicationsComponent {
 		}
 
 		this.httpClient.get(environment.apiUrl + '/applyExpert/getApplications', config).subscribe(
-			res => {
-				for (var i = 0; i < res['data'].length; i++) {
-					if (res['data'][i].status == 0) {
-						this.applications.push(res['data'][i]);
+			res => {if(res['data']!=null){
+					for (var i = 0; i < res['data'].length; i++) {
+						if (res['data'][i].status == 0) {
+							this.applications.push(res['data'][i]);
+						}
 					}
 				}
 			}, err => {
@@ -52,16 +57,22 @@ export class ViewApplicationsComponent {
 		}
 		var data = JSON.stringify({ userid: JSON.parse(localStorage.getItem("userProps"))["_id"] });
 		this.httpClient.patch(environment.apiUrl + '/admin/AddExpert/' + ID, data, config)
-			.subscribe((info: any) => {
+			.subscribe(res => {
+				if(res['data']['tags']){
+					var JSONtoIndex = {
+						"name": res['data']['tags'],
+						"object": res['data'],
+						"type": "User"
+					}
+				
 
-				var JSONtoIndex = {
-					"name": info['data']['tags'],
-					"object": info['data'],
-					"type": "User"
-				}
-				this.httpClient.post(environment.apiUrl + '/search/addToIndex', JSONtoIndex, config).subscribe(res => {
+
+				this.httpClient.post(environment.apiUrl + '/search/addToUserIndex', JSONtoIndex, config).subscribe(res => {
 					window.location.reload();
 				})
+				}else{
+					window.location.reload();
+				}
 			}, err => {
 				this.toastr.error("", err['error']["msg"]);
 				if (err.error["msg"] == "Login timed out, please login again." || err.error["msg"] == 'You have to login first before you can access this URL.') {

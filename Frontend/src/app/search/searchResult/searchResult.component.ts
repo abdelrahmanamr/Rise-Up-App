@@ -262,13 +262,15 @@ export class SearchResultComponent implements OnInit {
         this.userElasticSearch = [];
         this.nameortype = "";
         this.http.get(environment.apiUrl + "Content/viewContents").subscribe(res => {
-            if (localStorage.getItem('userProps')) {
+            if (localStorage.getItem('userProps')&&JSON.parse(localStorage.getItem('userProps'))['tags']) {
                 this.contentElasticSearch = this.sortPreferedContent(res['data']);
             } else {
                 this.contentElasticSearch = res['data'];
             }
             this.contentElasticSearch.forEach(item => {
+
                 item.tags = item.tags.split(",");
+                
             });
             this.filterToSet = "All";
             this.searchResult = true;
@@ -310,12 +312,14 @@ export class SearchResultComponent implements OnInit {
         });
     }
     sortPreferedContent(contentResult: any[]) {
+        var finalResult = [];
+        if(JSON.parse(localStorage.getItem('userProps'))){
         var userTags = (JSON.parse(localStorage.getItem('userProps'))['tags']).split(',');
+        if(userTags){
         var counterContent;
         var counterUserTags;
         var result = [];
         var loopBreak = false;
-        var finalResult = [];
         var notPreferedContent = [];
         for (counterContent = 0; counterContent < contentResult.length; counterContent++) {
             for (counterUserTags = 0; counterUserTags < userTags.length && loopBreak == false; counterUserTags++) {
@@ -330,6 +334,8 @@ export class SearchResultComponent implements OnInit {
         }
         notPreferedContent = contentResult;
         finalResult = result.concat(notPreferedContent);
+        }
+        }
         return finalResult;
     }
 

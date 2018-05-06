@@ -92,7 +92,12 @@ export class EditComponent implements OnInit {
             this.link = res['data'].body;
           }
 
-          this.tags = res['data'].tags;
+          if (res['data'].tags != null)
+            // this.tags = res['data'].tags.split(",");
+            res['data'].tags.split(",").forEach(element => {
+              var el = JSON.parse(JSON.stringify({ "displayValue": element }));
+              this.tags.push(el);
+            });
 
         }
       );

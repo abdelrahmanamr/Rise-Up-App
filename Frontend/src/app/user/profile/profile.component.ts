@@ -228,15 +228,6 @@ export class ProfileComponent {
             .subscribe((info: any) => {
 
                 window.location.reload();
-
-                var JSONtoIndex = {
-                    "name": info['data']['tags'],
-                    "object": info['data'],
-                    "type": "User"
-                }
-                this.http.post(environment.apiUrl + '/search/addToIndex', JSONtoIndex, config).subscribe(res => {
-                    window.location.reload();
-                })
             }, err => {
                 this.toastr.error("", err['error']["msg"]);
                 if (err.error["msg"] == "Login timed out, please login again." || err.error["msg"] == 'You have to login first before you can access this URL.') {

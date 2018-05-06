@@ -159,7 +159,8 @@ export class SearchResultComponent implements OnInit {
                                 res => {
                                     res['data'].forEach(element => {
                                         element.tags = element.tags.split(",");
-                                        this.userElasticSearch.push(element);
+                                        if(element.expert)
+                                            this.userElasticSearch.push(element);
 
                                     })
                                     this.router.navigateByUrl("/search/searchResult?key=" + this.key + "&filter1=" + this.filterToSet);

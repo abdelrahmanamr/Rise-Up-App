@@ -26,7 +26,7 @@ import { ToastrService } from 'ngx-toastr';
   
   
   <div id="right">
-<input class="btn btn-success" type = "submit" value = "Confirm" style="background-color:#DC0C18">   {{errorView}}  
+<input class="btn btn-success" [readonly]="true" type = "submit" value = "Confirm" style="background-color:#DC0C18">   {{errorView}}  
 </div>
 
 </form>

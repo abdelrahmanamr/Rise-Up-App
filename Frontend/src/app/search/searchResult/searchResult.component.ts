@@ -122,7 +122,7 @@ export class SearchResultComponent implements OnInit {
         this.userElasticSearch = [];
         //this.filter = "all";
         if (this.filterToSet.toLowerCase() == "all") {
-
+           this.companyFilterOn = false;
             this.http.get(environment.apiUrl + '/search/getSynonyms/' + this.key).subscribe(
                 res => {
 

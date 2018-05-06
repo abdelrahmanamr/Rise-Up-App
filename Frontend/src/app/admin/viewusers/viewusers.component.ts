@@ -25,6 +25,7 @@ export class ViewUsersComponent {
 	data = [];
 	constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) { }
 	ngOnInit() {
+		if(localStorage.getItem("userProps")){
 		var config = {
 			headers:
 				{
@@ -39,10 +40,13 @@ export class ViewUsersComponent {
 					this.toastr.error("", err.error["msg"]);
 					if (err.error["msg"] == "Login timed out, please login again." || err.error["msg"] == 'You have to login first before you can access this URL.') {
 						localStorage.clear();
-						this.router.navigateByUrl("/search/searchresults")
+						this.router.navigateByUrl("/")
 					}
 				}
 			);
+		}else{
+			this.router.navigateByUrl("/")
+		}
 	}
 
 	goToUser(username: string) {

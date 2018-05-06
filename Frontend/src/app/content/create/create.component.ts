@@ -42,7 +42,10 @@ export class CreateComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, fb: FormBuilder, private elem: ElementRef,
     private toastr: ToastrService) {
-
+      this.user = JSON.parse(localStorage.getItem("userProps"));
+      if (this.user == null) {
+        this.router.navigate(["/user"]);
+      }
     this.form = fb.group({
       editor: ['']
     });
@@ -78,10 +81,7 @@ export class CreateComponent implements OnInit {
       },
 
     });
-    this.user = JSON.parse(localStorage.getItem("userProps"));
-    if (this.user == null) {
-      this.router.navigate(["/user"]);
-    }
+    
 
 
   }

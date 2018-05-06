@@ -1,11 +1,13 @@
-//names: Ahmed Akram
+//names: Ahmed Akram,Ahmed Hossam, Karim ElGhandour
 var mongoose = require('mongoose'),
 	moment = require('moment'),
 	Validations = require('../utils/Validations'),
 	ApplyExpert = mongoose.model('ApplyExpert');
 User = mongoose.model('User');
+Validations = require('../utils/Validations'),
 
-/* Methods : createApplyExpert,getApplications
+
+/* Methods : createApplyExpert,getApplications,checkIfApplied
 Date Edited : 5/5/2018
 */
 
@@ -68,4 +70,33 @@ module.exports.getApplications = function (req, res, next) {
 		});
 	});
 };
+
+module.exports.checkIfApplied = function(req,res,next){
+	if (!Validations.isObjectId(req.params.userId)) {
+		return res.status(422).json({
+		  err: null,
+		  msg: 'userId parameter must be a valid ObjectId',
+		  data: null
+		});
+	}
+
+	ApplyExpert.findOne({userid:req.params.userId}).exec(function (err, user) {
+		if (err) {
+			return next(err);
+		}
+		else {
+			if (!user) {
+				return res
+					.status(200)
+					.json({ err: null, msg: null, data: {exist:false} });
+			} 
+			else {
+				return res
+					.status(422)
+					.json({err:"Already Applied",msg:"You already applied before",data:{exist:true}})
+			}
+		}
+	});
+
+}
 

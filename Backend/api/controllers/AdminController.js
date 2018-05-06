@@ -85,7 +85,7 @@ module.exports.AddExpert=function(req, res, next){ // Gives a user an expert sta
 											res.status(200).json({
 												err: null,
 												msg: 'User removed correctly',
-												data: null
+												data: updatedUser
 											});
 										}
 									});
@@ -346,7 +346,6 @@ module.exports.BlockUser = function (req, res, next) { // Blocks the user from l
 			data: null
 		});
 	}
-	console.log("REQ BODY USERID: " + req.body.userid);
 	User.findById(req.body.userid).exec(function (err, user) {
 		if (err) {
 			return next(err);
@@ -355,7 +354,6 @@ module.exports.BlockUser = function (req, res, next) { // Blocks the user from l
 
 
 			if (!user) {
-				console.log("ASD");
 				return res
 					.status(404)
 					.json({ err: null, msg: 'User not found,so you are un-authorizedA', data: null });

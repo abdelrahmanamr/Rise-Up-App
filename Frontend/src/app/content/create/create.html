@@ -3,10 +3,10 @@
 
 <div class="resultDiv">
     <form #contentForm="ngForm">
-        <div *ngIf="this.user['admin']">
+        <div *ngIf="this.user&&this.user['admin']">
             <h2>Adding Content</h2>
         </div>
-        <div *ngIf="!this.user['admin']">
+        <div *ngIf="this.user&&!this.user['admin']">
             <h2>Suggesting Content</h2>
         </div>
 

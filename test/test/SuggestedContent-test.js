@@ -119,6 +119,7 @@ describe('Testing SuggestedContent', () =>
     .set('authorization',token)
     .end((err, res) => {
     res.should.have.status(200);
+    res.body.should.be.a('object');
     res.body.msg.should.equal("contents retrieved successfully.");
     done();
     });});});
@@ -136,9 +137,13 @@ describe('Testing SuggestedContent', () =>
         .send(suggestedContentTest).end((err, res) => 
         {
             res.should.have.status(200); 
-            res.body.data.should.have.property('title'); 
-            res.body.data.should.have.property('body'); 
-            res.body.data.should.have.property('tags'); 
+            res.body.should.be.a('object');
+            res.body.data.should.have.property('title');
+            res.body.data.title.should.equal('testingContent');
+            res.body.data.should.have.property('body');
+            res.body.data.body.should.equal('This content is made to test the content controller');
+            res.body.data.should.have.property('tags');
+            res.body.data.tags.should.equal('testTag');
             res.body.msg.should.equal("content retrieved successfully.");
             res.body.data.should.have.property('_id').eql(suggestedContentTest.id);
             done(); });
@@ -177,13 +182,21 @@ describe('Testing SuggestedContent', () =>
             tags:'testTag',
             userid:authenticatedUser['_id']
         };
-
+            
         chai.request(server).post('/api/suggestedContent/addSuggestedContent')
         .send(suggestedContentTest)
         .set('authorization',token)
         .end((err, res) => 
-        { res.should.have.status(201);
-        res.body.should.have.property('msg').eql('Suggested Content was created successfully.' ); 
+        {   res.should.have.status(201);
+            res.body.data.should.have.property('title');
+            res.body.data.title.should.equal('testingContent');
+            res.body.data.should.have.property('body');
+            res.body.data.body.should.equal('This content is made to test the content controller');
+            res.body.data.should.have.property('tags');
+            res.body.data.tags.should.equal('testTag');
+            res.body.data.should.have.property('userid');
+            res.body.data.userid.should.equal(authenticatedUser['_id']);
+            res.body.should.have.property('msg').eql('Suggested Content was created successfully.' ); 
         done();
     });});
     it('it should fail to POST SuggestedContent with no user id', (done) => 
@@ -200,7 +213,7 @@ describe('Testing SuggestedContent', () =>
         .set('authorization',token)
         .end((err, res) => 
         { res.should.have.status(422);
-        res.body.should.have.property('msg').eql('test' ); 
+          res.body.should.have.property('msg').eql('test' ); 
         done();
     });});
 
@@ -270,6 +283,12 @@ describe('Testing SuggestedContent', () =>
         .set('authorization',token)
         .end((err, res) => {
         res.should.have.status(200);
+        res.body.data.should.have.property('title');
+        res.body.data.title.should.equal('testingContent');
+        res.body.data.should.have.property('body');
+        res.body.data.body.should.equal('This content is made to test the content controller');
+        res.body.data.should.have.property('tags');
+        res.body.data.tags.should.equal('testTag');
         res.body.should.have.property('msg').eql('Content was deleted successfully.'); 
     done();});});});
     it('it should fail DELETE a suggestedContent given invalid content id' , (done) => {
@@ -300,7 +319,13 @@ describe('Testing SuggestedContent', () =>
             body:'This content is made to test the content controller',
             tags:'testTag',}
         ).end((err, res) => {
-    res.should.have.status(200);
+        res.should.have.status(200);
+        res.body.data.should.have.property('title');
+        res.body.data.title.should.equal('testingContent');
+        res.body.data.should.have.property('body');
+        res.body.data.body.should.equal('This content is made to test the content controller');
+        res.body.data.should.have.property('tags');
+        res.body.data.tags.should.equal('testTag');
     res.body.should.have.property('msg').eql('Content was updated successfully.'); 
     done();});});});
     it('it should fail to UPDATE a suggestedContent given invalid id' , (done) => {

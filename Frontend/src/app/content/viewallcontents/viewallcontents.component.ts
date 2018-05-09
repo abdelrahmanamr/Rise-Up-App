@@ -74,5 +74,21 @@ ViewContent(ID: string){
 
   }
 
+  Boost(ID:string){
+
+    var config = {
+      headers : 
+      {
+          'Content-Type':'application/json'
+      }
+  }
+  
+  this.httpClient.patch(environment.apiUrl +'/Content/boost/'+ID,config).subscribe(
+  res=>{
+  }
+)
+
+  }
+
 
 }

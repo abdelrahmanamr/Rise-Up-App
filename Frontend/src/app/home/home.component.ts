@@ -23,16 +23,18 @@ import { Slider } from 'ngx-slider';
   
 </div>
 
+<h2>WHAT IS NEW ON</h2>
+<h2>CONNECT?</h2>
 
-  <div>
+  <div class="image">
   
-  <img  src="/assets/final.gif" style="width:55%;height:20%">
+  <img src="/assets/final.gif" style="width:45%;height:20%">
 
   
 
 </div>
 <div>
-  <img src="/assets/grey.png"  width="80%" height="150px">
+  <img src="/assets/grey.png"  width="80%" height="250px">
   
 </div>
 <h1>SNEAK PEEK OF OUR EVENTS</h1>
@@ -58,13 +60,27 @@ h1 {
    font-weight:bolder;
    align:center;
    font-family: helvetica;
-   font-size: 35;
+   font-size: 35px;
    position: relative;
-    left: 16.2%;
+    left: 17.2%;
 }
+h2 {
+  color: #DB0C18;
+ font-weight:bolder;
+ align:center;
+ font-family: helvetica;
+ font-size: 75px;
+ position: relative;
+  left: 5%;
+}
+
 iframe{
   position: relative;
     left: 85px;
+}
+.image{
+  position: relative;
+    left: 5.75%;
 }
 
   </style>

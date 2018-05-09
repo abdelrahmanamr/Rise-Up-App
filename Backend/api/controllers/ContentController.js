@@ -46,6 +46,39 @@ module.exports.views = function(req, res, next) { //the views method increment t
 	});
 };
 
+module.exports.boost = function(req, res, next) { //the views method increment the views count by one every time it is called
+	if (!Validations.isObjectId(req.params.contentId)) {
+		return res.status(422).json({
+			err: null,
+			msg: 'contentId parameter must be a valid ObjectId.',
+			data: null
+		});
+	}
+
+	Content.findByIdAndUpdate(
+			req.params.contentId,
+			{
+				$set: {boost : true}
+			},
+			{ new: true }
+
+			).exec(function(err, updatedcontent) {
+				if (err) {
+					return next(err);
+				}
+				if (!updatedcontent) {
+					return res
+							.status(404)
+							.json({ err: null, msg: 'content not found.', data: null });
+				}
+				res.status(200).json({
+					err: null,
+					msg: 'content was updated successfully.',
+					data: updatedcontent
+				});
+			});
+};
+
 
 
 

@@ -14,9 +14,11 @@
                     <i class="fa fa-edit" style="font-size:19px"></i>
                 </Button>
                 <Button (click)="ViewContent(content._id)" class="btn btn-danger btn-sm">view</Button>
-                <br /> &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                <i class="fa fa-eye"
-                    style="font-size:25px;padding-right:10px;"></i> {{content.views}}</div>
+                <Button *ngIf="adminStatus&&content['boost']==false" (click)="Boost(content._id)" class="btn btn-danger btn-sm" >Boost</Button><br />
+                <span style="float:right;"><i class="fa fa-eye"
+                    style="font-size:25px;padding-right:10px;"></i> {{content.views}}
+                </span>
+            </div>
         </div>
     </div>
 </div>

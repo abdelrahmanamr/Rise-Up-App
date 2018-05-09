@@ -48,6 +48,7 @@ var express = require('express'),
 router.get('/Content/viewContent/:contentId', contentCtrl.viewContent);
 router.get('/Content/viewContents', contentCtrl.viewContents);
 router.patch('/Content/views/:contentId', contentCtrl.views);
+router.patch('/Content/boost/:contentId',contentCtrl.boost);
 
 router.get('/User/viewUser/:userId', userController.viewUser);
 router.get('/User/viewUsers', userController.viewUsers);

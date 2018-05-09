@@ -10,4 +10,4 @@ import { EdittagsComponent } from './edittags.component';
   declarations: [EdittagsComponent],
   providers: []
 })
-export class EdittagsModule {}
+export class EdittagsModule { }

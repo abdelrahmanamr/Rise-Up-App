@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ThemeModule } from '../@theme/theme.module';
-
 import { UserRoutingModule } from './user-routing.module';
-
 import { UserComponent } from './user.component';
 
 @NgModule({
@@ -12,4 +10,4 @@ import { UserComponent } from './user.component';
   providers: []
 })
 
-export class UserModule {}
+export class UserModule { }

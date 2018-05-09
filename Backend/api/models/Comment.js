@@ -1,3 +1,8 @@
+/* 
+Name: Youssef Yasser
+Date Created : 2/4/2018
+*/
+
 var mongoose = require('mongoose');
 
 var commentSchema = mongoose.Schema({
@@ -7,12 +12,12 @@ var commentSchema = mongoose.Schema({
     },
     username: {
         type: String,
-         required:true
+        required: true
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required:true
+        required: true
     },
     contentid: {
         type: mongoose.Schema.Types.ObjectId,
@@ -29,4 +34,4 @@ var commentSchema = mongoose.Schema({
     updatedAt: Date
 });
 
-module.exports = mongoose.model('Comment',commentSchema);
+module.exports = mongoose.model('Comment', commentSchema);

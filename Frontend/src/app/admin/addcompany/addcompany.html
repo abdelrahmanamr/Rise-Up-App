@@ -3,27 +3,30 @@
     <form class="container" [formGroup]="myForm" #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm.value)">
 
 
-        <input id="txt" type="text" class="form-control" placeholder="Company Name" formControlName="companyname" name="companyname" ngModel>
+        <input id="txt" type="text" class="form-control" placeholder="Company Name" formControlName="companyname" name="companyname"
+            ngModel>
         <br>
 
 
-        <input id="txt" type="text" class="form-control" placeholder="Company Email" formControlName="companyemail" name="companyemail" ngModel>
+        <input id="txt" type="text" class="form-control" placeholder="Company Email" formControlName="companyemail" name="companyemail"
+            ngModel>
         <br>
 
-        <input id="txt" type="text" class="form-control" placeholder="Company Website" formControlName="companywebsite" name="companywebsite" ngModel>
+        <input id="txt" type="text" class="form-control" placeholder="Company Website" formControlName="companywebsite" name="companywebsite"
+            ngModel>
         <br>
-        <input id="txt" type="text" class="form-control" placeholder="Company Type" formControlName="companytype" name="companytype" ngModel>
+        <input id="txt" type="text" class="form-control" placeholder="Company Type" formControlName="companytype" name="companytype"
+            ngModel>
         <br>
-        <tags-input id="txt" class="form-control input-lg" placeholder="Company Tags, please press enter upon entering a new tag" formControlName="companytags" type="text"
-                    [(ngModel)]="tags" name="tags"></tags-input>
-        
+        <tags-input id="txt" class="form-control input-lg" placeholder="Company Tags, please press enter upon entering a new tag"
+            formControlName="companytags" type="text" [(ngModel)]="tags" name="tags"></tags-input>
 
-        
+
+
         <br>
 
-        <input class="btn btn-success" [disabled]="! myForm.valid" STYLE="background-color: #DB0C18" type="submit"
-               value="ADD STARTUP">
-        {{errorHandle}}
+        <input class="btn btn-success" [disabled]="! myForm.valid" STYLE="background-color: #DB0C18" type="submit" value="ADD STARTUP"> {{errorHandle}}
+
     </form>
 
     <br/>
@@ -31,8 +34,8 @@
 
 </div>
 <style>
-       #txt:focus {
-    outline: none !important;
-    border:1px solid #DB0C18;
-}
+    #txt:focus {
+        outline: none !important;
+        border: 1px solid #DB0C18;
+    }
 </style>

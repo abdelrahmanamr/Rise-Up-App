@@ -14,6 +14,6 @@ export class CompanyComponent implements OnInit {
   menu: NbMenuItem[];
 
   ngOnInit() {
-   
+
   }
 }

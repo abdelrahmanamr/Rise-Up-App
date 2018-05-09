@@ -10,4 +10,4 @@ import { CompanyComponent } from './company.component';
   entryComponents: [],
   providers: []
 })
-export class CompanyModule {}
+export class CompanyModule { }

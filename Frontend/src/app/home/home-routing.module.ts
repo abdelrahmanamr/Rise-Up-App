@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HomeComponent } from './home.component';
 
 const routes: Routes = [
@@ -12,7 +11,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'home'
       }
-      
+
     ]
   }
 ];
@@ -22,4 +21,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class HomeRoutingModule {}
+export class HomeRoutingModule { }

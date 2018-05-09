@@ -1,3 +1,8 @@
+/* 
+Name: Karim ElGhandour
+Date Created : 13/3/2018
+*/
+
 var mongoose = require('mongoose');
 
 var contentSchema = mongoose.Schema({
@@ -8,12 +13,12 @@ var contentSchema = mongoose.Schema({
     coverImage: {
         type: String
     },
-    intro:{
+    intro: {
         type: String
     },
     type: {
         type: String,
-        enum: ["Post","Link","Image"],
+        enum: ["Post", "Link", "Image"],
         default: "Post"
     },
     body: {
@@ -26,23 +31,23 @@ var contentSchema = mongoose.Schema({
     },
     views: {
         type: Number,
-        default:0
+        default: 0
     },
     ratingarray: {
         type: Array,
-        default:[]
+        default: []
     },
     rating: {
         type: Number,
-        default:0
+        default: 0
     },
     numberOfRatings: {
         type: Number,
-        default:0
+        default: 0
     },
     shares: {
         type: Number,
-        default:0
+        default: 0
     },
     boost: {
         type: Boolean,
@@ -52,7 +57,7 @@ var contentSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    comments : [{
+    comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
     }],

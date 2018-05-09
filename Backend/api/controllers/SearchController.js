@@ -1,16 +1,21 @@
 //Names : Abdelrahamn amr , amr abo el fadl , mariam el ziady , youssef haitham , ahmed yacout , Karim Elghandour , Ali Amr , Ahmed Mahdy , Mohamed Ashraf , Omar Tarek , Ziyad Khaled
 var mongoose = require('mongoose'),
-moment = require('moment'),
-Validations = require('../utils/Validations'),
-Company = mongoose.model('Company'),
-Content = mongoose.model('Content'),
-User = mongoose.model('User'),
-regex = require("regex"),
-elasticsearch = require('elasticsearch'),
-Promise = require('bluebird'),
-synonyms = require("synonyms");
+	moment = require('moment'),
+	Validations = require('../utils/Validations'),
+	Company = mongoose.model('Company'),
+	Content = mongoose.model('Content'),
+	User = mongoose.model('User'),
+	regex = require("regex"),
+	elasticsearch = require('elasticsearch'),
+	Promise = require('bluebird'),
+	synonyms = require("synonyms");
 
-
+/* Methods : getCompanyByNameOrType,getCompanyByName,getCompanyByType,getCompanyTags,getExpertTags,getContentTags,getCompanyTagsOrName,getCompanyTagsOrType,
+getSynonyms,createContentsearchIndex,createMappingContent,getContentByElasticSearch,addToContentIndex,deleteContentFromContentIndex,updateContentInContentIndex,
+createCompanysearchIndex,createMappingCompany,getCompanyByElasticSearch,addToCompanyIndex,deleteCompanyFromCompanyIndex,updateCompanyInCompanyIndex,createUsersearchIndex,
+createMappingUser,getUserByElasticSearch,addToUserIndex,deleteUserFromUserIndex,updateUserInUserIndex,addToUserIndex,dropIndex,deleteRecord,updateRecord
+Date Edited : 5/5/2018
+*/
 
 var client = new elasticsearch.Client({
 	host: 'localhost:9200',
@@ -23,230 +28,230 @@ client.ping({
 	body: 'hello JavaSampleApproach!'
 });
 
-module.exports.getCompanyByNameOrType = function ( req, res, next) { // This method searches for company by name or by type
-	if(!Validations.isString(req.params.name)){
+module.exports.getCompanyByNameOrType = function (req, res, next) { // This method searches for company by name or by type
+	if (!Validations.isString(req.params.name)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'name parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 
 	}
 	Company.find(
-			{$or:[{name:{$regex:new RegExp(req.params.name)}},{type:{$regex:new RegExp(req.params.name)}}]}
-			).sort([['date', -1]]).exec(function (err,companies) {
-				if(err){
-					return next(err);
-				}
-				return res.status(200).json({
-					err:null,
-					msg:'All companies containg this name or type'+req.params.name+'retrieved successfully',
-					data:companies
-				});
-			});
+		{ $or: [{ name: { $regex: new RegExp(req.params.name) } }, { type: { $regex: new RegExp(req.params.name) } }] }
+	).sort([['date', -1]]).exec(function (err, companies) {
+		if (err) {
+			return next(err);
+		}
+		return res.status(200).json({
+			err: null,
+			msg: 'All companies containg this name or type' + req.params.name + 'retrieved successfully',
+			data: companies
+		});
+	});
 };
 
-module.exports.getCompanyByName = function ( req, res, next) {          // This method searches for company by name 
-	if(!Validations.isString(req.params.name)){
+module.exports.getCompanyByName = function (req, res, next) {          // This method searches for company by name 
+	if (!Validations.isString(req.params.name)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'name parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 
 	}
-	var comparedString =  req.params.name.toLowerCase();
+	var comparedString = req.params.name.toLowerCase();
 	Company.find({
-		name:{$regex:new RegExp(comparedString)}
-	}).exec(function (err,companies) {
-		if(err){
+		name: { $regex: new RegExp(comparedString) }
+	}).exec(function (err, companies) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All companies containg this name'+req.params.name+'retrieved successfully',
-			data:companies
+			err: null,
+			msg: 'All companies containg this name' + req.params.name + 'retrieved successfully',
+			data: companies
 		});
 	});
 };
 
-module.exports.getCompanyByType = function ( req, res, next) {    // This method searches for company by type
+module.exports.getCompanyByType = function (req, res, next) {    // This method searches for company by type
 
-	if(!Validations.isString(req.params.type)){
+	if (!Validations.isString(req.params.type)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'type parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	Company.find({
-		type:{$regex:new RegExp(req.params.type)}
-	}).exec(function (err,companies) {
-		if(err){
+		type: { $regex: new RegExp(req.params.type) }
+	}).exec(function (err, companies) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All companies containg this type'+req.params.type+'retrieved successfully',
-			data:companies
+			err: null,
+			msg: 'All companies containg this type' + req.params.type + 'retrieved successfully',
+			data: companies
 		});
 	});
 };
 
 
 
-module.exports.getCompanyTags= function ( req, res, next) { // This method searches for company by tags
+module.exports.getCompanyTags = function (req, res, next) { // This method searches for company by tags
 
-	if(!Validations.isString(req.params.tags)){
+	if (!Validations.isString(req.params.tags)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'tag parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	Company.find({
-		tags:{$regex:new RegExp(req.params.tags)}
-	}).exec(function (err,companies) {
-		if(err){
+		tags: { $regex: new RegExp(req.params.tags) }
+	}).exec(function (err, companies) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
-			data:companies
+			err: null,
+			msg: 'All companies containg this tag  ' + req.params.tags + ' retrieved successfully',
+			data: companies
 		});
 	});
 };
 
-module.exports.getExpertTags= function ( req, res, next) {  // This method searches expert for company by tags
+module.exports.getExpertTags = function (req, res, next) {  // This method searches expert for company by tags
 
-	if(!Validations.isString(req.params.tags)){
+	if (!Validations.isString(req.params.tags)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'tag parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	User.find({
-		expert:true,
-		tags:{$regex:new RegExp(req.params.tags)}
-	}).exec(function (err,users) {
-		if(err){
+		expert: true,
+		tags: { $regex: new RegExp(req.params.tags) }
+	}).exec(function (err, users) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All experts containing this tag'+req.params.tags+'retrieved successfully',
-			data:users
+			err: null,
+			msg: 'All experts containing this tag' + req.params.tags + 'retrieved successfully',
+			data: users
 		});
 	});
 };
 
-module.exports.getContentTags= function ( req, res, next) {  /// This method searches for content by tags
+module.exports.getContentTags = function (req, res, next) {  /// This method searches for content by tags
 
-	if(!Validations.isString(req.params.tags)){
+	if (!Validations.isString(req.params.tags)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'tag parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	Content.find({
-		$or:[{tags:{$regex:new RegExp(req.params.tags)}},{title:{$regex:new RegExp(req.params.tags)}}]
-	}).exec(function (err,content) {
-		if(err){
+		$or: [{ tags: { $regex: new RegExp(req.params.tags) } }, { title: { $regex: new RegExp(req.params.tags) } }]
+	}).exec(function (err, content) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All Content containg this tag  '+req.params.tags+' retrieved successfully',
-			data:content
+			err: null,
+			msg: 'All Content containg this tag  ' + req.params.tags + ' retrieved successfully',
+			data: content
 		});
 	});
 };
 
-module.exports.getCompanyTagsOrName= function ( req, res, next) { // This method searches for company by name or by tag
+module.exports.getCompanyTagsOrName = function (req, res, next) { // This method searches for company by name or by tag
 
-	if(!Validations.isString(req.params.tags)){
+	if (!Validations.isString(req.params.tags)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'tag parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	Company.find({
-		$or:[{tags:{$regex:new RegExp(req.params.tags)}},{name:{$regex:new RegExp(req.params.tags)}}]
-	}).exec(function (err,companies) {
-		if(err){
+		$or: [{ tags: { $regex: new RegExp(req.params.tags) } }, { name: { $regex: new RegExp(req.params.tags) } }]
+	}).exec(function (err, companies) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
-			data:companies
+			err: null,
+			msg: 'All companies containg this tag  ' + req.params.tags + ' retrieved successfully',
+			data: companies
 		});
 	});
 };
 
-module.exports.getCompanyTagsOrType= function ( req, res, next) {    // This method searches for company by tag or by type
+module.exports.getCompanyTagsOrType = function (req, res, next) {    // This method searches for company by tag or by type
 
-	if(!Validations.isString(req.params.tags)){
+	if (!Validations.isString(req.params.tags)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'tag parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	Company.find({
-		$or:[{tags:{$regex:new RegExp(req.params.tags)}},{type:{$regex:new RegExp(req.params.tags)}}]
-	}).exec(function (err,companies) {
-		if(err){
+		$or: [{ tags: { $regex: new RegExp(req.params.tags) } }, { type: { $regex: new RegExp(req.params.tags) } }]
+	}).exec(function (err, companies) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
-			data:companies
+			err: null,
+			msg: 'All companies containg this tag  ' + req.params.tags + ' retrieved successfully',
+			data: companies
 		});
 	});
 };
 
-module.exports.getCompanyTagsOrNameOrType= function ( req, res, next) { // This method searches for company by name or by type or by tags
+module.exports.getCompanyTagsOrNameOrType = function (req, res, next) { // This method searches for company by name or by type or by tags
 
-	if(!Validations.isString(req.params.tags)){
+	if (!Validations.isString(req.params.tags)) {
 		return res.status(422).json({
-			err:null,
+			err: null,
 			msg: 'tag parameter must be a valid string.',
-			data:null
+			data: null
 
 		});
 	}
 	Company.find({
-		$or:[{tags:{$regex:new RegExp(req.params.tags)}},{type:{$regex:new RegExp(req.params.tags)}},{name:{$regex:new RegExp(req.params.tags)}}]
-	}).exec(function (err,companies) {
-		if(err){
+		$or: [{ tags: { $regex: new RegExp(req.params.tags) } }, { type: { $regex: new RegExp(req.params.tags) } }, { name: { $regex: new RegExp(req.params.tags) } }]
+	}).exec(function (err, companies) {
+		if (err) {
 			return next(err);
 		}
 		return res.status(200).json({
-			err:null,
-			msg:'All companies containg this tag  '+req.params.tags+' retrieved successfully',
-			data:companies
+			err: null,
+			msg: 'All companies containg this tag  ' + req.params.tags + ' retrieved successfully',
+			data: companies
 		});
 	});
 };
 
 
 
-module.exports.getSynonyms = function ( req, res,next) { //This method retrieves all the Synonyms of a word
-	if(!Validations.isString(req.params.keyword)) {
+module.exports.getSynonyms = function (req, res, next) { //This method retrieves all the Synonyms of a word
+	if (!Validations.isString(req.params.keyword)) {
 		return res.status(422).json({
 			err: null,
 			msg: ' keyword parameter must be a valid string.',
@@ -254,7 +259,7 @@ module.exports.getSynonyms = function ( req, res,next) { //This method retrieves
 
 		});
 	}
-	if(req.params.keyword.length>2) {
+	if (req.params.keyword.length > 2) {
 		nouns = [];
 		verbs = [];
 		subjects = [];
@@ -280,20 +285,21 @@ module.exports.getSynonyms = function ( req, res,next) { //This method retrieves
 		}
 		all = nouns.concat(verbs, subjects);
 		var unique_array = []
-				var i;
+		var i;
 		var arrayLength = all.length;
-		for( i = 0;i < arrayLength; i++){
+		for (i = 0; i < arrayLength; i++) {
 			var element = all.pop();
-			if(all.indexOf(element) == -1){
+			if (all.indexOf(element) == -1) {
 				unique_array.push(element)
-			}}
+			}
+		}
 		return res.status(200).json({
 			err: 'found',
 			msg: 'All synonyms of ' + req.params.keyword + ' retrieved successfully',
 			data: unique_array
 		});
 	}
-	else{
+	else {
 		return res.status(200).json({
 			err: 'empty',
 			msg: 'All synonyms of ' + req.params.keyword + ' retrieved successfully',
@@ -320,17 +326,17 @@ function createMappingContent() {        // to be run once for the database to c
 		index: 'contentelasticsearch',
 		type: 'contents',
 		body: {
-		properties: {
-		'title': {
-		'type': 'text', // type is a required attribute if index is specified
-		'analyzer': 'english'
-	},
-	'tags': {
-		'type': 'text', // type is a required attribute if index is specified
-		'analyzer': 'english'
-	}
-	}
-	}
+			properties: {
+				'title': {
+					'type': 'text', // type is a required attribute if index is specified
+					'analyzer': 'english'
+				},
+				'tags': {
+					'type': 'text', // type is a required attribute if index is specified
+					'analyzer': 'english'
+				}
+			}
+		}
 	}, function (err, resp, status) {
 		if (err) {
 		}
@@ -338,35 +344,35 @@ function createMappingContent() {        // to be run once for the database to c
 		}
 	})
 };
-module.exports.getContentByElasticSearch =function(req, res, next) { // retrives content by the power of the elastic search
+module.exports.getContentByElasticSearch = function (req, res, next) { // retrives content by the power of the elastic search
 	client.search({
 		index: 'contentelasticsearch',
 		type: 'contents',
 		body: {
-		'query': {
-		"bool": {
-		"should": [
-		           { "match": { "title":  req.params.keyword }},
-		           { "match": { "tags": req.params.keyword  }},
-		           { "regexp": { "title": '.*'+req.params.keyword.toLowerCase()+'.*' }},
-		           { "regexp": { "tags": '.*'+req.params.keyword.toLowerCase()+'.*' }}
-		           ]
-	}
-	}
-	}
+			'query': {
+				"bool": {
+					"should": [
+						{ "match": { "title": req.params.keyword } },
+						{ "match": { "tags": req.params.keyword } },
+						{ "regexp": { "title": '.*' + req.params.keyword.toLowerCase() + '.*' } },
+						{ "regexp": { "tags": '.*' + req.params.keyword.toLowerCase() + '.*' } }
+					]
+				}
+			}
+		}
 	}).then(function (hit) {
-		if(hit.hits.hits.length==0) {
+		if (hit.hits.hits.length == 0) {
 			return res
-					.status(200)
-					.json({ err: null, msg: 'no content found with this keyword.', data: [] });
+				.status(200)
+				.json({ err: null, msg: 'no content found with this keyword.', data: [] });
 		}
 		var hits = hit.hits.hits;
 		var contents = [];
-		var lastElement = hits[hits.length-1]._source['objectId'];
+		var lastElement = hits[hits.length - 1]._source['objectId'];
 		var i;
-		for(i = 0;i<hits.length;i++){
+		for (i = 0; i < hits.length; i++) {
 			var currentElement = hits[i]._source['objectId'];
-			Content.findById(currentElement).exec(function(err, content) {
+			Content.findById(currentElement).exec(function (err, content) {
 				if (content) {
 					contents.push(content);
 
@@ -387,57 +393,57 @@ module.exports.getContentByElasticSearch =function(req, res, next) { // retrives
 	});
 };
 
-module.exports.addToContentIndex = function (req,res,next){ // This method adds to the content table in the elastic search
+module.exports.addToContentIndex = function (req, res, next) { // This method adds to the content table in the elastic search
 	client.index({
-		index:'contentelasticsearch',
-		type:'contents',
-		body:{
-		title:req.body.title,
-		tags:req.body.tags,
-		objectId:req.body.objectId
-	}
+		index: 'contentelasticsearch',
+		type: 'contents',
+		body: {
+			title: req.body.title,
+			tags: req.body.tags,
+			objectId: req.body.objectId
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Added to Content index',
-		data:null
+		err: null,
+		msg: 'Added to Content index',
+		data: null
 	});
 }
-module.exports.deleteContentFromContentIndex= function(req,res,next)  // to delete all documents in the an index
+module.exports.deleteContentFromContentIndex = function (req, res, next)  // to delete all documents in the an index
 {
 	client.deleteByQuery({
 		index: 'contentelasticsearch',  //index name
 		type: 'contents',  // type name
 		body: {
-		'query': {
-		"match" : {"objectId":req.params.contentId}
-	}
-	}
+			'query': {
+				"match": { "objectId": req.params.contentId }
+			}
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Removed from Content Index',
-		data:null
+		err: null,
+		msg: 'Removed from Content Index',
+		data: null
 	})
 }
-module.exports.updateContentInContentIndex=function (req,res,next)  // to delete all documents in the an index
+module.exports.updateContentInContentIndex = function (req, res, next)  // to delete all documents in the an index
 {
 	client.updateByQuery({
 		index: 'contentelasticsearch',  //index name
 		type: 'contents',  // type name
 		body: {
-		"script": {
-		"inline": "ctx._source['title'] = '"+req.body.title+"'"+";" +"ctx._source['tags'] = '"+req.body.tags+"'"+";"
-	},
-	'query': {
-		"match" : {"objectId":req.body.objectId}
-	}
-	}
+			"script": {
+				"inline": "ctx._source['title'] = '" + req.body.title + "'" + ";" + "ctx._source['tags'] = '" + req.body.tags + "'" + ";"
+			},
+			'query': {
+				"match": { "objectId": req.body.objectId }
+			}
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Content Updated in Content Index Successfully',
-		data:null
+		err: null,
+		msg: 'Content Updated in Content Index Successfully',
+		data: null
 	})
 
 }
@@ -457,17 +463,17 @@ function createMappingCompany() {        // to be run once for the database to c
 		index: 'companyelasticsearch',
 		type: 'companies',
 		body: {
-		properties: {
-		'name': {
-		'type': 'text', // type is a required attribute if index is specified
-		'analyzer': 'english'
-	},
-	'tags': {
-		'type': 'text', // type is a required attribute if index is specified
-		'analyzer': 'english'
-	}
-	}
-	}
+			properties: {
+				'name': {
+					'type': 'text', // type is a required attribute if index is specified
+					'analyzer': 'english'
+				},
+				'tags': {
+					'type': 'text', // type is a required attribute if index is specified
+					'analyzer': 'english'
+				}
+			}
+		}
 	}, function (err, resp, status) {
 		if (err) {
 		}
@@ -475,35 +481,35 @@ function createMappingCompany() {        // to be run once for the database to c
 		}
 	})
 };
-module.exports.getCompanyByElasticSearch =function(req, res, next) { // this method gets company by the power of the elastic search
+module.exports.getCompanyByElasticSearch = function (req, res, next) { // this method gets company by the power of the elastic search
 	client.search({
 		index: 'companyelasticsearch',
 		type: 'companies',
 		body: {
-		'query': {
-		"bool": {
-		"should": [
-		           { "match": { "name":  req.params.keyword }},
-		           { "match": { "tags": req.params.keyword  }},
-		           { "regexp": { "name": '.*'+req.params.keyword.toLowerCase()+'.*' }},
-		           { "regexp": { "tags": '.*'+req.params.keyword.toLowerCase()+'.*' }}
-		           ]
-	}
-	}
-	}
+			'query': {
+				"bool": {
+					"should": [
+						{ "match": { "name": req.params.keyword } },
+						{ "match": { "tags": req.params.keyword } },
+						{ "regexp": { "name": '.*' + req.params.keyword.toLowerCase() + '.*' } },
+						{ "regexp": { "tags": '.*' + req.params.keyword.toLowerCase() + '.*' } }
+					]
+				}
+			}
+		}
 	}).then(function (hit) {
-		if(hit.hits.hits.length==0) {
+		if (hit.hits.hits.length == 0) {
 			return res
-					.status(200)
-					.json({ err: null, msg: 'no Company found with such keyword.', data: [] });
+				.status(200)
+				.json({ err: null, msg: 'no Company found with such keyword.', data: [] });
 		}
 		var hits = hit.hits.hits;
 		var i;
-		var companies =[];
-		var lastElement = hits[hits.length-1]._source['objectId'];
-		for(i=0;i<hits.length;i++){
+		var companies = [];
+		var lastElement = hits[hits.length - 1]._source['objectId'];
+		for (i = 0; i < hits.length; i++) {
 			var currentElement = hits[i]._source['objectId'];
-			Company.findById(hits[i]._source.objectId).exec(function(err, company) {
+			Company.findById(hits[i]._source.objectId).exec(function (err, company) {
 				if (company) {
 					companies.push(company);
 
@@ -522,58 +528,58 @@ module.exports.getCompanyByElasticSearch =function(req, res, next) { // this met
 
 	});
 };
-module.exports.addToCompanyIndex = function (req,res,next){ //This method adds to the company table in the elastic search
+module.exports.addToCompanyIndex = function (req, res, next) { //This method adds to the company table in the elastic search
 	client.index({
-		index:'companyelasticsearch',
-		type:'companies',
-		body:{
-		name:req.body.name,
-		tags:req.body.tags,
-		objectId:req.body.objectId
-	}
+		index: 'companyelasticsearch',
+		type: 'companies',
+		body: {
+			name: req.body.name,
+			tags: req.body.tags,
+			objectId: req.body.objectId
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Added to Companies index',
-		data:null
+		err: null,
+		msg: 'Added to Companies index',
+		data: null
 	});
 }
-module.exports.deleteCompanyFromCompanyIndex= function (req,res,next)  // to delete all documents in the an index
+module.exports.deleteCompanyFromCompanyIndex = function (req, res, next)  // to delete all documents in the an index
 {
 	client.deleteByQuery({
 		index: 'companyelasticsearch',  //index name
 		type: 'companies',  // type name
 		body: {
-		'query': {
-		"match" : {"objectId":req.params.companyId}
-	}
-	}
+			'query': {
+				"match": { "objectId": req.params.companyId }
+			}
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Removed from Company Index',
-		data:null
+		err: null,
+		msg: 'Removed from Company Index',
+		data: null
 	})
 }
 
-module.exports.updateCompanyInCompanyIndex=function (req,res,next)  // to delete all documents in the an index
+module.exports.updateCompanyInCompanyIndex = function (req, res, next)  // to delete all documents in the an index
 {
 	client.updateByQuery({
 		index: 'companyelasticsearch',  //index name
 		type: 'companies',  // type name
 		body: {
-		"script": {
-		"inline": "ctx._source['name'] = '"+req.body.name+"'"+";" +"ctx._source['tags'] = '"+req.body.tags+"'"+";"
-	},
-	'query': {
-		"match" : {"objectId":req.body.objectId}
-	}
-	}
+			"script": {
+				"inline": "ctx._source['name'] = '" + req.body.name + "'" + ";" + "ctx._source['tags'] = '" + req.body.tags + "'" + ";"
+			},
+			'query': {
+				"match": { "objectId": req.body.objectId }
+			}
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Company Updated in Company Index Successfully',
-		data:null
+		err: null,
+		msg: 'Company Updated in Company Index Successfully',
+		data: null
 	})
 
 }
@@ -594,17 +600,17 @@ function createMappingUser() {        // to be run once for the database to crea
 		index: 'userelasticsearch',
 		type: 'users',
 		body: {
-		properties: {
-		'username': {
-		'type': 'text', // type is a required attribute if index is specified
-		'analyzer': 'english'
-	},
-	'tags': {
-		'type': 'text', // type is a required attribute if index is specified
-		'analyzer': 'english'
-	}
-	}
-	}
+			properties: {
+				'username': {
+					'type': 'text', // type is a required attribute if index is specified
+					'analyzer': 'english'
+				},
+				'tags': {
+					'type': 'text', // type is a required attribute if index is specified
+					'analyzer': 'english'
+				}
+			}
+		}
 	}, function (err, resp, status) {
 		if (err) {
 		}
@@ -613,31 +619,31 @@ function createMappingUser() {        // to be run once for the database to crea
 	})
 };
 
-module.exports.getUserByElasticSearch =function(req, res, next) { // this method gets user by the power of the elastic search
+module.exports.getUserByElasticSearch = function (req, res, next) { // this method gets user by the power of the elastic search
 	client.search({
 		index: 'userelasticsearch',
 		type: 'users',
 		body: {
-		'query': {
-		"bool": {
-		"should": [
-		           { "match": { "username":  req.params.keyword }},
-		           { "match": { "tags": req.params.keyword  }},
-		           { "regexp": { "username": '.*'+req.params.keyword.toLowerCase()+'.*' }},
-		           { "regexp": { "tags": '.*'+req.params.keyword.toLowerCase()+'.*' }}
-		           ]
-	}
-	}
-	}
-	}).then(function (hit,err) {
-		if(hit.hits.hits.length==0) {
+			'query': {
+				"bool": {
+					"should": [
+						{ "match": { "username": req.params.keyword } },
+						{ "match": { "tags": req.params.keyword } },
+						{ "regexp": { "username": '.*' + req.params.keyword.toLowerCase() + '.*' } },
+						{ "regexp": { "tags": '.*' + req.params.keyword.toLowerCase() + '.*' } }
+					]
+				}
+			}
+		}
+	}).then(function (hit, err) {
+		if (hit.hits.hits.length == 0) {
 			return res
-					.status(200)
-					.json({ err: null, msg: 'no User found with such keyword.', data: [] });
+				.status(200)
+				.json({ err: null, msg: 'no User found with such keyword.', data: [] });
 		}
 		var hits = hit.hits.hits;
 		var i;
-		var users =[];
+		var users = [];
 		var lastElement = hits[hits.length - 1]._source['objectId'];
 		for (i = 0; i < hits.length; i++) {
 			var currentElement = hits[i]._source['objectId'];
@@ -661,72 +667,72 @@ module.exports.getUserByElasticSearch =function(req, res, next) { // this method
 	});
 };
 
-module.exports.addToUserIndex = function (req,res,next){ //This method adds to the user table in the elastic search
+module.exports.addToUserIndex = function (req, res, next) { //This method adds to the user table in the elastic search
 	client.index({
-		index:'userelasticsearch',
-		type:'users',
-		body:{
-		username:req.body.name,
-		tags:req.body.tags,
-		objectId:req.body.objectId
-	}
+		index: 'userelasticsearch',
+		type: 'users',
+		body: {
+			username: req.body.name,
+			tags: req.body.tags,
+			objectId: req.body.objectId
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Added to User index',
-		data:null
+		err: null,
+		msg: 'Added to User index',
+		data: null
 	});
 }
 
-module.exports.deleteUserFromUserIndex= function (req,res,next)  // to delete all documents in the an index
+module.exports.deleteUserFromUserIndex = function (req, res, next)  // to delete all documents in the an index
 {
 	client.deleteByQuery({
 		index: 'userelasticsearch',  //index name
 		type: 'users',  // type name
 		body: {
-		'query': {
-		"match" : {"objectId":req.params.userId}
-	}
-	}
+			'query': {
+				"match": { "objectId": req.params.userId }
+			}
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'Removed from User Index',
-		data:null
+		err: null,
+		msg: 'Removed from User Index',
+		data: null
 	})
 }
 
-module.exports.updateUserInUserIndex=function (req,res,next)  // to delete all documents in the an index
+module.exports.updateUserInUserIndex = function (req, res, next)  // to delete all documents in the an index
 {
 	client.updateByQuery({
 		index: 'userelasticsearch',  //index name
 		type: 'users',  // type name
 		body: {
-		"script": {
-		"inline": "ctx._source['username'] = '"+req.body.username+"'"+";" +"ctx._source['tags'] = '"+req.body.tags+"'"+";"
-	},
-	'query': {
-		"match" : {"objectId":req.body.objectId}
-	}
-	}
+			"script": {
+				"inline": "ctx._source['username'] = '" + req.body.username + "'" + ";" + "ctx._source['tags'] = '" + req.body.tags + "'" + ";"
+			},
+			'query': {
+				"match": { "objectId": req.body.objectId }
+			}
+		}
 	});
 	return res.status(200).json({
-		err:null,
-		msg:'User Updated in User Index Successfully',
-		data:null
+		err: null,
+		msg: 'User Updated in User Index Successfully',
+		data: null
 	})
 
 }
 
-function addToUserIndex () {
+function addToUserIndex() {
 	client.index({
 		index: 'userelasticsearch',
 		type: 'users',
 		body: {
-		username: "loai alaa",
-		tags: "swimming,diving",
-		objectId: "5a983005fe9fa10467be1324"
-	}
+			username: "loai alaa",
+			tags: "swimming,diving",
+			objectId: "5a983005fe9fa10467be1324"
+		}
 	});
 
 }
@@ -746,10 +752,10 @@ function deleteRecord()  // to delete all documents in the an index
 		index: 'userelasticsearch',  //index name
 		type: 'users',  // type name
 		body: {
-		'query': {
-		"match" : {"objectId":"5a983005fe9fa10467be1324"}
-	}
-	}
+			'query': {
+				"match": { "objectId": "5a983005fe9fa10467be1324" }
+			}
+		}
 	});
 }
 function updateRecord()  // to delete all documents in the an index
@@ -758,13 +764,13 @@ function updateRecord()  // to delete all documents in the an index
 		index: 'userelasticsearch',  //index name
 		type: 'users',  // type name
 		body: {
-		"script": {
-		"inline": "ctx._source['username'] = '"+"Abdelrahman Amr Salem"+"'"+";" +"ctx._source['tags'] = '"+"Waking,sleeping"+"'"+";"
-	},
-	'query': {
-		"match" : {"objectId":"5a983005fe9fa10467be132"}
-	}
-	}
+			"script": {
+				"inline": "ctx._source['username'] = '" + "Abdelrahman Amr Salem" + "'" + ";" + "ctx._source['tags'] = '" + "Waking,sleeping" + "'" + ";"
+			},
+			'query': {
+				"match": { "objectId": "5a983005fe9fa10467be132" }
+			}
+		}
 	});
 }
 

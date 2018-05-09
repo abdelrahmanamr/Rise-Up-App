@@ -11,4 +11,4 @@ import { AdminComponent } from './admin.component';
     entryComponents: [],
     providers: []
 })
-export class AdminModule {}
+export class AdminModule { }

@@ -1,3 +1,8 @@
+/* 
+Name: Ahmed Hossam
+Date Created : 24/4/2018
+*/
+
 var mongoose = require('mongoose');
 
 var applyExpertSchema = mongoose.Schema({
@@ -7,11 +12,11 @@ var applyExpertSchema = mongoose.Schema({
     },
     status: {
         type: Number,
-        default:0
+        default: 0
     },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
-        required :true ,
+        required: true,
         ref: 'User'
     },
     createdAt: {

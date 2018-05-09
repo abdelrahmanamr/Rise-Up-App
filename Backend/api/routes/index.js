@@ -76,6 +76,8 @@ router.post('/Content/makeReport/:commentId',isAuthenticated,contentCtrl.makeRep
 router.post('/applyExpert/createApplyExpert', applyExpertCtrl.createApplyExpert);
 
 router.get('/applyExpert/getApplications', applyExpertCtrl.getApplications);
+router.get('/applyExpert/checkIfApplied/:userId', applyExpertCtrl.checkIfApplied);
+
 
 //-------------------------------SuggestedContent Routes-----------------------------------
 router.post('/suggestedcontent/addSuggestedContent', isAuthenticated,suggestedContentCtrl.createSuggestedContent);

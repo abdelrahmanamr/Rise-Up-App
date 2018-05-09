@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {Router} from "@angular/router";
+import { environment } from '../../../environments/environment';
+import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+/* Contributers : Saleh Elhadidy , Loai Alaa
+   Methods : onSubmit(user),ngOnInit
+   Date Edited : 5/5/2018
+ */
 @Component({
   selector: 'app-user-login',
-    styles:
-        ['#left {  float: left; width: 40%;overflow: hidden; }',
-            '#right {  float: right; width: 60%;overflow: hidden; }'
-        ],
+  styles:
+    ['#left {  float: left; width: 40%;overflow: hidden; }',
+      '#right {  float: right; width: 60%;overflow: hidden; }'
+    ],
   template: `
       
       <form class="container" #userForm="ngForm" (ngSubmit) = "onSubmit(userForm.value)">
@@ -31,44 +35,40 @@ import { ToastrService } from 'ngx-toastr';
   `
 })
 export class ForgotComponent implements OnInit {
-errorView = "";
-  constructor(private http: HttpClient,private router: Router, private toastr: ToastrService){
+  errorView = "";
+  constructor(private http: HttpClient, private router: Router, private toastr: ToastrService) {
 
   }
-  ngOnInit(){
-    if(localStorage.getItem('userDocs')!=null ||localStorage.getItem('userProps')!=null){
+  ngOnInit() {
+    if (localStorage.getItem('userDocs') != null || localStorage.getItem('userProps') != null) {
       this.router.navigate(["/search"]);
     }
   }
 
-onSubmit = function(user){
-  var data = JSON.stringify({email:user.email})
+  onSubmit = function (user) {
+    var data = {email:user.email};
 
-  var config = {
-    headers : {
+    var config = {
+      headers: {
         'Content-Type': 'application/json',
-        'authorization':localStorage.getItem('UserDoc')
-    }
-}
-
-this.http.post(environment.apiUrl+'user/forgetPassword', data, config)
-.subscribe(res=>{
-    let message = res["msg"];
-    if(message == "Success"){
-
-        this.router.navigate(["/search"]);
-
-
+      }
     }
 
-  },err=>{
-    this.toastr.error("",err.error["msg"])
-    this.errorView = err.error["msg"];
+    this.http.post(environment.apiUrl + 'user/forgetPassword', data, config)
+      .subscribe(res => {
+        let message = res["msg"];
+        if (message == "Success") {
+
+          this.router.navigate(["/search"]);
+
+        }
+
+      }, err => {
+        this.toastr.error("", err.error["msg"])
+        this.errorView = err.error["msg"];
+      }
+      );
+
+
   }
-);
-
-
-}
-
-
 }

@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem("UserDoc")!=null){
       this.loggedin = true;
-       this.user = JSON.parse(localStorage.getItem("userProps"))["username"];
+       this.user = JSON.parse(localStorage.getItem("userProps"));
        this.adminStatus =JSON.parse(localStorage.getItem('userProps'))['admin'];
     }
     else{
@@ -39,7 +39,6 @@ export class HeaderComponent implements OnInit {
     
 
     this.userMenu = [{title:"Edit Profile"},{title:"Change password"},{title:"Apply to be an Expert"},{title:"Suggest Company"},{ title: 'Logout' }];
-    this.onMenuItemClick();
     this.sidebarService.toggle(false, 'menu-sidebar');
 
   }
@@ -53,28 +52,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl("/");
   }
 
-  onMenuItemClick() {
-    this.menuService.onItemClick().subscribe((bag: NbMenuBag) => {
-      if (bag.item.title === 'Logout') {
-        localStorage.clear();
-        localStorage.removeItem('userProps');
-        this.loggedin = false;
-        this.user = null;
-        this.adminStatus = false;
-        window.location.reload();
-      }else if (bag.item.title === 'Change password') {
-        this.router.navigateByUrl('/user/changePassword');
-        window.location.reload();
-      }else if (bag.item.title === 'Edit Profile'){
-        this.router.navigateByUrl('/user/editProfile');
-      }else if (bag.item.title === 'Apply to be an Expert') {
-          this.router.navigateByUrl("/user/applyExpert");
-      }else if (bag.item.title === 'Suggest Company') {
-        this.router.navigateByUrl("/company/suggest");
-      }
-      
-     
-    });
+  logOut(){
+    localStorage.clear();
+    localStorage.removeItem('userProps');
+    this.loggedin = false;
+    this.user = null;
+    this.adminStatus = false;
+    window.location.reload();
   }
 
 }

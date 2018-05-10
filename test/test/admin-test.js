@@ -9,7 +9,14 @@ var Company = require("../../Backend/api/models/Company");
 var should = chai.should();
 var contentTest = require('./content-test');
 var Report = require("../../Backend/api/models/Report");
-
+const userCredentials = {
+    username: 'user',
+    password: '$2a$10$efAGiu0Fj1NRXtB9YgbA4uqROWUdYEBvxA2QvtWzn3QBqnYufbD8y',
+    email:'user@user.com',
+    firstname:'user',
+    lastname:'user',
+    admin:false
+}
 dbURI = 'mongodb://localhost:27017/nodejs-test';
 
 const registeringUserLoginCredentials = {
@@ -1113,6 +1120,26 @@ describe('Update Expert Tag test' , function() {
   });
 });
 describe('Get Users test' , function() {
+
+
+    before(function(done){
+        User.collection.drop();
+        User.create(userCredentials,function(err, newUser) {
+            if (err) {
+                return next(err);
+            }else{
+                authenticatedUser=newUser;
+            }});
+        User.create(userCredentials,function(err, newUser) {
+            if (err) {
+                return next(err);
+            }else{
+                authenticatedUser=newUser;
+            }});
+             done();
+    });
+
+
   it('Get Users : should get users correctly' , function(done) {
     this.timeout(10000);
     var currentadmin  = {
@@ -1139,6 +1166,7 @@ describe('Get Users test' , function() {
         res.status.should.be.eql(200);
         res.body.should.have.property('msg');
         res.body.msg.should.be.eql('Users retrieved successfully.');
+        res.body.data.should.have.length(3);
         done();
       });
     });

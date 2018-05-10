@@ -67,7 +67,7 @@ describe('Testing Contents',function(){
             type: 'Post',
             body : 'testingcontent',
         tags: 'test',
-        //  views: 5,
+         views: 0,
 
         rating:4,
         userid: authenticatedAdmin['_id'],
@@ -227,8 +227,6 @@ describe('Testing Contents',function(){
     }),
 
     it('should list ALL comments on /api/Content/getComments GET',function(done){
-        // Content.find({'contentId':content['_id']}).exec(function(err,content){
-console.log(foundcontent + " " + "ahooooooooooooooooooooooooooooooooooooooooooooooooooo");
         chai.request(server)
             .get('/api/Content/getComments/'+foundcontent['_id'])
             .set('authorization',token)
@@ -239,7 +237,6 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
                 res.body.data.should.be.an('array');
                 done();
             });
-        // });
     }),
     it("should SUCCESS to edit content as an admin on /content/editContent/:contentId PATCH",function(done){
         chai.request(server).patch('/api/content/editContent/'+foundcontent['_id'])
@@ -302,7 +299,6 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
                 res.should.have.status(422);
                 res.body.msg.should.equal("contentId parameter must be a valid ObjectId.");
                 res.should.be.json;
-                // res.body.data.should.be.an('array');
                 done();
             });
     }),
@@ -312,7 +308,7 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
         .post('/api/Content/createComment/'+foundcontent['_id'])
         .set('authorization',token)
         .send({
-            'body' : 'testcomment',
+            'body' : 'testbody',
             'userid':authenticatedUser['_id'],
             'contentId' : foundcontent['_id'],
             'username': 'user'})
@@ -320,6 +316,9 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
                 res.should.have.status(201);
                 res.should.be.json;
                 res.body.should.be.a('object');
+                res.body.data.body.should.equal('testbody');
+                res.body.should.have.property('msg');
+                res.body.msg.should.equal("Comment was created successfully.");
                 res.body.data.should.not.be.null;
                 done();
             });
@@ -457,6 +456,7 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
         });
     }),
 
+
     it("incrementing the views by one on /content/views/:contentId PATCH",function(done){
         chai.request(server).patch('/api/content/views/'+foundcontent['_id'])
        
@@ -465,7 +465,8 @@ console.log(foundcontent + " " + "ahoooooooooooooooooooooooooooooooooooooooooooo
           res.body.msg.should.equal("content was updated successfully.");
           res.should.be.json;
           res.body.should.be.a('object');
-          res.body.data.should.not.be.null;
+        //   res.body.contentData.should.have.property('views');
+          res.body.data.views.should.equal(1);
           done();
         });
     });

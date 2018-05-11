@@ -1123,8 +1123,14 @@ describe('Get Users test' , function() {
 
 
     before(function(done){
-        Content.collection.drop();
+        User.collection.drop();
        // mongoose.connect('mongodb://localhost:27017/nodejs-test');
+        User.create(userCredentials,function(err, newUser) {
+            if (err) {
+                return next(err);
+            }else{
+                authenticatedUser=newUser;
+            }});
         User.create(userCredentials,function(err, newUser) {
             if (err) {
                 return next(err);
@@ -1161,16 +1167,12 @@ describe('Get Users test' , function() {
         res.status.should.be.eql(200);
         res.body.should.have.property('msg');
         res.body.msg.should.be.eql('Users retrieved successfully.');
+        //res.body.should.be.a('array');
+        res.body.data.should.have.length(3);
         done();
       });
     });
   });
-
-
-    // after(function(done){
-    //
-    // done();
-// });
 
 
 });

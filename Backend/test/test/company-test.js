@@ -2,9 +2,9 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 process.env.NODE_ENV = 'test';
 var mongoose = require("mongoose");
-var server = require('../../Backend/app');
-var User = require("../../Backend/api/models/User");
-var Company = require("../../Backend/api/models/Company");
+var server = require('../../app');
+var User = require("../../api/models/User");
+var Company = require("../../api/models/Company");
 var should = chai.should();
 
 dbURI = 'mongodb://localhost:27017/nodejs-test';

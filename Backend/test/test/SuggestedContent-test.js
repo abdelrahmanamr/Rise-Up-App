@@ -2,9 +2,9 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 process.env.NODE_ENV = 'test';
 var mongoose = require("mongoose");
-var server = require('../../Backend/app');
-var User = require("../../Backend/api/models/User");
-var SuggestedContent = require("../../Backend/api/models/SuggestedContent");
+var server = require('../../app');
+var User = require("../../api/models/User");
+var SuggestedContent = require("../../api/models/SuggestedContent");
 
 var should = chai.should();
 

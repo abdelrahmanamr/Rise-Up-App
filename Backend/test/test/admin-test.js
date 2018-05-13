@@ -2,13 +2,13 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 process.env.NODE_ENV = 'test';
 var mongoose = require("mongoose");
-var server = require('../../Backend/app');
-var User = require("../../Backend/api/models/User");
-var Content = require("../../Backend/api/models/Content");
-var Company = require("../../Backend/api/models/Company");
+var server = require('../../app');
+var User = require("../../api/models/User");
+var Content = require("../../api/models/Content");
+var Company = require("../../api/models/Company");
 var should = chai.should();
 var contentTest = require('./content-test');
-var Report = require("../../Backend/api/models/Report");
+var Report = require("../../api/models/Report");
 const userCredentials = {
     username: 'user',
     password: '$2a$10$efAGiu0Fj1NRXtB9YgbA4uqROWUdYEBvxA2QvtWzn3QBqnYufbD8y',
